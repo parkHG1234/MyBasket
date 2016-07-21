@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.mybasket">
+
+    <application
+        android:name=".GlobalApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".KakaoSignupActivity"></activity>
+        <activity android:name=".JoinIdActivity"></activity>
+        <activity android:name=".JoinPwActivity"></activity>
+        <activity android:name=".JoinAddActivity"></activity>
+        <activity
+            android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".Navigation_TeamManager"></activity>
+
+        <activity android:name=".Navigation_TeamManager_TeamIntro"></activity>
+        <activity android:name=".Navigation_TeamManager_TeamMake1"></activity>
+        <activity android:name=".Navigation_TeamManager_TeamMake2"></activity>
+        <activity android:name=".Navigation_TeamManager_TeamMake3"></activity>
+        <activity android:name=".Navigation_TeamIntro"></activity>
+        <activity android:name=".Navigation_TeamIntro_Focus"></activity>
+        <activity android:name=".Navigation_TeamIntro_Focus_ImageFocus"></activity>
+        <activity android:name=".Navigation_TeamIntro_Focus_Join"></activity>
+        <activity android:name=".test"></activity>
+        <activity android:name=".TeamInfo"></activity>
+        <activity android:name=".Match_In_Register"></activity>
+        <activity android:name=".Match_In_Focus"></activity>
+        <activity android:name=".CourtInfo_ImageFocus"></activity>
+        <activity android:name=".Navigation_TeamManager_Schedule"></activity>
+        <activity android:name=".Profile_Focus"></activity>
+        <activity android:name=".NewsFeed_Data"></activity>
+        <activity android:name=".NewsFeed_Writing"></activity>
+        <activity android:name=".NewsFeed_Comment"></activity>
+        <activity android:name=".NewsFeed_Data_Modify"></activity>
+        <activity android:name=".NewsFeed_Camera"></activity>
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/Kakao_App_Key"/>
+    </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+</manifest>

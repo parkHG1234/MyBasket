@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/White">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:id="@+id/Match_In_CustomList_Layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="일이삼사오륙칠팔구십일이삼사오육칠팔"
+                android:textSize="18dp"
+                android:id="@+id/Match_In_CustomList_Title"
+                android:typeface="monospace"
+                android:textStyle="bold"
+                android:layout_marginBottom="3dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="경기도 의정부시 효자고"
+                android:textSize="22dp"
+                android:id="@+id/Match_In_CustomList_Address"
+                android:typeface="monospace"
+                android:textStyle="bold"
+                android:layout_marginBottom="3dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="4월 8일 | 오후 2시"
+                    android:id="@+id/Match_In_CustomList_Time"
+                    android:typeface="monospace"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="클린쳐"
+                    android:textSize="20dp"
+                    android:id="@+id/Match_In_CustomList_TeamName"
+                    android:textColor="@color/colorPrimary"
+                    android:typeface="monospace"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="3dp"
+                    android:layout_weight="2"
+                    android:gravity="right" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

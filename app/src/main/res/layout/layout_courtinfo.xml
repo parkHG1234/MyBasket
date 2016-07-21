@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:id="@+id/CourtInfo_Layout_NaverMap"></LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="120dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:id="@+id/CourtInfo_ImageView_Image1"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/CourtInfo_ImageView_Image2"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                fresco:placeholderImage="@drawable/my_drawable"
+                fresco:actualImageScaleType="focusCrop"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:id="@+id/CourtInfo_ImageView_Image3"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="코트명"
+                android:id="@+id/textView5"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20dp"
+                android:layout_weight="2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/CourtInfo_TextVIew_CourtName"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="코트 주소"
+                android:id="@+id/textView7"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20dp"
+                android:layout_weight="2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/CourtInfo_TextVIew_CourtAddress"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="코트수"
+                android:id="@+id/textView9"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20dp"
+                android:layout_weight="2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/CourtInfo_TextVIew_CourtCount"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="바닥상태"
+                android:id="@+id/textView6"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20dp"
+                android:layout_weight="2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/CourtInfo_TextVIew_CourtFloor"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

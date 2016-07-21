@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/Gray">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="5dp">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="OUT"
+                android:id="@+id/Match_Button_Out"
+                android:layout_weight="1"
+                android:longClickable="true"
+                android:visibility="visible"
+                android:background="@drawable/outcourt"
+                android:layout_marginRight="5dp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="In"
+                android:id="@+id/Match_Button_In"
+                android:layout_weight="1"
+                android:background="@drawable/incourt"
+                android:layout_marginLeft="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/Match_Layout_Out"
+            android:visibility="visible"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="7dp">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="9"
+                    android:id="@+id/linearLayout3"
+                    android:visibility="visible" >
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/NewsFeed_Spinner_Do">
+                    </Spinner>
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/NewsFeed_Spinner_Si">
+                    </Spinner>
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.2"
+                        android:text="선택"
+                        android:id="@+id/NewsFeed_Select_Button" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="1.2"
+                        android:id="@+id/NewsFeed_Writing"
+                        android:src="@drawable/writing" />
+                </LinearLayout>
+
+
+                <com.baoyz.swipemenulistview.SwipeMenuListView
+
+                    android:id="@+id/NewsFeed_List"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <!--<ListView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:id="@+id/NewsFeed_List" />-->
+
+                <ProgressBar
+                    android:id="@+id/NewsFeed_ProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:visibility="gone"
+                    android:max="100"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/Match_Layout_In"
+            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp">
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/White"
+                    android:layout_marginBottom="5dp">
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/Match_In_Spinner_Address_do"
+                        android:layout_weight="1" />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/Match_In_Spinner_Address_se"
+                        android:layout_weight="1" />
+
+                    <Button
+                         android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/search"
+                        android:id="@+id/Match_In_Button_Search"
+                        android:layout_weight="1.5"/>
+
+                </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Match_In_CustomList"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/White" />
+                <com.melnykov.fab.FloatingActionButton
+                    android:id="@+id/Match_In_FloatingActionButton_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/register"
+                    fab:fab_colorNormal="@color/White"
+                    fab:fab_colorPressed="@color/DarkGray"
+                    fab:fab_colorRipple="@color/White"
+                    />
+
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

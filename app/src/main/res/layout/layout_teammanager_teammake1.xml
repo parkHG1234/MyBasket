@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/TeamManager_TeamMake_Layout_Maker">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="팀명"
+            android:id="@+id/팀명" />
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:met_floatingLabel="highlight"
+            android:hint="팀 명"
+            app:met_minCharacters="0"
+            app:met_maxCharacters="7"
+            android:id="@+id/TeamManager_TeamMake_EditText_TeamName" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="팀주소"
+            android:id="@+id/textView11" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/TeamManager_TeamMake_Spinner_Address_Do"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/TeamManager_TeamMake_Spinner_Address_Se"
+                android:layout_weight="1" />
+        </LinearLayout>
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:met_floatingLabel="highlight"
+            android:hint="홈 코트 ex)의정부 체육센터"
+            android:id="@+id/TeamManager_TeamMake_EditText_HomeCourt" />
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:met_floatingLabel="highlight"
+            android:hint="사용시간 ex)토 / 오후1시~2시"
+            android:id="@+id/TeamManager_TeamMake_EditText_Time" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="팀 소개"
+            android:id="@+id/textView13"
+            android:layout_gravity="center_horizontal" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:id="@+id/TeamManager_TeamMake_EditText_TeamIntro"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NEXT"
+            android:id="@+id/TeamManager_TeamMake_Button_Next"
+            android:layout_gravity="center_horizontal"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/TeamManager_TeamMake_Layout_OverLap"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="이미 다른 팀에 가입 중이십니다."
+                android:id="@+id/textView31" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:id="@+id/Layout_CustomDialog_Album_Root"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="5dip">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="기본 이미지로 변경"
+            android:id="@+id/Layout_CustomDialog_Album_BasicImage" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="앨범에서 이미지 선택"
+            android:id="@+id/Layout_CustomDialog_Album_AlbumImage" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="취소"
+            android:id="@+id/Layout_CustomDialog_Album_Cancel"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+
+</LinearLayout>
+

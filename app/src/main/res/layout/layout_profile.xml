@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/Gray">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="선수 정보"
+                android:id="@+id/textView"
+                android:textSize="15dp"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                android:background="@color/White"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                >
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:id="@+id/Profile_ImageVIew_Profile"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="New Button"
+                        android:id="@+id/Profile_Button_Name"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/White"
+                        android:layout_marginBottom="3dp" />
+
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="New Button"
+                        android:id="@+id/Profile_Button_Position"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/White"
+                        android:layout_marginBottom="3dp" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="New Button"
+                        android:id="@+id/Profile_Button_Age_Physical"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/White"
+                        android:layout_marginBottom="3dp"
+                        />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="New Button"
+                        android:id="@+id/Profile_Button_TeamName"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/White"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="설정"
+                android:textSize="15dp"
+                android:id="@+id/textView25"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:background="@color/White"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/Gray">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="팀 만들기"
+                    android:id="@+id/Profile_Button_TeamMake"
+                    android:textColor="@color/BlackGray"
+                    android:background="@color/Gray"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/DarkGray"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="팀 관리"
+                    android:id="@+id/Profile_Button_TeamManager"
+                    android:textColor="@color/BlackGray"
+                    android:background="@color/Gray"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/DarkGray"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="전국 팀 정보"
+                    android:id="@+id/Profile_Button_TeamSearch"
+                    android:textColor="@color/BlackGray"
+                    android:background="@color/Gray"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/DarkGray"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="로그아웃"
+                    android:id="@+id/Profile_Button_Logout"
+                    android:textColor="@color/BlackGray"
+                    android:background="@color/Gray"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/DarkGray"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

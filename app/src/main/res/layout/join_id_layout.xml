@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></LinearLayout>
+
+    <ImageView
+        android:layout_width="161dp"
+        android:layout_height="161dp"
+        android:id="@+id/imageView"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/ic_account_circle_black_36px" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="아이디 등록"
+        android:id="@+id/textView8"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="계정은 번호 1개에 아이디 1개만 생성 가능합니다."
+        android:id="@+id/textView9"
+        android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.23"></LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/join_id_layout_id_EditText"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="362dp"
+        android:layout_height="wrap_content"
+        android:text="다음"
+        android:id="@+id/join_id_layout_next_Button"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClickNext"/>
+</LinearLayout>
