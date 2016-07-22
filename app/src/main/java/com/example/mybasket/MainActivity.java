@@ -155,20 +155,6 @@ public class MainActivity extends AppCompatActivity {
                 mViewPager.setCurrentItem(tab.getPosition());
             }
         });
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
-        /*DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();*/
 
         SharedPreferences prefs_user = getSharedPreferences("basketball_user", MODE_PRIVATE);
 
@@ -293,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
         Button NewsFeed_Select_Button;
         SwipeMenuListView NewsFeed_List;
         String address1, address2;
-        ImageView NewsFeed_Writing;
+        FloatingActionButton NewsFeed_Writing;
 
         NewsFeed_Data_Adapter dataadapter;
         ArrayList<NewsFeed_Data_Setting> arrData;
@@ -340,10 +326,10 @@ public class MainActivity extends AppCompatActivity {
             NewsFeed_Court = (TextView) rootView.findViewById(R.id.NewsFeed_CustomList_Court);
             NewsFeed_Data = (TextView) rootView.findViewById(R.id.NewsFeed_CustomList_Data);
             NewsFeed_Person = (TextView) rootView.findViewById(R.id.NewsFeed_CustomList_Person);
-            NewsFeed_Writing = (ImageView) rootView.findViewById(R.id.NewsFeed_Writing);
+            NewsFeed_Writing = (FloatingActionButton) rootView.findViewById(R.id.NewsFeed_Writing);
             NewsFeed_List = (SwipeMenuListView) rootView.findViewById(R.id.NewsFeed_List);
-
-            NewsFeed_ProgressBar = (ProgressBar) rootView.findViewById(R.id.NewsFeed_ProgressBar);
+            NewsFeed_Writing.attachToListView(NewsFeed_List);
+           // NewsFeed_ProgressBar = (ProgressBar) rootView.findViewById(R.id.NewsFeed_ProgressBar);
 
             NewsFeed_Select_Button = (Button) rootView.findViewById(R.id.NewsFeed_Select_Button);
             spinner_Address_Do = (Spinner) rootView.findViewById(R.id.NewsFeed_Spinner_Do);
@@ -353,7 +339,6 @@ public class MainActivity extends AppCompatActivity {
             adspin1 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do, R.layout.zfile_spinner_test);
             adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner_Address_Do.setAdapter(adspin1);
-            NewsFeed_List.setOnScrollListener(this);
             SwipeMenuCreator creator = new SwipeMenuCreator() {
                 @Override
                 public void create(SwipeMenu menu) {
@@ -531,56 +516,12 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Match_Layout_Out.setVisibility(View.VISIBLE);
                     Match_Layout_In.setVisibility(View.GONE);
-                    if(check_status.equals("checking")){
-                        if(Integer.parseInt(realTime) < (Integer.parseInt(check_time)+300))
-                        {
-                            Match_Layout_Out_Button_CheckIn.setText(check_court+ " Check - OUT");
-                        }
-                    }
-                    String result="";
-                    try {
-                        HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/Web_basket/OutList.jsp";
-                        HttpPost post = new HttpPost(postURL);
-
-                        List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        HttpResponse response = client.execute(post);
-                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-
-                        String line = null;
-
-                        while ((line = bufreader.readLine()) != null) {
-                            result += line;
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    parsedData = outList_jsonParserList(result);
                     ////////////////////////////////리스트 뷰 구현////////////////////////////////////////////////
                 }
             });
 
-         /*   String result="";
-            try {
-                HttpClient client = new DefaultHttpClient();
-                String postURL = "http://210.122.7.195:8080/Web_basket/OutList.jsp";
-                HttpPost post = new HttpPost(postURL);
-
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                HttpResponse response = client.execute(post);
-                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-
-                String line = null;
-
-                while ((line = bufreader.readLine()) != null) {
-                    result += line;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            parsedData = outList_jsonParserList(result);
             ////////////////////////////////리스트 뷰 구현////////////////////////////////////////////////
-*/
+
 ////////////////////////////////            /////매칭 -In 구현/////////////////////////////////////////////////////////////////////////////////
             Match_Button_In = (Button)rootView.findViewById(R.id.Match_Button_In);
 

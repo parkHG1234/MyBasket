@@ -60,56 +60,67 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-                    android:layout_weight="9"
+                    android:layout_weight="8"
                     android:id="@+id/linearLayout3"
-                    android:visibility="visible" >
+                    android:visibility="visible"
+                    android:background="@color/White">
 
                     <Spinner
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:id="@+id/NewsFeed_Spinner_Do">
                     </Spinner>
                     <Spinner
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:id="@+id/NewsFeed_Spinner_Si">
                     </Spinner>
                     <Button
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1.2"
                         android:text="선택"
                         android:id="@+id/NewsFeed_Select_Button" />
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_weight="1.2"
-                        android:id="@+id/NewsFeed_Writing"
-                        android:src="@drawable/writing" />
                 </LinearLayout>
 
 
-                <com.baoyz.swipemenulistview.SwipeMenuListView
-
-                    android:id="@+id/NewsFeed_List"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
                 <!--<ListView-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="match_parent"-->
                 <!--android:layout_weight="1"-->
                 <!--android:id="@+id/NewsFeed_List" />-->
 
-                <ProgressBar
-                    android:id="@+id/NewsFeed_ProgressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|bottom"
-                    android:visibility="gone"
-                    android:max="100"/>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <com.baoyz.swipemenulistview.SwipeMenuListView
+
+                        android:id="@+id/NewsFeed_List"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/White"
+                        android:layout_margin="5dp" />
+
+                    <com.melnykov.fab.FloatingActionButton
+                        android:id="@+id/NewsFeed_Writing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:layout_margin="16dp"
+                        android:src="@drawable/register"
+                        fab:fab_colorNormal="@color/White"
+                        fab:fab_colorPressed="@color/DarkGray"
+                        fab:fab_colorRipple="@color/White"
+                        />
+
+
+                </FrameLayout>
+
             </LinearLayout>
         </LinearLayout>
 
