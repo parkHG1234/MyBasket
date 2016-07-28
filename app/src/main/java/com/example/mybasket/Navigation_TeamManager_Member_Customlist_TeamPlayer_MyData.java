@@ -4,7 +4,6 @@ package com.example.mybasket;
  * Created by 박효근 on 2016-07-18.
  */
 public class Navigation_TeamManager_Member_Customlist_TeamPlayer_MyData {
-    private String TeamName;
     private String Phone;
     private String Name;
     private String Birth;
@@ -12,9 +11,11 @@ public class Navigation_TeamManager_Member_Customlist_TeamPlayer_MyData {
     private String Position;
     private String Height;
     private String Weight;
+    private String Profile;
     private String Number;
-    public Navigation_TeamManager_Member_Customlist_TeamPlayer_MyData(String TeamName, String Phone, String Name, String Birth, String Sex, String Position, String Height, String Weight,String Number) {
-        this.TeamName = TeamName;
+    private String Id;
+    public Navigation_TeamManager_Member_Customlist_TeamPlayer_MyData(String Id, String Phone, String Name, String Birth, String Sex, String Position, String Height, String Weight,String Number,String Profile) {
+        this.Id = Id;
         this.Phone = Phone;
         this.Name = Name;
         this.Birth = Birth;
@@ -23,12 +24,9 @@ public class Navigation_TeamManager_Member_Customlist_TeamPlayer_MyData {
         this.Height = Height;
         this.Weight = Weight;
         this.Number = Number;
+        this.Profile = Profile;
     }
-
-    public String getTeamName() {
-        return TeamName;
-    }
-
+    public String getId(){return Id;}
     public String getPhone() {
         return Phone;
     }
@@ -53,4 +51,5 @@ public class Navigation_TeamManager_Member_Customlist_TeamPlayer_MyData {
         return Weight;
     }
     public String getNumber(){return Number;}
+    public String getProfile(){return Profile;}
 }

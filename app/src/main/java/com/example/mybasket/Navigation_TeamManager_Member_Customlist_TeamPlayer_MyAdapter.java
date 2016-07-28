@@ -6,19 +6,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by 박효근 on 2016-07-18.
  */
-public class Navigation_TeamManager_Member_Customlist_TeamPlayer_MyAdapter {
+public class Navigation_TeamManager_Member_Customlist_TeamPlayer_MyAdapter extends BaseAdapter{
     private Context context;
     private ArrayList<Navigation_TeamManager_Member_Customlist_TeamPlayer_MyData> arrData;
     private LayoutInflater inflater;
@@ -50,26 +57,23 @@ public class Navigation_TeamManager_Member_Customlist_TeamPlayer_MyAdapter {
         TextView TeamPlayer_CustomList_TeamNumber = (TextView)convertView.findViewById(R.id.TeamPlayer_CustomList_TeamNumber);
         TextView TeamPlayer_CustomList_Name = (TextView)convertView.findViewById(R.id.TeamPlayer_CustomList_Name);
 
-        return convertView;
-    }
-    public String[][] jsonParserList(String pRecvServerPage){
-        Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+        TeamPlayer_CustomList_Name.setText(arrData.get(position).getName());
+        TeamPlayer_CustomList_TeamNumber.setText(arrData.get(position).getNumber());
         try{
-            JSONObject json = new JSONObject(pRecvServerPage);
-            JSONArray jArr = json.getJSONArray("List");
-
-            String[] jsonName = {"msg1"};
-            String[][] parseredData = new String[jArr.length()][jsonName.length];
-            for(int i = 0; i<jArr.length();i++){
-                json = jArr.getJSONObject(i);
-                for (int j=0;j<jsonName.length; j++){
-                    parseredData[i][j] = json.getString(jsonName[j]);
-                }
+            String En_Profile = URLEncoder.encode(arrData.get(position).getProfile(), "utf-8");
+            if(arrData.get(position).getProfile().equals("."))
+            {
+                Glide.with(context).load(R.drawable.profile_basic_image).into(TeamPlayer_CustomList_Profile);
             }
-            return parseredData;
-        }catch (JSONException e){
-            e.printStackTrace();
-            return null;
+            else
+            {
+                Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
+                        .into(TeamPlayer_CustomList_Profile);
+            }
         }
+        catch (UnsupportedEncodingException e){
+
+        }
+        return convertView;
     }
 }

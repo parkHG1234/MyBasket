@@ -1,47 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <android.support.design.widget.TabLayout
+        android:id="@+id/sliding_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabMode="fixed"
+        app:tabGravity="fill" />
 
-    <LinearLayout
-        android:orientation="vertical"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:id="@+id/TeamManager_Member_Layout_TeamPlayer">
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <com.baoyz.swipemenulistview.SwipeMenuListView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="팀원"
-                android:id="@+id/TeamManager_Member_Button_TeamPlayer"
-                android:layout_weight="1" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="신청자"
-                android:id="@+id/TeamManager_Member_Button_Joiner"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/TeamManager_Member_ListView_TeamPlayerList" />
+    </FrameLayout>
 
-        <ListView
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/TeamManager_Member_Layout_Joiner"
+        android:visibility="gone">
+        <com.baoyz.swipemenulistview.SwipeMenuListView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/TeamManager_Member_ListView_JoinerList"
-            android:layout_gravity="center_horizontal"
-            android:visibility="gone"
-            android:background="#db6464"/>
-
-    </LinearLayout>
+            />
+    </FrameLayout>
 
 </LinearLayout>

@@ -27,7 +27,7 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".Navigation_TeamManager"></activity>
-
+        <activity android:name=".Navigation_TeamManager_Member"></activity>
         <activity android:name=".Navigation_TeamManager_TeamIntro"></activity>
         <activity android:name=".Navigation_TeamManager_TeamMake1"></activity>
         <activity android:name=".Navigation_TeamManager_TeamMake2"></activity>

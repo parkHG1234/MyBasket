@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+<LinearLayout
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="70dp">
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="30dp">
+        android:layout_height="match_parent"
+        android:id="@+id/Joiner_CustomList_JoinerProfile"
+        android:layout_weight="2" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="New Text"
-            android:id="@+id/Joiner_CustomList_JoinerName"
-            android:textColor="#000000"
-            android:layout_weight="1"
-            android:gravity="center" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="1"
+        android:id="@+id/Joiner_CustomList_JoinerNumber"
+        android:layout_weight="2"
+        android:gravity="center" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="수락"
-            android:id="@+id/Joiner_CustomList_Allow"
-            android:layout_weight="2" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="박효근"
+        android:id="@+id/Joiner_CustomList_JoinerName"
+        android:layout_weight="1"
+        android:gravity="center" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="거절"
-            android:id="@+id/Joiner_CustomList_Refuse"
-            android:layout_weight="2" />
-    </LinearLayout>
+</LinearLayout>
 
 </LinearLayout>
 
