@@ -14,7 +14,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -37,10 +36,10 @@ import java.util.List;
 /**
  * Created by 박지훈 on 2016-06-28.
  */
-public class NewsFeed_Comment_Adapter extends BaseAdapter {
+public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<NewsFeed_Comment_Setting> arrComment;
+    private ArrayList<Match_Out_NewsFeed_Comment_Setting> arrComment;
     private LayoutInflater inflater;
     static ListView NewSpeed_Comment_List;
     TextView NewSpeed_Comment_List_Person;
@@ -48,10 +47,10 @@ public class NewsFeed_Comment_Adapter extends BaseAdapter {
     TextView NewSpeed_Comment_List_Data;
     ImageButton NewSpeed_Comment_List_Setting;
 
-    NewsFeed_Comment_Adapter CommentAdapter;
+    Match_Out_NewsFeed_Comment_Adapter CommentAdapter;
     String[][] parsedData;
 
-    public NewsFeed_Comment_Adapter(Context c, ArrayList<NewsFeed_Comment_Setting> arr) {
+    public Match_Out_NewsFeed_Comment_Adapter(Context c, ArrayList<Match_Out_NewsFeed_Comment_Setting> arr) {
         this.context = c;
         this.arrComment = arr;
         inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -76,7 +75,7 @@ public class NewsFeed_Comment_Adapter extends BaseAdapter {
 
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.newsfeed_comment_data, parent, false);
+            convertView = inflater.inflate(R.layout.layout_match_out_newsfeed_comment_data, parent, false);
         }
 
         NewSpeed_Comment_List_Person = (TextView) convertView.findViewById(R.id.NewSpeed_Comment_List_Person);
@@ -119,7 +118,7 @@ public class NewsFeed_Comment_Adapter extends BaseAdapter {
                                     }
                                     parsedData = jsonParserList(result);
                                     setData();
-                                    CommentAdapter = new NewsFeed_Comment_Adapter(context, arrComment);
+                                    CommentAdapter = new Match_Out_NewsFeed_Comment_Adapter(context, arrComment);
                                     NewSpeed_Comment_List.setAdapter(CommentAdapter);
 
                                 } catch (Exception e) {
@@ -185,9 +184,9 @@ public class NewsFeed_Comment_Adapter extends BaseAdapter {
     }
 
     private void setData() {
-        arrComment = new ArrayList<NewsFeed_Comment_Setting>();
+        arrComment = new ArrayList<Match_Out_NewsFeed_Comment_Setting>();
         for (int a = 0; a < parsedData.length; a++) {
-            arrComment.add(new NewsFeed_Comment_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7]));
+            arrComment.add(new Match_Out_NewsFeed_Comment_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7]));
         }
     }
 

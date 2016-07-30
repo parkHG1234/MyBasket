@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * Created by 박지훈 on 2016-07-06.
  */
-public class NewsFeed_Data_Modify extends Activity {
+public class Match_Out_NewsFeed_Data_Modify extends Activity {
 
     Spinner NewsFeed_Writing_addDoSpinner;
     Spinner NewsFeed_Writing_addSiSpinner;
@@ -56,7 +56,7 @@ public class NewsFeed_Data_Modify extends Activity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.newsfeed_writing);
+        setContentView(R.layout.layout_match_out_newsfeed_writing);
 
         NewsFeed_Writing_addDoSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addDoSpinner);
         NewsFeed_Writing_addSiSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addSiSpinner);
@@ -69,7 +69,7 @@ public class NewsFeed_Data_Modify extends Activity {
         NewsFeed_Writing_TextEditText.setText(DataIntent.getExtras().getString("data"));
         NewsFeed_Writing_PersonEditText.setText(DataIntent.getExtras().getString("person"));
 
-        adspin1 = ArrayAdapter.createFromResource(NewsFeed_Data_Modify.this, R.array.spinner_do, R.layout.zfile_spinner_test);
+        adspin1 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do, R.layout.zfile_spinner_test);
         adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         NewsFeed_Writing_addDoSpinner.setAdapter(adspin1);
         NewsFeed_Writing_addDoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -78,7 +78,7 @@ public class NewsFeed_Data_Modify extends Activity {
                 spinnum1 = i;
                 Do = adspin1.getItem(i).toString();
                 if (adspin1.getItem(i).equals("서울")) {
-                    adspin2 = ArrayAdapter.createFromResource(NewsFeed_Data_Modify.this, R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     NewsFeed_Writing_addSiSpinner.setAdapter(adspin2);
                     NewsFeed_Writing_addSiSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -107,7 +107,7 @@ public class NewsFeed_Data_Modify extends Activity {
                                 for (int a = 0; a < parsedData.length; a++) {
                                     arr.add(parsedData[a][0]);
                                 }
-                                adspin3 = new ArrayAdapter<CharSequence>(NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
                                 adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 NewsFeed_Writing_addCourtSpinner.setAdapter(adspin3);
                                 NewsFeed_Writing_addCourtSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

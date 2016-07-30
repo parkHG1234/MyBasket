@@ -6,32 +6,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.pm.ActivityInfoCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -43,17 +35,13 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.bumptech.glide.Glide;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.melnykov.fab.FloatingActionButton;
-import com.pkmmte.view.CircularImageView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -68,12 +56,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -284,8 +268,8 @@ public class MainActivity extends AppCompatActivity {
         String address1, address2;
         FloatingActionButton NewsFeed_Writing;
 
-        NewsFeed_Data_Adapter dataadapter;
-        ArrayList<NewsFeed_Data_Setting> arrData;
+        Match_Out_NewsFeed_Data_Adapter dataadapter;
+        ArrayList<Match_Out_NewsFeed_Data_Setting> arrData;
 
         ImageView NewsFeed_Emblem;
         TextView NewsFeed_Court, NewsFeed_Data, NewsFeed_Person;
@@ -424,7 +408,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         parsedData = jsonParserList(result);
                         setData();
-                        dataadapter = new NewsFeed_Data_Adapter(getContext(), arrData);
+                        dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData);
                         dataadapter.listview(NewsFeed_List);
                         NewsFeed_List.setAdapter(dataadapter);
                     } catch (Exception e) {
@@ -438,7 +422,7 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (index) {
                         case 0:
-                            Intent CommentIntent = new Intent(getContext(), NewsFeed_Comment.class);
+                            Intent CommentIntent = new Intent(getContext(), Match_Out_NewsFeed_Comment.class);
 
                             CommentIntent.putExtra("Num", arrData.get(position).getnum());
                             CommentIntent.putExtra("Court", arrData.get(position).getcourt());
@@ -448,7 +432,7 @@ public class MainActivity extends AppCompatActivity {
                             getContext().startActivity(CommentIntent);
                             break;
                         case 1:
-                            Intent DataIntent = new Intent(getContext(), NewsFeed_Data_Modify.class);
+                            Intent DataIntent = new Intent(getContext(), Match_Out_NewsFeed_Data_Modify.class);
 
                             DataIntent.putExtra("Num", arrData.get(position).getnum());
                             DataIntent.putExtra("Do", arrData.get(position).getDo());
@@ -484,7 +468,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 parsedData = jsonParserList(result);
                                 setData();
-                                dataadapter = new NewsFeed_Data_Adapter(getContext(), arrData);
+                                dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData);
                                 NewsFeed_List.setAdapter(dataadapter);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -499,7 +483,7 @@ public class MainActivity extends AppCompatActivity {
             NewsFeed_Writing.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent DataIntent = new Intent(getContext(), NewsFeed_Writing.class);
+                    Intent DataIntent = new Intent(getContext(), Match_Out_NewsFeed_Writing.class);
                     startActivity(DataIntent);
                 }
             });
@@ -704,10 +688,10 @@ public class MainActivity extends AppCompatActivity {
         }
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         private void setData() {
-            arrData = new ArrayList<NewsFeed_Data_Setting>();
+            arrData = new ArrayList<Match_Out_NewsFeed_Data_Setting>();
 
             for (int a = 0; a < cnt; a++) {
-                arrData.add(new NewsFeed_Data_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7], parsedData[a][8], parsedData[a][9], parsedData[a][10]));
+                arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7], parsedData[a][8], parsedData[a][9], parsedData[a][10]));
             }
         }
 
@@ -756,7 +740,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     setData();
-                    dataadapter = new NewsFeed_Data_Adapter(getContext(), arrData);
+                    dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData);
 
                     NewsFeed_List.setAdapter(dataadapter);
                     NewsFeed_List.setSelection(pos + 1);

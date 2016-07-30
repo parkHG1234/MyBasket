@@ -3,43 +3,57 @@ package com.example.mybasket;
 /**
  * Created by 박효근 on 2016-07-22.
  */
-import android.app.Activity;
 import android.view.View;
 import android.widget.ProgressBar;
 
 /**
- * Created by 박지훈 on 2016-06-28.
+ * Created by 박지훈 on 2016-06-24.
  */
-public class NewsFeed_Comment_Setting extends Activity {
-
-    private String comment_num;
-    private String newsfeed_num;
+public class Match_Out_NewsFeed_Data_Setting {
+    private String num;
+    private String user;
+    private String Do;
+    private String Si;
+    private String court;
     private String person;
     private String data;
     private String month;
     private String day;
     private String hour;
     private String minute;
+    public ProgressBar NewsFeed_ProgressBar;
 
-    public NewsFeed_Comment_Setting(String comment_num, String newsfeed_num, String person, String data, String month, String day, String hour, String minute) {
-        this.comment_num = comment_num;
-        this.newsfeed_num = newsfeed_num;
+    public Match_Out_NewsFeed_Data_Setting(String num, String user, String Do, String Si, String court, String person, String data, String month, String day, String hour, String minute) {
+        this.num = num;
+        this.user = user;
+        this.Do = Do;
+        this.Si = Si;
+        this.court = court;
         this.person = person;
-//        person대신 아이디받기
         this.data = data;
         this.month = month;
         this.day = day;
         this.hour = hour;
         this.minute = minute;
-
     }
 
-    public String getcomment_num() {
-        return comment_num;
+
+    public String getnum() {
+        return num;
     }
 
-    public String getnewsfeed_num() {
-        return newsfeed_num;
+    public String getuser() {
+        return user;
+    }
+
+    public String getDo() { return Do; }
+
+    public String getSi() {
+        return Si;
+    }
+
+    public String getcourt() {
+        return court;
     }
 
     public String getperson() {
@@ -66,5 +80,3 @@ public class NewsFeed_Comment_Setting extends Activity {
         return minute;
     }
 }
-
-

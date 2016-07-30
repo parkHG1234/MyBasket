@@ -5,14 +5,9 @@ package com.example.mybasket;
  */
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -42,7 +37,7 @@ import java.util.List;
 /**
  * Created by 박지훈 on 2016-06-21.
  */
-public class NewsFeed_Writing extends Activity {
+public class Match_Out_NewsFeed_Writing extends Activity {
 
 
     Spinner NewsFeed_Writing_addDoSpinner;
@@ -69,7 +64,7 @@ public class NewsFeed_Writing extends Activity {
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.newsfeed_writing);
+        setContentView(R.layout.layout_match_out_newsfeed_writing);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -83,7 +78,7 @@ public class NewsFeed_Writing extends Activity {
         NewsFeed_Writing_Button = (Button) findViewById(R.id.NewsFeed_Writing_Button);
         NewsFeed_Writing_TextEditText = (EditText) findViewById(R.id.NewsFeed_Writing_TextEditText);
         NewsFeed_Writing_PersonEditText = (EditText) findViewById(R.id.NewsFeed_Writing_PersonEditText);
-        adspin1 = ArrayAdapter.createFromResource(NewsFeed_Writing.this, R.array.spinner_do, R.layout.zfile_spinner_test);
+        adspin1 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Writing.this, R.array.spinner_do, R.layout.zfile_spinner_test);
         adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         NewsFeed_Writing_addDoSpinner.setAdapter(adspin1);
         NewsFeed_Writing_addDoSpinner.setOnItemSelectedListener(
@@ -93,7 +88,7 @@ public class NewsFeed_Writing extends Activity {
                         spinnum1 = i;
                         Do = adspin1.getItem(i).toString();
                         if (adspin1.getItem(i).equals("서울")) {
-                            adspin2 = ArrayAdapter.createFromResource(NewsFeed_Writing.this, R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Writing.this, R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             NewsFeed_Writing_addSiSpinner.setAdapter(adspin2);
                             NewsFeed_Writing_addSiSpinner.setOnItemSelectedListener(
@@ -123,7 +118,7 @@ public class NewsFeed_Writing extends Activity {
                                                 for (int a = 0; a < parsedData.length; a++) {
                                                     arr.add(parsedData[a][0]);
                                                 }
-                                                adspin3 = new ArrayAdapter<CharSequence>(NewsFeed_Writing.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Writing.this, android.R.layout.simple_spinner_item, arr);
                                                 adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                                 NewsFeed_Writing_addCourtSpinner.setAdapter(adspin3);
                                                 NewsFeed_Writing_addCourtSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -186,10 +181,10 @@ public class NewsFeed_Writing extends Activity {
         NewsFeed_Writing_CameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*NewsFeed_Camera camera = new NewsFeed_Camera();
+                Match_Out_NewsFeed_Camera camera = new Match_Out_NewsFeed_Camera();
                 camera.camera_ImageView(NewsFeed_Camera_Image);
-                Intent CameraIntent = new Intent(NewsFeed_Writing.this, NewsFeed_Camera.class);
-                NewsFeed_Writing.this.startActivity(CameraIntent);*/
+                Intent CameraIntent = new Intent(Match_Out_NewsFeed_Writing.this, Match_Out_NewsFeed_Camera.class);
+                Match_Out_NewsFeed_Writing.this.startActivity(CameraIntent);
 
             }
         });

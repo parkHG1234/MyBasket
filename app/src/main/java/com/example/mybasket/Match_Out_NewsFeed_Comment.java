@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * Created by 박지훈 on 2016-06-27.
  */
-public class NewsFeed_Comment extends Activity implements AbsListView.OnScrollListener {
+public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.OnScrollListener {
 
     ImageView NewsFeed_Comment_Emblem;
     TextView NewsFeed_Comment_Court;
@@ -51,8 +51,8 @@ public class NewsFeed_Comment extends Activity implements AbsListView.OnScrollLi
     Button NewsFeed_Comment_Button;
 
 
-    NewsFeed_Comment_Adapter CommentAdapter;
-    ArrayList<NewsFeed_Comment_Setting> arrComment;
+    Match_Out_NewsFeed_Comment_Adapter CommentAdapter;
+    ArrayList<Match_Out_NewsFeed_Comment_Setting> arrComment;
     String NewsFeed_Num;
     String[][] parsedData;
     String[] jsonName = {"Comment_Num", "NewsFeed_Num", "Comment_Person", "Comment_Data", "Comment_Month", "Comment_Day", "Comment_Hour", "Comment_Minute"};
@@ -70,7 +70,7 @@ public class NewsFeed_Comment extends Activity implements AbsListView.OnScrollLi
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.newsfeed_comment);
+        setContentView(R.layout.layout_match_out_newsfeed_comment);
 
         NewsFeed_Comment_Emblem = (ImageView) findViewById(R.id.NewsFeed_Comment_Emblem);
         NewsFeed_Comment_Court = (TextView) findViewById(R.id.NewsFeed_Comment_Court);
@@ -107,7 +107,7 @@ public class NewsFeed_Comment extends Activity implements AbsListView.OnScrollLi
             parsedData = jsonParserList(result);
             setData();
 
-            CommentAdapter = new NewsFeed_Comment_Adapter(NewsFeed_Comment.this, arrComment);
+            CommentAdapter = new Match_Out_NewsFeed_Comment_Adapter(Match_Out_NewsFeed_Comment.this, arrComment);
             CommentAdapter.listview(NewSpeed_Comment_List);
             NewSpeed_Comment_List.setAdapter(CommentAdapter);
             NewSpeed_Comment_List.setOnScrollListener(this);
@@ -150,7 +150,7 @@ public class NewsFeed_Comment extends Activity implements AbsListView.OnScrollLi
                     }
                     parsedData = jsonParserList(result);
                     setData();
-                    CommentAdapter = new NewsFeed_Comment_Adapter(NewsFeed_Comment.this, arrComment);
+                    CommentAdapter = new Match_Out_NewsFeed_Comment_Adapter(Match_Out_NewsFeed_Comment.this, arrComment);
                     CommentAdapter.listview(NewSpeed_Comment_List);
                     NewSpeed_Comment_List.setAdapter(CommentAdapter);
                     NewsFeed_Comment_EditText.setText("");
@@ -162,9 +162,9 @@ public class NewsFeed_Comment extends Activity implements AbsListView.OnScrollLi
     }
 
     private void setData() {
-        arrComment = new ArrayList<NewsFeed_Comment_Setting>();
+        arrComment = new ArrayList<Match_Out_NewsFeed_Comment_Setting>();
         for (int a = 0; a < cnt; a++) {
-            arrComment.add(new NewsFeed_Comment_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7]));
+            arrComment.add(new Match_Out_NewsFeed_Comment_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7]));
         }
     }
 
@@ -216,7 +216,7 @@ public class NewsFeed_Comment extends Activity implements AbsListView.OnScrollLi
                 e.printStackTrace();
             }
             setData();
-            CommentAdapter = new NewsFeed_Comment_Adapter(NewsFeed_Comment.this, arrComment);
+            CommentAdapter = new Match_Out_NewsFeed_Comment_Adapter(Match_Out_NewsFeed_Comment.this, arrComment);
             CommentAdapter.listview(NewSpeed_Comment_List);
             NewSpeed_Comment_List = (ListView) findViewById(R.id.NewSpeed_Comment_List);
             NewSpeed_Comment_List.setAdapter(CommentAdapter);

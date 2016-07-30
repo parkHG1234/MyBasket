@@ -17,18 +17,18 @@ import java.util.ArrayList;
 /**
  * Created by 박지훈 on 2016-06-24.
  */
-public class NewsFeed_Data_Adapter extends BaseAdapter {
+public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
     private Context context;
-    private ArrayList<NewsFeed_Data_Setting> arrData;
+    private ArrayList<Match_Out_NewsFeed_Data_Setting> arrData;
     private LayoutInflater inflater;
 
     private int MonthGap[] = {-30, -30, -27, -30, -29, -30, -29, -30, -30, -29, -30, -29};
 
     ListView NewsFeed_List;
-    NewsFeed_Data_Adapter dataadapter;
+    Match_Out_NewsFeed_Data_Adapter dataadapter;
     String[][] parsedData;
 
-    public NewsFeed_Data_Adapter(Context c, ArrayList<NewsFeed_Data_Setting> arr) {
+    public Match_Out_NewsFeed_Data_Adapter(Context c, ArrayList<Match_Out_NewsFeed_Data_Setting> arr) {
         this.context = c;
         this.arrData = arr;
         inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -63,7 +63,7 @@ public class NewsFeed_Data_Adapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.newsfeed_customlist_data, parent, false);
+            convertView = inflater.inflate(R.layout.layout_match_out_newsfeed_customlist_data, parent, false);
         }
         TextView Court = (TextView) convertView.findViewById(R.id.NewsFeed_CustomList_Court);
         Court.setText(arrData.get(position).getcourt());
