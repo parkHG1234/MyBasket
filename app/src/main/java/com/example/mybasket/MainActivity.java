@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -36,10 +34,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.baoyz.swipemenulistview.SwipeMenu;
-import com.baoyz.swipemenulistview.SwipeMenuCreator;
-import com.baoyz.swipemenulistview.SwipeMenuItem;
-import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.bumptech.glide.Glide;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -65,6 +59,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import me.drakeet.materialdialog.MaterialDialog;
 
 public class MainActivity extends AppCompatActivity {
     static String Id="";
@@ -260,13 +255,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    public static class SectionsFragment1 extends Fragment implements AbsListView.OnScrollListener{
+    public static class SectionsFragment1 extends Fragment implements AbsListView.OnScrollListener {
         //매칭 out선언
         Spinner spinner_Address_Do, spinner_Address_si;
         Button NewsFeed_Select_Button;
-        SwipeMenuListView NewsFeed_List;
+        ListView NewsFeed_List;
         String address1, address2;
-        FloatingActionButton NewsFeed_Writing;
+        ImageView NewsFeed_Writing;
 
         Match_Out_NewsFeed_Data_Adapter dataadapter;
         ArrayList<Match_Out_NewsFeed_Data_Setting> arrData;
@@ -275,6 +270,7 @@ public class MainActivity extends AppCompatActivity {
         TextView NewsFeed_Court, NewsFeed_Data, NewsFeed_Person;
         boolean VisibleFlag = false;
         int cnt, pos;
+        static int Position = 0;
         private int MonthGap[] = {-30, -30, -27, -30, -29, -30, -29, -30, -30, -29, -30, -29};
 
 
@@ -313,52 +309,23 @@ public class MainActivity extends AppCompatActivity {
             NewsFeed_Court = (TextView) rootView.findViewById(R.id.NewsFeed_CustomList_Court);
             NewsFeed_Data = (TextView) rootView.findViewById(R.id.NewsFeed_CustomList_Data);
             NewsFeed_Person = (TextView) rootView.findViewById(R.id.NewsFeed_CustomList_Person);
-            NewsFeed_Writing = (FloatingActionButton) rootView.findViewById(R.id.NewsFeed_Writing);
-            NewsFeed_List = (SwipeMenuListView) rootView.findViewById(R.id.NewsFeed_List);
-            NewsFeed_Writing.attachToListView(NewsFeed_List);
-           // NewsFeed_ProgressBar = (ProgressBar) rootView.findViewById(R.id.NewsFeed_ProgressBar);
+            NewsFeed_Writing = (ImageView) rootView.findViewById(R.id.NewsFeed_Writing);
+            NewsFeed_List = (ListView) rootView.findViewById(R.id.NewsFeed_List);
 
+//            NewsFeed_ProgressBar = (ProgressBar) rootView.findViewById(R.id.NewsFeed_ProgressBar);
             NewsFeed_Select_Button = (Button) rootView.findViewById(R.id.NewsFeed_Select_Button);
             spinner_Address_Do = (Spinner) rootView.findViewById(R.id.NewsFeed_Spinner_Do);
             spinner_Address_si = (Spinner) rootView.findViewById(R.id.NewsFeed_Spinner_Si);
+
+
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //매칭 out 뉴스피드 코딩
             adspin1 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do, R.layout.zfile_spinner_test);
             adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner_Address_Do.setAdapter(adspin1);
-            SwipeMenuCreator creator = new SwipeMenuCreator() {
-                @Override
-                public void create(SwipeMenu menu) {
-
-                    SwipeMenuItem commentItem = new SwipeMenuItem(
-                            getContext());
-                    commentItem.setBackground(new ColorDrawable(Color.rgb(255, 0, 0)));
-                    commentItem.setWidth(90);
-                    commentItem.setTitleSize(18);
-                    commentItem.setIcon(R.drawable.comment);
-                    menu.addMenuItem(commentItem);
-
-
-                    SwipeMenuItem modifyitem = new SwipeMenuItem(
-                            getContext());
-                    modifyitem.setBackground(new ColorDrawable(Color.rgb(0, 255, 0)));
-                    modifyitem.setWidth(90);
-                    modifyitem.setTitleSize(18);
-                    modifyitem.setIcon(R.drawable.setting);
-                    menu.addMenuItem(modifyitem);
-
-
-                    SwipeMenuItem deleteItem = new SwipeMenuItem(
-                            getContext());
-                    deleteItem.setBackground(new ColorDrawable(Color.rgb(0, 0, 255)));
-                    deleteItem.setWidth(90);
-                    deleteItem.setIcon(R.drawable.wastebasket);
-                    menu.addMenuItem(deleteItem);
-
-                }
-            };
-
-            NewsFeed_List.setMenuCreator(creator);
+            NewsFeed_List.setOnScrollListener(this);
 
 
             spinner_Address_Do.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -416,69 +383,105 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-            NewsFeed_List.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+
+            final MaterialDialog Dialog = new MaterialDialog(getContext());
+
+
+            final View layout = inflater.inflate(R.layout.layout_match_out_newsfeed_dialog, (ViewGroup) rootView.findViewById(R.id.Dialog_ImageView));
+
+
+            final ImageView ImageView_DialogComment = (ImageView) layout.findViewById(R.id.ImageView_DialogComment);
+            final ImageView ImageView_DialogModify = (ImageView) layout.findViewById(R.id.ImageView_DialogModify);
+            final ImageView ImageView_DialogDelete = (ImageView) layout.findViewById(R.id.ImageView_DialogDelete);
+
+            NewsFeed_List.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
                 @Override
-                public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-
-                    switch (index) {
-                        case 0:
-                            Intent CommentIntent = new Intent(getContext(), Match_Out_NewsFeed_Comment.class);
-
-                            CommentIntent.putExtra("Num", arrData.get(position).getnum());
-                            CommentIntent.putExtra("Court", arrData.get(position).getcourt());
-                            CommentIntent.putExtra("Person", arrData.get(position).getperson());
-                            CommentIntent.putExtra("Data", arrData.get(position).getdata());
-                            CommentIntent.putExtra("Time", GetTime(position));
-                            getContext().startActivity(CommentIntent);
-                            break;
-                        case 1:
-                            Intent DataIntent = new Intent(getContext(), Match_Out_NewsFeed_Data_Modify.class);
-
-                            DataIntent.putExtra("Num", arrData.get(position).getnum());
-                            DataIntent.putExtra("Do", arrData.get(position).getDo());
-                            DataIntent.putExtra("Si", arrData.get(position).getSi());
-                            DataIntent.putExtra("court", arrData.get(position).getcourt());
-                            DataIntent.putExtra("person", arrData.get(position).getperson());
-                            DataIntent.putExtra("data", arrData.get(position).getdata());
-                            DataIntent.putExtra("month", arrData.get(position).getMonth());
-                            DataIntent.putExtra("day", arrData.get(position).getDay());
-                            DataIntent.putExtra("hour", arrData.get(position).getHour());
-                            DataIntent.putExtra("minute", arrData.get(position).getMinute());
-
-                            getContext().startActivity(DataIntent);
-                            break;
-                        case 2:
-                            String result = "";
-
-                            try {
-                                HttpClient client = new DefaultHttpClient();
-                                String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_delete.jsp";
-                                HttpPost post = new HttpPost(postURL);
-                                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                params.add(new BasicNameValuePair("NewsFeed_Num", arrData.get(position).getnum()));
-                                params.add(new BasicNameValuePair("NewsFeed_Do", arrData.get(position).getDo()));
-                                params.add(new BasicNameValuePair("NewsFeed_Si", arrData.get(position).getSi()));
-                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                post.setEntity(ent);
-                                HttpResponse response = client.execute(post);
-                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                                String line = null;
-                                while ((line = bufreader.readLine()) != null) {
-                                    result += line;
+                public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
+                    Position = position;
+                    Dialog
+                            .setView(layout)
+                            .setPositiveButton("OK", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Dialog.dismiss();
                                 }
-                                parsedData = jsonParserList(result);
-                                setData();
-                                dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData);
-                                NewsFeed_List.setAdapter(dataadapter);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            break;
-                    }
-                    return false;
-                }
+                            });
+                    Dialog.show();
 
+                }
             });
+            ImageView_DialogComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent CommentIntent = new Intent(getContext(), Match_Out_NewsFeed_Comment.class);
+
+                    CommentIntent.putExtra("Num", arrData.get(Position).getnum());
+                    CommentIntent.putExtra("Court", arrData.get(Position).getcourt());
+                    CommentIntent.putExtra("Person", arrData.get(Position).getperson());
+                    CommentIntent.putExtra("Data", arrData.get(Position).getdata());
+                    CommentIntent.putExtra("Time", GetTime(Position));
+                    getContext().startActivity(CommentIntent);
+
+                    Dialog.dismiss();
+
+                }
+            });
+            ImageView_DialogModify.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent DataIntent = new Intent(getContext(), Match_Out_NewsFeed_Data_Modify.class);
+
+                    DataIntent.putExtra("Num", arrData.get(Position).getnum());
+                    DataIntent.putExtra("Do", arrData.get(Position).getDo());
+                    DataIntent.putExtra("Si", arrData.get(Position).getSi());
+                    DataIntent.putExtra("court", arrData.get(Position).getcourt());
+                    DataIntent.putExtra("person", arrData.get(Position).getperson());
+                    DataIntent.putExtra("data", arrData.get(Position).getdata());
+                    DataIntent.putExtra("month", arrData.get(Position).getMonth());
+                    DataIntent.putExtra("day", arrData.get(Position).getDay());
+                    DataIntent.putExtra("hour", arrData.get(Position).getHour());
+                    DataIntent.putExtra("minute", arrData.get(Position).getMinute());
+
+                    getContext().startActivity(DataIntent);
+
+                    Dialog.dismiss();
+                }
+            });
+            ImageView_DialogDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String result = "";
+
+                    try {
+                        HttpClient client = new DefaultHttpClient();
+                        String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_delete.jsp";
+                        HttpPost post = new HttpPost(postURL);
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("NewsFeed_Num", arrData.get(Position).getnum()));
+                        params.add(new BasicNameValuePair("NewsFeed_Do", arrData.get(Position).getDo()));
+                        params.add(new BasicNameValuePair("NewsFeed_Si", arrData.get(Position).getSi()));
+                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                        post.setEntity(ent);
+                        HttpResponse response = client.execute(post);
+                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                        String line = null;
+                        while ((line = bufreader.readLine()) != null) {
+                            result += line;
+                        }
+                        parsedData = jsonParserList(result);
+                        setData();
+                        dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData);
+                        NewsFeed_List.setAdapter(dataadapter);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    Dialog.dismiss();
+                }
+            });
+
 
             NewsFeed_Writing.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -487,8 +490,6 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(DataIntent);
                 }
             });
-
-
 
 
 
