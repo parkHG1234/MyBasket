@@ -168,7 +168,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                 // set item width
                 deleteItem.setWidth(180);
                 // set a icon
-              //  deleteItem.setIcon(R.drawable.delete1);
+                deleteItem.setIcon(R.drawable.delete1);
                 // add to menu
                 menu.addMenuItem(deleteItem);
             }
