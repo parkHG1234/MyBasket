@@ -3,6 +3,7 @@ package com.example.mybasket;
 /**
  * Created by 박효근 on 2016-07-22.
  */
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,16 +48,16 @@ public class Match_Out_NewsFeed_Writing extends Activity {
     Button NewsFeed_Writing_Button;
     EditText NewsFeed_Writing_TextEditText;
     EditText NewsFeed_Writing_PersonEditText;
-    final int REQ_SELECT=0;
+
 
     Button NewsFeed_Writing_CameraButton;
     ImageView NewsFeed_Camera_Image;
-
+    Intent CameraIntent=null;
 
     ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
     static int spinnum1, spinnum2;
     String[][] parsedData;
-    static String Do, Si, Court;
+    static String Do, Si, Court, ImageURL = null;
 
 
     @Override
@@ -69,8 +70,8 @@ public class Match_Out_NewsFeed_Writing extends Activity {
         StrictMode.setThreadPolicy(policy);
 
         NewsFeed_Writing_CameraButton = (Button) findViewById(R.id.NewsFeed_Writing_CameraButton);
-//        NewsFeed_Camera_SurfaceView=(SurfaceView)findViewById(R.id.NewsFeed_Camera_SurfaceView);
         NewsFeed_Camera_Image = (ImageView) findViewById(R.id.NewsFeed_Camera_Image);
+
 
         NewsFeed_Writing_addDoSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addDoSpinner);
         NewsFeed_Writing_addSiSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addSiSpinner);
@@ -167,6 +168,8 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                     params.add(new BasicNameValuePair("NewsFeed_Day", new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Hour", new SimpleDateFormat("kk").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Minute", new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis()))));
+                    params.add(new BasicNameValuePair("NewsFeed_Image", ImageURL));
+
                     UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                     post.setEntity(ent);
                     HttpResponse response = client.execute(post);
@@ -177,20 +180,26 @@ public class Match_Out_NewsFeed_Writing extends Activity {
             }
         });
 
-
         NewsFeed_Writing_CameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Match_Out_NewsFeed_Camera camera = new Match_Out_NewsFeed_Camera();
                 camera.camera_ImageView(NewsFeed_Camera_Image);
-                Intent CameraIntent = new Intent(Match_Out_NewsFeed_Writing.this, Match_Out_NewsFeed_Camera.class);
-                Match_Out_NewsFeed_Writing.this.startActivity(CameraIntent);
+                CameraIntent = new Intent(Match_Out_NewsFeed_Writing.this, Match_Out_NewsFeed_Camera.class);
 
+                startActivityForResult(CameraIntent,1);
             }
         });
-
     }
-
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(resultCode==RESULT_OK) {
+            if(requestCode==1) {
+                ImageURL = data.getStringExtra("ImageURL");
+                Log.i("확인", String.valueOf(ImageURL));
+            }
+        }
+    }
 
     public String[][] jsonParserList(String pRecvServerPage) {
         Log.i("서버에서 받은 전체 내용", pRecvServerPage);
@@ -211,5 +220,4 @@ public class Match_Out_NewsFeed_Writing extends Activity {
             return null;
         }
     }
-
 }

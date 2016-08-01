@@ -5,16 +5,27 @@ package com.example.mybasket;
  */
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by 박지훈 on 2016-06-23.
@@ -25,8 +36,9 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
     SurfaceView NewsFeed_Camera_SurfaceView;
     SurfaceHolder surfaceHolder;
     Button NewsFeed_Camera_Button;
-    String str;
     ImageView NewsFeed_Camera_Image;
+
+    static String ImageURL;
     @SuppressWarnings("deprecation")
     android.hardware.Camera.PictureCallback jpegCallback;
 
@@ -44,52 +56,35 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
             }
         });
         getWindow().setFormat(PixelFormat.UNKNOWN);
-
-
+        Intent IntentURL = new Intent(getApplicationContext(), Match_Out_NewsFeed_Writing.class);
         NewsFeed_Camera_SurfaceView = (SurfaceView) findViewById(R.id.NewsFeed_Camera_SurfaceView);
         surfaceHolder = NewsFeed_Camera_SurfaceView.getHolder();
         surfaceHolder.addCallback(this);
-//        surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         jpegCallback = new android.hardware.Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, android.hardware.Camera camera) {
-
-//                Bitmap bitmap = BitmapFactory.decodeByteArray(data,0,data.length);
-                Bitmap bitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.ball);
-
-                Log.i("데이터2", String.valueOf(bitmap));
-//                str = String.format(MediaStore.Images.Media.insertImage(getContentResolver(),bitmap,"사진저장","저장되었습니다"));
-//
-//                Uri uri = Uri.parse(str);
-//                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,uri));
+                File pictureFile = getOutputMediaFile();
 
                 try {
-
-//                    Bitmap resized = Bitmap.createScaledBitmap(bitmap, 450, 200, true);
-//                    NewsFeed_Camera_Image.setImageBitmap(resized);
-//                    NewsFeed_Camera_Image.setScaleType(ImageView.ScaleType.CENTER_INSIDE); // 레이아웃 크기에 이미지를 맞춘다
-//                    NewsFeed_Camera_Image.setPadding(3, 3, 3, 3);
-
-
-
-
-//                    Toast.makeText(getApplicationContext(),"Capture",Toast.LENGTH_SHORT).show();
-
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-
-                    //이미지 뷰 이미지 설정
-                    NewsFeed_Camera_Image.setImageBitmap(bitmap);
-
+                    if(pictureFile == null){
+                        Toast.makeText(getApplicationContext(), "Error camera image saving", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    FileOutputStream fos = new FileOutputStream(pictureFile);
+                    fos.write(data);
+                    fos.close();
+                    Intent IntentURL = getIntent();
+                    IntentURL.putExtra("ImageURL",ImageURL );
+                    setResult(RESULT_OK,IntentURL);
                 }catch (Exception e){
                     Log.e("사진저장","사진실패",e);
                 }
                 finish();
             }
-
-
         };
     }
+
     public void refreshCamera() {
         if (surfaceHolder.getSurface() == null) {
             return;
@@ -102,11 +97,33 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
         }
     }
 
+    private static File getOutputMediaFile(){
+        //SD 카드가 마운트 되어있는지 먼저 확인
+        // Environment.getExternalStorageState() 로 마운트 상태 확인 가능합니다
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyCameraApp");
+
+        // 없는 경로라면 따로 생성
+        if(!mediaStorageDir.exists()){
+            if(! mediaStorageDir.mkdirs()){
+                Log.d("MyCamera", "failed to create directory");
+                return null;
+            }
+        }
+
+        // 파일명을 적당히 생성, 여기선 시간으로 파일명 중복을 피한다
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timestamp + ".jpg");
+        ImageURL=timestamp;
+        Log.i("MyCamera", "Saved at"+Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES));
+        Log.i("경로",mediaFile.getPath());
+        return mediaFile;
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
-
 
     @SuppressWarnings("deprecation")
     @Override
@@ -114,7 +131,6 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
         camera = android.hardware.Camera.open();
         camera.stopPreview();
         camera.setDisplayOrientation(90);
-
         try {
             camera.setPreviewDisplay(surfaceHolder);
             camera.startPreview();
@@ -137,9 +153,7 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
         camera = null;
     }
 
-
     public void camera_ImageView(ImageView NewsFeed_Camera_Image){
         this.NewsFeed_Camera_Image = NewsFeed_Camera_Image;
-
     }
 }
