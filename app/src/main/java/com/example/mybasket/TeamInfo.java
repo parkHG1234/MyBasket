@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -109,18 +111,17 @@ public class TeamInfo extends Activity {
             String En_Image2 = URLEncoder.encode(Image2, "utf-8");
             String En_Image3 = URLEncoder.encode(Image3, "utf-8");
             String En_Emblem = URLEncoder.encode(Emblem, "utf-8");
-            String Image1Url = "http://210.122.7.195:8080/Web_basket/imgs/Team/"+En_Image1+".jpg";
+            String Image1Url = "";
             back1 task1 = new back1();
             task1.execute(Image1Url);
-            String Image2Url = "http://210.122.7.195:8080/Web_basket/imgs/Team/"+En_Image2+".jpg";
-            back2 task2 = new back2();
-            task2.execute(Image2Url);
-            String Image3Url = "http://210.122.7.195:8080/Web_basket/imgs/Team/"+En_Image3+".jpg";
-            back3 task3 = new back3();
-            task3.execute(Image3Url);
-            String ImageUrl4 = "http://210.122.7.195:8080/Web_basket/imgs/Emblem/"+En_Emblem+".jpg";
-            back4 task4 = new back4();
-            task4.execute(ImageUrl4);
+            Glide.with(TeamInfo.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/"+En_Image1+".jpg")
+                    .into(TeamInfo_ImageView_Image1);
+            Glide.with(TeamInfo.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/"+En_Image2+".jpg")
+                    .into(TeamInfo_ImageView_Image2);
+            Glide.with(TeamInfo.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/"+En_Image3+".jpg")
+                    .into(TeamInfo_ImageView_Image3);
+            Glide.with(TeamInfo.this).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/"+En_Emblem+".jpg")
+                    .into(TeamInfo_ImageView_Emblem);
         }catch (UnsupportedEncodingException e){
 
         }

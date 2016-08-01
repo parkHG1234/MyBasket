@@ -65,6 +65,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import me.drakeet.materialdialog.MaterialDialog;
 
 public class MainActivity extends AppCompatActivity {
     static String Id="";
@@ -1112,7 +1113,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public static class SectionsFragment4 extends Fragment {
         Button Profile_Button_Name,Profile_Button_Position,Profile_Button_Age_Physical,Profile_Button_TeamName;
-        Button Profile_Button_TeamMake, Profile_Button_TeamManager,Profile_Button_TeamSearch,Profile_Button_Logout;
+        Button Profile_Button_TeamMake, Profile_Button_TeamManager,Profile_Button_MyTeam ,Profile_Button_TeamSearch,Profile_Button_Logout;
         ImageView Profile_ImageVIew_Profile;
         String[][] parsedData,parsedData_overLap,parsedData_TeamCheck;
         String ProfileUrl;
@@ -1135,6 +1136,7 @@ public class MainActivity extends AppCompatActivity {
             Profile_Button_TeamMake = (Button)rootView.findViewById(R.id.Profile_Button_TeamMake);
             Profile_Button_TeamManager = (Button)rootView.findViewById(R.id.Profile_Button_TeamManager);
             Profile_Button_TeamSearch = (Button)rootView.findViewById(R.id.Profile_Button_TeamSearch);
+            Profile_Button_MyTeam = (Button)rootView.findViewById(R.id.Profile_Button_MyTeam);
             Profile_Button_Logout = (Button)rootView.findViewById(R.id.Profile_Button_Logout);
 
             String result="";
@@ -1243,6 +1245,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+            //팀만들기 버튼 이벤트~
             Profile_Button_TeamMake.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1281,6 +1284,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+            //팀 관리 버튼 이벤트~
             Profile_Button_TeamManager.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1317,6 +1321,50 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+            //팀 정보 버튼 이벤트~
+            Profile_Button_MyTeam.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String TeamCheck_result="";
+                    try {
+                        HttpClient client = new DefaultHttpClient();
+                        String postURL = "http://210.122.7.195:8080/Web_basket/TeamCheck.jsp";
+                        HttpPost post = new HttpPost(postURL);
+
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("Id", Id));
+
+                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                        post.setEntity(ent);
+
+                        HttpResponse response = client.execute(post);
+                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                        String line = null;
+                        while ((line = bufreader.readLine()) != null) {
+                            TeamCheck_result += line;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    parsedData_TeamCheck = jsonParserList_TeamCheck(TeamCheck_result);
+                    if(parsedData_TeamCheck[0][0].equals("Unexist")){
+                        Snackbar.make(view,"  팀이 존재하지 않습니다.\n  팀을 생성해주세요.",Snackbar.LENGTH_SHORT).show();
+                    }
+                    else {
+                        final MaterialDialog TeamPlayerDialog = new MaterialDialog(getContext());
+                        TeamPlayerDialog.setTitle("내 팀 정보")
+                                .setPositiveButton("OK", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        TeamPlayerDialog.dismiss();
+                                    }
+                                })
+                                .show();
+                    }
+                }
+            });
+            //전국 팀 정보 버튼 이벤트~
             Profile_Button_TeamSearch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1325,6 +1373,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent_TeamIntro);
                 }
             });
+            //로그아웃 버튼 이벤트~
             Profile_Button_Logout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

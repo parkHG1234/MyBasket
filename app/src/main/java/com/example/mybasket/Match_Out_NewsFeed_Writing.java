@@ -61,8 +61,6 @@ public class Match_Out_NewsFeed_Writing extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_match_out_newsfeed_writing);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

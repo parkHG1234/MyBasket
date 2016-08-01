@@ -140,6 +140,20 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:text="내 팀 정보"
+                    android:id="@+id/Profile_Button_MyTeam"
+                    android:textColor="@color/BlackGray"
+                    android:background="@color/Gray" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/DarkGray"
+                    android:id="@+id/button5" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:text="전국 팀 정보"
                     android:id="@+id/Profile_Button_TeamSearch"
                     android:textColor="@color/BlackGray"
