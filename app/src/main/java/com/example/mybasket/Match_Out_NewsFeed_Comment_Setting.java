@@ -20,6 +20,8 @@ public class Match_Out_NewsFeed_Comment_Setting extends Activity {
     private String day;
     private String hour;
     private String minute;
+    private String Image;
+
 
     public Match_Out_NewsFeed_Comment_Setting(String comment_num, String newsfeed_num, String person, String data, String month, String day, String hour, String minute) {
         this.comment_num = comment_num;
@@ -65,6 +67,8 @@ public class Match_Out_NewsFeed_Comment_Setting extends Activity {
     public String getMinute() {
         return minute;
     }
+
+    public String getImage() { return Image; }
 }
 
 

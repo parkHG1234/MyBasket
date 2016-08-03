@@ -6,8 +6,13 @@ package com.example.mybasket;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,8 +34,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +69,10 @@ public class Match_Out_NewsFeed_Writing extends Activity {
     ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
     static int spinnum1, spinnum2;
     String[][] parsedData;
-    static String Do, Si, Court, ImageURL = null;
-
+    static String Do, Si, Court, ImageURL = null,ImageFile=null;
+    byte[] ImageData=null;
+    private static boolean flag=false;
+    private static final String TAG = "HelloCamera";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +151,6 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                                                 e.printStackTrace();
                                             }
                                         }
-
                                         @Override
                                         public void onNothingSelected(AdapterView<?> adapterView) {
                                         }
@@ -145,12 +158,13 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                             );
                         }
                     }
-
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) {
                     }
                 }
         );
+
+
         NewsFeed_Writing_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -168,11 +182,16 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                     params.add(new BasicNameValuePair("NewsFeed_Day", new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Hour", new SimpleDateFormat("kk").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Minute", new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis()))));
-                    params.add(new BasicNameValuePair("NewsFeed_Image", ImageURL));
+                    params.add(new BasicNameValuePair("NewsFeed_Image", ImageFile));
 
+//                    if(flag){
+////                        ImageUpload();
+//                    }
                     UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                     post.setEntity(ent);
                     HttpResponse response = client.execute(post);
+
+                    flag=false;
                     finish();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -195,14 +214,16 @@ public class Match_Out_NewsFeed_Writing extends Activity {
     {
         if(resultCode==RESULT_OK) {
             if(requestCode==1) {
+//                ImageData = data.getByteArrayExtra("ImageData");
                 ImageURL = data.getStringExtra("ImageURL");
-                Log.i("확인", String.valueOf(ImageURL));
+                ImageFile = data.getStringExtra("ImageFile");
+                    ImageDownload();
+                flag=true;
             }
         }
     }
 
     public String[][] jsonParserList(String pRecvServerPage) {
-        Log.i("서버에서 받은 전체 내용", pRecvServerPage);
         try {
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
@@ -220,4 +241,61 @@ public class Match_Out_NewsFeed_Writing extends Activity {
             return null;
         }
     }
+
+    public void ImageDownload() {
+            try{
+            FileInputStream in;
+            BufferedInputStream buf;
+            in = new FileInputStream(String.valueOf(ImageURL));
+            buf = new BufferedInputStream(in);
+            Bitmap orgImage = BitmapFactory.decodeFile(String.valueOf(ImageURL));
+            Bitmap resize = Bitmap.createScaledBitmap(orgImage, 1080, 852, true);
+            NewsFeed_Camera_Image.setVisibility(View.VISIBLE);
+            NewsFeed_Camera_Image.setImageBitmap(resize);
+        }catch (Exception e){
+        }
+    }
+
+    public void ImageUpload() {
+        try {
+            URL url = new URL("http://210.122.7.195:8080/gg/newsfeed_image_upload.jsp");
+            Log.i(TAG, "http://210.122.7.195:8080/gg/newsfeed_image_upload.jsp" );
+            String lineEnd = "\r\n";
+            String twoHyphens = "--";
+            String boundary = "*****";
+            // open connection
+            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            con.setDoInput(true); //input 허용
+            con.setDoOutput(true);  // output 허용
+            con.setUseCaches(false);   // cache copy를 허용하지 않는다.
+//            con.setRequestMethod("POST");
+//            con.setRequestProperty("Connection", "Keep-Alive");
+//            con.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+
+            // write data
+            DataOutputStream dos = new DataOutputStream(con.getOutputStream());
+            Log.i(TAG, "Open OutputStream" );
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+
+            // 파일 전송시 파라메터명은 file1 파일명은 camera.jpg로 설정하여 전송
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + ImageURL +".jpg"+"\"" + lineEnd);
+            dos.writeBytes(lineEnd);
+            dos.write(ImageData,0,ImageData.length);
+
+            Log.i(TAG, ImageData.length+"bytes written" );
+            dos.writeBytes(lineEnd);
+            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+            dos.flush(); // finish upload...
+            dos.close();
+        } catch (Exception e) {
+            Log.i(TAG, "exception " + e.getMessage());
+            // TODO: handle exception
+        }
+//        Log.i(TAG, ImageData.length+"bytes written successed ... finish!!" );
+//        try { dos.close(); } catch(Exception e){}
+
+    }
+
+
+
 }

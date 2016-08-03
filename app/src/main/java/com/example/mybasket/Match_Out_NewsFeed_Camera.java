@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URISyntaxException;
@@ -31,14 +32,14 @@ import java.util.Date;
  * Created by 박지훈 on 2016-06-23.
  */
 public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder.Callback {
+
     @SuppressWarnings("deprecation")
     android.hardware.Camera camera;
     SurfaceView NewsFeed_Camera_SurfaceView;
     SurfaceHolder surfaceHolder;
     Button NewsFeed_Camera_Button;
     ImageView NewsFeed_Camera_Image;
-
-    static String ImageURL;
+    private static String timestamp,ImageURL;
     @SuppressWarnings("deprecation")
     android.hardware.Camera.PictureCallback jpegCallback;
 
@@ -76,11 +77,12 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
                     fos.close();
                     Intent IntentURL = getIntent();
                     IntentURL.putExtra("ImageURL",ImageURL );
+                    IntentURL.putExtra("ImageFile",timestamp );
                     setResult(RESULT_OK,IntentURL);
+                    finish();
                 }catch (Exception e){
                     Log.e("사진저장","사진실패",e);
                 }
-                finish();
             }
         };
     }
@@ -100,7 +102,7 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
     private static File getOutputMediaFile(){
         //SD 카드가 마운트 되어있는지 먼저 확인
         // Environment.getExternalStorageState() 로 마운트 상태 확인 가능합니다
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyCameraApp");
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyBasket");
 
         // 없는 경로라면 따로 생성
         if(!mediaStorageDir.exists()){
@@ -111,13 +113,13 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
         }
 
         // 파일명을 적당히 생성, 여기선 시간으로 파일명 중복을 피한다
-        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
 
         mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timestamp + ".jpg");
-        ImageURL=timestamp;
-        Log.i("MyCamera", "Saved at"+Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES));
-        Log.i("경로",mediaFile.getPath());
+        ImageURL=String.valueOf(mediaStorageDir.getPath() + File.separator + "IMG_" + timestamp + ".jpg");
+//        ImageURL=String.valueOf(mediaFile.getPath());
+        Log.i("경로",String.valueOf(mediaFile));
         return mediaFile;
     }
     @Override
