@@ -2,9 +2,9 @@ package com.example.mybasket;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.EditText;
 
@@ -33,15 +33,8 @@ public class JoinPwActivity extends Activity {
         String pw2 = join_pw2_EditText.getText().toString();
         if(pw1.equals(pw2)) {
             if(pw1.length() < 3) {
-                dlg = new AlertDialog.Builder(this).setTitle("알동")
-                        ////나중에 아이콘모양 넣기 .setIcon(R.drawable.icon)~~
-                        .setMessage("비밀번호는 6자 이상이어야 합니다.")
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        }).show();
+                Snackbar.make(view, "비밀번호는 4자 이상이어야 합니다.", Snackbar.LENGTH_LONG)
+                        .show();
             }else{
                 Intent intent = new Intent(JoinPwActivity.this, JoinAddActivity.class);
                 intent.putExtra("id", id);
@@ -50,15 +43,8 @@ public class JoinPwActivity extends Activity {
             }
 
         }else {
-            dlg = new AlertDialog.Builder(this).setTitle("알동")
-                    ////나중에 아이콘모양 넣기 .setIcon(R.drawable.icon)~~
-                    .setMessage("비밀번호가 일치하지 않습니다.")
-                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    }).show();
+            Snackbar.make(view, "비밀번호가 일치하지 않습니다.", Snackbar.LENGTH_LONG)
+                    .show();
         }
     }
 }

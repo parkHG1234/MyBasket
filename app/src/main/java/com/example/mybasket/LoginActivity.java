@@ -53,7 +53,7 @@ public class LoginActivity extends Activity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        id_EditText = (EditText) findViewById(R.id.phone_Layout_EditText);
+        id_EditText = (EditText) findViewById(R.id.id_Layout_EditText);
         pw_EditText = (EditText) findViewById(R.id.pw_Layout_EditText);
         login_Button = (Button) findViewById(R.id.login_button);
         join_Button = (Button) findViewById(R.id.join_button);
