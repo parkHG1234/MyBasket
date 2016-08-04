@@ -1,6 +1,8 @@
 package com.example.mybasket;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.EditText;
 public class JoinPwActivity extends Activity {
     EditText join_pw1_EditText, join_pw2_EditText;
     static String id;
+    AlertDialog dlg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,12 +32,33 @@ public class JoinPwActivity extends Activity {
         String pw1 = join_pw1_EditText.getText().toString();
         String pw2 = join_pw2_EditText.getText().toString();
         if(pw1.equals(pw2)) {
-            Intent intent = new Intent(JoinPwActivity.this, JoinAddActivity.class);
-            intent.putExtra("id", id);
-            intent.putExtra("pw", pw1);
-            startActivity(intent);
-        }else {
+            if(pw1.length() < 3) {
+                dlg = new AlertDialog.Builder(this).setTitle("알동")
+                        ////나중에 아이콘모양 넣기 .setIcon(R.drawable.icon)~~
+                        .setMessage("비밀번호는 6자 이상이어야 합니다.")
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+            }else{
+                Intent intent = new Intent(JoinPwActivity.this, JoinAddActivity.class);
+                intent.putExtra("id", id);
+                intent.putExtra("pw", pw1);
+                startActivity(intent);
+            }
 
+        }else {
+            dlg = new AlertDialog.Builder(this).setTitle("알동")
+                    ////나중에 아이콘모양 넣기 .setIcon(R.drawable.icon)~~
+                    .setMessage("비밀번호가 일치하지 않습니다.")
+                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    }).show();
         }
 
 
