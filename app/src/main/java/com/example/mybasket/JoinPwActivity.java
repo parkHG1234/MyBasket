@@ -60,7 +60,5 @@ public class JoinPwActivity extends Activity {
                         }
                     }).show();
         }
-
-
     }
 }
