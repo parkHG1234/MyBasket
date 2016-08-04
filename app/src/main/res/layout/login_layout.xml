@@ -30,7 +30,7 @@
             android:id="@+id/phone_Layout_EditText"
             android:layout_weight="1"
             android:autoText="false"
-            android:text="ID" />
+            android:text="test123" />
 
     </LinearLayout>
 
@@ -47,6 +47,7 @@
             android:ems="10"
             android:id="@+id/pw_Layout_EditText"
             android:layout_weight="1"
+            android:text="1234"
             android:autoText="false" />
     </LinearLayout>
 

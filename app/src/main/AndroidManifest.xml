@@ -43,7 +43,6 @@
         <activity android:name=".CourtInfo_ImageFocus"></activity>
         <activity android:name=".Navigation_TeamManager_Schedule"></activity>
         <activity android:name=".Profile_Focus"></activity>
-        <activity android:name=".NewsFeed_Data"></activity>
         <activity android:name=".Match_Out_NewsFeed_Writing"></activity>
         <activity android:name=".Match_Out_NewsFeed_Comment"></activity>
         <activity android:name=".Match_Out_NewsFeed_Data_Modify"></activity>

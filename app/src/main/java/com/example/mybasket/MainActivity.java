@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -312,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
             NewsFeed_Writing = (ImageView) rootView.findViewById(R.id.NewsFeed_Writing);
             NewsFeed_List = (ListView) rootView.findViewById(R.id.NewsFeed_List);
 
-//            NewsFeed_ProgressBar = (ProgressBar) rootView.findViewById(R.id.NewsFeed_ProgressBar);
+            NewsFeed_ProgressBar = (ProgressBar) rootView.findViewById(R.id.NewsFeed_ProgressBar);
             NewsFeed_Select_Button = (Button) rootView.findViewById(R.id.NewsFeed_Select_Button);
             spinner_Address_Do = (Spinner) rootView.findViewById(R.id.NewsFeed_Spinner_Do);
             spinner_Address_si = (Spinner) rootView.findViewById(R.id.NewsFeed_Spinner_Si);
@@ -385,8 +386,6 @@ public class MainActivity extends AppCompatActivity {
             });
 
             final MaterialDialog Dialog = new MaterialDialog(getContext());
-
-
             final View layout = inflater.inflate(R.layout.layout_match_out_newsfeed_dialog, (ViewGroup) rootView.findViewById(R.id.Dialog_ImageView));
 
 
@@ -733,6 +732,16 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     cnt = cnt + 10;
                 }
+
+
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        NewsFeed_ProgressBar.setVisibility(View.GONE);
+                    }
+                }, 1000);
+
                 try {
                     for (int i = 0; i < cnt; i++) {
                         json = jArr.getJSONObject(i);

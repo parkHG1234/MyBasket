@@ -49,6 +49,7 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
     ListView NewSpeed_Comment_List;
     EditText NewsFeed_Comment_EditText;
     Button NewsFeed_Comment_Button;
+    ImageView NewSpeed_Comment_ImageView;
 
 
     Match_Out_NewsFeed_Comment_Adapter CommentAdapter;
@@ -81,6 +82,8 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
         NewsFeed_Comment_EditText = (EditText) findViewById(R.id.NewsFeed_Comment_EditText);
         NewsFeed_Comment_Button = (Button) findViewById(R.id.NewsFeed_Comment_Button);
         NewsFeed_Comment_ProgressBar = (ProgressBar) findViewById(R.id.NewsFeed_Comment_ProgressBar);
+        NewSpeed_Comment_ImageView = (ImageView) findViewById(R.id.NewSpeed_Comment_ImageView);
+
 
         final Intent CommentIntent = getIntent();
         NewsFeed_Num = CommentIntent.getExtras().getString("Num");
@@ -204,7 +207,13 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
             }  else{
                 cnt = cnt + 10;
             }
-
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    NewsFeed_Comment_ProgressBar.setVisibility(View.GONE);
+                }
+            }, 1000);
             try {
                 for (int i = 0; i < cnt; i++) {
                     json = jArr.getJSONObject(i);
@@ -220,7 +229,7 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
             CommentAdapter.listview(NewSpeed_Comment_List);
             NewSpeed_Comment_List = (ListView) findViewById(R.id.NewSpeed_Comment_List);
             NewSpeed_Comment_List.setAdapter(CommentAdapter);
-            NewSpeed_Comment_List.setSelection(pos + 1);
+//            NewSpeed_Comment_List.setSelection(pos + 1);
 
         }
     }
