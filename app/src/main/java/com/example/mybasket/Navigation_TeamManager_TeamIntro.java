@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -46,6 +48,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by park on 2016-05-17.
@@ -149,24 +153,20 @@ public class Navigation_TeamManager_TeamIntro extends Activity implements
             String En_Image3 = URLEncoder.encode(Image3, "utf-8");
             String En_Emblem = URLEncoder.encode(Emblem, "utf-8");
             if(!Image1.equals(".")) {
-                ImageUrl1 = "http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image1 + ".jpg";
-                back1 task1 = new back1();
-                task1.execute(ImageUrl1);
+                Glide.with(Navigation_TeamManager_TeamIntro.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image1 + ".jpg")
+                        .into(TeamManager_TeamIntro_ImageView_Image1);
             }
             if(!Image2.equals(".")) {
-                ImageUrl2 = "http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image2 + ".jpg";
-                back2 task2 = new back2();
-                task2.execute(ImageUrl2);
+                Glide.with(Navigation_TeamManager_TeamIntro.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image2 + ".jpg")
+                        .into(TeamManager_TeamIntro_ImageView_Image2);
             }
             if(!Image3.equals(".")) {
-                ImageUrl3 = "http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image3 + ".jpg";
-                back3 task3 = new back3();
-                task3.execute(ImageUrl3);
+                Glide.with(Navigation_TeamManager_TeamIntro.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image3 + ".jpg")
+                        .into(TeamManager_TeamIntro_ImageView_Image3);
             }
             if(!Emblem.equals(".")) {
-                ImageUrl4 = "http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg";
-                back4 task4 = new back4();
-                task4.execute(ImageUrl4);
+                Glide.with(Navigation_TeamManager_TeamIntro.this).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg")
+                        .into(TeamManager_TeamIntro_ImageView_Emblem);
             }
             TeamManager_TeamIntro_ImageView_Image1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -530,115 +530,6 @@ public class Navigation_TeamManager_TeamIntro extends Activity implements
             e.printStackTrace();
             return null;
         }
-    }
-    private class back1 extends AsyncTask<String, Integer,Bitmap> {
-
-        @Override
-        protected Bitmap doInBackground(String... urls) {
-            // TODO Auto-generated method stub
-            try{
-                URL myFileUrl = new URL(urls[0]);
-                HttpURLConnection conn = (HttpURLConnection)myFileUrl.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-
-                InputStream is = conn.getInputStream();
-
-                bmImg = BitmapFactory.decodeStream(is);
-
-
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-            return bmImg;
-        }
-
-        protected void onPostExecute(Bitmap img){
-            TeamManager_TeamIntro_ImageView_Image1.setImageBitmap(bmImg);
-        }
-
-    }
-    private class back2 extends AsyncTask<String, Integer,Bitmap> {
-
-        @Override
-        protected Bitmap doInBackground(String... urls) {
-            // TODO Auto-generated method stub
-            try{
-                URL myFileUrl = new URL(urls[0]);
-                HttpURLConnection conn = (HttpURLConnection)myFileUrl.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-
-                InputStream is = conn.getInputStream();
-
-                bmImg = BitmapFactory.decodeStream(is);
-
-
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-            return bmImg;
-        }
-
-        protected void onPostExecute(Bitmap img){
-            TeamManager_TeamIntro_ImageView_Image2.setImageBitmap(bmImg);
-        }
-
-    }
-    private class back3 extends AsyncTask<String, Integer,Bitmap> {
-
-        @Override
-        protected Bitmap doInBackground(String... urls) {
-            // TODO Auto-generated method stub
-            try{
-                URL myFileUrl = new URL(urls[0]);
-                HttpURLConnection conn = (HttpURLConnection)myFileUrl.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-
-                InputStream is = conn.getInputStream();
-
-                bmImg = BitmapFactory.decodeStream(is);
-
-
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-            return bmImg;
-        }
-
-        protected void onPostExecute(Bitmap img){
-            TeamManager_TeamIntro_ImageView_Image3.setImageBitmap(bmImg);
-        }
-
-    }
-    private class back4 extends AsyncTask<String, Integer,Bitmap> {
-
-        @Override
-        protected Bitmap doInBackground(String... urls) {
-            // TODO Auto-generated method stub
-            try{
-                URL myFileUrl = new URL(urls[0]);
-                HttpURLConnection conn = (HttpURLConnection)myFileUrl.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-
-                InputStream is = conn.getInputStream();
-
-                bmImg = BitmapFactory.decodeStream(is);
-
-
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-            return bmImg;
-        }
-
-        protected void onPostExecute(Bitmap img){
-
-            TeamManager_TeamIntro_ImageView_Emblem.setImageBitmap(bmImg);
-        }
-
     }
     public void colorChanged(String str,int color)
     {

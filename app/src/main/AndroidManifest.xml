@@ -46,7 +46,9 @@
         <activity android:name=".Navigation_TeamManager_Schedule"></activity>
         <activity android:name=".Profile_Focus"></activity>
         <activity android:name=".Match_Out_NewsFeed_Writing"></activity>
-        <activity android:name=".Match_Out_NewsFeed_Comment"></activity>
+        <activity android:name=".Match_Out_NewsFeed_Comment"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity android:name=".Match_Out_NewsFeed_Data_Modify"></activity>
         <activity android:name=".Match_Out_NewsFeed_Camera"></activity>
         <!--android:screenOrientation="landscape"-->

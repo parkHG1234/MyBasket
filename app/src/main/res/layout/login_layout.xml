@@ -24,14 +24,17 @@
             android:id="@+id/textview"
             android:textSize="20dp" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/phone_Layout_EditText"
-            android:layout_weight="1"
-            android:autoText="false"
-            android:text="test123" />
-
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/id_Layout_EditText"
+                android:layout_weight="1"
+                android:ems="20"
+                android:hint="ID" />
+        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -40,15 +43,19 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:ems="10"
-            android:id="@+id/pw_Layout_EditText"
-            android:layout_weight="1"
-            android:text="1234"
-            android:autoText="false" />
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="20"
+                android:id="@+id/pw_Layout_EditText"
+                android:layout_weight="1"
+                android:hint="Password"/>
+        </android.support.design.widget.TextInputLayout>
+
     </LinearLayout>
 
     <Button

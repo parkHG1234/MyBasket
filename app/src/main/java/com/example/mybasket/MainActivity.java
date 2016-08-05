@@ -34,7 +34,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.melnykov.fab.FloatingActionButton;
@@ -64,12 +63,11 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import me.drakeet.materialdialog.MaterialDialog;
 
 public class MainActivity extends AppCompatActivity {
-    static String Id = "";
-    static String realTime = "";
-    static String check_status = "";
-    static String check_time = "";
-    static String check_court = "";
-    static int MaxNum=0;
+    static String Id="";
+    static String realTime="";
+    static String check_status="";
+    static String check_time="";
+    static String check_court="";
     // SharedPreferences prefs;
     //   SharedPreferences.Editor editor = prefs.edit();
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -92,11 +90,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     GestureDetector gd = new GestureDetector(new GestureDetector.SimpleOnGestureListener());
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -113,16 +109,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int a = tab.getPosition();
-                if (a == 0) {
+                if(a == 0){
                     tab.setIcon(R.drawable.basketball_clicked);
                     mViewPager.setCurrentItem(tab.getPosition());
-                } else if (a == 1) {
+                }
+                else if(a == 1){
                     tab.setIcon(R.drawable.trophy_clicked);
                     mViewPager.setCurrentItem(tab.getPosition());
-                } else if (a == 2) {
+                }
+                else if(a == 2){
                     tab.setIcon(R.drawable.document_clicked);
                     mViewPager.setCurrentItem(tab.getPosition());
-                } else if (a == 3) {
+                }
+                else if(a == 3){
                     tab.setIcon(R.drawable.user_clicked);
                     mViewPager.setCurrentItem(tab.getPosition());
                 }
@@ -193,7 +192,6 @@ public class MainActivity extends AppCompatActivity {
             return rootView;
         }
     }
-
     ////탭 아이콘 탭에 저장.//////////////////////////////////
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
@@ -201,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
         tabLayout.getTabAt(3).setIcon(tabIcons[3]);
     }
-
     private void setupTabIcons_match() {
         tabLayout.getTabAt(0).setIcon(tabIcons_match[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons_match[1]);
@@ -259,7 +256,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
     public static class SectionsFragment1 extends Fragment implements AbsListView.OnScrollListener {
         //매칭 out선언
         Spinner spinner_Address_Do, spinner_Address_si;
@@ -274,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView NewsFeed_Emblem;
         TextView NewsFeed_Court, NewsFeed_Data, NewsFeed_Person;
         boolean VisibleFlag = false;
-        int cnt=10, pos;
+        int cnt, pos;
         static int Position = 0;
         private int MonthGap[] = {-30, -30, -27, -30, -29, -30, -29, -30, -30, -29, -30, -29};
 
@@ -282,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
         JSONObject json;
         JSONArray jArr;
         String[][] parseredData;
-        String[] jsonName = {"NewsFeed_Num", "NewsFeed_User", "NewsFeed_Do", "NewsFeed_Si", "NewsFeed_Court", "NewsFeed_UserCount", "NewsFeed_Data", "NewsFeed_Month", "NewsFeed_Day", "NewsFeed_Hour", "NewsFeed_Minute", "NewsFeed_Image"};
+        String[] jsonName = {"NewsFeed_Num", "NewsFeed_User", "NewsFeed_Do", "NewsFeed_Si", "NewsFeed_Court", "NewsFeed_UserCount", "NewsFeed_Data", "NewsFeed_Month", "NewsFeed_Day", "NewsFeed_Hour", "NewsFeed_Minute"};
         ProgressBar NewsFeed_ProgressBar;
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Button Match_Button_Out, Match_Button_In, Match_Layout_Out_Button_CheckIn, Match_In_Button_Search;
@@ -295,6 +291,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adspin1, adspin2;
         String[][] parsedData, parsedData_TeamCheck;
 
+        public SectionsFragment1() {
+        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -315,11 +313,12 @@ public class MainActivity extends AppCompatActivity {
             NewsFeed_Writing = (ImageView) rootView.findViewById(R.id.NewsFeed_Writing);
             NewsFeed_List = (ListView) rootView.findViewById(R.id.NewsFeed_List);
 
-
             NewsFeed_ProgressBar = (ProgressBar) rootView.findViewById(R.id.NewsFeed_ProgressBar);
             NewsFeed_Select_Button = (Button) rootView.findViewById(R.id.NewsFeed_Select_Button);
             spinner_Address_Do = (Spinner) rootView.findViewById(R.id.NewsFeed_Spinner_Do);
             spinner_Address_si = (Spinner) rootView.findViewById(R.id.NewsFeed_Spinner_Si);
+
+
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -386,15 +385,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-
             final MaterialDialog Dialog = new MaterialDialog(getContext());
             final View layout = inflater.inflate(R.layout.layout_match_out_newsfeed_dialog, (ViewGroup) rootView.findViewById(R.id.Dialog_ImageView));
+
 
             final ImageView ImageView_DialogComment = (ImageView) layout.findViewById(R.id.ImageView_DialogComment);
             final ImageView ImageView_DialogModify = (ImageView) layout.findViewById(R.id.ImageView_DialogModify);
             final ImageView ImageView_DialogDelete = (ImageView) layout.findViewById(R.id.ImageView_DialogDelete);
 
             NewsFeed_List.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
                     Position = position;
@@ -430,29 +431,21 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-
                     Intent DataIntent = new Intent(getContext(), Match_Out_NewsFeed_Data_Modify.class);
 
-                    if (Id.equals(arrData.get(Position).getuser())) {
+                    DataIntent.putExtra("Num", arrData.get(Position).getnum());
+                    DataIntent.putExtra("Do", arrData.get(Position).getDo());
+                    DataIntent.putExtra("Si", arrData.get(Position).getSi());
+                    DataIntent.putExtra("court", arrData.get(Position).getcourt());
+                    DataIntent.putExtra("person", arrData.get(Position).getperson());
+                    DataIntent.putExtra("data", arrData.get(Position).getdata());
+                    DataIntent.putExtra("month", arrData.get(Position).getMonth());
+                    DataIntent.putExtra("day", arrData.get(Position).getDay());
+                    DataIntent.putExtra("hour", arrData.get(Position).getHour());
+                    DataIntent.putExtra("minute", arrData.get(Position).getMinute());
 
-                        DataIntent.putExtra("Num", arrData.get(Position).getnum());
-                        DataIntent.putExtra("Do", arrData.get(Position).getDo());
-                        DataIntent.putExtra("Si", arrData.get(Position).getSi());
-                        DataIntent.putExtra("court", arrData.get(Position).getcourt());
-                        DataIntent.putExtra("person", arrData.get(Position).getperson());
-                        DataIntent.putExtra("data", arrData.get(Position).getdata());
-                        DataIntent.putExtra("month", arrData.get(Position).getMonth());
-                        DataIntent.putExtra("day", arrData.get(Position).getDay());
-                        DataIntent.putExtra("hour", arrData.get(Position).getHour());
-                        DataIntent.putExtra("minute", arrData.get(Position).getMinute());
-                        DataIntent.putExtra("Image", arrData.get(Position).getImage());
-                        DataIntent.putExtra("MaxNum", String.valueOf(MaxNum));
+                    getContext().startActivity(DataIntent);
 
-                        getContext().startActivity(DataIntent);
-
-                    } else {
-                        Toast.makeText(getContext(), "글작성자를 확인해주세요", Toast.LENGTH_SHORT).show();
-                    }
                     Dialog.dismiss();
                 }
             });
@@ -461,32 +454,28 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     String result = "";
 
-                    if (Id.equals(arrData.get(Position).getuser())) {
-                        try {
-                            HttpClient client = new DefaultHttpClient();
-                            String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_delete.jsp";
-                            HttpPost post = new HttpPost(postURL);
-                            List<NameValuePair> params = new ArrayList<NameValuePair>();
-                            params.add(new BasicNameValuePair("NewsFeed_Num", arrData.get(Position).getnum()));
-                            params.add(new BasicNameValuePair("NewsFeed_Do", arrData.get(Position).getDo()));
-                            params.add(new BasicNameValuePair("NewsFeed_Si", arrData.get(Position).getSi()));
-                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                            post.setEntity(ent);
-                            HttpResponse response = client.execute(post);
-                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                            String line = null;
-                            while ((line = bufreader.readLine()) != null) {
-                                result += line;
-                            }
-                            parsedData = jsonParserList(result);
-                            setData();
-                            dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData);
-                            NewsFeed_List.setAdapter(dataadapter);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                    try {
+                        HttpClient client = new DefaultHttpClient();
+                        String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_delete.jsp";
+                        HttpPost post = new HttpPost(postURL);
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("NewsFeed_Num", arrData.get(Position).getnum()));
+                        params.add(new BasicNameValuePair("NewsFeed_Do", arrData.get(Position).getDo()));
+                        params.add(new BasicNameValuePair("NewsFeed_Si", arrData.get(Position).getSi()));
+                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                        post.setEntity(ent);
+                        HttpResponse response = client.execute(post);
+                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                        String line = null;
+                        while ((line = bufreader.readLine()) != null) {
+                            result += line;
                         }
-                    } else {
-                        Toast.makeText(getContext(), "글작성자를 확인해주세요", Toast.LENGTH_SHORT).show();
+                        parsedData = jsonParserList(result);
+                        setData();
+                        dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData);
+                        NewsFeed_List.setAdapter(dataadapter);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     Dialog.dismiss();
                 }
@@ -497,17 +486,17 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent DataIntent = new Intent(getContext(), Match_Out_NewsFeed_Writing.class);
-                    DataIntent.putExtra("Id",Id);
                     startActivity(DataIntent);
                 }
             });
 
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            Match_In_Spinner_Address_do = (Spinner) rootView.findViewById(R.id.Match_In_Spinner_Address_do);
-            Match_In_Spinner_Address_se = (Spinner) rootView.findViewById(R.id.Match_In_Spinner_Address_se);
-            Match_In_Button_Search = (Button) rootView.findViewById(R.id.Match_In_Button_Search);
-            Match_In_FloatingActionButton_fab = (FloatingActionButton) rootView.findViewById(R.id.Match_In_FloatingActionButton_fab);
+           Match_In_Spinner_Address_do = (Spinner)rootView.findViewById(R.id.Match_In_Spinner_Address_do);
+            Match_In_Spinner_Address_se = (Spinner)rootView.findViewById(R.id.Match_In_Spinner_Address_se);
+            Match_In_Button_Search = (Button)rootView.findViewById(R.id.Match_In_Button_Search);
+            Match_In_FloatingActionButton_fab = (FloatingActionButton)rootView.findViewById(R.id.Match_In_FloatingActionButton_fab);
 
             Match_Button_Out.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -521,7 +510,7 @@ public class MainActivity extends AppCompatActivity {
             ////////////////////////////////리스트 뷰 구현////////////////////////////////////////////////
 
 ////////////////////////////////            /////매칭 -In 구현/////////////////////////////////////////////////////////////////////////////////
-            Match_Button_In = (Button) rootView.findViewById(R.id.Match_Button_In);
+            Match_Button_In = (Button)rootView.findViewById(R.id.Match_Button_In);
 
             Match_Button_In.setOnClickListener(new View.OnClickListener() {
                 String choice_do, choice_se;
@@ -602,7 +591,8 @@ public class MainActivity extends AppCompatActivity {
                         inList_setData();
                         match_In_CustomList_MyAdapter = new Match_In_CustomList_MyAdapter(rootView.getContext(), match_In_CustomList_MyData);
                         Match_In_CustomList.setAdapter(match_In_CustomList_MyAdapter);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e) {
                         e.printStackTrace();
                     }
                     //검색 버튼 클릭 이벤트/////////////////////////////////////////////////////////////////////////
@@ -633,7 +623,8 @@ public class MainActivity extends AppCompatActivity {
                                 inList_setData();
                                 match_In_CustomList_MyAdapter = new Match_In_CustomList_MyAdapter(rootView.getContext(), match_In_CustomList_MyData);
                                 Match_In_CustomList.setAdapter(match_In_CustomList_MyAdapter);
-                            } catch (Exception e) {
+                            }
+                            catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
@@ -645,7 +636,7 @@ public class MainActivity extends AppCompatActivity {
                     Match_In_FloatingActionButton_fab.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String TeamCheck_result = "";
+                            String TeamCheck_result="";
                             try {
                                 HttpClient client = new DefaultHttpClient();
                                 String postURL = "http://210.122.7.195:8080/Web_basket/TeamCheck.jsp";
@@ -669,9 +660,10 @@ public class MainActivity extends AppCompatActivity {
                             }
                             parsedData_TeamCheck = jsonParserList_TeamCheck(TeamCheck_result);
 
-                            if (parsedData_TeamCheck[0][0].equals("Unexist")) {
-                                Snackbar.make(view, "팀 등록 후 이용해주시기 바랍니다.", Snackbar.LENGTH_SHORT).show();
-                            } else {
+                            if(parsedData_TeamCheck[0][0].equals("Unexist")) {
+                                Snackbar.make(view,"팀 등록 후 이용해주시기 바랍니다.",Snackbar.LENGTH_SHORT).show();
+                            }
+                            else {
                                 Activity activity = (Activity) rootView.getContext();
                                 Intent intent_In_Register = new Intent(rootView.getContext(), Match_In_Register.class);
                                 intent_In_Register.putExtra("Id", Id);
@@ -687,27 +679,24 @@ public class MainActivity extends AppCompatActivity {
 
             return rootView;
         }
-
-        private void inList_setData() {
+        private void inList_setData()
+        {
             match_In_CustomList_MyData = new ArrayList<Match_In_CustomList_MyData>();
-            for (int i = 0; i < parsedData.length; i++) {
-                match_In_CustomList_MyData.add(new Match_In_CustomList_MyData(parsedData[i][0], parsedData[i][1], parsedData[i][2], parsedData[i][3], parsedData[i][4], parsedData[i][5]));
+            for(int i =0; i<parsedData.length; i++) {
+                match_In_CustomList_MyData.add(new Match_In_CustomList_MyData(parsedData[i][0],parsedData[i][1],parsedData[i][2],parsedData[i][3],parsedData[i][4],parsedData[i][5]));
             }
         }
-
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         private void setData() {
             arrData = new ArrayList<Match_Out_NewsFeed_Data_Setting>();
 
             for (int a = 0; a < cnt; a++) {
-                arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7], parsedData[a][8], parsedData[a][9], parsedData[a][10], parsedData[a][11]));
-                if(MaxNum<Integer.parseInt(parsedData[a][0])){
-                    MaxNum=Integer.parseInt(parsedData[a][0]);
-                }
+                arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7], parsedData[a][8], parsedData[a][9], parsedData[a][10]));
             }
         }
 
         public String[][] jsonParserList(String pRecvServerPage) {
+            Log.i("서버에서 받은 전체 내용", pRecvServerPage);
 
             try {
                 json = new JSONObject(pRecvServerPage);
@@ -743,7 +732,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     cnt = cnt + 10;
                 }
-                NewsFeed_ProgressBar.setVisibility(View.VISIBLE);
+
 
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -764,7 +753,7 @@ public class MainActivity extends AppCompatActivity {
                     dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData);
 
                     NewsFeed_List.setAdapter(dataadapter);
-                    NewsFeed_List.setSelection(pos + 3);
+                    NewsFeed_List.setSelection(pos + 1);
 
 
                 } catch (JSONException e) {
@@ -813,83 +802,80 @@ public class MainActivity extends AppCompatActivity {
                         return Hour + "시간전";
                     } else if (Hour > 1 && Minute < 0) {
                         return Hour - 1 + "시간전";
-                    } else if (Hour == 1 && Minute >0) {
+                    } else if (Hour == 1 && Minute >= 0) {
                         return Hour + "시간전";
                     } else if (Hour == 1 && Minute < 0) {
                         return 60 + Minute + "분전";
-                    } else if (Hour == 0 && Minute >0) {
+                    } else if (Hour == 0 && Minute > 0) {
                         return Minute + "분전";
-                    } else if (Hour == 0 && Minute <0) {
+                    } else if (Hour == 0 && Minute < 0) {
                         return 60 + Minute + "분전";
                     } else {
-                        return "방금전";
+                        return "방금";
                     }
                 }
             }
             return "Time Error";
         }
-
         /////매칭 탭 - out : 받아온 json 파싱합니다.//////////////////////////////////////////////////////////
-        public String[][] outList_jsonParserList(String pRecvServerPage) {
+        public String[][] outList_jsonParserList(String pRecvServerPage){
             Log.i("서버에서 받은 전체 내용", pRecvServerPage);
-            try {
+            try{
                 JSONObject json = new JSONObject(pRecvServerPage);
                 JSONArray jArr = json.getJSONArray("List");
 
-                String[] jsonName = {"msg1", "msg2", "msg3"};
+                String[] jsonName = {"msg1","msg2","msg3"};
                 String[][] parseredData = new String[jArr.length()][jsonName.length];
-                for (int i = 0; i < jArr.length(); i++) {
+                for(int i = 0; i<jArr.length();i++){
                     json = jArr.getJSONObject(i);
-                    for (int j = 0; j < jsonName.length; j++) {
+                    for (int j=0;j<jsonName.length; j++){
                         parseredData[i][j] = json.getString(jsonName[j]);
                     }
                 }
                 return parseredData;
-            } catch (JSONException e) {
+            }catch (JSONException e){
                 e.printStackTrace();
                 return null;
             }
         }
-
         /////매칭 탭 - in : 받아온 json 파싱합니다.//////////////////////////////////////////////////////////
-        public String[][] inList_jsonParserList(String pRecvServerPage) {
+        public String[][] inList_jsonParserList(String pRecvServerPage){
             Log.i("서버에서 받은 전체 내용", pRecvServerPage);
-            try {
+            try{
                 JSONObject json = new JSONObject(pRecvServerPage);
                 JSONArray jArr = json.getJSONArray("List");
 
-                String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6"};
+                String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6"};
                 String[][] parseredData = new String[jArr.length()][jsonName.length];
-                for (int i = 0; i < jArr.length(); i++) {
+                for(int i = 0; i<jArr.length();i++){
                     json = jArr.getJSONObject(i);
-                    for (int j = 0; j < jsonName.length; j++) {
+                    for (int j=0;j<jsonName.length; j++){
                         parseredData[i][j] = json.getString(jsonName[j]);
                     }
                 }
                 return parseredData;
-            } catch (JSONException e) {
+            }catch (JSONException e){
                 e.printStackTrace();
                 return null;
             }
         }
-
         /////팀이 존재하는지 체크합니다.
-        public String[][] jsonParserList_TeamCheck(String pRecvServerPage) {
+        public String[][] jsonParserList_TeamCheck(String pRecvServerPage){
             Log.i("서버에서 받은 전체 내용", pRecvServerPage);
-            try {
+            try{
                 JSONObject json = new JSONObject(pRecvServerPage);
                 JSONArray jArr = json.getJSONArray("List");
 
                 String[] jsonName = {"msg1"};
                 String[][] parseredData = new String[jArr.length()][jsonName.length];
-                for (int i = 0; i < jArr.length(); i++) {
+                for(int i = 0; i<jArr.length();i++){
                     json = jArr.getJSONObject(i);
-                    for (int j = 0; j < jsonName.length; j++) {
+                    for (int j=0;j<jsonName.length; j++){
                         parseredData[i][j] = json.getString(jsonName[j]);
                     }
                 }
                 return parseredData;
-            } catch (JSONException e) {
+            }catch (JSONException e){
                 e.printStackTrace();
                 return null;
             }
@@ -899,11 +885,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
+
     public static class SectionsFragment2 extends Fragment {
         Spinner League_League_Spinner_Do, League_League_Spinner_Se;
         ArrayAdapter<CharSequence> adspin1, adspin2;
         Button League_League_Button_Search;
-        String choice_do, choice_se;
+        String choice_do,choice_se;
         String[][] league_parsedData, contest_parsedData;
         League_Contest_CustomList_MyAdapter League_Contest_CustomList_MyAdapter;
         ArrayList<League_Contest_CustomList_MyData> League_Contest_CustomList_MyData;
@@ -911,19 +900,17 @@ public class MainActivity extends AppCompatActivity {
         League_League_CustomList_MyAdapter League_League_CustomList_MyAdapter;
         ArrayList<League_League_CustomList_MyData> League_League_CustomList_MyData;
         ListView League_League_ListView_League, League_Contest_ListView_Contest;
-
         public SectionsFragment2() {
         }
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             final View rootView = inflater.inflate(R.layout.layout_league, container, false);
-            League_League_Spinner_Do = (Spinner) rootView.findViewById(R.id.League_League_Spinner_Do);
-            League_League_Spinner_Se = (Spinner) rootView.findViewById(R.id.League_League_Spinner_Se);
-            League_League_Button_Search = (Button) rootView.findViewById(R.id.League_League_Button_Search);
-            League_League_ListView_League = (ListView) rootView.findViewById(R.id.League_League_ListView_League);
-            League_Contest_ListView_Contest = (ListView) rootView.findViewById(R.id.League_Contest_ListView_Contest);
+            League_League_Spinner_Do = (Spinner)rootView.findViewById(R.id.League_League_Spinner_Do);
+            League_League_Spinner_Se = (Spinner)rootView.findViewById(R.id.League_League_Spinner_Se);
+            League_League_Button_Search = (Button)rootView.findViewById(R.id.League_League_Button_Search);
+            League_League_ListView_League= (ListView)rootView.findViewById(R.id.League_League_ListView_League);
+            League_Contest_ListView_Contest = (ListView)rootView.findViewById(R.id.League_Contest_ListView_Contest);
 
             adspin1 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do, R.layout.zfile_spinner_test);
             adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -938,7 +925,7 @@ public class MainActivity extends AppCompatActivity {
                         adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         League_League_Spinner_Se.setAdapter(adspin2);
-                        League_League_Spinner_Se.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        League_League_Spinner_Se .setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                                 choice_se = adspin2.getItem(i).toString();
@@ -996,7 +983,8 @@ public class MainActivity extends AppCompatActivity {
                 league_setData();
                 League_League_CustomList_MyAdapter = new League_League_CustomList_MyAdapter(rootView.getContext(), League_League_CustomList_MyData);
                 League_League_ListView_League.setAdapter(League_League_CustomList_MyAdapter);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
             //대회데이터를 가져옵니다.
@@ -1022,7 +1010,8 @@ public class MainActivity extends AppCompatActivity {
                 contest_setData();
                 League_Contest_CustomList_MyAdapter = new League_Contest_CustomList_MyAdapter(rootView.getContext(), League_Contest_CustomList_MyData);
                 League_Contest_ListView_Contest.setAdapter(League_Contest_CustomList_MyAdapter);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -1053,80 +1042,77 @@ public class MainActivity extends AppCompatActivity {
                         league_setData();
                         League_League_CustomList_MyAdapter = new League_League_CustomList_MyAdapter(rootView.getContext(), League_League_CustomList_MyData);
                         League_League_ListView_League.setAdapter(League_League_CustomList_MyAdapter);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             });
             return rootView;
         }
-
-        private void contest_setData() {
+        private void contest_setData()
+        {
             League_Contest_CustomList_MyData = new ArrayList<League_Contest_CustomList_MyData>();
-            for (int i = 0; i < contest_parsedData.length; i++) {
-                League_Contest_CustomList_MyData.add(new League_Contest_CustomList_MyData(contest_parsedData[i][0], contest_parsedData[i][1], contest_parsedData[i][2], contest_parsedData[i][3]));
+            for(int i =0; i<contest_parsedData.length; i++) {
+                League_Contest_CustomList_MyData.add(new League_Contest_CustomList_MyData(contest_parsedData[i][0],contest_parsedData[i][1],contest_parsedData[i][2],contest_parsedData[i][3]));
             }
         }
-
-        private void league_setData() {
+        private void league_setData()
+        {
             League_League_CustomList_MyData = new ArrayList<League_League_CustomList_MyData>();
-            for (int i = 0; i < league_parsedData.length; i++) {
-                int Rate = i + 1;
-                League_League_CustomList_MyData.add(new League_League_CustomList_MyData(Rate, league_parsedData[i][0], league_parsedData[i][1]));
+            for(int i =0; i<league_parsedData.length; i++) {
+                int Rate = i+1;
+                League_League_CustomList_MyData.add(new League_League_CustomList_MyData(Rate,league_parsedData[i][0],league_parsedData[i][1]));
             }
         }
-
         /////대회 탭  받아온 json 파싱합니다.//////////////////////////////////////////////////////////
-        public String[][] contest_jsonParserList(String pRecvServerPage) {
+        public String[][] contest_jsonParserList(String pRecvServerPage){
             Log.i("서버에서 받은 전체 내용", pRecvServerPage);
-            try {
+            try{
                 JSONObject json = new JSONObject(pRecvServerPage);
                 JSONArray jArr = json.getJSONArray("List");
 
-                String[] jsonName = {"msg1", "msg2", "msg3", "msg4"};
+                String[] jsonName = {"msg1","msg2","msg3","msg4"};
                 String[][] parseredData = new String[jArr.length()][jsonName.length];
-                for (int i = 0; i < jArr.length(); i++) {
+                for(int i = 0; i<jArr.length();i++){
                     json = jArr.getJSONObject(i);
-                    for (int j = 0; j < jsonName.length; j++) {
+                    for (int j=0;j<jsonName.length; j++){
                         parseredData[i][j] = json.getString(jsonName[j]);
                     }
                 }
                 return parseredData;
-            } catch (JSONException e) {
+            }catch (JSONException e){
                 e.printStackTrace();
                 return null;
             }
         }
-
         /////리그  받아온 json 파싱합니다.//////////////////////////////////////////////////////////
-        public String[][] league_jsonParserList(String pRecvServerPage) {
+        public String[][] league_jsonParserList(String pRecvServerPage){
             Log.i("서버에서 받은 전체 내용", pRecvServerPage);
-            try {
+            try{
                 JSONObject json = new JSONObject(pRecvServerPage);
                 JSONArray jArr = json.getJSONArray("List");
 
-                String[] jsonName = {"msg1", "msg2"};
+                String[] jsonName = {"msg1","msg2"};
                 String[][] parseredData = new String[jArr.length()][jsonName.length];
-                for (int i = 0; i < jArr.length(); i++) {
+                for(int i = 0; i<jArr.length();i++){
                     json = jArr.getJSONObject(i);
-                    for (int j = 0; j < jsonName.length; j++) {
+                    for (int j=0;j<jsonName.length; j++){
                         parseredData[i][j] = json.getString(jsonName[j]);
                     }
                 }
                 return parseredData;
-            } catch (JSONException e) {
+            }catch (JSONException e){
                 e.printStackTrace();
                 return null;
             }
         }
     }
-
     public static class SectionsFragment3 extends Fragment {
 
 
         public SectionsFragment3() {
         }
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -1134,37 +1120,34 @@ public class MainActivity extends AppCompatActivity {
             return rootView;
         }
     }
-
     public static class SectionsFragment4 extends Fragment {
-        Button Profile_Button_Name, Profile_Button_Position, Profile_Button_Age_Physical, Profile_Button_TeamName;
-        Button Profile_Button_TeamMake, Profile_Button_TeamManager, Profile_Button_TeamSearch, Profile_Button_Logout;
+        Button Profile_Button_Name,Profile_Button_Position,Profile_Button_Age_Physical,Profile_Button_TeamName;
+        Button Profile_Button_TeamMake, Profile_Button_TeamManager,Profile_Button_TeamSearch,Profile_Button_Logout;
         ImageView Profile_ImageVIew_Profile;
-        String[][] parsedData, parsedData_overLap, parsedData_TeamCheck;
+        String[][] parsedData,parsedData_overLap,parsedData_TeamCheck;
         String ProfileUrl;
         Bitmap bmImg;
         String Profile;
-        final int REQ_SELECT = 0;
-
+        final int REQ_SELECT=0;
         public SectionsFragment4() {
         }
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
             final View rootView = inflater.inflate(R.layout.layout_profile, container, false);
-            Profile_Button_Name = (Button) rootView.findViewById(R.id.Profile_Button_Name);
-            Profile_Button_Position = (Button) rootView.findViewById(R.id.Profile_Button_Position);
-            Profile_Button_Age_Physical = (Button) rootView.findViewById(R.id.Profile_Button_Age_Physical);
-            Profile_ImageVIew_Profile = (ImageView) rootView.findViewById(R.id.Profile_ImageVIew_Profile);
-            Profile_Button_TeamName = (Button) rootView.findViewById(R.id.Profile_Button_TeamName);
+            Profile_Button_Name = (Button)rootView.findViewById(R.id.Profile_Button_Name);
+            Profile_Button_Position = (Button)rootView.findViewById(R.id.Profile_Button_Position);
+            Profile_Button_Age_Physical = (Button)rootView.findViewById(R.id.Profile_Button_Age_Physical);
+            Profile_ImageVIew_Profile = (ImageView)rootView.findViewById(R.id.Profile_ImageVIew_Profile);
+            Profile_Button_TeamName = (Button)rootView.findViewById(R.id.Profile_Button_TeamName);
             ///네비게이션 메뉴 선언
-            Profile_Button_TeamMake = (Button) rootView.findViewById(R.id.Profile_Button_TeamMake);
-            Profile_Button_TeamManager = (Button) rootView.findViewById(R.id.Profile_Button_TeamManager);
-            Profile_Button_TeamSearch = (Button) rootView.findViewById(R.id.Profile_Button_TeamSearch);
-            Profile_Button_Logout = (Button) rootView.findViewById(R.id.Profile_Button_Logout);
+            Profile_Button_TeamMake = (Button)rootView.findViewById(R.id.Profile_Button_TeamMake);
+            Profile_Button_TeamManager = (Button)rootView.findViewById(R.id.Profile_Button_TeamManager);
+            Profile_Button_TeamSearch = (Button)rootView.findViewById(R.id.Profile_Button_TeamSearch);
+            Profile_Button_Logout = (Button)rootView.findViewById(R.id.Profile_Button_Logout);
 
-            String result = "";
+            String result="";
             try {
                 HttpClient client = new DefaultHttpClient();
                 String postURL = "http://210.122.7.195:8080/Web_basket/Profile.jsp";
@@ -1189,7 +1172,7 @@ public class MainActivity extends AppCompatActivity {
             parsedData = jsonParserList_UserInfo(result);
             String Name = parsedData[0][2];
             String Position = parsedData[0][5];
-            Profile = parsedData[0][7];
+            Profile =parsedData[0][7];
             String Sex = parsedData[0][2];
             String Team1 = parsedData[0][6];
             String Age = ChangeAge(parsedData[0][4]);
@@ -1198,16 +1181,18 @@ public class MainActivity extends AppCompatActivity {
             Profile_Button_Age_Physical.setText(Age);
             Profile_Button_TeamName.setText(Team1);
             //유저 개인 이미지를 서버에서 받아옵니다.
-            try {
+            try{
                 String En_Profile = URLEncoder.encode(Profile, "utf-8");
-                if (Profile.equals(".")) {
+                if(Profile.equals(".")) {
                     Glide.with(rootView.getContext()).load(R.drawable.profile_basic_image).into(Profile_ImageVIew_Profile);
-                } else {
+                }
+                else{
                     Glide.with(rootView.getContext()).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(rootView.getContext()).getBitmapPool()))
                             .into(Profile_ImageVIew_Profile);
 
                 }
-            } catch (UnsupportedEncodingException e) {
+            }
+            catch (UnsupportedEncodingException e){
 
             }
             Profile_ImageVIew_Profile.setOnClickListener(new View.OnClickListener() {
@@ -1272,7 +1257,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     //이미 팀 존재하는 지 확인 후 중복 제거
-                    String result = "";
+                    String result="";
                     try {
                         HttpClient client = new DefaultHttpClient();
                         String postURL = "http://210.122.7.195:8080/Web_basket/TeamMake_OverLap.jsp";
@@ -1295,9 +1280,11 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     parsedData_overLap = jsonParserList_TeamMake_OverLap(result);
-                    if (parsedData_overLap[0][0].equals("overLap")) {
-                        Snackbar.make(view, "이미 다른 팀에 가입 중이십니다.", Snackbar.LENGTH_SHORT).show();
-                    } else {
+                    if(parsedData_overLap[0][0].equals("overLap"))
+                    {
+                        Snackbar.make(view,"이미 다른 팀에 가입 중이십니다.",Snackbar.LENGTH_SHORT).show();
+                    }
+                    else {
                         Intent intent_TeamMake = new Intent(rootView.getContext(), Navigation_TeamManager_TeamMake1.class);
                         intent_TeamMake.putExtra("Id", Id);
                         startActivity(intent_TeamMake);
@@ -1307,7 +1294,7 @@ public class MainActivity extends AppCompatActivity {
             Profile_Button_TeamManager.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String TeamCheck_result = "";
+                    String TeamCheck_result="";
                     try {
                         HttpClient client = new DefaultHttpClient();
                         String postURL = "http://210.122.7.195:8080/Web_basket/TeamCheck.jsp";
@@ -1330,9 +1317,10 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     parsedData_TeamCheck = jsonParserList_TeamCheck(TeamCheck_result);
-                    if (parsedData_TeamCheck[0][0].equals("Unexist")) {
-                        Snackbar.make(view, "관리할 팀이 없습니다.", Snackbar.LENGTH_SHORT).show();
-                    } else {
+                    if(parsedData_TeamCheck[0][0].equals("Unexist")){
+                        Snackbar.make(view,"관리할 팀이 없습니다.",Snackbar.LENGTH_SHORT).show();
+                    }
+                    else {
                         Intent intent_TeamManager = new Intent(rootView.getContext(), Navigation_TeamManager.class);
                         intent_TeamManager.putExtra("Id", Id);
                         startActivity(intent_TeamManager);
@@ -1363,10 +1351,9 @@ public class MainActivity extends AppCompatActivity {
             });
             return rootView;
         }
-
         //date 입력받아 나이 구하는 함수
-        public String ChangeAge(String Age) {
-            Calendar cal = Calendar.getInstance();
+        public String ChangeAge(String Age){
+            Calendar cal= Calendar.getInstance ();
             String[] str = new String(Age).split(" \\/ ");
             String[] str_day = new String(str[2]).split(" ");
             int year = Integer.parseInt(str[0]);
@@ -1374,152 +1361,148 @@ public class MainActivity extends AppCompatActivity {
             int day = Integer.parseInt(str_day[0]);
 
             cal.set(Calendar.YEAR, year);
-            cal.set(Calendar.MONTH, month - 1);
+            cal.set(Calendar.MONTH, month-1);
             cal.set(Calendar.DATE, day);
 
-            Calendar now = Calendar.getInstance();
+            Calendar now = Calendar.getInstance ();
 
             int age = now.get(Calendar.YEAR) - cal.get(Calendar.YEAR);
-            if ((cal.get(Calendar.MONTH) > now.get(Calendar.MONTH))
-                    || (cal.get(Calendar.MONTH) == now.get(Calendar.MONTH)
-                    && cal.get(Calendar.DAY_OF_MONTH) > now.get(Calendar.DAY_OF_MONTH))
-                    ) {
+            if (  (cal.get(Calendar.MONTH) > now.get(Calendar.MONTH))
+                    || (    cal.get(Calendar.MONTH) == now.get(Calendar.MONTH)
+                    && cal.get(Calendar.DAY_OF_MONTH) > now.get(Calendar.DAY_OF_MONTH)   )
+                    ){
                 age--;
             }
             String Str_age = Integer.toString(age);
             return Str_age;
         }
-
         /////프로필 탭 사용자정보를 파싱합니다.//////////////////////////////////////////////////////////
-        public String[][] jsonParserList_UserInfo(String pRecvServerPage) {
+        public String[][] jsonParserList_UserInfo(String pRecvServerPage){
             Log.i("서버에서 받은 전체 내용", pRecvServerPage);
-            try {
+            try{
                 JSONObject json = new JSONObject(pRecvServerPage);
                 JSONArray jArr = json.getJSONArray("List");
 
-                String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6", "msg7", "msg8"};
+                String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8"};
                 String[][] parseredData = new String[jArr.length()][jsonName.length];
-                for (int i = 0; i < jArr.length(); i++) {
+                for(int i = 0; i<jArr.length();i++){
                     json = jArr.getJSONObject(i);
-                    for (int j = 0; j < jsonName.length; j++) {
+                    for (int j=0;j<jsonName.length; j++){
                         parseredData[i][j] = json.getString(jsonName[j]);
                     }
                 }
                 return parseredData;
-            } catch (JSONException e) {
+            }catch (JSONException e){
                 e.printStackTrace();
                 return null;
             }
         }
-
         /////프로필 탭 사용자정보를 파싱합니다.//////////////////////////////////////////////////////////
-        public String[][] jsonParserList_TeamMake_OverLap(String pRecvServerPage) {
+        public String[][] jsonParserList_TeamMake_OverLap(String pRecvServerPage){
             Log.i("서버에서 받은 전체 내용", pRecvServerPage);
-            try {
+            try{
                 JSONObject json = new JSONObject(pRecvServerPage);
                 JSONArray jArr = json.getJSONArray("List");
 
                 String[] jsonName = {"msg1"};
                 String[][] parseredData = new String[jArr.length()][jsonName.length];
-                for (int i = 0; i < jArr.length(); i++) {
+                for(int i = 0; i<jArr.length();i++){
                     json = jArr.getJSONObject(i);
-                    for (int j = 0; j < jsonName.length; j++) {
+                    for (int j=0;j<jsonName.length; j++){
                         parseredData[i][j] = json.getString(jsonName[j]);
                     }
                 }
                 return parseredData;
-            } catch (JSONException e) {
+            }catch (JSONException e){
                 e.printStackTrace();
                 return null;
             }
         }
-
         /////팀이 존재하는지 체크합니다.
-        public String[][] jsonParserList_TeamCheck(String pRecvServerPage) {
+        public String[][] jsonParserList_TeamCheck(String pRecvServerPage){
             Log.i("서버에서 받은 전체 내용", pRecvServerPage);
-            try {
+            try{
                 JSONObject json = new JSONObject(pRecvServerPage);
                 JSONArray jArr = json.getJSONArray("List");
 
                 String[] jsonName = {"msg1"};
                 String[][] parseredData = new String[jArr.length()][jsonName.length];
-                for (int i = 0; i < jArr.length(); i++) {
+                for(int i = 0; i<jArr.length();i++){
                     json = jArr.getJSONObject(i);
-                    for (int j = 0; j < jsonName.length; j++) {
+                    for (int j=0;j<jsonName.length; j++){
                         parseredData[i][j] = json.getString(jsonName[j]);
                     }
                 }
                 return parseredData;
-            } catch (JSONException e) {
+            }catch (JSONException e){
                 e.printStackTrace();
                 return null;
             }
         }
     }
+  /*  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Button Match_Layout_Out_Button_CheckIn = (Button)findViewById(R.id.Match_Layout_Out_Button_CheckIn);
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,
+                resultCode, data);
+        String[][] parsedData;
 
-    /*  public void onActivityResult(int requestCode, int resultCode, Intent data) {
-          Button Match_Layout_Out_Button_CheckIn = (Button)findViewById(R.id.Match_Layout_Out_Button_CheckIn);
-          IntentResult result = IntentIntegrator.parseActivityResult(requestCode,
-                  resultCode, data);
-          String[][] parsedData;
-
-          String str = result.getContents();
-          String[] result1 = str.split("=");
-          Log.i("msg",result1[1]);
-          String postResult="";
-          try {
-              HttpClient client = new DefaultHttpClient();
-              String postURL = "http://210.122.7.195:8080/Web_basket/CheckIn.jsp";
-              HttpPost post = new HttpPost(postURL);
-
-              List<NameValuePair> params = new ArrayList<NameValuePair>();
-              params.add(new BasicNameValuePair("Id", Id));
-              params.add(new BasicNameValuePair("CourtName", result1[1]));
-              params.add(new BasicNameValuePair("Time", realTime));
-              UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-              post.setEntity(ent);
-
-              HttpResponse response = client.execute(post);
-              BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-
-              String line = null;
-
-              while ((line = bufreader.readLine()) != null) {
-                  postResult += line;
-              }
-          } catch (Exception e) {
-              e.printStackTrace();
-          }
-          parsedData = jsonParserList(postResult);
-          if(parsedData[0][0].equals("succed")){
-              Toast.makeText(this,result1[1]+"\nCheck - In",Toast.LENGTH_SHORT).show();
-              Match_Layout_Out_Button_CheckIn.setText(result1[1] + " Check - OUT");
-              SharedPreferences prefs2 = getSharedPreferences("Mybasket_CheckIn", MODE_PRIVATE);
-              SharedPreferences.Editor editor = prefs2.edit();
-              editor.putString("status", "checking");
-              editor.putString("time", realTime);
-              editor.putString("court", result1[1]);
-              editor.commit();
-          }
-          SharedPreferences prefs = getSharedPreferences("Mybasket_CheckIn", MODE_PRIVATE);
-          ////////////////////////////////리스트 뷰 구현////////////////////////////////////////////////
-      }*/
-    public String[][] jsonParserList(String pRecvServerPage) {
-        Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+        String str = result.getContents();
+        String[] result1 = str.split("=");
+        Log.i("msg",result1[1]);
+        String postResult="";
         try {
+            HttpClient client = new DefaultHttpClient();
+            String postURL = "http://210.122.7.195:8080/Web_basket/CheckIn.jsp";
+            HttpPost post = new HttpPost(postURL);
+
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("Id", Id));
+            params.add(new BasicNameValuePair("CourtName", result1[1]));
+            params.add(new BasicNameValuePair("Time", realTime));
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+            String line = null;
+
+            while ((line = bufreader.readLine()) != null) {
+                postResult += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        parsedData = jsonParserList(postResult);
+        if(parsedData[0][0].equals("succed")){
+            Toast.makeText(this,result1[1]+"\nCheck - In",Toast.LENGTH_SHORT).show();
+            Match_Layout_Out_Button_CheckIn.setText(result1[1] + " Check - OUT");
+            SharedPreferences prefs2 = getSharedPreferences("Mybasket_CheckIn", MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs2.edit();
+            editor.putString("status", "checking");
+            editor.putString("time", realTime);
+            editor.putString("court", result1[1]);
+            editor.commit();
+        }
+        SharedPreferences prefs = getSharedPreferences("Mybasket_CheckIn", MODE_PRIVATE);
+        ////////////////////////////////리스트 뷰 구현////////////////////////////////////////////////
+    }*/
+    public String[][] jsonParserList(String pRecvServerPage){
+        Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+        try{
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
 
             String[] jsonName = {"msg1"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
-            for (int i = 0; i < jArr.length(); i++) {
+            for(int i = 0; i<jArr.length();i++){
                 json = jArr.getJSONObject(i);
-                for (int j = 0; j < jsonName.length; j++) {
+                for (int j=0;j<jsonName.length; j++){
                     parseredData[i][j] = json.getString(jsonName[j]);
                 }
             }
             return parseredData;
-        } catch (JSONException e) {
+        }catch (JSONException e){
             e.printStackTrace();
             return null;
         }
