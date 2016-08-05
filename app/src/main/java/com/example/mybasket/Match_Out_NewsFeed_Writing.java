@@ -6,9 +6,10 @@ package com.example.mybasket;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -39,10 +41,13 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +56,9 @@ import java.util.List;
  * Created by 박지훈 on 2016-06-21.
  */
 public class Match_Out_NewsFeed_Writing extends Activity {
+
+
+    Intent dataIntent;
 
 
     Spinner NewsFeed_Writing_addDoSpinner;
@@ -64,15 +72,14 @@ public class Match_Out_NewsFeed_Writing extends Activity {
 
     Button NewsFeed_Writing_CameraButton;
     ImageView NewsFeed_Camera_Image;
-    Intent CameraIntent=null;
+    Intent CameraIntent = null;
 
     ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
     static int spinnum1, spinnum2;
     String[][] parsedData;
-    static String Do, Si, Court, ImageURL = null,ImageFile=null;
-    byte[] ImageData=null;
-    private static boolean flag=false;
-    private static final String TAG = "HelloCamera";
+    static String Do, Si, Court, ImageURL = null, ImageFile = null;
+    static String Id = "";
+    private static boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,13 +87,17 @@ public class Match_Out_NewsFeed_Writing extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_match_out_newsfeed_writing);
+
+        Intent intent1 = getIntent();
+        Id = intent1.getStringExtra("Id");
+
+
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         NewsFeed_Writing_CameraButton = (Button) findViewById(R.id.NewsFeed_Writing_CameraButton);
         NewsFeed_Camera_Image = (ImageView) findViewById(R.id.NewsFeed_Camera_Image);
-
-
         NewsFeed_Writing_addDoSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addDoSpinner);
         NewsFeed_Writing_addSiSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addSiSpinner);
         NewsFeed_Writing_addCourtSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addCourtSpinner);
@@ -151,6 +162,7 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                                                 e.printStackTrace();
                                             }
                                         }
+
                                         @Override
                                         public void onNothingSelected(AdapterView<?> adapterView) {
                                         }
@@ -158,6 +170,7 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                             );
                         }
                     }
+
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) {
                     }
@@ -177,25 +190,35 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                     params.add(new BasicNameValuePair("NewsFeed_Si", Si));
                     params.add(new BasicNameValuePair("NewsFeed_Court", Court));
                     params.add(new BasicNameValuePair("NewsFeed_UserCount", NewsFeed_Writing_PersonEditText.getText().toString()));
+                    Log.i("아이디", Id);
+
+                    params.add(new BasicNameValuePair("NewsFeed_User",Id));
                     params.add(new BasicNameValuePair("NewsFeed_Data", NewsFeed_Writing_TextEditText.getText().toString()));
                     params.add(new BasicNameValuePair("NewsFeed_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Day", new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Hour", new SimpleDateFormat("kk").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Minute", new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis()))));
-                    params.add(new BasicNameValuePair("NewsFeed_Image", ImageFile));
 
-//                    if(flag){
-////                        ImageUpload();
-//                    }
+
+                    if (flag) {
+                        params.add(new BasicNameValuePair("NewsFeed_Image", ImageFile));
+                        String urlString = "http://210.122.7.195:8080/gg/newsfeed_Image_upload.jsp";
+                        //파일 업로드 시작!
+                        HttpFileUpload(urlString, "", ImageURL);
+                    }else{
+                        params.add(new BasicNameValuePair("NewsFeed_Image", "."));
+                    }
                     UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                     post.setEntity(ent);
                     HttpResponse response = client.execute(post);
 
-                    flag=false;
+                    flag = false;
                     finish();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+
             }
         });
 
@@ -206,19 +229,21 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                 camera.camera_ImageView(NewsFeed_Camera_Image);
                 CameraIntent = new Intent(Match_Out_NewsFeed_Writing.this, Match_Out_NewsFeed_Camera.class);
 
-                startActivityForResult(CameraIntent,1);
+                startActivityForResult(CameraIntent, 1);
             }
         });
     }
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if(resultCode==RESULT_OK) {
-            if(requestCode==1) {
-//                ImageData = data.getByteArrayExtra("ImageData");
+
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        this.dataIntent = data;
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+
                 ImageURL = data.getStringExtra("ImageURL");
                 ImageFile = data.getStringExtra("ImageFile");
-                    ImageDownload();
-                flag=true;
+                ImageDownload();
+                flag = true;
             }
         }
     }
@@ -243,59 +268,93 @@ public class Match_Out_NewsFeed_Writing extends Activity {
     }
 
     public void ImageDownload() {
-            try{
+        try {
             FileInputStream in;
             BufferedInputStream buf;
             in = new FileInputStream(String.valueOf(ImageURL));
             buf = new BufferedInputStream(in);
             Bitmap orgImage = BitmapFactory.decodeFile(String.valueOf(ImageURL));
-            Bitmap resize = Bitmap.createScaledBitmap(orgImage, 1080, 852, true);
+            Bitmap resize = Bitmap.createScaledBitmap(orgImage, 1080, 1080, true);
+
+
             NewsFeed_Camera_Image.setVisibility(View.VISIBLE);
             NewsFeed_Camera_Image.setImageBitmap(resize);
-        }catch (Exception e){
+//            NewsFeed_Camera_Image.setRotation(90);
+
+        } catch (Exception e) {
         }
     }
 
-    public void ImageUpload() {
+
+    public void HttpFileUpload(String urlString, String params, String fileName) {
+
+
+        String lineEnd = "\r\n";
+        String twoHyphens = "--";
+        String boundary = "*****";
+        // fileName=TeamName;
         try {
-            URL url = new URL("http://210.122.7.195:8080/gg/newsfeed_image_upload.jsp");
-            Log.i(TAG, "http://210.122.7.195:8080/gg/newsfeed_image_upload.jsp" );
-            String lineEnd = "\r\n";
-            String twoHyphens = "--";
-            String boundary = "*****";
-            // open connection
-            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-            con.setDoInput(true); //input 허용
-            con.setDoOutput(true);  // output 허용
-            con.setUseCaches(false);   // cache copy를 허용하지 않는다.
-//            con.setRequestMethod("POST");
-//            con.setRequestProperty("Connection", "Keep-Alive");
-//            con.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+            //선택한 파일의 절대 경로를 이용해서 파일 입력 스트림 객체를 얻어온다.
+            FileInputStream mFileInputStream = new FileInputStream(fileName);
+            //파일을 업로드할 서버의 url 주소를이용해서 URL 객체 생성하기.
+            URL connectUrl = new URL(urlString);
+            //Connection 객체 얻어오기.
+            HttpURLConnection conn = (HttpURLConnection) connectUrl.openConnection();
+            conn.setDoInput(true);//입력할수 있도록
+            conn.setDoOutput(true); //출력할수 있도록
+            conn.setUseCaches(false);  //캐쉬 사용하지 않음
 
-            // write data
-            DataOutputStream dos = new DataOutputStream(con.getOutputStream());
-            Log.i(TAG, "Open OutputStream" );
+            //post 전송
+            conn.setRequestMethod("POST");
+            //파일 업로드 할수 있도록 설정하기.
+            conn.setRequestProperty("Connection", "Keep-Alive");
+            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+
+            //DataOutputStream 객체 생성하기.
+            DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+            //전송할 데이터의 시작임을 알린다.
+
+            //String En_TeamName = URLEncoder.encode(TeamName, "utf-8");
             dos.writeBytes(twoHyphens + boundary + lineEnd);
-
-            // 파일 전송시 파라메터명은 file1 파일명은 camera.jpg로 설정하여 전송
-            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + ImageURL +".jpg"+"\"" + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + URLEncoder.encode(ImageFile, "utf-8") + ".jpg" + "\"" + lineEnd);
             dos.writeBytes(lineEnd);
-            dos.write(ImageData,0,ImageData.length);
-
-            Log.i(TAG, ImageData.length+"bytes written" );
+            //한번에 읽어들일수있는 스트림의 크기를 얻어온다.
+            int bytesAvailable = mFileInputStream.available();
+            //byte단위로 읽어오기 위하여 byte 배열 객체를 준비한다.
+            byte[] buffer = new byte[bytesAvailable];
+            int bytesRead = 0;
+            // read image
+            while (bytesRead != -1) {
+                //파일에서 바이트단위로 읽어온다.
+                bytesRead = mFileInputStream.read(buffer);
+                if (bytesRead == -1) break; //더이상 읽을 데이터가 없다면 빠저나온다.
+                Log.d("Test", "image byte is " + bytesRead);
+                //읽은만큼 출력한다.
+                dos.write(buffer, 0, bytesRead);
+                //출력한 데이터 밀어내기
+                dos.flush();
+            }
+            //전송할 데이터의 끝임을 알린다.
             dos.writeBytes(lineEnd);
             dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-            dos.flush(); // finish upload...
-            dos.close();
+            //flush() 타이밍??
+            //dos.flush();
+            dos.close();//스트림 닫아주기
+            mFileInputStream.close();//스트림 닫아주기.
+            // get response
+            int ch;
+            //입력 스트림 객체를 얻어온다.
+            InputStream is = conn.getInputStream();
+            StringBuffer b = new StringBuffer();
+            while ((ch = is.read()) != -1) {
+                b.append((char) ch);
+            }
+            String s = b.toString();
+            Log.e("Test", "result = " + s);
+
         } catch (Exception e) {
-            Log.i(TAG, "exception " + e.getMessage());
-            // TODO: handle exception
+            Log.d("Test", "exception " + e.getMessage());
+            Toast.makeText(this, "업로드중 에러발생!", Toast.LENGTH_SHORT).show();
         }
-//        Log.i(TAG, ImageData.length+"bytes written successed ... finish!!" );
-//        try { dos.close(); } catch(Exception e){}
-
     }
-
-
-
 }

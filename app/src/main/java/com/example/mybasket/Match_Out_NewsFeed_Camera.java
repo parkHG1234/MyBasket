@@ -25,6 +25,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -39,7 +40,7 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
     SurfaceHolder surfaceHolder;
     Button NewsFeed_Camera_Button;
     ImageView NewsFeed_Camera_Image;
-    private static String timestamp,ImageURL;
+    private static String ImageFile,ImageURL;
     @SuppressWarnings("deprecation")
     android.hardware.Camera.PictureCallback jpegCallback;
 
@@ -59,6 +60,7 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
         getWindow().setFormat(PixelFormat.UNKNOWN);
         Intent IntentURL = new Intent(getApplicationContext(), Match_Out_NewsFeed_Writing.class);
         NewsFeed_Camera_SurfaceView = (SurfaceView) findViewById(R.id.NewsFeed_Camera_SurfaceView);
+//        NewsFeed_Camera_SurfaceView.setRotation(180);
         surfaceHolder = NewsFeed_Camera_SurfaceView.getHolder();
         surfaceHolder.addCallback(this);
 
@@ -77,7 +79,8 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
                     fos.close();
                     Intent IntentURL = getIntent();
                     IntentURL.putExtra("ImageURL",ImageURL );
-                    IntentURL.putExtra("ImageFile",timestamp );
+                    IntentURL.putExtra("ImageFile",ImageFile );
+
                     setResult(RESULT_OK,IntentURL);
                     finish();
                 }catch (Exception e){
@@ -113,13 +116,12 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
         }
 
         // 파일명을 적당히 생성, 여기선 시간으로 파일명 중복을 피한다
-        timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        ImageFile = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
 
-        mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timestamp + ".jpg");
-        ImageURL=String.valueOf(mediaStorageDir.getPath() + File.separator + "IMG_" + timestamp + ".jpg");
-//        ImageURL=String.valueOf(mediaFile.getPath());
-        Log.i("경로",String.valueOf(mediaFile));
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + ImageFile + ".jpg");
+        ImageURL=String.valueOf(mediaStorageDir.getPath() + File.separator + "IMG_" + ImageFile + ".jpg");
+
         return mediaFile;
     }
     @Override

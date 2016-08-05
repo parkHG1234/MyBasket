@@ -5,14 +5,11 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-
-
     <SurfaceView
         android:id="@+id/NewsFeed_Camera_SurfaceView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_above="@+id/button" />
+        android:layout_weight="1"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

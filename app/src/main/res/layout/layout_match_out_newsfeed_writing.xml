@@ -2,8 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:visibility="gone">
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ball"
+        android:layout_weight="2"
+        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="     글쓰기"
+            android:textSize="20pt"
+            android:gravity="center"/>
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:src="@drawable/ball"/>
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:src="@drawable/ball"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,58 +73,63 @@
         <EditText
             android:id="@+id/NewsFeed_Writing_TextEditText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="250dp"
+            android:layout_weight="1"
             android:layout_below="@+id/NewsFeed_Writing_addSiSpinner"
-            android:layout_weight="25"
             android:maxLength="200" />
 
         <ImageView
             android:id="@+id/NewsFeed_Camera_Image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="20"
+            android:layout_height="250dp"
             android:background="#000000"
-            android:visibility="gone"/>
+            android:layout_weight="1"
+            android:scaleType="fitXY" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="32"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/NewsFeed_Writing_CameraButton"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/NewsFeed_Writing_TextView"
-                android:layout_weight="2.1" />
+                android:layout_weight="1" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2.1"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="인원 : "
-                android:textSize="30dp" />
+                android:textSize="30dp"/>
 
             <EditText
                 android:id="@+id/NewsFeed_Writing_PersonEditText"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:inputType="number"
-                android:textSize="30dp" />
+                android:textSize="30dp"/>
 
             <Button
                 android:id="@+id/NewsFeed_Writing_Button"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:enabled="false"
                 android:text="게시"
-                android:textSize="30dp" />
+                android:textSize="30dp"/>
         </LinearLayout>
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+    </LinearLayout>
 </LinearLayout>

@@ -168,16 +168,16 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
                     return Hour + "시간전";
                 } else if (Hour > 1 && Minute < 0) {
                     return Hour - 1 + "시간전";
-                } else if (Hour == 1 && Minute >= 0) {
+                } else if (Hour == 1 && Minute >0) {
                     return Hour + "시간전";
                 } else if (Hour == 1 && Minute < 0) {
                     return 60 + Minute + "분전";
-                } else if (Hour == 0 && Minute > 0) {
+                } else if (Hour == 0 && Minute >0) {
                     return Minute + "분전";
                 } else if (Hour == 0 && Minute < 0) {
                     return 60 + Minute + "분전";
                 } else {
-                    return "방금";
+                    return "방금전";
                 }
             }
         }

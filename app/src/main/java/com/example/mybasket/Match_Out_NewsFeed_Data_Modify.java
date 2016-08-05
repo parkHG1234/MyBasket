@@ -3,20 +3,32 @@ package com.example.mybasket;
 /**
  * Created by 박효근 on 2016-07-22.
  */
+
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -27,11 +39,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 박지훈 on 2016-07-06.
@@ -43,13 +66,20 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
     Spinner NewsFeed_Writing_addCourtSpinner;
     EditText NewsFeed_Writing_TextEditText;
     EditText NewsFeed_Writing_PersonEditText;
+    ImageView NewsFeed_Camera_Image;
     Button NewsFeed_Writing_Button;
+    Button NewsFeed_Writing_CameraButton;
 
+
+    Intent dataIntent;
     ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
     ArrayList arr;
     String[][] parsedData;
     static int spinnum1, spinnum2;
-    static String Do, Si, Court;
+    static String Do, Si, Court, ImageURL = null, ImageFile = null;
+
+    private static boolean flag = false;
+    Intent CameraIntent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +88,9 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_match_out_newsfeed_writing);
 
+
+        NewsFeed_Camera_Image = (ImageView) findViewById(R.id.NewsFeed_Camera_Image);
+        NewsFeed_Writing_CameraButton = (Button) findViewById(R.id.NewsFeed_Writing_CameraButton);
         NewsFeed_Writing_addDoSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addDoSpinner);
         NewsFeed_Writing_addSiSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addSiSpinner);
         NewsFeed_Writing_addCourtSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addCourtSpinner);
@@ -69,6 +102,16 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         NewsFeed_Writing_TextEditText.setText(DataIntent.getExtras().getString("data"));
         NewsFeed_Writing_PersonEditText.setText(DataIntent.getExtras().getString("person"));
 
+        try {
+            if (DataIntent.getExtras().getString("Image").equals(".")) {
+                NewsFeed_Camera_Image.setVisibility(View.GONE);
+            } else {
+                NewsFeed_Camera_Image.setVisibility(View.VISIBLE);
+                String En_Profile = URLEncoder.encode(DataIntent.getExtras().getString("Image"), "utf-8");
+                Glide.with(getApplicationContext()).load("http://210.122.7.195:8080/gg/imgs1/" + DataIntent.getExtras().getString("Image") + ".jpg").into(NewsFeed_Camera_Image);
+            }
+        } catch (UnsupportedEncodingException e) {
+        }
         adspin1 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do, R.layout.zfile_spinner_test);
         adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         NewsFeed_Writing_addDoSpinner.setAdapter(adspin1);
@@ -116,6 +159,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                         Court = adspin3.getItem(i).toString();
                                         NewsFeed_Writing_Button.setEnabled(true);
                                     }
+
                                     @Override
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
@@ -124,6 +168,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                 e.printStackTrace();
                             }
                         }
+
                         @Override
                         public void onNothingSelected(AdapterView<?> adapterView) {
                         }
@@ -136,6 +181,30 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
 
             }
         });
+        NewsFeed_Camera_Image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final MaterialDialog Dialog = new MaterialDialog(Match_Out_NewsFeed_Data_Modify.this);
+                Dialog
+                        .setMessage("삭제하시겠습니까?")
+                        .setPositiveButton("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                NewsFeed_Camera_Image.setVisibility(View.GONE);
+                                flag = false;
+                                Dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("NO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Dialog.dismiss();
+                            }
+                        });
+                Dialog.show();
+            }
+        });
+
 
         NewsFeed_Writing_Button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,13 +224,40 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                     params.add(new BasicNameValuePair("NewsFeed_Day", new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Hour", new SimpleDateFormat("kk").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Minute", new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis()))));
+                    Log.i("MaxNum",DataIntent.getExtras().getString("MaxNum"));
+                    int MaxNum=Integer.parseInt(DataIntent.getExtras().getString("MaxNum"))+1;
+                    Log.i("MaxNum",String.valueOf(MaxNum));
+
+                    params.add(new BasicNameValuePair("NewsFeed_MaxNum",String.valueOf(MaxNum)));
+
+                    if (flag) {
+                        params.add(new BasicNameValuePair("NewsFeed_Image", ImageFile));
+                        String urlString = "http://210.122.7.195:8080/gg/newsfeed_Image_upload.jsp";
+                        //파일 업로드 시작!
+                        HttpFileUpload(urlString, "", ImageURL);
+                    } else {
+                        params.add(new BasicNameValuePair("NewsFeed_Image","."));
+                    }
                     UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                     post.setEntity(ent);
                     HttpResponse response = client.execute(post);
+
+                    flag = false;
                     finish();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        NewsFeed_Writing_CameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Match_Out_NewsFeed_Camera camera = new Match_Out_NewsFeed_Camera();
+                camera.camera_ImageView(NewsFeed_Camera_Image);
+                CameraIntent = new Intent(getApplicationContext(), Match_Out_NewsFeed_Camera.class);
+
+                startActivityForResult(CameraIntent, 1);
             }
         });
     }
@@ -183,6 +279,114 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        this.dataIntent = data;
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+
+                ImageURL = data.getStringExtra("ImageURL");
+                ImageFile = data.getStringExtra("ImageFile");
+                Log.i("사진", ImageURL);
+                Log.i("사진", ImageFile);
+                ImageDownload();
+                flag = true;
+            }
+        }
+    }
+
+
+    public void ImageDownload() {
+        try {
+            FileInputStream in;
+            BufferedInputStream buf;
+            in = new FileInputStream(String.valueOf(ImageURL));
+            buf = new BufferedInputStream(in);
+            Bitmap orgImage = BitmapFactory.decodeFile(String.valueOf(ImageURL));
+            Bitmap resize = Bitmap.createScaledBitmap(orgImage, 1080, 1080, true);
+
+
+            NewsFeed_Camera_Image.setVisibility(View.VISIBLE);
+            NewsFeed_Camera_Image.setImageBitmap(resize);
+//            NewsFeed_Camera_Image.setRotation(90);
+
+        } catch (Exception e) {
+        }
+    }
+
+
+    public void HttpFileUpload(String urlString, String params, String fileName) {
+
+
+        String lineEnd = "\r\n";
+        String twoHyphens = "--";
+        String boundary = "*****";
+        // fileName=TeamName;
+        try {
+            //선택한 파일의 절대 경로를 이용해서 파일 입력 스트림 객체를 얻어온다.
+            FileInputStream mFileInputStream = new FileInputStream(fileName);
+            //파일을 업로드할 서버의 url 주소를이용해서 URL 객체 생성하기.
+            URL connectUrl = new URL(urlString);
+            //Connection 객체 얻어오기.
+            HttpURLConnection conn = (HttpURLConnection) connectUrl.openConnection();
+            conn.setDoInput(true);//입력할수 있도록
+            conn.setDoOutput(true); //출력할수 있도록
+            conn.setUseCaches(false);  //캐쉬 사용하지 않음
+
+            //post 전송
+            conn.setRequestMethod("POST");
+            //파일 업로드 할수 있도록 설정하기.
+            conn.setRequestProperty("Connection", "Keep-Alive");
+            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+
+            //DataOutputStream 객체 생성하기.
+            DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+            //전송할 데이터의 시작임을 알린다.
+
+            //String En_TeamName = URLEncoder.encode(TeamName, "utf-8");
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + URLEncoder.encode(ImageFile, "utf-8") + ".jpg" + "\"" + lineEnd);
+            dos.writeBytes(lineEnd);
+            //한번에 읽어들일수있는 스트림의 크기를 얻어온다.
+            int bytesAvailable = mFileInputStream.available();
+            //byte단위로 읽어오기 위하여 byte 배열 객체를 준비한다.
+            byte[] buffer = new byte[bytesAvailable];
+            int bytesRead = 0;
+            // read image
+            while (bytesRead != -1) {
+                //파일에서 바이트단위로 읽어온다.
+                bytesRead = mFileInputStream.read(buffer);
+                if (bytesRead == -1) break; //더이상 읽을 데이터가 없다면 빠저나온다.
+                Log.d("Test", "image byte is " + bytesRead);
+                //읽은만큼 출력한다.
+                dos.write(buffer, 0, bytesRead);
+                //출력한 데이터 밀어내기
+                dos.flush();
+            }
+            //전송할 데이터의 끝임을 알린다.
+            dos.writeBytes(lineEnd);
+            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+            //flush() 타이밍??
+            //dos.flush();
+            dos.close();//스트림 닫아주기
+            mFileInputStream.close();//스트림 닫아주기.
+            // get response
+            int ch;
+            //입력 스트림 객체를 얻어온다.
+            InputStream is = conn.getInputStream();
+            StringBuffer b = new StringBuffer();
+            while ((ch = is.read()) != -1) {
+                b.append((char) ch);
+            }
+            String s = b.toString();
+            Log.e("Test", "result = " + s);
+
+        } catch (Exception e) {
+            Log.d("Test", "exception " + e.getMessage());
+            Toast.makeText(this, "업로드중 에러발생!", Toast.LENGTH_SHORT).show();
         }
     }
 }

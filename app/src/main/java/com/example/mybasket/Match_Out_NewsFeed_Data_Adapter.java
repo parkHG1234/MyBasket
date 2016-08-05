@@ -4,13 +4,23 @@ package com.example.mybasket;
  * Created by 박효근 on 2016-07-22.
  */
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -25,7 +35,6 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
     private int MonthGap[] = {-30, -30, -27, -30, -29, -30, -29, -30, -30, -29, -30, -29};
 
     ListView NewsFeed_List;
-    Match_Out_NewsFeed_Data_Adapter dataadapter;
     String[][] parsedData;
 
     public Match_Out_NewsFeed_Data_Adapter(Context c, ArrayList<Match_Out_NewsFeed_Data_Setting> arr) {
@@ -77,6 +86,20 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
         TextView Data = (TextView) convertView.findViewById(R.id.NewsFeed_CustomList_Data);
         Data.setText(arrData.get(position).getdata());
 
+
+        ImageView NewSpeed_ImageView = (ImageView)  convertView.findViewById(R.id.NewSpeed_ImageView);
+        try{
+            if(String.valueOf(arrData.get(position).getImage()).equals(".")) {
+                NewSpeed_ImageView.setVisibility(View.GONE);
+           }else{
+                NewSpeed_ImageView.setVisibility(View.VISIBLE);
+                String En_Profile = URLEncoder.encode(String.valueOf(arrData.get(position).getImage()), "utf-8");
+                Glide.with(convertView.getContext()).load("http://210.122.7.195:8080/gg/imgs1/" + String.valueOf(arrData.get(position).getImage()) + ".jpg").into(NewSpeed_ImageView);
+
+            }
+        }
+        catch (UnsupportedEncodingException e){
+        }
         return convertView;
     }
 
@@ -115,7 +138,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                     return Hour + "시간전";
                 } else if(Hour > 1&& Minute <0){
                     return Hour - 1 + "시간전";
-                } else if (Hour == 1 && Minute >= 0) {
+                } else if (Hour == 1 && Minute >0) {
                     return Hour + "시간전";
                 } else if (Hour == 1 && Minute <0) {
                     return 60 + Minute + "분전";
@@ -124,7 +147,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 }else if(Hour == 0 && Minute <0){
                     return 60 + Minute + "분전";
                 } else {
-                    return "방금";
+                    return "방금전";
                 }
             }
         }

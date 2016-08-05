@@ -21,9 +21,9 @@ public class Match_Out_NewsFeed_Data_Setting {
     private String day;
     private String hour;
     private String minute;
-    public ProgressBar NewsFeed_ProgressBar;
+    private String Image;
 
-    public Match_Out_NewsFeed_Data_Setting(String num, String user, String Do, String Si, String court, String person, String data, String month, String day, String hour, String minute) {
+    public Match_Out_NewsFeed_Data_Setting(String num, String user, String Do, String Si, String court, String person, String data, String month, String day, String hour, String minute, String Image) {
         this.num = num;
         this.user = user;
         this.Do = Do;
@@ -35,6 +35,7 @@ public class Match_Out_NewsFeed_Data_Setting {
         this.day = day;
         this.hour = hour;
         this.minute = minute;
+        this.Image = Image;
     }
 
 
@@ -79,4 +80,6 @@ public class Match_Out_NewsFeed_Data_Setting {
     public String getMinute() {
         return minute;
     }
+
+    public String getImage() { return Image; }
 }
