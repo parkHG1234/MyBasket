@@ -82,8 +82,6 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
         NewsFeed_Comment_EditText = (EditText) findViewById(R.id.NewsFeed_Comment_EditText);
         NewsFeed_Comment_Button = (Button) findViewById(R.id.NewsFeed_Comment_Button);
         NewsFeed_Comment_ProgressBar = (ProgressBar) findViewById(R.id.NewsFeed_Comment_ProgressBar);
-        NewSpeed_Comment_ImageView = (ImageView) findViewById(R.id.NewSpeed_Comment_ImageView);
-
 
         final Intent CommentIntent = getIntent();
         NewsFeed_Num = CommentIntent.getExtras().getString("Num");

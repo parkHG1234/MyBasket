@@ -31,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/id_Layout_EditText"
+                android:text="test123"
                 android:layout_weight="1"
                 android:ems="20"
                 android:hint="ID" />
@@ -50,6 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                android:text="1234"
                 android:ems="20"
                 android:id="@+id/pw_Layout_EditText"
                 android:layout_weight="1"

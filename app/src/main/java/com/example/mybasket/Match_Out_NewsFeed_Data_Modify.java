@@ -5,17 +5,13 @@ package com.example.mybasket;
  */
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,7 +24,6 @@ import com.bumptech.glide.Glide;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -43,7 +38,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -107,8 +101,11 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                 NewsFeed_Camera_Image.setVisibility(View.GONE);
             } else {
                 NewsFeed_Camera_Image.setVisibility(View.VISIBLE);
+                flag=true;
+                ImageFile= DataIntent.getExtras().getString("Image");
                 String En_Profile = URLEncoder.encode(DataIntent.getExtras().getString("Image"), "utf-8");
                 Glide.with(getApplicationContext()).load("http://210.122.7.195:8080/gg/imgs1/" + DataIntent.getExtras().getString("Image") + ".jpg").into(NewsFeed_Camera_Image);
+                ImageURL = String.valueOf("http://210.122.7.195:8080/gg/imgs1/" + DataIntent.getExtras().getString("Image") + ".jpg");
             }
         } catch (UnsupportedEncodingException e) {
         }
@@ -224,10 +221,8 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                     params.add(new BasicNameValuePair("NewsFeed_Day", new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Hour", new SimpleDateFormat("kk").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Minute", new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis()))));
-                    Log.i("MaxNum",DataIntent.getExtras().getString("MaxNum"));
-                    int MaxNum=Integer.parseInt(DataIntent.getExtras().getString("MaxNum"))+1;
-                    Log.i("MaxNum",String.valueOf(MaxNum));
 
+                    int MaxNum=Integer.parseInt(DataIntent.getExtras().getString("MaxNum"))+1;
                     params.add(new BasicNameValuePair("NewsFeed_MaxNum",String.valueOf(MaxNum)));
 
                     if (flag) {
@@ -290,8 +285,6 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
 
                 ImageURL = data.getStringExtra("ImageURL");
                 ImageFile = data.getStringExtra("ImageFile");
-                Log.i("사진", ImageURL);
-                Log.i("사진", ImageFile);
                 ImageDownload();
                 flag = true;
             }

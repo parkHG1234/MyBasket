@@ -58,7 +58,6 @@ import java.util.List;
 public class Match_Out_NewsFeed_Writing extends Activity {
 
 
-    Intent dataIntent;
 
 
     Spinner NewsFeed_Writing_addDoSpinner;
@@ -69,11 +68,10 @@ public class Match_Out_NewsFeed_Writing extends Activity {
     EditText NewsFeed_Writing_TextEditText;
     EditText NewsFeed_Writing_PersonEditText;
 
-
     Button NewsFeed_Writing_CameraButton;
     ImageView NewsFeed_Camera_Image;
     Intent CameraIntent = null;
-
+    Intent dataIntent=null;
     ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
     static int spinnum1, spinnum2;
     String[][] parsedData;
@@ -88,8 +86,6 @@ public class Match_Out_NewsFeed_Writing extends Activity {
 
         Intent intent1 = getIntent();
         Id = intent1.getStringExtra("Id");
-
-
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -151,7 +147,6 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                                                         Court = adspin3.getItem(i).toString();
                                                         NewsFeed_Writing_Button.setEnabled(true);
                                                     }
-
                                                     @Override
                                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                                     }
@@ -160,7 +155,6 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                                                 e.printStackTrace();
                                             }
                                         }
-
                                         @Override
                                         public void onNothingSelected(AdapterView<?> adapterView) {
                                         }
@@ -168,7 +162,6 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                             );
                         }
                     }
-
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) {
                     }
@@ -188,8 +181,6 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                     params.add(new BasicNameValuePair("NewsFeed_Si", Si));
                     params.add(new BasicNameValuePair("NewsFeed_Court", Court));
                     params.add(new BasicNameValuePair("NewsFeed_UserCount", NewsFeed_Writing_PersonEditText.getText().toString()));
-                    Log.i("아이디", Id);
-
                     params.add(new BasicNameValuePair("NewsFeed_User",Id));
                     params.add(new BasicNameValuePair("NewsFeed_Data", NewsFeed_Writing_TextEditText.getText().toString()));
                     params.add(new BasicNameValuePair("NewsFeed_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));
@@ -273,7 +264,6 @@ public class Match_Out_NewsFeed_Writing extends Activity {
             buf = new BufferedInputStream(in);
             Bitmap orgImage = BitmapFactory.decodeFile(String.valueOf(ImageURL));
             Bitmap resize = Bitmap.createScaledBitmap(orgImage, 1080, 1080, true);
-
 
             NewsFeed_Camera_Image.setVisibility(View.VISIBLE);
             NewsFeed_Camera_Image.setImageBitmap(resize);
