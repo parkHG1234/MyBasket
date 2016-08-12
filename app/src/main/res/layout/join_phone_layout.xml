@@ -20,9 +20,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="비밀번호 등록"
         android:id="@+id/textView9"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:text="휴대전화 인증" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -31,7 +31,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.23"></LinearLayout>
 
-
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -39,34 +38,17 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/join_pw_layout_pw1_EditText"
+            android:id="@+id/join_phone_layout_phone_EditText"
             android:layout_gravity="center_horizontal"
-            android:hint="비밀번호"/>
+            android:hint="전화번호" />
 
     </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:ems="10"
-            android:id="@+id/join_pw_layout_pw2_EditText"
-            android:layout_gravity="center_horizontal"
-            android:hint="비밀번호 확인"/>
-
-    </android.support.design.widget.TextInputLayout>
-
     <Button
         android:layout_width="362dp"
         android:layout_height="wrap_content"
         android:text="다음"
         android:id="@+id/join_pw_layout_next_Button"
         android:layout_gravity="center_horizontal"
-        android:onClick="onClickNext1"/>
+        android:onClick="onClickNext" />
 </LinearLayout>
