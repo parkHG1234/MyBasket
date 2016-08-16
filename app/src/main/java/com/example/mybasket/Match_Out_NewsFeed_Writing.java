@@ -66,7 +66,6 @@ public class Match_Out_NewsFeed_Writing extends Activity {
     ArrayList arr;
     Button NewsFeed_Writing_Button;
     EditText NewsFeed_Writing_TextEditText;
-    EditText NewsFeed_Writing_PersonEditText;
 
     Button NewsFeed_Writing_CameraButton;
     ImageView NewsFeed_Camera_Image;
@@ -97,7 +96,6 @@ public class Match_Out_NewsFeed_Writing extends Activity {
         NewsFeed_Writing_addCourtSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addCourtSpinner);
         NewsFeed_Writing_Button = (Button) findViewById(R.id.NewsFeed_Writing_Button);
         NewsFeed_Writing_TextEditText = (EditText) findViewById(R.id.NewsFeed_Writing_TextEditText);
-        NewsFeed_Writing_PersonEditText = (EditText) findViewById(R.id.NewsFeed_Writing_PersonEditText);
         adspin1 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Writing.this, R.array.spinner_do, R.layout.zfile_spinner_test);
         adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         NewsFeed_Writing_addDoSpinner.setAdapter(adspin1);
@@ -180,7 +178,6 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                     params.add(new BasicNameValuePair("NewsFeed_Do", Do));
                     params.add(new BasicNameValuePair("NewsFeed_Si", Si));
                     params.add(new BasicNameValuePair("NewsFeed_Court", Court));
-                    params.add(new BasicNameValuePair("NewsFeed_UserCount", NewsFeed_Writing_PersonEditText.getText().toString()));
                     params.add(new BasicNameValuePair("NewsFeed_User",Id));
                     params.add(new BasicNameValuePair("NewsFeed_Data", NewsFeed_Writing_TextEditText.getText().toString()));
                     params.add(new BasicNameValuePair("NewsFeed_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));

@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -42,18 +43,19 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
     private ArrayList<Match_Out_NewsFeed_Comment_Setting> arrComment;
     private LayoutInflater inflater;
     static ListView NewSpeed_Comment_List;
-    TextView NewSpeed_Comment_List_Person;
     TextView NewSpeed_Comment_List_Time;
     TextView NewSpeed_Comment_List_Data;
     ImageButton NewSpeed_Comment_List_Setting;
+    static String ID;
 
     Match_Out_NewsFeed_Comment_Adapter CommentAdapter;
     String[][] parsedData;
 
-    public Match_Out_NewsFeed_Comment_Adapter(Context c, ArrayList<Match_Out_NewsFeed_Comment_Setting> arr) {
+    public Match_Out_NewsFeed_Comment_Adapter(Context c, ArrayList<Match_Out_NewsFeed_Comment_Setting> arr,String ID) {
         this.context = c;
         this.arrComment = arr;
         inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.ID = ID;
     }
 
     public void listview(ListView listView) {
@@ -66,7 +68,7 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
     }
 
     public Object getItem(int position) {
-        return arrComment.get(position).getperson();
+        return arrComment.get(position).getcomment_user();
     }
 
     public long getItemId(int position) {
@@ -78,8 +80,6 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.layout_match_out_newsfeed_comment_data, parent, false);
         }
 
-        NewSpeed_Comment_List_Person = (TextView) convertView.findViewById(R.id.NewSpeed_Comment_List_Person);
-        NewSpeed_Comment_List_Person.setText("사용자ID");
 
         NewSpeed_Comment_List_Time = (TextView) convertView.findViewById(R.id.NewSpeed_Comment_List_Time);
         NewSpeed_Comment_List_Time.setText(GetTime(position));
@@ -96,31 +96,43 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
 
 //                alertDialogBuilder.setTitle("선택 목록 대화 상자");
                 alertDialogBuilder.setItems(items, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+                    public void onClick(DialogInterface dialog, int i) {
                         String result = "";
-                        switch (id) {
+                        switch (i) {
                             case 0:
                                 try {
-                                    HttpClient client = new DefaultHttpClient();
-                                    String postURL = "http://210.122.7.195:8080/gg/newsfeed_comment_delete.jsp";
-                                    HttpPost post = new HttpPost(postURL);
-                                    List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                    params.add(new BasicNameValuePair("Comment_Num", arrComment.get(position).getcomment_num()));
-                                    params.add(new BasicNameValuePair("NewsFeed_Num", arrComment.get(position).getnewsfeed_num()));
+                                    if(ID.equals(arrComment.get(position).getcomment_user())) {
+                                        HttpClient client = new DefaultHttpClient();
+                                        String postURL = "http://210.122.7.195:8080/gg/newsfeed_comment_delete.jsp";
+                                        HttpPost post = new HttpPost(postURL);
+                                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                        params.add(new BasicNameValuePair("Comment_Num", arrComment.get(position).getcomment_num()));
+                                        params.add(new BasicNameValuePair("NewsFeed_Num", arrComment.get(position).getnewsfeed_num()));
+                                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                        post.setEntity(ent);
+                                        HttpResponse response = client.execute(post);
+                                        postURL = "http://210.122.7.195:8080/gg/newsfeed_comment_download.jsp";
+                                        post = new HttpPost(postURL);
+                                        params = new ArrayList<NameValuePair>();
+                                        params.add(new BasicNameValuePair("NewsFeed_Num", arrComment.get(position).getnewsfeed_num()));
+                                        ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                        post.setEntity(ent);
+                                        response = client.execute(post);
 
-                                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                    post.setEntity(ent);
-                                    HttpResponse response = client.execute(post);
-                                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                                    String line = null;
-                                    while ((line = bufreader.readLine()) != null) {
-                                        result += line;
+                                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                        String line = null;
+                                        while ((line = bufreader.readLine()) != null) {
+                                            result += line;
+                                        }
+                                        parsedData = jsonParserList(result);
+                                        setData();
+                                        CommentAdapter = new Match_Out_NewsFeed_Comment_Adapter(context, arrComment,ID);
+                                        NewSpeed_Comment_List.setAdapter(CommentAdapter);
+
                                     }
-                                    parsedData = jsonParserList(result);
-                                    setData();
-                                    CommentAdapter = new Match_Out_NewsFeed_Comment_Adapter(context, arrComment);
-                                    NewSpeed_Comment_List.setAdapter(CommentAdapter);
-
+                                    else{
+                                        Toast.makeText(context, "사용자를확인해주세요", Toast.LENGTH_SHORT).show();
+                                    }
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -196,7 +208,7 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
 
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
-            String[] jsonName = {"Comment_Num", "NewsFeed_Num", "Comment_Person", "Comment_Data", "Comment_Month", "Comment_Day", "Comment_Hour", "Comment_Minute"};
+            String[] jsonName = {"Comment_Num", "NewsFeed_Num", "Comment_User", "Comment_Data", "Comment_Month", "Comment_Day", "Comment_Hour", "Comment_Minute"};
 
             parsedData = new String[jArr.length()][jsonName.length];
             for (int i = 0; i < jArr.length(); i++) {

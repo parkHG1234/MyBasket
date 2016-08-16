@@ -28,12 +28,14 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.melnykov.fab.FloatingActionButton;
@@ -270,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Match_Out_NewsFeed_Data_Setting> arrData;
 
         ImageView NewsFeed_Emblem;
-        TextView NewsFeed_Court, NewsFeed_Data, NewsFeed_Person;
+        TextView NewsFeed_Court, NewsFeed_Data;
         boolean VisibleFlag = false;
         int cnt, pos;
         static int Position = 0;
@@ -280,10 +282,10 @@ public class MainActivity extends AppCompatActivity {
         JSONObject json;
         JSONArray jArr;
         String[][] parseredData;
-        String[] jsonName = {"NewsFeed_Num", "NewsFeed_User", "NewsFeed_Do", "NewsFeed_Si", "NewsFeed_Court", "NewsFeed_UserCount", "NewsFeed_Data", "NewsFeed_Month", "NewsFeed_Day", "NewsFeed_Hour", "NewsFeed_Minute", "NewsFeed_Image"};
+        String[] jsonName = {"NewsFeed_Num", "NewsFeed_User", "NewsFeed_Do", "NewsFeed_Si", "NewsFeed_Court", "NewsFeed_Data", "NewsFeed_Month", "NewsFeed_Day", "NewsFeed_Hour", "NewsFeed_Minute", "NewsFeed_Image", "Name", "Birth", "Sex", "Position", "Team", "Profile", "Height", "Weight", "Phone"};
         ProgressBar NewsFeed_ProgressBar;
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        Button Match_Button_Out, Match_Button_In, Match_Layout_Out_Button_CheckIn, Match_In_Button_Search;
+        Button Match_Button_Out, Match_Button_In, Match_In_Button_Search;
         FloatingActionButton Match_In_FloatingActionButton_fab;
         ListView Match_In_CustomList;
         LinearLayout Match_Layout_Out, Match_Layout_In;
@@ -311,7 +313,6 @@ public class MainActivity extends AppCompatActivity {
             NewsFeed_Emblem = (ImageView) rootView.findViewById(R.id.NewsFeed_CustomList_Emblem);
             NewsFeed_Court = (TextView) rootView.findViewById(R.id.NewsFeed_CustomList_Court);
             NewsFeed_Data = (TextView) rootView.findViewById(R.id.NewsFeed_CustomList_Data);
-            NewsFeed_Person = (TextView) rootView.findViewById(R.id.NewsFeed_CustomList_Person);
             NewsFeed_Writing = (ImageView) rootView.findViewById(R.id.NewsFeed_Writing);
             NewsFeed_List = (ListView) rootView.findViewById(R.id.NewsFeed_List);
 
@@ -320,14 +321,12 @@ public class MainActivity extends AppCompatActivity {
             spinner_Address_Do = (Spinner) rootView.findViewById(R.id.NewsFeed_Spinner_Do);
             spinner_Address_si = (Spinner) rootView.findViewById(R.id.NewsFeed_Spinner_Si);
 
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //매칭 out 뉴스피드 코딩
             adspin1 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do, R.layout.zfile_spinner_test);
             adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner_Address_Do.setAdapter(adspin1);
             NewsFeed_List.setOnScrollListener(this);
-
 
             spinner_Address_Do.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -376,7 +375,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                         parsedData = jsonParserList(result);
                         setData();
-                        dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData);
+
+                        dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData, Id, MaxNum);
                         dataadapter.listview(NewsFeed_List);
                         NewsFeed_List.setAdapter(dataadapter);
                     } catch (Exception e) {
@@ -384,105 +384,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-
-            final MaterialDialog Dialog = new MaterialDialog(getContext());
-            final View layout = inflater.inflate(R.layout.layout_match_out_newsfeed_dialog, (ViewGroup) rootView.findViewById(R.id.Dialog_ImageView));
-
-
-            final ImageView ImageView_DialogComment = (ImageView) layout.findViewById(R.id.ImageView_DialogComment);
-            final ImageView ImageView_DialogModify = (ImageView) layout.findViewById(R.id.ImageView_DialogModify);
-            final ImageView ImageView_DialogDelete = (ImageView) layout.findViewById(R.id.ImageView_DialogDelete);
-
-            NewsFeed_List.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
-                    Position = position;
-                    Dialog
-                            .setView(layout)
-                            .setPositiveButton("OK", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Dialog.dismiss();
-                                }
-                            });
-                    Dialog.show();
-
-                }
-            });
-            ImageView_DialogComment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent CommentIntent = new Intent(getContext(), Match_Out_NewsFeed_Comment.class);
-
-                    CommentIntent.putExtra("Num", arrData.get(Position).getnum());
-                    CommentIntent.putExtra("Court", arrData.get(Position).getcourt());
-                    CommentIntent.putExtra("Person", arrData.get(Position).getperson());
-                    CommentIntent.putExtra("Data", arrData.get(Position).getdata());
-                    CommentIntent.putExtra("Time", GetTime(Position));
-                    getContext().startActivity(CommentIntent);
-
-                    Dialog.dismiss();
-
-                }
-            });
-            ImageView_DialogModify.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    Intent DataIntent = new Intent(getContext(), Match_Out_NewsFeed_Data_Modify.class);
-
-                    DataIntent.putExtra("Num", arrData.get(Position).getnum());
-                    DataIntent.putExtra("Do", arrData.get(Position).getDo());
-                    DataIntent.putExtra("Si", arrData.get(Position).getSi());
-                    DataIntent.putExtra("court", arrData.get(Position).getcourt());
-                    DataIntent.putExtra("person", arrData.get(Position).getperson());
-                    DataIntent.putExtra("data", arrData.get(Position).getdata());
-                    DataIntent.putExtra("month", arrData.get(Position).getMonth());
-                    DataIntent.putExtra("day", arrData.get(Position).getDay());
-                    DataIntent.putExtra("hour", arrData.get(Position).getHour());
-                    DataIntent.putExtra("minute", arrData.get(Position).getMinute());
-                    DataIntent.putExtra("Image", arrData.get(Position).getImage());
-                    DataIntent.putExtra("MaxNum", String.valueOf(MaxNum));
-
-                    getContext().startActivity(DataIntent);
-
-                    Dialog.dismiss();
-                }
-            });
-            ImageView_DialogDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String result = "";
-
-                    try {
-                        HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_delete.jsp";
-                        HttpPost post = new HttpPost(postURL);
-                        List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("NewsFeed_Num", arrData.get(Position).getnum()));
-                        params.add(new BasicNameValuePair("NewsFeed_Do", arrData.get(Position).getDo()));
-                        params.add(new BasicNameValuePair("NewsFeed_Si", arrData.get(Position).getSi()));
-                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                        post.setEntity(ent);
-                        HttpResponse response = client.execute(post);
-                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                        String line = null;
-                        while ((line = bufreader.readLine()) != null) {
-                            result += line;
-                        }
-                        parsedData = jsonParserList(result);
-                        setData();
-                        dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData);
-                        NewsFeed_List.setAdapter(dataadapter);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    Dialog.dismiss();
-                }
-            });
-
 
             NewsFeed_Writing.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -688,11 +589,13 @@ public class MainActivity extends AppCompatActivity {
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         private void setData() {
             arrData = new ArrayList<Match_Out_NewsFeed_Data_Setting>();
-
-            for (int a = 0; a < cnt; a++) {
-                arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7], parsedData[a][8], parsedData[a][9], parsedData[a][10], parsedData[a][11]));
-            }
+                for (int a = 0; a < cnt; a++) {
+                    arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7], parsedData[a][8], parsedData[a][9]
+                                                                   , parsedData[a][10], parsedData[a][11], parsedData[a][12], parsedData[a][13], parsedData[a][14], parsedData[a][15], parsedData[a][16], parsedData[a][17], parsedData[a][18], parsedData[a][19]));
+                }
         }
+
+
 
         public String[][] jsonParserList(String pRecvServerPage) {
             Log.i("서버에서 받은 전체 내용", pRecvServerPage);
@@ -705,19 +608,17 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     cnt = jArr.length();
                 }
-                parseredData = new String[jArr.length()][jsonName.length];
-
+                parsedData = new String[jArr.length()][jsonName.length];
                 for (int i = 0; i < cnt; i++) {
                     json = jArr.getJSONObject(i);
                     for (int j = 0; j < jsonName.length; j++) {
-                        parseredData[i][j] = json.getString(jsonName[j]);
-                        if (MaxNum < Integer.valueOf(parseredData[i][0])) {
-                            MaxNum = Integer.valueOf(parseredData[i][0]);
-                            Log.i("MaxNum", parseredData[i][0]);
+                        parsedData[i][j] = json.getString(jsonName[j]);
+                        if (MaxNum < Integer.valueOf(parsedData[i][0])) {
+                            MaxNum = Integer.valueOf(parsedData[i][0]);
                         }
                     }
                 }
-                return parseredData;
+                return parsedData;
 
             } catch (JSONException e) {
                 return null;
@@ -749,16 +650,13 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < cnt; i++) {
                         json = jArr.getJSONObject(i);
                         for (int j = 0; j < jsonName.length; j++) {
-                            parseredData[i][j] = json.getString(jsonName[j]);
+                            parsedData[i][j] = json.getString(jsonName[j]);
                         }
                     }
                     setData();
-                    dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData);
-
+                    dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData,Id, MaxNum);
                     NewsFeed_List.setAdapter(dataadapter);
                     NewsFeed_List.setSelection(pos + 1);
-
-
                 } catch (JSONException e) {
                 }
 
@@ -886,6 +784,7 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         }
+
 
 
     }

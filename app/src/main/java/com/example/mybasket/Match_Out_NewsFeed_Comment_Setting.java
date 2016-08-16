@@ -14,26 +14,23 @@ public class Match_Out_NewsFeed_Comment_Setting extends Activity {
 
     private String comment_num;
     private String newsfeed_num;
-    private String person;
+    private String comment_user;
     private String data;
     private String month;
     private String day;
     private String hour;
     private String minute;
-    private String Image;
 
 
-    public Match_Out_NewsFeed_Comment_Setting(String comment_num, String newsfeed_num, String person, String data, String month, String day, String hour, String minute) {
+    public Match_Out_NewsFeed_Comment_Setting(String comment_num, String newsfeed_num,String comment_user, String data, String month, String day, String hour, String minute) {
         this.comment_num = comment_num;
         this.newsfeed_num = newsfeed_num;
-        this.person = person;
-//        person대신 아이디받기
+        this.comment_user = comment_user;
         this.data = data;
         this.month = month;
         this.day = day;
         this.hour = hour;
         this.minute = minute;
-
     }
 
     public String getcomment_num() {
@@ -44,9 +41,7 @@ public class Match_Out_NewsFeed_Comment_Setting extends Activity {
         return newsfeed_num;
     }
 
-    public String getperson() {
-        return person;
-    }
+    public String getcomment_user() { return comment_user;}
 
     public String getdata() {
         return data;
@@ -68,7 +63,6 @@ public class Match_Out_NewsFeed_Comment_Setting extends Activity {
         return minute;
     }
 
-    public String getImage() { return Image; }
 }
 
 

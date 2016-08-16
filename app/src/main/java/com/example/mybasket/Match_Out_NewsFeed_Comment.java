@@ -43,20 +43,19 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
 
     ImageView NewsFeed_Comment_Emblem;
     TextView NewsFeed_Comment_Court;
-    TextView NewsFeed_Comment_Person;
     TextView NewsFeed_Comment_Time;
     TextView NewsFeed_Comment_Data;
     ListView NewSpeed_Comment_List;
     EditText NewsFeed_Comment_EditText;
     Button NewsFeed_Comment_Button;
-    ImageView NewSpeed_Comment_ImageView;
 
 
     Match_Out_NewsFeed_Comment_Adapter CommentAdapter;
     ArrayList<Match_Out_NewsFeed_Comment_Setting> arrComment;
     String NewsFeed_Num;
     String[][] parsedData;
-    String[] jsonName = {"Comment_Num", "NewsFeed_Num", "Comment_Person", "Comment_Data", "Comment_Month", "Comment_Day", "Comment_Hour", "Comment_Minute"};
+    String Comment_User;
+    String[] jsonName = {"Comment_Num", "NewsFeed_Num", "Comment_User", "Comment_Data", "Comment_Month", "Comment_Day", "Comment_Hour", "Comment_Minute"};
 
     Handler handler = new Handler();
 
@@ -75,7 +74,6 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
 
         NewsFeed_Comment_Emblem = (ImageView) findViewById(R.id.NewsFeed_Comment_Emblem);
         NewsFeed_Comment_Court = (TextView) findViewById(R.id.NewsFeed_Comment_Court);
-        NewsFeed_Comment_Person = (TextView) findViewById(R.id.NewsFeed_Comment_Person);
         NewsFeed_Comment_Time = (TextView) findViewById(R.id.NewsFeed_Comment_Time);
         NewsFeed_Comment_Data = (TextView) findViewById(R.id.NewsFeed_Comment_Data);
         NewSpeed_Comment_List = (ListView) findViewById(R.id.NewSpeed_Comment_List);
@@ -85,8 +83,8 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
 
         final Intent CommentIntent = getIntent();
         NewsFeed_Num = CommentIntent.getExtras().getString("Num");
+        Comment_User=CommentIntent.getExtras().getString("Id");
         NewsFeed_Comment_Court.setText(CommentIntent.getExtras().getString("Court"));
-        NewsFeed_Comment_Person.setText(CommentIntent.getExtras().getString("Person"));
         NewsFeed_Comment_Data.setText(CommentIntent.getExtras().getString("Data"));
         NewsFeed_Comment_Time.setText(CommentIntent.getExtras().getString("Time"));
 
@@ -108,7 +106,7 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
             parsedData = jsonParserList(result);
             setData();
 
-            CommentAdapter = new Match_Out_NewsFeed_Comment_Adapter(Match_Out_NewsFeed_Comment.this, arrComment);
+            CommentAdapter = new Match_Out_NewsFeed_Comment_Adapter(Match_Out_NewsFeed_Comment.this, arrComment,Comment_User);
             CommentAdapter.listview(NewSpeed_Comment_List);
             NewSpeed_Comment_List.setAdapter(CommentAdapter);
             NewSpeed_Comment_List.setOnScrollListener(this);
@@ -120,13 +118,14 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
             @Override
             public void onClick(View view) {
                 String result = "";
+                if(!(NewsFeed_Comment_EditText.getText().equals("null"))){
                 try {
                     HttpClient client = new DefaultHttpClient();
                     String postURL = "http://210.122.7.195:8080/gg/newsfeed_comment_upload.jsp";
                     HttpPost post = new HttpPost(postURL);
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
                     params.add(new BasicNameValuePair("NewsFeed_Num", NewsFeed_Num));
-                    params.add(new BasicNameValuePair("Comment_Person", NewsFeed_Comment_Person.getText().toString()));
+                    params.add(new BasicNameValuePair("Comment_User",Comment_User ));
                     params.add(new BasicNameValuePair("Comment_Data", NewsFeed_Comment_EditText.getText().toString()));
                     params.add(new BasicNameValuePair("Comment_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("Comment_Day", new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis()))));
@@ -145,19 +144,22 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
                     post.setEntity(ent);
                     response = client.execute(post);
                     bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+
                     String line = null;
                     while ((line = bufreader.readLine()) != null) {
                         result += line;
                     }
                     parsedData = jsonParserList(result);
                     setData();
-                    CommentAdapter = new Match_Out_NewsFeed_Comment_Adapter(Match_Out_NewsFeed_Comment.this, arrComment);
+                    CommentAdapter = new Match_Out_NewsFeed_Comment_Adapter(Match_Out_NewsFeed_Comment.this, arrComment,Comment_User);
+
                     CommentAdapter.listview(NewSpeed_Comment_List);
                     NewSpeed_Comment_List.setAdapter(CommentAdapter);
                     NewsFeed_Comment_EditText.setText("");
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }}
             }
         });
     }
@@ -223,11 +225,11 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
                 e.printStackTrace();
             }
             setData();
-            CommentAdapter = new Match_Out_NewsFeed_Comment_Adapter(Match_Out_NewsFeed_Comment.this, arrComment);
+            CommentAdapter = new Match_Out_NewsFeed_Comment_Adapter(Match_Out_NewsFeed_Comment.this, arrComment,Comment_User);
             CommentAdapter.listview(NewSpeed_Comment_List);
             NewSpeed_Comment_List = (ListView) findViewById(R.id.NewSpeed_Comment_List);
             NewSpeed_Comment_List.setAdapter(CommentAdapter);
-//            NewSpeed_Comment_List.setSelection(pos + 1);
+            NewSpeed_Comment_List.setSelection(pos + 3);
 
         }
     }

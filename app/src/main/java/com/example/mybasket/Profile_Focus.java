@@ -18,22 +18,22 @@ public class Profile_Focus extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_profile_focus);
-        Intent intent = getIntent();
-        Profile = intent.getStringExtra("Profile");
-        ImageView Profile_Focus_ImageVIew = (ImageView)findViewById(R.id.Profile_Focus_ImageVIew);
-        try{
-            String En_Profile = URLEncoder.encode(Profile, "utf-8");
-            if(Profile.equals(".")) {
-                Glide.with(Profile_Focus.this).load(R.drawable.profile_basic_image).into(Profile_Focus_ImageVIew);
-            }
-            else{
-                Glide.with(Profile_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg")
-                        .into(Profile_Focus_ImageVIew);
-
-            }
-        }
-        catch (UnsupportedEncodingException e){
-
-        }
+//        Intent intent = getIntent();
+//        Profile = intent.getStringExtra("Profile");
+//        ImageView Profile_Focus_ImageVIew = (ImageView)findViewById(R.id.Profile_Focus_ImageVIew);
+//        try{
+//            String En_Profile = URLEncoder.encode(Profile, "utf-8");
+//            if(Profile.equals(".")) {
+//                Glide.with(Profile_Focus.this).load(R.drawable.profile_basic_image).into(Profile_Focus_ImageVIew);
+//            }
+//            else{
+//                Glide.with(Profile_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg")
+//                        .into(Profile_Focus_ImageVIew);
+//
+//            }
+//        }
+//        catch (UnsupportedEncodingException e){
+//
+//        }
     }
 }

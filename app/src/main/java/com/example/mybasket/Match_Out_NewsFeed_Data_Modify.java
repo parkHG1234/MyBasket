@@ -59,7 +59,6 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
     Spinner NewsFeed_Writing_addSiSpinner;
     Spinner NewsFeed_Writing_addCourtSpinner;
     EditText NewsFeed_Writing_TextEditText;
-    EditText NewsFeed_Writing_PersonEditText;
     ImageView NewsFeed_Camera_Image;
     Button NewsFeed_Writing_Button;
     Button NewsFeed_Writing_CameraButton;
@@ -89,12 +88,10 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         NewsFeed_Writing_addSiSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addSiSpinner);
         NewsFeed_Writing_addCourtSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addCourtSpinner);
         NewsFeed_Writing_TextEditText = (EditText) findViewById(R.id.NewsFeed_Writing_TextEditText);
-        NewsFeed_Writing_PersonEditText = (EditText) findViewById(R.id.NewsFeed_Writing_PersonEditText);
         NewsFeed_Writing_Button = (Button) findViewById(R.id.NewsFeed_Writing_Button);
 
         final Intent DataIntent = getIntent();
         NewsFeed_Writing_TextEditText.setText(DataIntent.getExtras().getString("data"));
-        NewsFeed_Writing_PersonEditText.setText(DataIntent.getExtras().getString("person"));
 
         try {
             if (DataIntent.getExtras().getString("Image").equals(".")) {
@@ -215,7 +212,6 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                     params.add(new BasicNameValuePair("NewsFeed_Do", Do));
                     params.add(new BasicNameValuePair("NewsFeed_Si", Si));
                     params.add(new BasicNameValuePair("NewsFeed_Court", Court));
-                    params.add(new BasicNameValuePair("NewsFeed_UserCount", NewsFeed_Writing_PersonEditText.getText().toString()));
                     params.add(new BasicNameValuePair("NewsFeed_Data", NewsFeed_Writing_TextEditText.getText().toString()));
                     params.add(new BasicNameValuePair("NewsFeed_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Day", new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis()))));

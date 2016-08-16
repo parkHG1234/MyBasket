@@ -106,13 +106,6 @@
                 android:text="인원 : "
                 android:textSize="30dp"/>
 
-            <EditText
-                android:id="@+id/NewsFeed_Writing_PersonEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="number"
-                android:textSize="30dp"/>
 
             <Button
                 android:id="@+id/NewsFeed_Writing_Button"

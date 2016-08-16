@@ -76,7 +76,6 @@ public class Navigation_TeamIntro_Focus_Player_MyAdapter extends BaseAdapter {
 
         TextView Name = (TextView) convertView.findViewById(R.id.Teamintro_Focus_Player_CustomList_Name);
         TextView Duty = (TextView) convertView.findViewById(R.id.Teamintro_Focus_Player_CustomList_Duty);
-        Teamintro_Focus_Player_CustomList_ProfileImage = (ImageView) convertView.findViewById(R.id.Teamintro_Focus_Player_CustomList_ProfileImage);
         Name.setText(arrData.get(position).getName());
         Duty.setText(arrData.get(position).getDuty());
         try {

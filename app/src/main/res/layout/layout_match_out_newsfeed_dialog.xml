@@ -4,7 +4,12 @@
     android:layout_height="match_parent"
     android:id="@+id/Dialog_ImageView">
 
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/ImageView_DialogInformation"
+        android:src="@drawable/ball"/>
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
