@@ -1,8 +1,6 @@
 package com.example.mybasket;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.Snackbar;
@@ -28,59 +26,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ldong on 2016-07-05.
-*/
-public class JoinIdActivity extends Activity {
-    EditText join_id_EditText;
-    static String phone;
+ * Created by ldong on 2016-08-11.
+ */
+public class JoinPhoneActivity extends Activity {
+    EditText join_phone_EditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.join_id_layout);
+        setContentView(R.layout.join_phone_layout);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        Intent intentGet = getIntent();
-
-        phone = intentGet.getStringExtra("phone");
-        join_id_EditText = (EditText) findViewById(R.id.join_id_layout_id_EditText);
+        join_phone_EditText = (EditText) findViewById(R.id.join_phone_layout_phone_EditText);
     }
 
     public void onClickNext(View view) {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        String id = join_id_EditText.getText().toString();
-        String result = SendByHttp(id);
-        Log.i("JSON을 분석한 데이터2222 :", result);
+        String phone = join_phone_EditText.getText().toString();
+        String result = SendByHttp(phone);
         String[][] parsedData = jsonParserList(result);
         if(parsedData != null && parsedData[0][0].equals("noDuplicate")) {
-            if(id.length() < 5) {
-                Snackbar.make(view, "아이디는 5자 이상이어야  합니다.", Snackbar.LENGTH_LONG)
-                        .show();
-            }else {
-                Intent intent = new Intent(JoinIdActivity.this, JoinPwActivity.class);
-                intent.putExtra("id",id);
-
-                startActivity(intent);
-            }
-
+            //sms 전송 구현
         }else {
-            Snackbar.make(view, "중복된 아이디가 있습니다.", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "중복된 전화번호가 있습니다.", Snackbar.LENGTH_LONG)
                     .show();
         }
+
+
+
     }
 
-
-    private String SendByHttp(String id) {
+    private String SendByHttp(String phone) {
         try {
             HttpClient httpClient = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/pp/CheckJoinedId.jsp";
+            String postURL = "http://210.122.7.195:8080/pp/CheckJoinedPhone.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("id", id));
+            params.add(new BasicNameValuePair("phone", phone));
 
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(entity);
@@ -109,7 +93,7 @@ public class JoinIdActivity extends Activity {
 
             //String[] jsonName = {"login_check","usercode","password","name","sex","email","univ","club" };
 
-            String[] jsonName = {"CheckId"};
+            String[] jsonName = {"CheckPhone"};
             String[][] parseredData = new String[jarr.length()][jsonName.length];
             for(int i = 0; i<jarr.length();i++){
                 json = jarr.getJSONObject(i);

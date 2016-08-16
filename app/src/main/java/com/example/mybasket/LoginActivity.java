@@ -77,7 +77,7 @@ public class LoginActivity extends Activity {
         Session.getCurrentSession().checkAndImplicitOpen();
     }
     public void join_Button (View view) {
-        Intent intent = new Intent(LoginActivity.this, JoinIdActivity.class);
+        Intent intent = new Intent(LoginActivity.this, JoinPhoneActivity.class);
         startActivity(intent);
         finish();
 

@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".KakaoSignupActivity"></activity>
+        <activity android:name=".JoinPhoneActivity"></activity>
         <activity android:name=".JoinIdActivity"></activity>
         <activity android:name=".JoinPwActivity"></activity>
         <activity android:name=".JoinAddActivity"></activity>
