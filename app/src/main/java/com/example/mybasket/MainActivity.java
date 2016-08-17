@@ -389,6 +389,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent DataIntent = new Intent(getContext(), Match_Out_NewsFeed_Writing.class);
+                    DataIntent.putExtra("Id",Id);
                     startActivity(DataIntent);
                 }
             });

@@ -45,6 +45,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -203,8 +204,6 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
             }
         });
 
@@ -335,11 +334,20 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                 b.append((char) ch);
             }
             String s = b.toString();
-            Log.e("Test", "result = " + s);
 
         } catch (Exception e) {
-            Log.d("Test", "exception " + e.getMessage());
             Toast.makeText(this, "업로드중 에러발생!", Toast.LENGTH_SHORT).show();
+            try {
+                HttpClient client = new DefaultHttpClient();
+                String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_fail_upload.jsp";
+                HttpPost post = new HttpPost(postURL);
+                List<NameValuePair> param = new ArrayList<NameValuePair>();
+                UrlEncodedFormEntity ent = null;
+                ent = new UrlEncodedFormEntity(param, HTTP.UTF_8);
+                post.setEntity(ent);
+            } catch (UnsupportedEncodingException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 }

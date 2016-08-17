@@ -239,7 +239,18 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 }
             }
         });
-
+        ImageView NewSpeed_ImageView = (ImageView)  convertView.findViewById(R.id.NewSpeed_ImageView);
+        try{
+            if(String.valueOf(arrData.get(position).getImage()).equals(".")) {
+                NewSpeed_ImageView.setVisibility(View.GONE);
+            }else{
+                NewSpeed_ImageView.setVisibility(View.VISIBLE);
+                En_Profile = URLEncoder.encode(String.valueOf(arrData.get(position).getImage()), "utf-8");
+                Glide.with(convertView.getContext()).load("http://210.122.7.195:8080/gg/imgs1/" + String.valueOf(arrData.get(position).getImage()) + ".jpg").into(NewSpeed_ImageView);
+            }
+        }
+        catch (UnsupportedEncodingException e){
+        }
 
         return convertView;
     }
