@@ -4,25 +4,29 @@ package com.example.mybasket;
  * Created by 박효근 on 2016-07-22.
  */
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -39,10 +43,7 @@ import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -53,54 +54,114 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import me.drakeet.materialdialog.MaterialDialog;
+
 /**
  * Created by 박지훈 on 2016-06-21.
  */
-public class Match_Out_NewsFeed_Writing extends Activity {
+public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
 
 
-
-
-    Spinner NewsFeed_Writing_addDoSpinner;
-    Spinner NewsFeed_Writing_addSiSpinner;
-    Spinner NewsFeed_Writing_addCourtSpinner;
     ArrayList arr;
-    Button NewsFeed_Writing_Button;
     EditText NewsFeed_Writing_TextEditText;
-
-    Button NewsFeed_Writing_CameraButton;
-    ImageView NewsFeed_Camera_Image;
+    Button NewsFeed_Writing_Button_Write;
+    TextView NewsFeed_Writing_TextVIew_Court,NewsFeed_Writing_TextView_Name;
+    Button NewsFeed_Writing_CameraButton,NewsFeed_Writing_Button_CourtModify;
+    ImageView NewsFeed_Camera_Image, NewsFeed_Writing_ImageView_Profile;
     Intent CameraIntent = null;
     Intent dataIntent=null;
     ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
     static int spinnum1, spinnum2;
-    String[][] parsedData;
+    String[][] parsedData,parsedData_MyInfo;
     static String Do, Si, Court, ImageURL = null, ImageFile = null;
-    static String Id = "";
+    static String Id = "", Name, Profile;
     private static boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_match_out_newsfeed_writing);
-
         Intent intent1 = getIntent();
         Id = intent1.getStringExtra("Id");
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
+        NewsFeed_Writing_Button_Write = (Button)findViewById(R.id.NewsFeed_Writing_Button);
         NewsFeed_Writing_CameraButton = (Button) findViewById(R.id.NewsFeed_Writing_CameraButton);
         NewsFeed_Camera_Image = (ImageView) findViewById(R.id.NewsFeed_Camera_Image);
-        NewsFeed_Writing_addDoSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addDoSpinner);
-        NewsFeed_Writing_addSiSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addSiSpinner);
-        NewsFeed_Writing_addCourtSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addCourtSpinner);
-        NewsFeed_Writing_Button = (Button) findViewById(R.id.NewsFeed_Writing_Button);
         NewsFeed_Writing_TextEditText = (EditText) findViewById(R.id.NewsFeed_Writing_TextEditText);
+        NewsFeed_Writing_TextVIew_Court = (TextView)findViewById(R.id.NewsFeed_Writing_TextVIew_Court);
+        NewsFeed_Writing_Button_CourtModify = (Button)findViewById(R.id.NewsFeed_Writing_Button_CourtModify);
+        NewsFeed_Writing_ImageView_Profile = (ImageView)findViewById(R.id.NewsFeed_Writing_ImageView_Profile);
+        NewsFeed_Writing_TextView_Name= (TextView)findViewById(R.id.NewsFeed_Writing_TextView_Name);
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View layout = inflater.inflate(R.layout.layout_customdialog_courtchoice, (ViewGroup)findViewById(R.id.Layout_CustomDialog_CourtChoice_Root));
+        final Spinner Layout_CustomDialog_CourtChoice_Do = (Spinner)layout.findViewById(R.id.Layout_CustomDialog_CourtChoice_Do);
+        final Spinner Layout_CustomDialog_CourtChoice_Se = (Spinner)layout.findViewById(R.id.Layout_CustomDialog_CourtChoice_Se);
+        final Spinner Layout_CustomDialog_CourtChoice_Court = (Spinner)layout.findViewById(R.id.Layout_CustomDialog_CourtChoice_Court);
+
+//id에 해당하는 정보 받아온다.
+        String id_info="";
+        try {
+            HttpClient client = new DefaultHttpClient();
+            String postURL = "http://210.122.7.195:8080/Web_basket/NewsFeedMyInfo.jsp";
+            HttpPost post = new HttpPost(postURL);
+
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("Id", Id));
+
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+            String line = null;
+            while ((line = bufreader.readLine()) != null) {
+                id_info += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        parsedData_MyInfo = jsonParserList_MyInfo(id_info);
+        Name = parsedData_MyInfo[0][0];
+        Profile = parsedData_MyInfo[0][1];
+        try {
+            String En_Profile = URLEncoder.encode(Profile, "utf-8");
+            if (Profile.equals(".")) {
+                Glide.with(Match_Out_NewsFeed_Writing.this).load(R.drawable.profile_basic_image).into(NewsFeed_Writing_ImageView_Profile);
+            } else {
+                Glide.with(Match_Out_NewsFeed_Writing.this).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(Match_Out_NewsFeed_Writing.this).getBitmapPool()))
+                        .into(NewsFeed_Writing_ImageView_Profile);
+            }
+        } catch (UnsupportedEncodingException e) {
+
+        }
+        NewsFeed_Writing_TextView_Name.setText(Name);
+        NewsFeed_Writing_Button_Write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        final MaterialDialog TeamPlayerDialog = new MaterialDialog(Match_Out_NewsFeed_Writing.this);
+        TeamPlayerDialog
+                .setTitle("코트 선택")
+                .setView(layout)
+                .setPositiveButton("선택 완료", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TeamPlayerDialog.dismiss();
+                    }
+                });
+        TeamPlayerDialog.show();
+
         adspin1 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Writing.this, R.array.spinner_do, R.layout.zfile_spinner_test);
         adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        NewsFeed_Writing_addDoSpinner.setAdapter(adspin1);
-        NewsFeed_Writing_addDoSpinner.setOnItemSelectedListener(
+        Layout_CustomDialog_CourtChoice_Do.setAdapter(adspin1);
+        Layout_CustomDialog_CourtChoice_Do.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -109,8 +170,8 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                         if (adspin1.getItem(i).equals("서울")) {
                             adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Writing.this, R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            NewsFeed_Writing_addSiSpinner.setAdapter(adspin2);
-                            NewsFeed_Writing_addSiSpinner.setOnItemSelectedListener(
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
                                     new AdapterView.OnItemSelectedListener() {
                                         @Override
                                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -134,17 +195,18 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                                                 }
                                                 parsedData = jsonParserList(result);
                                                 arr = new ArrayList();
+                                                arr.add("코트 선택");
                                                 for (int a = 0; a < parsedData.length; a++) {
                                                     arr.add(parsedData[a][0]);
                                                 }
                                                 adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Writing.this, android.R.layout.simple_spinner_item, arr);
                                                 adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                                NewsFeed_Writing_addCourtSpinner.setAdapter(adspin3);
-                                                NewsFeed_Writing_addCourtSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                                     @Override
                                                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                                                         Court = adspin3.getItem(i).toString();
-                                                        NewsFeed_Writing_Button.setEnabled(true);
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
                                                     }
                                                     @Override
                                                     public void onNothingSelected(AdapterView<?> adapterView) {
@@ -166,9 +228,38 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                     }
                 }
         );
+        NewsFeed_Writing_Button_CourtModify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TeamPlayerDialog
+                        .setTitle("코트 선택")
+                        .setView(layout)
+                        .setPositiveButton("선택 완료", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                TeamPlayerDialog.dismiss();
+                            }
+                        });
+                TeamPlayerDialog.show();
+            }
+        });
+        NewsFeed_Writing_TextEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
 
-        NewsFeed_Writing_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                NewsFeed_Writing_Button_Write.setTextColor(Color.parseColor("#10253f"));
+                NewsFeed_Writing_Button_Write.setEnabled(true);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+        NewsFeed_Writing_Button_Write.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -204,6 +295,7 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
             }
         });
 
@@ -218,7 +310,6 @@ public class Match_Out_NewsFeed_Writing extends Activity {
             }
         });
     }
-
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         this.dataIntent = data;
@@ -251,7 +342,26 @@ public class Match_Out_NewsFeed_Writing extends Activity {
             return null;
         }
     }
+    public String[][] jsonParserList_MyInfo(String pRecvServerPage){
+        Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+        try{
+            JSONObject json = new JSONObject(pRecvServerPage);
+            JSONArray jArr = json.getJSONArray("List");
 
+            String[] jsonName = {"msg1","msg2"};
+            String[][] parseredData = new String[jArr.length()][jsonName.length];
+            for(int i = 0; i<jArr.length();i++){
+                json = jArr.getJSONObject(i);
+                for (int j=0;j<jsonName.length; j++){
+                    parseredData[i][j] = json.getString(jsonName[j]);
+                }
+            }
+            return parseredData;
+        }catch (JSONException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
     public void ImageDownload() {
         try {
             FileInputStream in;
@@ -334,20 +444,11 @@ public class Match_Out_NewsFeed_Writing extends Activity {
                 b.append((char) ch);
             }
             String s = b.toString();
+            Log.e("Test", "result = " + s);
 
         } catch (Exception e) {
+            Log.d("Test", "exception " + e.getMessage());
             Toast.makeText(this, "업로드중 에러발생!", Toast.LENGTH_SHORT).show();
-            try {
-                HttpClient client = new DefaultHttpClient();
-                String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_fail_upload.jsp";
-                HttpPost post = new HttpPost(postURL);
-                List<NameValuePair> param = new ArrayList<NameValuePair>();
-                UrlEncodedFormEntity ent = null;
-                ent = new UrlEncodedFormEntity(param, HTTP.UTF_8);
-                post.setEntity(ent);
-            } catch (UnsupportedEncodingException e1) {
-                e1.printStackTrace();
-            }
         }
     }
 }
