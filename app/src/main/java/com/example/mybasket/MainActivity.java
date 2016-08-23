@@ -393,7 +393,31 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(DataIntent);
                 }
             });
+            String result = "";
+            try {
+                HttpClient client = new DefaultHttpClient();
+                String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_download.jsp";
+                HttpPost post = new HttpPost(postURL);
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("NewsFeed_Do", (String) "서울"));
+                params.add(new BasicNameValuePair("NewsFeed_Si", (String) "전 체"));
+                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                post.setEntity(ent);
+                HttpResponse response = client.execute(post);
+                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                String line = null;
+                while ((line = bufreader.readLine()) != null) {
+                    result += line;
+                }
+                parsedData = jsonParserList(result);
+                setData();
 
+                dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData, Id, MaxNum);
+                dataadapter.listview(NewsFeed_List);
+                NewsFeed_List.setAdapter(dataadapter);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             Match_In_Spinner_Address_do = (Spinner) rootView.findViewById(R.id.Match_In_Spinner_Address_do);
