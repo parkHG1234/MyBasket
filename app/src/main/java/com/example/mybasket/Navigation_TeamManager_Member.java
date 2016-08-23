@@ -47,7 +47,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
     FrameLayout TeamManager_Member_Layout_TeamPlayer,TeamManager_Member_Layout_Joiner;
     SwipeMenuListView TeamManager_Member_ListView_JoinerList,TeamManager_Member_ListView_TeamPlayerList;
     static String Id, Team;
-    String[][] parsedData_TeamPlayer,parsedData_Joiner, parsedData_TeamPlayer_Delete;
+    String[][] parsedData_TeamPlayer,parsedData_Joiner, parsedData_TeamPlayer_Delete,parsedData_Duty;
     //팀원 리스트 선언
     Navigation_TeamManager_Member_Customlist_TeamPlayer_MyAdapter navigation_TeamManager_Member_Customlist_TeamPlayer_MyAdapter;
     ArrayList<Navigation_TeamManager_Member_Customlist_TeamPlayer_MyData> navigation_TeamManager_Member_Customlist_TeamPlayer_MyData;
@@ -160,6 +160,15 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
             @Override
             public void create(SwipeMenu menu) {
                 // create "delete" item
+                SwipeMenuItem duty = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                duty.setBackground(new ColorDrawable(Color.GRAY));
+                duty.setTitle("권한");
+                // set item width
+                duty.setWidth(180);
+                menu.addMenuItem(duty);
+                // create "delete" item
                 SwipeMenuItem deleteItem = new SwipeMenuItem(
                         getApplicationContext());
                 // set item background
@@ -181,6 +190,33 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
             public boolean onMenuItemClick(final int position, final SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
+                        String result="";
+                        try {
+                            HttpClient client = new DefaultHttpClient();
+                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamManager_ModifyDuty.jsp";
+                            HttpPost post = new HttpPost(postURL);
+
+                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                            params.add(new BasicNameValuePair("Id", navigation_TeamManager_Member_Customlist_TeamPlayer_MyData.get(position).getId()));
+
+                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                            post.setEntity(ent);
+
+                            HttpResponse response = client.execute(post);
+                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                            String line = null;
+                            while ((line = bufreader.readLine()) != null) {
+                                result += line;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        parsedData_Duty = jsonParserList_Duty(result);
+
+                        break;
+
+                    case 1:
                         // delete
                         final MaterialDialog TeamPlayerDialog = new MaterialDialog(Navigation_TeamManager_Member.this);
 
@@ -338,6 +374,26 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
             JSONArray jArr = json.getJSONArray("List");
 
             String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8"};
+            String[][] parseredData = new String[jArr.length()][jsonName.length];
+            for(int i = 0; i<jArr.length();i++){
+                json = jArr.getJSONObject(i);
+                for (int j=0;j<jsonName.length; j++){
+                    parseredData[i][j] = json.getString(jsonName[j]);
+                }
+            }
+            return parseredData;
+        }catch (JSONException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public String[][] jsonParserList_Duty(String pRecvServerPage){
+        Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+        try{
+            JSONObject json = new JSONObject(pRecvServerPage);
+            JSONArray jArr = json.getJSONArray("List");
+
+            String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6","msg7"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for(int i = 0; i<jArr.length();i++){
                 json = jArr.getJSONObject(i);

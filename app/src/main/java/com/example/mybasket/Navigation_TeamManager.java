@@ -27,13 +27,15 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.drakeet.materialdialog.MaterialDialog;
+
 /**
  * Created by park on 2016-04-04.
  */
 public class Navigation_TeamManager extends AppCompatActivity {
 
     String[][] parsedData;
-    static String Id="",Team="";
+    static String Id="",Team="",Duty="";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_teammanager);
@@ -42,6 +44,7 @@ public class Navigation_TeamManager extends AppCompatActivity {
         Button TeamManager_Button_ScheduleManager = (Button)findViewById(R.id.TeamManager_Button_ScheduleManager);
         Button TeamManager_Button_TeamIntroManager = (Button)findViewById(R.id.TeamManager_Button_TeamIntroManager);
         Button TeamManager_Button_NoticeManager = (Button)findViewById(R.id.TeamManager_Button_NoticeManager);
+        Button TeamManager_Button_Withdraw = (Button)findViewById(R.id.TeamManager_Button_Withdraw);
         TextView TeamManager_TextView_TeamName = (TextView)findViewById(R.id.TeamManager_TextView_TeamName);
         TextView TeamManager_TextView_Duty = (TextView)findViewById(R.id.TeamManager_TextView_Duty);
         LinearLayout TeamManager_layout1 = (LinearLayout)findViewById(R.id.TeamManager_layout1);
@@ -108,7 +111,8 @@ public class Navigation_TeamManager extends AppCompatActivity {
                 TeamManager_Button_TeamMake.setVisibility(View.GONE);
                 Team = parsedData[0][1];
                 TeamManager_TextView_TeamName.setText(Team);
-                TeamManager_TextView_Duty.setText(parsedData[0][2]);
+                Duty = parsedData[0][2];
+                TeamManager_TextView_Duty.setText(Duty);
                 if(parsedData[0][3].equals("1")){
                     TeamManager_Button_MemberManager.setVisibility(View.VISIBLE);
                 }
@@ -154,6 +158,43 @@ public class Navigation_TeamManager extends AppCompatActivity {
                     intent_TeamMember.putExtra("Id", Id);
                     intent_TeamMember.putExtra("Team", Team);
                     startActivity(intent_TeamMember);
+                }
+            });
+            TeamManager_Button_Withdraw.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(Duty.equals("팀대표")){
+                        final MaterialDialog TeamPlayerDialog = new MaterialDialog(Navigation_TeamManager.this);
+                        TeamPlayerDialog
+                                .setTitle("팀 탈퇴")
+                                .setMessage("직책 인수인계 후 탈퇴해주시기 바랍니다.")
+                                .setPositiveButton("확인", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        TeamPlayerDialog.dismiss();
+                                    }
+                                });
+                        TeamPlayerDialog.show();
+                    }
+                    else{
+                        final MaterialDialog TeamPlayerDialog = new MaterialDialog(Navigation_TeamManager.this);
+                        TeamPlayerDialog
+                                .setTitle("팀원 정보")
+                                .setMessage("팀을 탈퇴하시겠습니까?")
+                                .setNegativeButton("탈퇴", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                    }
+                                })
+                                .setPositiveButton("취소", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        TeamPlayerDialog.dismiss();
+                                    }
+                                });
+                        TeamPlayerDialog.show();
+                    }
                 }
             });
         }

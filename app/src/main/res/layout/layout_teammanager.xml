@@ -77,6 +77,12 @@
             android:id="@+id/TeamManager_Button_NoticeManager"
             android:layout_gravity="center_horizontal"
             android:visibility="gone" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="팀 탈퇴"
+            android:id="@+id/TeamManager_Button_Withdraw" />
     </LinearLayout>
 
     <LinearLayout

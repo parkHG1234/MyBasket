@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 박효근 on 2016-07-18.
@@ -74,6 +76,29 @@ public class Navigation_TeamManager_Member_Customlist_TeamPlayer_MyAdapter exten
         catch (UnsupportedEncodingException e){
 
         }
+        final View layout = inflater.inflate(R.layout.layout_customdialog_duty, (ViewGroup) convertView.findViewById(R.id.Layout_CustomDialog_Duty_Root));
+       /* final ImageView Layout_CustomDialog_TeamPlayer_Profile = (ImageView)layout.findViewById(R.id.Layout_CustomDialog_TeamPlayer_Profile);
+        final Button Layout_CustomDialog_TeamPlayer_TeamNameAndDuty = (Button)layout.findViewById(R.id.Layout_CustomDialog_TeamPlayer_TeamNameAndDuty);
+        final Button Layout_CustomDialog_TeamPlayer_Name = (Button)layout.findViewById(R.id.Layout_CustomDialog_TeamPlayer_Name);
+        final Button Layout_CustomDialog_TeamPlayer_Position = (Button)layout.findViewById(R.id.Layout_CustomDialog_TeamPlayer_Position);
+        final Button Layout_CustomDialog_TeamPlayer_Age = (Button)layout.findViewById(R.id.Layout_CustomDialog_TeamPlayer_Age);
+        final Button Layout_CustomDialog_TeamPlayer_Sex = (Button)layout.findViewById(R.id.Layout_CustomDialog_TeamPlayer_Sex);*/
+        TeamPlayer_CustomList_Name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final MaterialDialog TeamPlayerDialog = new MaterialDialog(context);
+                        TeamPlayerDialog
+                                .setTitle("팀원 정보")
+                                .setView(layout)
+                                .setPositiveButton("OK", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        TeamPlayerDialog.dismiss();
+                                    }
+                                });
+                        TeamPlayerDialog.show();
+            }
+        });
         return convertView;
     }
 }

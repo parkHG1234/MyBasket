@@ -46,13 +46,13 @@ public class JoinPhoneActivity extends Activity {
         String phone = join_phone_EditText.getText().toString();
         String result = SendByHttp(phone);
         String[][] parsedData = jsonParserList(result);
-        if(parsedData != null && parsedData[0][0].equals("noDuplicate")) {
+       /* if(parsedData != null && parsedData[0][0].equals("noDuplicate")) {
             //sms 전송 구현
         }else {
             Snackbar.make(view, "중복된 전화번호가 있습니다.", Snackbar.LENGTH_LONG)
                     .show();
         }
-
+*/
 
 
     }
