@@ -58,6 +58,9 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/Kakao_App_Key"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="49a957800c964cb25c18709a1ab503e5d858b39a" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

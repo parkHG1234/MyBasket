@@ -42,6 +42,11 @@
             android:id="@+id/join_phone_layout_phone_EditText"
             android:layout_gravity="center_horizontal"
             android:hint="전화번호" />
+        <com.digits.sdk.android.DigitsAuthButton
+            android:id="@+id/auth_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
 
     </android.support.design.widget.TextInputLayout>
     <Button
