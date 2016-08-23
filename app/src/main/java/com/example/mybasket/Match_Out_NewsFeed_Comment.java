@@ -18,6 +18,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -32,9 +34,13 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by 박지훈 on 2016-06-27.
@@ -42,6 +48,7 @@ import java.util.List;
 public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.OnScrollListener {
 
     ImageView NewsFeed_Comment_Emblem;
+    TextView NewsFeed_Comment_User;
     TextView NewsFeed_Comment_Court;
     TextView NewsFeed_Comment_Time;
     TextView NewsFeed_Comment_Data;
@@ -54,8 +61,8 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
     ArrayList<Match_Out_NewsFeed_Comment_Setting> arrComment;
     String NewsFeed_Num;
     String[][] parsedData;
-    String Comment_User;
-    String[] jsonName = {"Comment_Num", "NewsFeed_Num", "Comment_User", "Comment_Data", "Comment_Month", "Comment_Day", "Comment_Hour", "Comment_Minute"};
+    String Comment_User,Comment_Emblem;
+    String[] jsonName = {"Comment_Num", "NewsFeed_Num", "Comment_User", "Comment_Data", "Comment_Month", "Comment_Day", "Comment_Hour", "Comment_Minute", "Name", "Birth", "Sex", "Position", "Team", "Profile", "Height", "Weight", "Phone"};
 
     Handler handler = new Handler();
 
@@ -73,6 +80,7 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
         setContentView(R.layout.layout_match_out_newsfeed_comment);
 
         NewsFeed_Comment_Emblem = (ImageView) findViewById(R.id.NewsFeed_Comment_Emblem);
+        NewsFeed_Comment_User =  (TextView) findViewById(R.id.NewsFeed_Comment_User);
         NewsFeed_Comment_Court = (TextView) findViewById(R.id.NewsFeed_Comment_Court);
         NewsFeed_Comment_Time = (TextView) findViewById(R.id.NewsFeed_Comment_Time);
         NewsFeed_Comment_Data = (TextView) findViewById(R.id.NewsFeed_Comment_Data);
@@ -83,10 +91,18 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
 
         final Intent CommentIntent = getIntent();
         NewsFeed_Num = CommentIntent.getExtras().getString("Num");
-        Comment_User=CommentIntent.getExtras().getString("Id");
+        Comment_User = CommentIntent.getExtras().getString("Id");
+        NewsFeed_Comment_User.setText(CommentIntent.getExtras().getString("Id"));
         NewsFeed_Comment_Court.setText(CommentIntent.getExtras().getString("Court"));
         NewsFeed_Comment_Data.setText(CommentIntent.getExtras().getString("Data"));
         NewsFeed_Comment_Time.setText(CommentIntent.getExtras().getString("Time"));
+        Comment_Emblem=(CommentIntent.getExtras().getString("Image"));
+        if (Comment_Emblem.equals(".")) {
+            Glide.with(getApplicationContext()).load(R.drawable.basic_image).into(NewsFeed_Comment_Emblem);
+        } else {
+            Glide.with(getApplicationContext()).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + Comment_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(getApplicationContext()).getBitmapPool()))
+                    .into(NewsFeed_Comment_Emblem);
+        }
 
         String result = "";
         try {
@@ -145,7 +161,6 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
                     response = client.execute(post);
                     bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
 
-
                     String line = null;
                     while ((line = bufreader.readLine()) != null) {
                         result += line;
@@ -163,14 +178,13 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
             }
         });
     }
-
     private void setData() {
         arrComment = new ArrayList<Match_Out_NewsFeed_Comment_Setting>();
         for (int a = 0; a < cnt; a++) {
-            arrComment.add(new Match_Out_NewsFeed_Comment_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7]));
+            arrComment.add(new Match_Out_NewsFeed_Comment_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7],
+                    parsedData[a][8], parsedData[a][9], parsedData[a][10], parsedData[a][11], parsedData[a][12], parsedData[a][13], parsedData[a][14], parsedData[a][15], parsedData[a][16]));
         }
     }
-
     public String[][] jsonParserList(String pRecvServerPage) {
         Log.i("댓글에서 받은 전체 내용", pRecvServerPage);
         try {
@@ -196,13 +210,10 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
             return null;
         }
     }
-
     @Override
     public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-
         if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && VisibleFlag) {
-
-            if (cnt>=10 && cnt+10>jArr.length()) {
+            if (jArr.length() <= cnt) {
                 cnt = jArr.length();
             }  else{
                 cnt = cnt + 10;
@@ -230,10 +241,8 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
             NewSpeed_Comment_List = (ListView) findViewById(R.id.NewSpeed_Comment_List);
             NewSpeed_Comment_List.setAdapter(CommentAdapter);
             NewSpeed_Comment_List.setSelection(pos + 3);
-
         }
     }
-
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         VisibleFlag = (totalItemCount > 0) && (firstVisibleItem + visibleItemCount >= totalItemCount);

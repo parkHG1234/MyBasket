@@ -37,7 +37,7 @@
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="박효근"
-                    android:id="@+id/textView30"
+                    android:id="@+id/NewsFeed_CustomList_User"
                     android:layout_weight="1"
                     android:textColor="@color/Black"
                     android:textSize="16dp"
@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/NewsFeed_Modify_Button"
-                android:src="@drawable/ball"
+                android:src="@drawable/setting"
                 android:visibility="gone"/>
         </LinearLayout>
         <TextView

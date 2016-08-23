@@ -283,6 +283,7 @@ public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
                         String urlString = "http://210.122.7.195:8080/gg/newsfeed_Image_upload.jsp";
                         //파일 업로드 시작!
                         HttpFileUpload(urlString, "", ImageURL);
+
                     }else{
                         params.add(new BasicNameValuePair("NewsFeed_Image", "."));
                     }

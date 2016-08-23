@@ -97,12 +97,13 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
 
 
         ImageView NewsFeed_CustomList_Emblem = (ImageView) convertView.findViewById(R.id.NewsFeed_CustomList_Emblem);
+
         try {
             En_Profile = URLEncoder.encode(arrData.get(position).getInformation_Profile(), "utf-8");
             if (arrData.get(position).getInformation_Profile().equals(".")) {
-                Glide.with(context).load(R.drawable.ball).into(NewsFeed_CustomList_Emblem);
+                Glide.with(context).load(R.drawable.profile_basic_image).into(NewsFeed_CustomList_Emblem);
             } else {
-                Glide.with(context).load("http://210.122.7.195:8080/gg/imgs1/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
+                Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
                         .into(NewsFeed_CustomList_Emblem);
             }
         } catch (UnsupportedEncodingException e) {
@@ -120,9 +121,9 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 try {
                     String En_Profile = URLEncoder.encode(arrData.get(position).getInformation_Profile(), "utf-8");
                     if (arrData.get(position).getInformation_Profile().equals(".")) {
-                        Glide.with(context).load(R.drawable.ball).into(Layout_CustomDialog_TeamPlayer_Profile);
+                        Glide.with(context).load(R.drawable.profile_basic_image).into(Layout_CustomDialog_TeamPlayer_Profile);
                     } else {
-                        Glide.with(context).load("http://210.122.7.195:8080/gg/imgs1/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
+                        Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
                                 .into(Layout_CustomDialog_TeamPlayer_Profile);
                     }
                     Layout_CustomDialog_TeamPlayer_TeamNameAndDuty.setText(arrData.get(position).getInformation_Team());
@@ -146,8 +147,9 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
             }
         });
 
-        TextView textView30 = (TextView) convertView.findViewById(R.id.textView30);
-        textView30.setOnClickListener(new View.OnClickListener() {
+        TextView NewsFeed_CustomList_User = (TextView) convertView.findViewById(R.id.NewsFeed_CustomList_User);
+        NewsFeed_CustomList_User.setText(arrData.get(position).getuser());
+        NewsFeed_CustomList_User.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
@@ -155,15 +157,17 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 CommentIntent.putExtra("Court", arrData.get(position).getcourt());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", arrData.get(position).getuser());
+                CommentIntent.putExtra("Id", UserID);
+                CommentIntent.putExtra("Image", arrData.get(position).getInformation_Profile());
+
                 context.startActivity(CommentIntent);
             }
         });
 
-        TextView Court = (TextView) convertView.findViewById(R.id.NewsFeed_CustomList_Court);
-        Court.setText(arrData.get(position).getcourt());
+        TextView NewsFeed_CustomList_Court = (TextView) convertView.findViewById(R.id.NewsFeed_CustomList_Court);
+        NewsFeed_CustomList_Court.setText(arrData.get(position).getcourt());
 
-        Court.setOnClickListener(new View.OnClickListener() {
+        NewsFeed_CustomList_Court.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
@@ -171,15 +175,16 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 CommentIntent.putExtra("Court", arrData.get(position).getcourt());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", arrData.get(position).getuser());
+                CommentIntent.putExtra("Id", UserID);
+                CommentIntent.putExtra("Image", arrData.get(position).getInformation_Profile());
                 context.startActivity(CommentIntent);
             }
         });
 
-        TextView Time = (TextView) convertView.findViewById(R.id.NewsFeed_CustomList_Time);
-        Time.setText(GetTime(position));
+        TextView NewsFeed_CustomList_Time = (TextView) convertView.findViewById(R.id.NewsFeed_CustomList_Time);
+        NewsFeed_CustomList_Time.setText(GetTime(position));
 
-        Time.setOnClickListener(new View.OnClickListener() {
+        NewsFeed_CustomList_Time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
@@ -187,14 +192,15 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 CommentIntent.putExtra("Court", arrData.get(position).getcourt());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", arrData.get(position).getuser());
+                CommentIntent.putExtra("Id", UserID);
+                CommentIntent.putExtra("Image", arrData.get(position).getInformation_Profile());
                 context.startActivity(CommentIntent);
             }
         });
-        TextView Data = (TextView) convertView.findViewById(R.id.NewsFeed_CustomList_Data);
-        Data.setText(arrData.get(position).getdata());
+        TextView NewsFeed_CustomList_Data = (TextView) convertView.findViewById(R.id.NewsFeed_CustomList_Data);
+        NewsFeed_CustomList_Data.setText(arrData.get(position).getdata());
 
-        Data.setOnClickListener(new View.OnClickListener() {
+        NewsFeed_CustomList_Data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
@@ -202,7 +208,8 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 CommentIntent.putExtra("Court", arrData.get(position).getcourt());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", arrData.get(position).getuser());
+                CommentIntent.putExtra("Id", UserID);
+                CommentIntent.putExtra("Image", arrData.get(position).getInformation_Profile());
                 context.startActivity(CommentIntent);
             }
         });
@@ -219,8 +226,8 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
             public void onClick(View view) {
                 if (UserID.equals(arrData.get(position).getuser())) {
                     Intent DataIntent = new Intent(context, Match_Out_NewsFeed_Data_Modify.class);
-
                     DataIntent.putExtra("Num", arrData.get(position).getnum());
+                    DataIntent.putExtra("User", arrData.get(position).getuser());
                     DataIntent.putExtra("Do", arrData.get(position).getDo());
                     DataIntent.putExtra("Si", arrData.get(position).getSi());
                     DataIntent.putExtra("court", arrData.get(position).getcourt());
@@ -231,15 +238,13 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                     DataIntent.putExtra("minute", arrData.get(position).getMinute());
                     DataIntent.putExtra("Image", arrData.get(position).getImage());
                     DataIntent.putExtra("MaxNum", String.valueOf(MaxNum));
-
                     context.startActivity(DataIntent);
-
                 } else {
                     Toast.makeText(context, "사용자를확인해주세요", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        ImageView NewSpeed_ImageView = (ImageView)  convertView.findViewById(R.id.NewSpeed_ImageView);
+        ImageView NewSpeed_ImageView = (ImageView)convertView.findViewById(R.id.NewSpeed_ImageView);
         try{
             if(String.valueOf(arrData.get(position).getImage()).equals(".")) {
                 NewSpeed_ImageView.setVisibility(View.GONE);
@@ -251,11 +256,8 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
         }
         catch (UnsupportedEncodingException e){
         }
-
         return convertView;
     }
-
-
     public String GetTime(int position) {
         String Time;
         Integer Month, Day, Hour, Minute;
@@ -305,6 +307,4 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
         }
         return "Time Error";
     }
-
-
 }

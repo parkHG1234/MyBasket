@@ -8,16 +8,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -33,6 +38,7 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -61,7 +67,12 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
     EditText NewsFeed_Writing_TextEditText;
     ImageView NewsFeed_Camera_Image;
     Button NewsFeed_Writing_Button;
+    Button NewsFeed_Writing_Button_CourtModify;
     Button NewsFeed_Writing_CameraButton;
+    TextView NewsFeed_Writing_TextVIew_Court;
+    TextView NewsFeed_Writing_TextView_Name;
+
+
 
 
     Intent dataIntent;
@@ -81,7 +92,8 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_match_out_newsfeed_writing);
 
-
+        NewsFeed_Writing_TextView_Name = (TextView)findViewById(R.id.NewsFeed_Writing_TextView_Name);
+        NewsFeed_Writing_TextVIew_Court = (TextView)findViewById(R.id.NewsFeed_Writing_TextVIew_Court);
         NewsFeed_Camera_Image = (ImageView) findViewById(R.id.NewsFeed_Camera_Image);
         NewsFeed_Writing_CameraButton = (Button) findViewById(R.id.NewsFeed_Writing_CameraButton);
         NewsFeed_Writing_addDoSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addDoSpinner);
@@ -89,10 +101,13 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         NewsFeed_Writing_addCourtSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addCourtSpinner);
         NewsFeed_Writing_TextEditText = (EditText) findViewById(R.id.NewsFeed_Writing_TextEditText);
         NewsFeed_Writing_Button = (Button) findViewById(R.id.NewsFeed_Writing_Button);
+        NewsFeed_Writing_Button_CourtModify = (Button) findViewById(R.id.NewsFeed_Writing_Button_CourtModify);
+
 
         final Intent DataIntent = getIntent();
+        NewsFeed_Writing_TextView_Name.setText(DataIntent.getExtras().getString("User"));
         NewsFeed_Writing_TextEditText.setText(DataIntent.getExtras().getString("data"));
-
+        NewsFeed_Writing_TextVIew_Court.setText(DataIntent.getExtras().getString("court"));
         try {
             if (DataIntent.getExtras().getString("Image").equals(".")) {
                 NewsFeed_Camera_Image.setVisibility(View.GONE);
@@ -101,6 +116,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                 flag=true;
                 ImageFile= DataIntent.getExtras().getString("Image");
                 String En_Profile = URLEncoder.encode(DataIntent.getExtras().getString("Image"), "utf-8");
+                Log.i("aaaaaaaaaaa",DataIntent.getExtras().getString("Image"));
                 Glide.with(getApplicationContext()).load("http://210.122.7.195:8080/gg/imgs1/" + DataIntent.getExtras().getString("Image") + ".jpg").into(NewsFeed_Camera_Image);
                 ImageURL = String.valueOf("http://210.122.7.195:8080/gg/imgs1/" + DataIntent.getExtras().getString("Image") + ".jpg");
             }
@@ -175,6 +191,128 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
 
             }
         });
+
+        final View layout = getLayoutInflater().inflate(R.layout.layout_customdialog_courtchoice, (ViewGroup)findViewById(R.id.Layout_CustomDialog_CourtChoice_Root));
+        final Spinner Layout_CustomDialog_CourtChoice_Do = (Spinner)layout.findViewById(R.id.Layout_CustomDialog_CourtChoice_Do);
+        final Spinner Layout_CustomDialog_CourtChoice_Se = (Spinner)layout.findViewById(R.id.Layout_CustomDialog_CourtChoice_Se);
+        final Spinner Layout_CustomDialog_CourtChoice_Court = (Spinner)layout.findViewById(R.id.Layout_CustomDialog_CourtChoice_Court);
+
+        final MaterialDialog TeamPlayerDialog = new MaterialDialog(Match_Out_NewsFeed_Data_Modify.this);
+        TeamPlayerDialog
+                .setTitle("코트 선택")
+                .setView(layout)
+                .setPositiveButton("선택 완료", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TeamPlayerDialog.dismiss();
+                    }
+                });
+        NewsFeed_Writing_Button_CourtModify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                TeamPlayerDialog
+                        .setTitle("코트 선택")
+                        .setView(layout)
+                        .setPositiveButton("선택 완료", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                TeamPlayerDialog.dismiss();
+                            }
+                        });
+                TeamPlayerDialog.show();
+            }
+        });
+
+        Layout_CustomDialog_CourtChoice_Do.setAdapter(adspin1);
+        Layout_CustomDialog_CourtChoice_Do.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        spinnum1 = i;
+                        Do = adspin1.getItem(i).toString();
+                        Log.i("aaaaaaaa",adspin1.getItem(i).toString());
+                        if (adspin1.getItem(i).equals("서울")) {
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                            adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            spinnum2 = i;
+                                            Si = adspin2.getItem(i).toString();
+                                            String result = "";
+                                            try {
+                                                HttpClient client = new DefaultHttpClient();
+                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                HttpPost post = new HttpPost(postURL);
+                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
+                                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
+                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                post.setEntity(ent);
+                                                HttpResponse response = client.execute(post);
+                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                String line = null;
+                                                while ((line = bufreader.readLine()) != null) {
+                                                    result += line;
+                                                }
+                                                parsedData = jsonParserList(result);
+                                                arr = new ArrayList();
+                                                arr.add("코트 선택");
+                                                for (int a = 0; a < parsedData.length; a++) {
+                                                    arr.add(parsedData[a][0]);
+                                                }
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        Court = adspin3.getItem(i).toString();
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
+                                                    }
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                        }
+                                    }
+                            );
+                        }
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                    }
+                }
+        );
+
+
+        NewsFeed_Writing_TextEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                NewsFeed_Writing_Button.setTextColor(Color.parseColor("#10253f"));
+                NewsFeed_Writing_Button.setEnabled(true);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
         NewsFeed_Camera_Image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -310,6 +448,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
     public void HttpFileUpload(String urlString, String params, String fileName) {
 
 
+        Log.i("HttpFileUpload",fileName);
         String lineEnd = "\r\n";
         String twoHyphens = "--";
         String boundary = "*****";

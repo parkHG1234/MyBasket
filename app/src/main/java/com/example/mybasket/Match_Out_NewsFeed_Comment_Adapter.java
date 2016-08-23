@@ -12,9 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -30,9 +33,13 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by 박지훈 on 2016-06-28.
@@ -43,10 +50,12 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
     private ArrayList<Match_Out_NewsFeed_Comment_Setting> arrComment;
     private LayoutInflater inflater;
     static ListView NewSpeed_Comment_List;
+    ImageView NewSpeed_Comment_List_Emblem;
+    TextView NewsFeed_CommentList_User;
     TextView NewSpeed_Comment_List_Time;
     TextView NewSpeed_Comment_List_Data;
     ImageButton NewSpeed_Comment_List_Setting;
-    static String ID;
+    static String ID,ProfileImage;
 
     Match_Out_NewsFeed_Comment_Adapter CommentAdapter;
     String[][] parsedData;
@@ -57,6 +66,8 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
         inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.ID = ID;
     }
+
+
 
     public void listview(ListView listView) {
         this.NewSpeed_Comment_List = listView;
@@ -80,14 +91,26 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.layout_match_out_newsfeed_comment_data, parent, false);
         }
 
+        ProfileImage=arrComment.get(position).getInformation_Profile();
+        NewSpeed_Comment_List_Emblem = (ImageView)convertView.findViewById(R.id.NewsFeed_CommentList_Emblem);
+        if (ProfileImage.equals(".")) {
+            Glide.with(context).load(R.drawable.basic_image).into(NewSpeed_Comment_List_Emblem);
+        } else {
+            Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + ProfileImage + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
+                    .into(NewSpeed_Comment_List_Emblem);
+        }
 
-        NewSpeed_Comment_List_Time = (TextView) convertView.findViewById(R.id.NewSpeed_Comment_List_Time);
+        NewSpeed_Comment_List_Time = (TextView) convertView.findViewById(R.id.NewsFeed_CommentList_Time);
         NewSpeed_Comment_List_Time.setText(GetTime(position));
 
-        NewSpeed_Comment_List_Data = (TextView) convertView.findViewById(R.id.NewSpeed_Comment_List_Data);
+        NewsFeed_CommentList_User = (TextView) convertView.findViewById(R.id.NewsFeed_CommentList_User);
+        NewsFeed_CommentList_User.setText(arrComment.get(position).getcomment_user());
+
+
+        NewSpeed_Comment_List_Data = (TextView) convertView.findViewById(R.id.NewsFeed_CommentList_Data);
         NewSpeed_Comment_List_Data.setText(arrComment.get(position).getdata());
 
-        NewSpeed_Comment_List_Setting = (ImageButton) convertView.findViewById(R.id.NewSpeed_Comment_List_Setting);
+        NewSpeed_Comment_List_Setting = (ImageButton) convertView.findViewById(R.id.NewsFeed_CommentList_Modify_Button);
         NewSpeed_Comment_List_Setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -198,7 +221,8 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
     private void setData() {
         arrComment = new ArrayList<Match_Out_NewsFeed_Comment_Setting>();
         for (int a = 0; a < parsedData.length; a++) {
-            arrComment.add(new Match_Out_NewsFeed_Comment_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7]));
+            arrComment.add(new Match_Out_NewsFeed_Comment_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7],
+                    parsedData[a][8], parsedData[a][9], parsedData[a][10], parsedData[a][11], parsedData[a][12], parsedData[a][13], parsedData[a][14], parsedData[a][15], parsedData[a][16]));
         }
     }
 
