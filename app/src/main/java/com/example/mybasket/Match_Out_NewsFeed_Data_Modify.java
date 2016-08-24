@@ -73,8 +73,6 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
     TextView NewsFeed_Writing_TextView_Name;
 
 
-
-
     Intent dataIntent;
     ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
     ArrayList arr;
@@ -92,8 +90,8 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_match_out_newsfeed_writing);
 
-        NewsFeed_Writing_TextView_Name = (TextView)findViewById(R.id.NewsFeed_Writing_TextView_Name);
-        NewsFeed_Writing_TextVIew_Court = (TextView)findViewById(R.id.NewsFeed_Writing_TextVIew_Court);
+        NewsFeed_Writing_TextView_Name = (TextView) findViewById(R.id.NewsFeed_Writing_TextView_Name);
+        NewsFeed_Writing_TextVIew_Court = (TextView) findViewById(R.id.NewsFeed_Writing_TextVIew_Court);
         NewsFeed_Camera_Image = (ImageView) findViewById(R.id.NewsFeed_Camera_Image);
         NewsFeed_Writing_CameraButton = (Button) findViewById(R.id.NewsFeed_Writing_CameraButton);
         NewsFeed_Writing_addDoSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addDoSpinner);
@@ -113,10 +111,9 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                 NewsFeed_Camera_Image.setVisibility(View.GONE);
             } else {
                 NewsFeed_Camera_Image.setVisibility(View.VISIBLE);
-                flag=true;
-                ImageFile= DataIntent.getExtras().getString("Image");
+                flag = true;
+                ImageFile = DataIntent.getExtras().getString("Image");
                 String En_Profile = URLEncoder.encode(DataIntent.getExtras().getString("Image"), "utf-8");
-                Log.i("aaaaaaaaaaa",DataIntent.getExtras().getString("Image"));
                 Glide.with(getApplicationContext()).load("http://210.122.7.195:8080/gg/imgs1/" + DataIntent.getExtras().getString("Image") + ".jpg").into(NewsFeed_Camera_Image);
                 ImageURL = String.valueOf("http://210.122.7.195:8080/gg/imgs1/" + DataIntent.getExtras().getString("Image") + ".jpg");
             }
@@ -192,10 +189,10 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
             }
         });
 
-        final View layout = getLayoutInflater().inflate(R.layout.layout_customdialog_courtchoice, (ViewGroup)findViewById(R.id.Layout_CustomDialog_CourtChoice_Root));
-        final Spinner Layout_CustomDialog_CourtChoice_Do = (Spinner)layout.findViewById(R.id.Layout_CustomDialog_CourtChoice_Do);
-        final Spinner Layout_CustomDialog_CourtChoice_Se = (Spinner)layout.findViewById(R.id.Layout_CustomDialog_CourtChoice_Se);
-        final Spinner Layout_CustomDialog_CourtChoice_Court = (Spinner)layout.findViewById(R.id.Layout_CustomDialog_CourtChoice_Court);
+        final View layout = getLayoutInflater().inflate(R.layout.layout_customdialog_courtchoice, (ViewGroup) findViewById(R.id.Layout_CustomDialog_CourtChoice_Root));
+        final Spinner Layout_CustomDialog_CourtChoice_Do = (Spinner) layout.findViewById(R.id.Layout_CustomDialog_CourtChoice_Do);
+        final Spinner Layout_CustomDialog_CourtChoice_Se = (Spinner) layout.findViewById(R.id.Layout_CustomDialog_CourtChoice_Se);
+        final Spinner Layout_CustomDialog_CourtChoice_Court = (Spinner) layout.findViewById(R.id.Layout_CustomDialog_CourtChoice_Court);
 
         final MaterialDialog TeamPlayerDialog = new MaterialDialog(Match_Out_NewsFeed_Data_Modify.this);
         TeamPlayerDialog
@@ -232,7 +229,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         spinnum1 = i;
                         Do = adspin1.getItem(i).toString();
-                        Log.i("aaaaaaaa",adspin1.getItem(i).toString());
+                        Log.i("aaaaaaaa", adspin1.getItem(i).toString());
                         if (adspin1.getItem(i).equals("서울")) {
                             adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -274,6 +271,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                                         Court = adspin3.getItem(i).toString();
                                                         NewsFeed_Writing_TextVIew_Court.setText(Court);
                                                     }
+
                                                     @Override
                                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                                     }
@@ -282,6 +280,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                                 e.printStackTrace();
                                             }
                                         }
+
                                         @Override
                                         public void onNothingSelected(AdapterView<?> adapterView) {
                                         }
@@ -289,6 +288,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                             );
                         }
                     }
+
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) {
                     }
@@ -356,8 +356,8 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                     params.add(new BasicNameValuePair("NewsFeed_Hour", new SimpleDateFormat("kk").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Minute", new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis()))));
 
-                    int MaxNum=Integer.parseInt(DataIntent.getExtras().getString("MaxNum"))+1;
-                    params.add(new BasicNameValuePair("NewsFeed_MaxNum",String.valueOf(MaxNum)));
+                    int MaxNum = Integer.parseInt(DataIntent.getExtras().getString("MaxNum")) + 1;
+                    params.add(new BasicNameValuePair("NewsFeed_MaxNum", String.valueOf(MaxNum)));
 
                     if (flag) {
                         params.add(new BasicNameValuePair("NewsFeed_Image", ImageFile));
@@ -365,7 +365,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                         //파일 업로드 시작!
                         HttpFileUpload(urlString, "", ImageURL);
                     } else {
-                        params.add(new BasicNameValuePair("NewsFeed_Image","."));
+                        params.add(new BasicNameValuePair("NewsFeed_Image", "."));
                     }
                     UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                     post.setEntity(ent);
@@ -448,7 +448,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
     public void HttpFileUpload(String urlString, String params, String fileName) {
 
 
-        Log.i("HttpFileUpload",fileName);
+        Log.i("HttpFileUpload", fileName);
         String lineEnd = "\r\n";
         String twoHyphens = "--";
         String boundary = "*****";

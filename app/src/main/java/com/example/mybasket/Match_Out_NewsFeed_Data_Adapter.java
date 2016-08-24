@@ -48,7 +48,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
         this.arrData = arr;
         inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.MaxNum = MaxNum;
-        this.UserID=ID;
+        this.UserID = ID;
     }
 
     public void listview(ListView listView) {
@@ -148,7 +148,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
         });
 
         TextView NewsFeed_CustomList_User = (TextView) convertView.findViewById(R.id.NewsFeed_CustomList_User);
-        NewsFeed_CustomList_User.setText(arrData.get(position).getuser());
+        NewsFeed_CustomList_User.setText(arrData.get(position).getInformation_Name());
         NewsFeed_CustomList_User.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -244,20 +244,20 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 }
             }
         });
-        ImageView NewSpeed_ImageView = (ImageView)convertView.findViewById(R.id.NewSpeed_ImageView);
-        try{
-            if(String.valueOf(arrData.get(position).getImage()).equals(".")) {
+        ImageView NewSpeed_ImageView = (ImageView) convertView.findViewById(R.id.NewSpeed_ImageView);
+        try {
+            if (String.valueOf(arrData.get(position).getImage()).equals(".")) {
                 NewSpeed_ImageView.setVisibility(View.GONE);
-            }else{
+            } else {
                 NewSpeed_ImageView.setVisibility(View.VISIBLE);
                 En_Profile = URLEncoder.encode(String.valueOf(arrData.get(position).getImage()), "utf-8");
                 Glide.with(convertView.getContext()).load("http://210.122.7.195:8080/gg/imgs1/" + String.valueOf(arrData.get(position).getImage()) + ".jpg").into(NewSpeed_ImageView);
             }
-        }
-        catch (UnsupportedEncodingException e){
+        } catch (UnsupportedEncodingException e) {
         }
         return convertView;
     }
+
     public String GetTime(int position) {
         String Time;
         Integer Month, Day, Hour, Minute;

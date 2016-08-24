@@ -202,7 +202,7 @@ public class Navigation_TeamManager extends AppCompatActivity {
     }
     /////팀이 존재하는지 체크합니다.
     public String[][] TeamCheck_jsonParserList(String pRecvServerPage){
-        Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+        Log.i("팀관리- 팀존재하는지", pRecvServerPage);
         try{
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
@@ -223,7 +223,7 @@ public class Navigation_TeamManager extends AppCompatActivity {
     }
     /////매칭 탭 - out : 받아온 json 파싱합니다.//////////////////////////////////////////////////////////
     public String[][] jsonParserList(String pRecvServerPage){
-        Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+        Log.i("팀 권한", pRecvServerPage);
         try{
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");

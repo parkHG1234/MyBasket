@@ -11,8 +11,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
@@ -55,6 +58,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
     Navigation_TeamManager_Member_CustomList_Joiner_MyAdapter navigation_TeamManager_Member_CustomListJoiner_MyAdapter;
     ArrayList<Navigation_TeamManager_Member_CustomList_Joiner_MyData> navigation_TeamManager_Member_CustomListJoiner_MyData;
     ArrayList<Navigation_TeamManager_Member_Customlist_TeamPlayer_MyData> arrData;
+    private LayoutInflater inflater;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_teammanager_player);
@@ -213,7 +217,24 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                             e.printStackTrace();
                         }
                         parsedData_Duty = jsonParserList_Duty(result);
-
+                        final View layout = inflater.inflate(R.layout.layout_customdialog_duty, (ViewGroup) findViewById(R.id.Layout_CustomDialog_Duty_Root));
+                        final CheckBox Layout_CustomDialog_Duty_CheckBox_Member = (CheckBox) layout.findViewById(R.id.Layout_CustomDialog_Duty_CheckBox_Member);
+                        final CheckBox Layout_CustomDialog_Duty_CheckBox_Schedule = (CheckBox) layout.findViewById(R.id.Layout_CustomDialog_Duty_CheckBox_Schedule);
+                        final CheckBox Layout_CustomDialog_Duty_CheckBox_TeamIntro = (CheckBox) layout.findViewById(R.id.Layout_CustomDialog_Duty_CheckBox_TeamIntro);
+                        final CheckBox Layout_CustomDialog_Duty_CheckBox_Notice = (CheckBox) layout.findViewById(R.id.Layout_CustomDialog_Duty_CheckBox_Notice);
+                        final View a = (View)findViewById(R.id.Layout_CustomDialog_Duty_Root);
+                        //
+                        final MaterialDialog DutyDialog = new MaterialDialog(Navigation_TeamManager_Member.this);
+                        DutyDialog
+                                        .setTitle("권한 설정")
+                                        .setView(a)
+                                        .setPositiveButton("OK", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                DutyDialog.dismiss();
+                                            }
+                                        });
+                        DutyDialog.show();
                         break;
 
                     case 1:
