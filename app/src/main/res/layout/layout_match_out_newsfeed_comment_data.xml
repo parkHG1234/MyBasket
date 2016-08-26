@@ -60,7 +60,7 @@
                         android:textSize="12dp" />
 
                     <ImageButton
-                        android:id="@+id/NewsFeed_CommentList_Modify_Button"
+                        android:id="@+id/NewsFeed_CommentList_Setting_Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ball"

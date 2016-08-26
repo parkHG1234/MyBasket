@@ -6,6 +6,7 @@ package com.example.mybasket;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,11 +55,13 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
     TextView NewsFeed_CommentList_User;
     TextView NewSpeed_Comment_List_Time;
     TextView NewSpeed_Comment_List_Data;
-    ImageButton NewSpeed_Comment_List_Setting;
+    ImageButton NewsFeed_CommentList_Setting_Button;
+    ImageView NewSpeed_Comment_ImageView;
     static String ID,ProfileImage;
 
     Match_Out_NewsFeed_Comment_Adapter CommentAdapter;
     String[][] parsedData;
+    String[] jsonName = {"Comment_Num", "NewsFeed_Num", "Comment_User", "Comment_Data", "Comment_Month", "Comment_Day", "Comment_Hour", "Comment_Minute", "Name", "Birth", "Sex", "Position", "Team", "Profile", "Height", "Weight", "Phone"};
 
     public Match_Out_NewsFeed_Comment_Adapter(Context c, ArrayList<Match_Out_NewsFeed_Comment_Setting> arr,String ID) {
         this.context = c;
@@ -110,8 +113,14 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
         NewSpeed_Comment_List_Data = (TextView) convertView.findViewById(R.id.NewsFeed_CommentList_Data);
         NewSpeed_Comment_List_Data.setText(arrComment.get(position).getdata());
 
-        NewSpeed_Comment_List_Setting = (ImageButton) convertView.findViewById(R.id.NewsFeed_CommentList_Modify_Button);
-        NewSpeed_Comment_List_Setting.setOnClickListener(new View.OnClickListener() {
+
+        NewsFeed_CommentList_Setting_Button = (ImageButton) convertView.findViewById(R.id.NewsFeed_CommentList_Setting_Button);
+        if (arrComment.get(position).getcomment_user().equals(ID)) {
+            NewsFeed_CommentList_Setting_Button.setVisibility(View.VISIBLE);
+        } else {
+            NewsFeed_CommentList_Setting_Button.setVisibility(View.GONE);
+        }
+        NewsFeed_CommentList_Setting_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final CharSequence[] items = {"삭제"};
@@ -167,6 +176,22 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
                 alertDialog.show();
             }
         });
+
+//        NewSpeed_Comment_ImageView = (ImageView)convertView.findViewById(R.id.NewSpeed_Comment_ImageView);
+//        try {
+//            if (Image.equals(".")) {
+//                NewSpeed_Comment_ImageView.setVisibility(View.GONE);
+//            } else {
+//                NewSpeed_Comment_ImageView.setVisibility(View.VISIBLE);
+//                String En_Profile = URLEncoder.encode((Image), "utf-8");
+//                Glide.with(convertView.getContext()).load("http://210.122.7.195:8080/gg/imgs1/" + Image + ".jpg").into(NewSpeed_Comment_ImageView);
+//            }
+//        } catch (UnsupportedEncodingException e) {
+//        }
+
+
+
+
 
         return convertView;
     }
@@ -232,7 +257,6 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
 
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
-            String[] jsonName = {"Comment_Num", "NewsFeed_Num", "Comment_User", "Comment_Data", "Comment_Month", "Comment_Day", "Comment_Hour", "Comment_Minute"};
 
             parsedData = new String[jArr.length()][jsonName.length];
             for (int i = 0; i < jArr.length(); i++) {

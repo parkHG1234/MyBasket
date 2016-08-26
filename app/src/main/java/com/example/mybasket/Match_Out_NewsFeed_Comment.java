@@ -55,18 +55,20 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
     ListView NewSpeed_Comment_List;
     EditText NewsFeed_Comment_EditText;
     Button NewsFeed_Comment_Button;
+    ImageView NewSpeed_Comment_ImageView;
 
 
     Match_Out_NewsFeed_Comment_Adapter CommentAdapter;
     ArrayList<Match_Out_NewsFeed_Comment_Setting> arrComment;
     String NewsFeed_Num;
     String[][] parsedData;
-    String Comment_User,Comment_Emblem;
+    String Comment_User,Comment_Emblem=null;
     String[] jsonName = {"Comment_Num", "NewsFeed_Num", "Comment_User", "Comment_Data", "Comment_Month", "Comment_Day", "Comment_Hour", "Comment_Minute", "Name", "Birth", "Sex", "Position", "Team", "Profile", "Height", "Weight", "Phone"};
 
     Handler handler = new Handler();
 
     boolean VisibleFlag = false;
+    String En_Profile;
     int cnt, pos;
     JSONArray jArr;
     JSONObject json;
@@ -88,6 +90,7 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
         NewsFeed_Comment_EditText = (EditText) findViewById(R.id.NewsFeed_Comment_EditText);
         NewsFeed_Comment_Button = (Button) findViewById(R.id.NewsFeed_Comment_Button);
         NewsFeed_Comment_ProgressBar = (ProgressBar) findViewById(R.id.NewsFeed_Comment_ProgressBar);
+        NewSpeed_Comment_ImageView=(ImageView)findViewById(R.id.NewSpeed_Comment_ImageView);
 
         final Intent CommentIntent = getIntent();
         NewsFeed_Num = CommentIntent.getExtras().getString("Num");
@@ -96,7 +99,7 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
         NewsFeed_Comment_Court.setText(CommentIntent.getExtras().getString("Court"));
         NewsFeed_Comment_Data.setText(CommentIntent.getExtras().getString("Data"));
         NewsFeed_Comment_Time.setText(CommentIntent.getExtras().getString("Time"));
-        Comment_Emblem=(CommentIntent.getExtras().getString("Image"));
+        Comment_Emblem=CommentIntent.getExtras().getString("profile");
         if (Comment_Emblem.equals(".")) {
             Glide.with(getApplicationContext()).load(R.drawable.basic_image).into(NewsFeed_Comment_Emblem);
         } else {
@@ -106,6 +109,7 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
 
         String result = "";
         try {
+            En_Profile = URLEncoder.encode(CommentIntent.getExtras().getString("Image"), "utf-8");
             HttpClient client = new DefaultHttpClient();
             String postURL = "http://210.122.7.195:8080/gg/newsfeed_comment_download.jsp";
             HttpPost post = new HttpPost(postURL);
@@ -177,6 +181,14 @@ public class Match_Out_NewsFeed_Comment extends Activity implements AbsListView.
                 }}
             }
         });
+
+        if (En_Profile.equals(".")) {
+            NewSpeed_Comment_ImageView.setVisibility(View.GONE);
+        } else {
+            NewSpeed_Comment_ImageView.setVisibility(View.VISIBLE);
+            Glide.with(getApplicationContext()).load("http://210.122.7.195:8080/gg/imgs1/" + En_Profile + ".jpg").into(NewSpeed_Comment_ImageView);
+            Log.i("data_adapter",En_Profile);
+        }
     }
     private void setData() {
         arrComment = new ArrayList<Match_Out_NewsFeed_Comment_Setting>();

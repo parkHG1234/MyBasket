@@ -8,11 +8,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +35,6 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -67,6 +63,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
     EditText NewsFeed_Writing_TextEditText;
     ImageView NewsFeed_Camera_Image;
     Button NewsFeed_Writing_Button;
+    Button NewsFeed_Writing_cancelButton;
     Button NewsFeed_Writing_Button_CourtModify;
     Button NewsFeed_Writing_CameraButton;
     TextView NewsFeed_Writing_TextVIew_Court;
@@ -90,6 +87,11 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_match_out_newsfeed_writing);
 
+        if (android.os.Build.VERSION.SDK_INT > 9) { //oncreate 에서 바로 쓰레드돌릴려고 임시방편으로 넣어둔소스
+            policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
         NewsFeed_Writing_TextView_Name = (TextView) findViewById(R.id.NewsFeed_Writing_TextView_Name);
         NewsFeed_Writing_TextVIew_Court = (TextView) findViewById(R.id.NewsFeed_Writing_TextVIew_Court);
         NewsFeed_Camera_Image = (ImageView) findViewById(R.id.NewsFeed_Camera_Image);
@@ -99,6 +101,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         NewsFeed_Writing_addCourtSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addCourtSpinner);
         NewsFeed_Writing_TextEditText = (EditText) findViewById(R.id.NewsFeed_Writing_TextEditText);
         NewsFeed_Writing_Button = (Button) findViewById(R.id.NewsFeed_Writing_Button);
+        NewsFeed_Writing_cancelButton = (Button) findViewById(R.id.NewsFeed_Writing_cancelButton);
         NewsFeed_Writing_Button_CourtModify = (Button) findViewById(R.id.NewsFeed_Writing_Button_CourtModify);
 
 
@@ -106,6 +109,10 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         NewsFeed_Writing_TextView_Name.setText(DataIntent.getExtras().getString("User"));
         NewsFeed_Writing_TextEditText.setText(DataIntent.getExtras().getString("data"));
         NewsFeed_Writing_TextVIew_Court.setText(DataIntent.getExtras().getString("court"));
+        Do=DataIntent.getExtras().getString("Do");
+        Si=DataIntent.getExtras().getString("Si");
+        Court=DataIntent.getExtras().getString("court");
+
         try {
             if (DataIntent.getExtras().getString("Image").equals(".")) {
                 NewsFeed_Camera_Image.setVisibility(View.GONE);
@@ -164,7 +171,6 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                     @Override
                                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                                         Court = adspin3.getItem(i).toString();
-                                        NewsFeed_Writing_Button.setEnabled(true);
                                     }
 
                                     @Override
@@ -207,8 +213,6 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         NewsFeed_Writing_Button_CourtModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 TeamPlayerDialog
                         .setTitle("코트 선택")
                         .setView(layout)
@@ -229,7 +233,6 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         spinnum1 = i;
                         Do = adspin1.getItem(i).toString();
-                        Log.i("aaaaaaaa", adspin1.getItem(i).toString());
                         if (adspin1.getItem(i).equals("서울")) {
                             adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -296,22 +299,6 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         );
 
 
-        NewsFeed_Writing_TextEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                NewsFeed_Writing_Button.setTextColor(Color.parseColor("#10253f"));
-                NewsFeed_Writing_Button.setEnabled(true);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
 
         NewsFeed_Camera_Image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -337,7 +324,12 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
             }
         });
 
-
+        NewsFeed_Writing_cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         NewsFeed_Writing_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

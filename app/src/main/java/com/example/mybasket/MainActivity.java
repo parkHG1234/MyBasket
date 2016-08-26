@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
         JSONObject json;
         JSONArray jArr;
         String[][] parseredData;
-        String[] jsonName = {"NewsFeed_Num", "NewsFeed_User", "NewsFeed_Do", "NewsFeed_Si", "NewsFeed_Court", "NewsFeed_Data", "NewsFeed_Month", "NewsFeed_Day", "NewsFeed_Hour", "NewsFeed_Minute", "NewsFeed_Image", "Name", "Birth", "Sex", "Position", "Team", "Profile", "Height", "Weight", "Phone"};
+        String[] jsonName = {"NewsFeed_Num", "NewsFeed_User", "NewsFeed_Do", "NewsFeed_Si", "NewsFeed_Court", "NewsFeed_Data", "NewsFeed_Month", "NewsFeed_Day", "NewsFeed_Hour", "NewsFeed_Minute", "NewsFeed_Image", "Name", "Birth", "Sex", "Position", "Team", "Profile", "Height", "Weight", "Phone","Comment_Count"};
         ProgressBar NewsFeed_ProgressBar;
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Button Match_Button_Out, Match_Button_In, Match_In_Button_Search;
@@ -490,7 +490,6 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onNothingSelected(AdapterView<?> adapterView) {
-
                         }
                     });
                     ///처음에 서울 전체 리스트 불러옵니다.////////////////////////////////////////////////////////
@@ -611,17 +610,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         private void setData() {
             arrData = new ArrayList<Match_Out_NewsFeed_Data_Setting>();
                 for (int a = 0; a < cnt; a++) {
-                    arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7], parsedData[a][8], parsedData[a][9]
-                                                                   , parsedData[a][10], parsedData[a][11], parsedData[a][12], parsedData[a][13], parsedData[a][14], parsedData[a][15], parsedData[a][16], parsedData[a][17], parsedData[a][18], parsedData[a][19]));
+                    arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7], parsedData[a][8], parsedData[a][9], parsedData[a][10], parsedData[a][11], parsedData[a][12], parsedData[a][13], parsedData[a][14], parsedData[a][15], parsedData[a][16], parsedData[a][17], parsedData[a][18], parsedData[a][19], parsedData[a][20]));
                 }
         }
-
-
 
         public String[][] jsonParserList(String pRecvServerPage) {
             Log.i("서버에서 받은 전체 내용", pRecvServerPage);

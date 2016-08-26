@@ -33,10 +33,11 @@ public class Match_Out_NewsFeed_Data_Setting {
     private String Height;
     private String Weight;
     private String Phone;
+    private String Comment_Count;
 
 
 
-    public Match_Out_NewsFeed_Data_Setting(String num, String user, String Do, String Si, String court, String data, String month, String day, String hour, String minute, String Image, String Name, String Birth, String Sex, String Position, String Team, String Profile, String Height, String Weight, String Phone) {
+    public Match_Out_NewsFeed_Data_Setting(String num, String user, String Do, String Si, String court, String data, String month, String day, String hour, String minute, String Image, String Name, String Birth, String Sex, String Position, String Team, String Profile, String Height, String Weight, String Phone, String Comment_Count) {
         this.num = num;
         this.user = user;
         this.Do = Do;
@@ -60,6 +61,7 @@ public class Match_Out_NewsFeed_Data_Setting {
         this.Height = Height;
         this.Weight = Weight;
         this.Phone = Phone;
+        this.Comment_Count = Comment_Count;
     }
 
 
@@ -130,4 +132,9 @@ public class Match_Out_NewsFeed_Data_Setting {
     public String getInformation_Phone() {
         return Phone;
     }
+
+    public String getComment_Count() {
+        return Comment_Count;
+    }
+
 }

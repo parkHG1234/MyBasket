@@ -20,10 +20,22 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import me.drakeet.materialdialog.MaterialDialog;
@@ -158,8 +170,8 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
                 CommentIntent.putExtra("Id", UserID);
-                CommentIntent.putExtra("Image", arrData.get(position).getInformation_Profile());
-
+                CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
+                CommentIntent.putExtra("Image", arrData.get(position).getImage());
                 context.startActivity(CommentIntent);
             }
         });
@@ -176,7 +188,8 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
                 CommentIntent.putExtra("Id", UserID);
-                CommentIntent.putExtra("Image", arrData.get(position).getInformation_Profile());
+                CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
+                CommentIntent.putExtra("Image", arrData.get(position).getImage());
                 context.startActivity(CommentIntent);
             }
         });
@@ -193,7 +206,8 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
                 CommentIntent.putExtra("Id", UserID);
-                CommentIntent.putExtra("Image", arrData.get(position).getInformation_Profile());
+                CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
+                CommentIntent.putExtra("Image", arrData.get(position).getImage());
                 context.startActivity(CommentIntent);
             }
         });
@@ -209,21 +223,40 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
                 CommentIntent.putExtra("Id", UserID);
-                CommentIntent.putExtra("Image", arrData.get(position).getInformation_Profile());
+                CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
+                CommentIntent.putExtra("Image", arrData.get(position).getImage());
                 context.startActivity(CommentIntent);
             }
         });
 
-        ImageButton NewsFeed_Modify_Button = (ImageButton) convertView.findViewById(R.id.NewsFeed_Modify_Button);
+        ImageButton NewsFeed_setting_Button = (ImageButton) convertView.findViewById(R.id.NewsFeed_setting_Button);
         if (arrData.get(position).getuser().equals(UserID)) {
-            NewsFeed_Modify_Button.setVisibility(View.VISIBLE);
+            NewsFeed_setting_Button.setVisibility(View.VISIBLE);
         } else {
-            NewsFeed_Modify_Button.setVisibility(View.GONE);
+            NewsFeed_setting_Button.setVisibility(View.GONE);
         }
-
-        NewsFeed_Modify_Button.setOnClickListener(new View.OnClickListener() {
+        final View Modifylayout = inflater.inflate(R.layout.layout_match_out_newsfeed_modify_dialog, (ViewGroup) convertView.findViewById(R.id.Layout_NewsFeed_Modify_Root));
+        final ImageButton NewsFeed_Modify_button = (ImageButton) Modifylayout.findViewById(R.id.NewsFeed_Modify_button);
+        final ImageButton NewsFeed_delete_button = (ImageButton) Modifylayout.findViewById(R.id.NewsFeed_delete_button);
+        NewsFeed_setting_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Dialog
+                        .setView(Modifylayout)
+                        .setPositiveButton("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Dialog.dismiss();
+                            }
+                        });
+                Dialog.show();
+            }
+        });
+
+        NewsFeed_Modify_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
                 if (UserID.equals(arrData.get(position).getuser())) {
                     Intent DataIntent = new Intent(context, Match_Out_NewsFeed_Data_Modify.class);
                     DataIntent.putExtra("Num", arrData.get(position).getnum());
@@ -240,10 +273,39 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                     DataIntent.putExtra("MaxNum", String.valueOf(MaxNum));
                     context.startActivity(DataIntent);
                 } else {
-                    Toast.makeText(context, "사용자를확인해주세요", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+        NewsFeed_delete_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String result = "";
+                try {
+                    HttpClient client = new DefaultHttpClient();
+                    String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_delete.jsp";
+                    HttpPost post = new HttpPost(postURL);
+                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                    params.add(new BasicNameValuePair("NewsFeed_Num", arrData.get(position).getnum()));
+                    params.add(new BasicNameValuePair("NewsFeed_Do", arrData.get(position).getDo()));
+                    params.add(new BasicNameValuePair("NewsFeed_Si", arrData.get(position).getSi()));
+                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                    post.setEntity(ent);
+                    HttpResponse response = client.execute(post);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                Dialog.dismiss();
+            }
+        });
+
+        ImageView NewsFeed_CustomList_CommentImage =  (ImageView) convertView.findViewById(R.id.NewsFeed_CustomList_CommentImage);
+
+        TextView NewsFeed_CustomList_CommentCount = (TextView)convertView.findViewById(R.id.NewsFeed_CustomList_CommentCount);
+        String result = "";
+
+        NewsFeed_CustomList_CommentCount.setText(arrData.get(position).getComment_Count());
+
         ImageView NewSpeed_ImageView = (ImageView) convertView.findViewById(R.id.NewSpeed_ImageView);
         try {
             if (String.valueOf(arrData.get(position).getImage()).equals(".")) {
@@ -251,7 +313,8 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
             } else {
                 NewSpeed_ImageView.setVisibility(View.VISIBLE);
                 En_Profile = URLEncoder.encode(String.valueOf(arrData.get(position).getImage()), "utf-8");
-                Glide.with(convertView.getContext()).load("http://210.122.7.195:8080/gg/imgs1/" + String.valueOf(arrData.get(position).getImage()) + ".jpg").into(NewSpeed_ImageView);
+                Glide.with(convertView.getContext()).load("http://210.122.7.195:8080/gg/imgs1/" + En_Profile + ".jpg").into(NewSpeed_ImageView);
+                Log.i("data_adapter",En_Profile);
             }
         } catch (UnsupportedEncodingException e) {
         }
