@@ -32,7 +32,6 @@ import java.util.List;
 */
 public class JoinIdActivity extends Activity {
     EditText join_id_EditText;
-    static String phone;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +42,6 @@ public class JoinIdActivity extends Activity {
 
         Intent intentGet = getIntent();
 
-        phone = intentGet.getStringExtra("phone");
         join_id_EditText = (EditText) findViewById(R.id.join_id_layout_id_EditText);
     }
 

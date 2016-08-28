@@ -1,6 +1,7 @@
 package com.example.mybasket;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -23,6 +24,8 @@ import org.apache.http.protocol.HTTP;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -33,6 +36,7 @@ public class JoinAddActivity extends Activity{
     static String id, pw;
     RadioGroup join_sex_Radio, join_posi_Radio;
     EditText join_name_EditText, join_bYear_EditText, join_bMonth_EditText, join_bDay_EditText,join_layout_weight_editText,join_layout_height_editText;
+    int year, month, day, hour, minute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,13 @@ public class JoinAddActivity extends Activity{
         pw = intentGet.getStringExtra("pw");
 
 
+        GregorianCalendar calendar = new GregorianCalendar();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        hour = calendar.get(Calendar.HOUR_OF_DAY);
+        minute = calendar.get(Calendar.MINUTE);
+
         join_name_EditText = (EditText) findViewById(R.id.join_layout_name_editText);
         join_sex_Radio = (RadioGroup) this.findViewById(R.id.sex_radio);
         join_posi_Radio = (RadioGroup) this.findViewById(R.id.position_radio);
@@ -54,6 +65,7 @@ public class JoinAddActivity extends Activity{
         join_bDay_EditText = (EditText) findViewById(R.id.join_layout_day_editText);
         join_layout_weight_editText= (EditText)findViewById(R.id.join_layout_weight_editText);
         join_layout_height_editText =(EditText)findViewById(R.id.join_layout_height_editText);
+
     }
 
     public void onClickCommit(View view) {

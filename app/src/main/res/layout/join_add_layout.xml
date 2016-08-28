@@ -10,17 +10,15 @@
         android:layout_height="wrap_content"
         android:weightSum="1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="     성명     "
-            android:id="@+id/textView5" />
-
-        <EditText
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/join_layout_name_editText" />
+                android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/join_layout_name_editText"
+                android:hint="이름"/>
+        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -218,4 +216,5 @@
         android:text="뒤로가기"
         android:id="@+id/join_add_layout_back_Button"
         android:layout_gravity="center_horizontal" />
+
 </LinearLayout>
