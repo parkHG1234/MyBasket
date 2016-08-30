@@ -5,6 +5,35 @@
     android:weightSum="1">
 
     <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal" />
+
+    <ImageView
+        android:layout_width="161dp"
+        android:layout_height="161dp"
+        android:id="@+id/imageView"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/ic_account_circle_black_36px" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="추가정보 입력"
+        android:id="@+id/textView8"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="개인정보는 암호화 되어 저장됩니다."
+        android:id="@+id/textView9"
+        android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,87 +81,40 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="     생일             "
-            android:id="@+id/textView" />
-
-        <EditText
-            android:layout_width="86dp"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/join_layout_year_editText" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="년"
-            android:id="@+id/textView3" />
-
-        <EditText
-            android:layout_width="49dp"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/join_layout_month_editText" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="월"
-            android:id="@+id/textView4" />
-
-        <EditText
-            android:layout_width="51dp"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/join_layout_day_editText" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="일"
-            android:id="@+id/textView10" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:weightSum="1" >
+        android:weightSum="1">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="     성별           "
+            android:text="성별"
             android:id="@+id/textView6" />
         <RadioGroup
             android:id="@+id/sex_radio"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="남자"
-                android:id="@+id/join_man"
-                android:checked="false" />
 
-            <RadioButton
+            <Spinner
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_sex"
+                android:entries="@array/sex" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="여자"
-                android:id="@+id/join_girl"
-                android:checked="false" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="포지션"
+                android:id="@+id/textView7" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_position"
+                android:entries="@array/position"
+                android:layout_weight="1" />
         </RadioGroup>
 
     </LinearLayout>
@@ -142,13 +124,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="     포지션"
-            android:id="@+id/textView7" />
-
         <RadioGroup
             android:id="@+id/position_radio"
             android:layout_width="match_parent"
@@ -156,60 +131,67 @@
             android:orientation="horizontal">
 
 
-
-            <RadioButton
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="A1"
-                android:id="@+id/join_a1"
-                android:checked="false" />
+                android:layout_height="match_parent"
+                android:weightSum="1" >
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="A2"
-                android:id="@+id/join_a2"
-                android:checked="false" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="생일"
+                    android:id="@+id/textView" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="A3"
-                android:id="@+id/join_a3"
-                android:checked="false" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="A4"
-                android:id="@+id/join_a4"
-                android:checked="false" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2016 / 01 / 01"
+                    android:id="@+id/join_layout_birth_tv" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="A5"
-                android:id="@+id/join_a5"
-                android:checked="false" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"></LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="변경"
+                    android:id="@+id/join_layout_birth_btn" />
+
+            </LinearLayout>
         </RadioGroup>
 
     </LinearLayout>
 
 
-
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="회원 가입"
-        android:id="@+id/join_add_layout_submit_Button"
         android:layout_gravity="center_horizontal"
-        android:onClick="onClickCommit"/>
+        android:gravity="center">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="뒤로가기"
-        android:id="@+id/join_add_layout_back_Button"
-        android:layout_gravity="center_horizontal" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원 가입"
+            android:id="@+id/join_add_layout_submit_Button"
+            android:onClick="onClickCommit"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="뒤로가기"
+            android:id="@+id/join_add_layout_back_Button" />
+
+    </LinearLayout>
 
 </LinearLayout>

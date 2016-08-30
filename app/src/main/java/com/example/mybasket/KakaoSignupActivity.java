@@ -36,7 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KakaoSignupActivity extends Activity{
-    String id;
+    long id;
+
     /**
      * Main으로 넘길지 가입 페이지를 그릴지 판단하기 위해 me를 호출한다.
      * @param savedInstanceState 기존 session 정보가 저장된 객체
@@ -81,9 +82,9 @@ public class KakaoSignupActivity extends Activity{
             @Override
             public void onSuccess(UserProfile userProfile) {  //성공 시 userProfile 형태로 반환
                 Logger.d("UserProfile : " + userProfile.toString());
-                id = userProfile.getNickname();
-
-                redirectMainActivity(id); // 로그인 성공시 MainActivity로
+                id = userProfile.getId();
+                String strId = Long.toString(id);
+                redirectMainActivity(strId); // 로그인 성공시 MainActivity로
             }
         });
     }
@@ -92,12 +93,12 @@ public class KakaoSignupActivity extends Activity{
         //db에 id에 해당하는 member가 있는지 확인 후 있으면 MainActivity 없으면 가입 권유 메시지 후 JoinAddActivity로 인텐트
         String result = SendByHttp(id);
         String[] parsedData = jsonParserList(result);
-        if(parsedData != null && parsedData[0].equals("Joined")){
+        if(parsedData != null && parsedData[0].equals("Duplicate")){
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("id", id);
             startActivity(intent);
             finish();
-        }else if(parsedData != null && parsedData[0].equals("notJoined")) {
+        }else if(parsedData != null && parsedData[0].equals("noDuplicate")) {
             AlertDialog dlg = new AlertDialog.Builder(this).setTitle("카카오 계정")
                     .setMessage("카카오 계정으로 가입된 아이디가 없습니다. 새로 가입하시겠습니까?")
                     .setPositiveButton("예", new DialogInterface.OnClickListener() {
@@ -105,6 +106,7 @@ public class KakaoSignupActivity extends Activity{
                         public void onClick(DialogInterface dialogInterface, int i) {
                             Intent intent = new Intent(KakaoSignupActivity.this, JoinAddActivity.class);
                             intent.putExtra("id", id);
+                            intent.putExtra("user_type", "kakao");
                             startActivity(intent);
                             finish();
                         }
@@ -125,7 +127,7 @@ public class KakaoSignupActivity extends Activity{
     private String SendByHttp(String id) {
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://ldong.cafe24.com/kakao_joinCheck.jsp";
+            String postURL = "http://210.122.7.195:8080/pp/CheckJoinedId.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -156,7 +158,7 @@ public class KakaoSignupActivity extends Activity{
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jarr = json.getJSONArray("List");
 
-            String[] jsonName = {"kakao_joinCheck"};
+            String[] jsonName = {"CheckId"};
             String[] parseredData = new String[jarr.length()];
             for(int i = 0; i<jarr.length();i++){
                 json = jarr.getJSONObject(i);

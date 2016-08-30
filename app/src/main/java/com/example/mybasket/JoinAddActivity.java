@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -33,7 +35,7 @@ import java.util.List;
  */
 public class JoinAddActivity extends Activity{
 
-    static String id, pw;
+    static String id, pw, user_type;
     RadioGroup join_sex_Radio, join_posi_Radio;
     EditText join_name_EditText, join_bYear_EditText, join_bMonth_EditText, join_bDay_EditText,join_layout_weight_editText,join_layout_height_editText;
     int year, month, day, hour, minute;
@@ -48,6 +50,7 @@ public class JoinAddActivity extends Activity{
         Intent intentGet = getIntent();
         id = intentGet.getStringExtra("id");
         pw = intentGet.getStringExtra("pw");
+        user_type = intentGet.getStringExtra("user_type");
 
 
         GregorianCalendar calendar = new GregorianCalendar();
@@ -57,12 +60,30 @@ public class JoinAddActivity extends Activity{
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         minute = calendar.get(Calendar.MINUTE);
 
+        Spinner s_Sex = (Spinner)findViewById(R.id.spinner_sex);
+        Spinner s_Position = (Spinner)findViewById(R.id.spinner_position);
+
+        s_Sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        s_Position.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
         join_name_EditText = (EditText) findViewById(R.id.join_layout_name_editText);
         join_sex_Radio = (RadioGroup) this.findViewById(R.id.sex_radio);
         join_posi_Radio = (RadioGroup) this.findViewById(R.id.position_radio);
-        join_bYear_EditText = (EditText) findViewById(R.id.join_layout_year_editText);
-        join_bMonth_EditText = (EditText) findViewById(R.id.join_layout_month_editText);
-        join_bDay_EditText = (EditText) findViewById(R.id.join_layout_day_editText);
         join_layout_weight_editText= (EditText)findViewById(R.id.join_layout_weight_editText);
         join_layout_height_editText =(EditText)findViewById(R.id.join_layout_height_editText);
 
@@ -88,12 +109,12 @@ public class JoinAddActivity extends Activity{
         String posi = posi_radio.getText().toString();
 
         Toast.makeText(JoinAddActivity.this, "id = "+id, Toast.LENGTH_LONG).show();
-        JoinByHttp(id,pw,name,sex,birth,posi,weight,height);
+        JoinByHttp(id,pw,user_type,name,sex,birth,posi,weight,height);
         //joinThread jt = new joinThread();
         //jt.run();
 
     }
-        private String JoinByHttp(String _id, String _pw, String _name, String _sex,String _birth, String _posi, String _weight, String _height) {
+        private String JoinByHttp(String _id, String _pw, String user_type, String _name, String _sex,String _birth, String _posi, String _weight, String _height) {
             try {
                 HttpClient client = new DefaultHttpClient();
                 String url = "http://210.122.7.195:8080/Web_basket/Join.jsp";
@@ -102,6 +123,7 @@ public class JoinAddActivity extends Activity{
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("_id", _id));
                 params.add(new BasicNameValuePair("_pw", _pw));
+                params.add(new BasicNameValuePair("_user_type", user_type));
                 params.add(new BasicNameValuePair("_name", _name));
                 params.add(new BasicNameValuePair("_sex", _sex));
                 params.add(new BasicNameValuePair("_birth", _birth));
