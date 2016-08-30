@@ -60,6 +60,15 @@
 
     </LinearLayout>
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="자동 로그인"
+        android:id="@+id/autuLogin_chkbox"
+        android:layout_gravity="right"
+        android:layout_weight="0.15"
+        android:checked="false" />
+
     <Button
         android:layout_width="350dp"
         android:layout_height="wrap_content"

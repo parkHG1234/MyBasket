@@ -106,6 +106,7 @@ public class KakaoSignupActivity extends Activity{
                         public void onClick(DialogInterface dialogInterface, int i) {
                             Intent intent = new Intent(KakaoSignupActivity.this, JoinAddActivity.class);
                             intent.putExtra("id", id);
+                            intent.putExtra("pw", "mybasket");
                             intent.putExtra("user_type", "kakao");
                             startActivity(intent);
                             finish();
@@ -119,9 +120,6 @@ public class KakaoSignupActivity extends Activity{
                         }
                     }).show();
         }
-
-
-
     }
 
     private String SendByHttp(String id) {

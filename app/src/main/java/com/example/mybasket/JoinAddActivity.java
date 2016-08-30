@@ -163,8 +163,18 @@ public class JoinAddActivity extends Activity{
         String result = JoinByHttp(id,pw,user_type,name,sex,birth,posi,weight,height);
         parsedData = jsonParserList(result);
 
+        if(parsedData != null && parsedData.equals("succed")) {
+
+        }else {
+
+        }
+
         //joinThread jt = new joinThread();
         //jt.run();
+
+    }
+
+    public void onClickBack(View view) {
 
     }
 
