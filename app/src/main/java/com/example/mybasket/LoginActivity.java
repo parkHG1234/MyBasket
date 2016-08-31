@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.kakao.auth.ISessionCallback;
@@ -40,6 +42,7 @@ public class LoginActivity extends Activity {
     Button login_Button, join_Button;
     String[][] parsedData;
     AlertDialog dlg;
+    CheckBox autoLoginChkbox;
 
     private SessionCallback callback;      //콜백 선언
 
@@ -57,6 +60,8 @@ public class LoginActivity extends Activity {
         pw_EditText = (EditText) findViewById(R.id.pw_Layout_EditText);
         login_Button = (Button) findViewById(R.id.login_button);
         join_Button = (Button) findViewById(R.id.join_button);
+
+        autoLoginChkbox = (CheckBox) findViewById(R.id.autuLogin_chkbox);
 
         join_Button.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -96,13 +101,21 @@ public class LoginActivity extends Activity {
 
         if(parsedData != null && parsedData[0][0].equals("succed"))
         {
+
+            if(autoLoginChkbox.equals(true)){
+                SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
+                //preference 이름을 autoLogin
+                SharedPreferences.Editor editor = preferences.edit();
+
+                editor.putString("id", _id);
+                editor.putString("pw", _pw);
+                editor.commit();
+
+            }
             //메인엑티비티에다 데이터를보내
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.putExtra("LoginCheck",parsedData[0][0]);
             intent.putExtra("Id",parsedData[0][1]);
-
-
-
 
             startActivity(intent);
 
@@ -215,6 +228,7 @@ public class LoginActivity extends Activity {
     private String[][] jsonParserList(String pRecvServerPage) {
         Log.i("서버에서 받은 전체 내용", pRecvServerPage);
         try {
+
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jarr = json.getJSONArray("List");
 

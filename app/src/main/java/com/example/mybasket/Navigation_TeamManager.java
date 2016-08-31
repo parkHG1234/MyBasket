@@ -157,6 +157,7 @@ public class Navigation_TeamManager extends AppCompatActivity {
                     Intent intent_TeamMember = new Intent(Navigation_TeamManager.this, Navigation_TeamManager_Member.class);
                     intent_TeamMember.putExtra("Id", Id);
                     intent_TeamMember.putExtra("Team", Team);
+                    intent_TeamMember.putExtra("MyDuty", Duty);
                     startActivity(intent_TeamMember);
                 }
             });
