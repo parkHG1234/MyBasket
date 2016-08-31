@@ -1,24 +1,48 @@
 package com.example.mybasket;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by park on 2016-04-16.
@@ -28,6 +52,7 @@ public class Match_In_CustomList_MyAdapter extends BaseAdapter {
     private ArrayList<Match_In_CustomList_MyData> arrData;
     private LayoutInflater inflater;
     private int MonthGap[] = {-30, -30, -27, -30, -29, -30, -29, -30, -30, -29, -30, -29};
+    private String[][] parsedData;
     public Match_In_CustomList_MyAdapter(Context c, ArrayList<Match_In_CustomList_MyData> arr) {
         this.context = c;
         this.arrData = arr;
@@ -55,6 +80,7 @@ public class Match_In_CustomList_MyAdapter extends BaseAdapter {
         String Profile = arrData.get(position).getProfile();
         String MyId = arrData.get(position).getMyId();
         String Id = arrData.get(position).getId();
+        String ScheduleId = arrData.get(position).getScheduleId();
         final TextView Match_In_CustomList_Title = (TextView)convertView.findViewById(R.id.Match_In_CustomList_Title);
         final LinearLayout Match_In_CustomList_Layout = (LinearLayout)convertView.findViewById(R.id.Match_In_CustomList_Layout);
         final TextView Match_In_CustomList_TeamName = (TextView)convertView.findViewById(R.id.Match_In_CustomList_TeamName);
@@ -98,6 +124,65 @@ public class Match_In_CustomList_MyAdapter extends BaseAdapter {
                 intent.putExtra("ScheduleId",arrData.get(position).getScheduleId());
                 intent.putExtra("TeamName",arrData.get(position).getTeamName());
                 context.startActivity(intent);
+            }
+        });
+        final View Modifylayout = inflater.inflate(R.layout.layout_customdialog_match_in_modify, (ViewGroup) convertView.findViewById(R.id.Layout_Match_IN_Modify_Root));
+        final ImageButton Layout_Match_IN_Modify_Button = (ImageButton) Modifylayout.findViewById(R.id.Layout_Match_IN_Modify_Button);
+        final ImageButton Layout_Match_IN_Delete_Button = (ImageButton) Modifylayout.findViewById(R.id.Layout_Match_IN_Delete_Button);
+        final MaterialDialog DutyDialog = new MaterialDialog(context);
+        Mathc_In_CustomList_Setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DutyDialog
+                        .setView(Modifylayout)
+                        .setPositiveButton("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                DutyDialog.dismiss();
+                            }
+                        });
+                DutyDialog.show();
+            }
+        });
+        Layout_Match_IN_Modify_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, Match_In_Register_Modify.class);
+                intent.putExtra("ScheduleId",arrData.get(position).getScheduleId());
+                intent.putExtra("Id",arrData.get(position).getMyId());
+                context.startActivity(intent);
+            }
+        });
+        Layout_Match_IN_Delete_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String result="";
+                try {
+                    HttpClient client = new DefaultHttpClient();
+                    String postURL = "http://210.122.7.195:8080/Web_basket/Match_In_Delete.jsp";
+                    HttpPost post = new HttpPost(postURL);
+
+                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                    params.add(new BasicNameValuePair("ScheduleId", arrData.get(position).getScheduleId()));
+
+                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                    post.setEntity(ent);
+                    HttpResponse response = client.execute(post);
+                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                    String line = null;
+                    while ((line = bufreader.readLine()) != null) {
+                        result += line;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                parsedData = jsonParserList(result);
+                if(parsedData[0][0].equals("succed")){
+                    DutyDialog.dismiss();
+                    notifyDataSetChanged();
+                    Toast.makeText(context,"게시글이 삭제되었습니다.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return convertView;
@@ -168,5 +253,24 @@ public class Match_In_CustomList_MyAdapter extends BaseAdapter {
         }
         return "Time Error";
     }
+    public String[][] jsonParserList(String pRecvServerPage){
+        Log.i("수정.이미 등록된 데이터", pRecvServerPage);
+        try{
+            JSONObject json = new JSONObject(pRecvServerPage);
+            JSONArray jArr = json.getJSONArray("List");
 
+            String[] jsonName = {"msg1"};
+            String[][] parseredData = new String[jArr.length()][jsonName.length];
+            for(int i = 0; i<jArr.length();i++){
+                json = jArr.getJSONObject(i);
+                for (int j=0;j<jsonName.length; j++){
+                    parseredData[i][j] = json.getString(jsonName[j]);
+                }
+            }
+            return parseredData;
+        }catch (JSONException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

@@ -6,54 +6,66 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="250dp"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:id="@+id/Layout_CustomDialog_Duty_Root">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_gravity="right">
+            android:layout_gravity="right"
+            android:layout_marginTop="10dp">
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="팀원"
+                android:textColor="@color/White"
                 android:id="@+id/Layout_CustomDialog_Duty_Button_Duty"
-                android:layout_weight="1" />
-
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp" />
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="박효근"
+                android:textColor="@color/White"
                 android:id="@+id/Layout_CustomDialog_Duty_Button_Name"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp" />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp">
 
             <CheckBox
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="팀원 관리"
                 android:id="@+id/Layout_CustomDialog_Duty_CheckBox_Member"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:padding="3dp" />
 
             <CheckBox
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="일정 관리"
                 android:id="@+id/Layout_CustomDialog_Duty_CheckBox_Schedule"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:padding="3dp" />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="50dp" >
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp">
 
             <CheckBox
                 android:layout_width="match_parent"
@@ -69,6 +81,16 @@
                 android:id="@+id/Layout_CustomDialog_Duty_CheckBox_Notice"
                 android:layout_weight="1" />
         </LinearLayout>
+
+        <Button
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:id="@+id/Layout_CustomDialog_Duty_Button_Entrust"
+            android:text="대표 위임"
+            android:textColor="@color/White"
+            android:background="@color/colorPrimary"
+            android:layout_marginLeft="3dp"
+            android:visibility="gone" />
 
     </LinearLayout>
 </LinearLayout>
