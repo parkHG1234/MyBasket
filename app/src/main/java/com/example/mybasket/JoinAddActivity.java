@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -164,6 +165,12 @@ public class JoinAddActivity extends Activity{
         parsedData = jsonParserList(result);
 
         if(parsedData != null && parsedData.equals("succed")) {
+
+            Snackbar.make(view, "회원가입이 완료되었습니다.", Snackbar.LENGTH_LONG)
+                    .show();
+
+            Intent intent = new Intent(JoinAddActivity.this, LoginActivity.class);
+            startActivity(intent);
 
         }else {
 

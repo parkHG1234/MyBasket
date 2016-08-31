@@ -101,9 +101,6 @@ public class LoginActivity extends Activity {
             intent.putExtra("LoginCheck",parsedData[0][0]);
             intent.putExtra("Id",parsedData[0][1]);
 
-
-
-
             startActivity(intent);
 
             finish();
