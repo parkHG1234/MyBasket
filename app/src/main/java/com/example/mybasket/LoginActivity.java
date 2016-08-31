@@ -185,7 +185,7 @@ public class LoginActivity extends Activity {
         }
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/Web_basket/Login.jsp";
+            String postURL = "http://210.122.7.195:8080/pp/Login.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
