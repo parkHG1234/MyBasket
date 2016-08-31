@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="position">
+        <item>센터</item>
+        <item>파워 포워드</item>
+        <item>스몰 포워드</item>
+        <item>포인트 가드</item>
+        <item>슈팅 가드</item>
+    </string-array>
+</resources>

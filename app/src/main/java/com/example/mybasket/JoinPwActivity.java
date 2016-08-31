@@ -39,6 +39,7 @@ public class JoinPwActivity extends Activity {
                 Intent intent = new Intent(JoinPwActivity.this, JoinAddActivity.class);
                 intent.putExtra("id", id);
                 intent.putExtra("pw", pw1);
+                intent.putExtra("user_type", "basic");
                 startActivity(intent);
             }
 
