@@ -14,8 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="7dp"
             android:layout_marginTop="5dp"
             android:id="@+id/Match_Layout_Tab">
 
@@ -47,9 +45,7 @@
             android:layout_gravity="center_horizontal"
             android:id="@+id/Match_Layout_Out"
             android:visibility="visible"
-            android:layout_marginLeft="7dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="7dp">
+            android:layout_marginTop="10dp">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -104,7 +100,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@color/White"
-                        android:layout_margin="5dp" />
+                        android:layout_marginTop="5dp" />
 
                     <com.melnykov.fab.FloatingActionButton
                         android:id="@+id/NewsFeed_Writing"
@@ -148,7 +144,8 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/White"
-                android:layout_marginBottom="5dp">
+                android:layout_marginBottom="5dp"
+                android:id="@+id/Match_Layout_In_Address">
 
                 <Spinner
                     android:layout_width="match_parent"

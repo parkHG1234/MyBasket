@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="@color/White">
 
     <LinearLayout
         android:orientation="vertical"
@@ -22,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/Match_In_CustomList_Profile"
-                android:layout_weight="1.5"
+                android:layout_weight="5"
                 android:src="@drawable/profile_basic_image" />
 
             <LinearLayout
@@ -35,13 +36,17 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="박효근"
-                    android:id="@+id/Match_In_CustomList_Name"
-                    android:layout_weight="1"
-                    android:textColor="@color/Black"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="클린쳐"
                     android:textSize="16dp"
-                    android:gravity="center_vertical" />
+                    android:id="@+id/Match_In_CustomList_TeamName"
+                    android:textColor="@color/colorPrimary"
+                    android:typeface="monospace"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="3dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="10dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -55,27 +60,15 @@
                     android:textSize="12dp" />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="클린쳐"
-                android:textSize="16dp"
-                android:id="@+id/Match_In_CustomList_TeamName"
-                android:textColor="@color/colorPrimary"
-                android:typeface="monospace"
-                android:textStyle="bold"
-                android:layout_marginBottom="3dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical|right"
-                android:layout_marginRight="10dp" />
+
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/Mathc_In_CustomList_Setting"
-                android:src="@drawable/ball"
-                android:visibility="gone" />
+                android:src="@drawable/menu_out"
+                android:visibility="gone"
+                android:background="@color/White" />
         </LinearLayout>
 
         <LinearLayout
@@ -89,7 +82,16 @@
             android:layout_marginTop="15dp"
             android:id="@+id/Match_In_CustomList_Layout">
 
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="일이삼사오륙칠팔구십일이삼사오육칠팔"
+                android:textSize="18dp"
+                android:id="@+id/Match_In_CustomList_Title"
+                android:typeface="monospace"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -101,7 +103,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/imageView5"
                     android:layout_weight="13"
-                    android:src="@drawable/location" />
+                    android:src="@drawable/location_court" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -127,7 +129,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/imageView6"
                     android:layout_weight="13"
-                    android:src="@drawable/clock"/>
+                    android:src="@drawable/clock_black"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -143,19 +145,6 @@
 
 
             </LinearLayout>
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="일이삼사오륙칠팔구십일이삼사오육칠팔"
-                android:textSize="18dp"
-                android:id="@+id/Match_In_CustomList_Title"
-                android:typeface="monospace"
-                android:textStyle="bold"
-                android:layout_marginBottom="3dp" />
-
 
         </LinearLayout>
 

@@ -24,6 +24,7 @@ import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -100,12 +101,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
-        /*FadingActionBarHelper helper = new FadingActionBarHelper()
-                .actionBarBackground(R.drawable.ball)
-                .headerLayout(R.layout.header)
-                .contentLayout(R.layout.activity_listview);
-        setContentView(helper.createView(this));
-        helper.initActionBar(this);*/
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -286,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
         ProgressBar NewsFeed_ProgressBar;
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Button Match_Button_Out, Match_Button_In, Match_In_Button_Search;
-
+        LinearLayout Match_Layout_Tab;LinearLayout Match_Layout_Out_Address;LinearLayout Match_Layout_In_Address;
         FloatingActionButton Match_In_FloatingActionButton_fab;
         ListView Match_In_CustomList;
         LinearLayout Match_Layout_Out, Match_Layout_In;
@@ -299,7 +295,10 @@ public class MainActivity extends AppCompatActivity {
         String choice_do="서울", choice_se="전 체";
         int in_minScheduleId=10000000;
         int out_minScheduleId=10000000;
-        boolean lastitemVisibleFlag = false;        //화면에 리스트의 마지막 아이템이 보여지는지 체크
+        boolean lastitemVisibleFlag_out = false;        //화면에 리스트의 마지막 아이템이 보여지는지 체크
+        boolean firstitemVIsibleFlag_out = false;
+        boolean lastitemVisibleFlag_in = false;        //화면에 리스트의 마지막 아이템이 보여지는지 체크
+        boolean firstitemVIsibleFlag_in = false;
         public SectionsFragment1() {
         }
 
@@ -308,6 +307,9 @@ public class MainActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
 
             final View rootView = inflater.inflate(R.layout.layout_match, container, false);
+            Match_Layout_Tab = (LinearLayout)rootView.findViewById(R.id.Match_Layout_Tab);
+            Match_Layout_Out_Address=(LinearLayout)rootView.findViewById(R.id.Match_Layout_Out_Address);
+            Match_Layout_In_Address =(LinearLayout)rootView.findViewById(R.id.Match_Layout_In_Address);
             Match_In_CustomList = (ListView) rootView.findViewById(R.id.Match_In_CustomList);
             Match_Button_Out = (Button) rootView.findViewById(R.id.Match_Button_Out);
             Match_Layout_Out = (LinearLayout) rootView.findViewById(R.id.Match_Layout_Out);
@@ -441,13 +443,14 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         //현재 화면에 보이는 첫번째 리스트 아이템의 번호(firstVisibleItem) + 현재 화면에 보이는 리스트 아이템의 갯수(visibleItemCount)가 리스트 전체의 갯수(totalItemCount) -1 보다 크거나 같을때
-        lastitemVisibleFlag = (totalItemCount > 0) && (firstVisibleItem + visibleItemCount >= totalItemCount);
+        lastitemVisibleFlag_out = (totalItemCount > 0) && (firstVisibleItem + visibleItemCount >= totalItemCount);
+        firstitemVIsibleFlag_out = (totalItemCount > 0) && (firstVisibleItem==0);
     }
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         //OnScrollListener.SCROLL_STATE_IDLE은 스크롤이 이동하다가 멈추었을때 발생되는 스크롤 상태입니다.
         //즉 스크롤이 바닦에 닿아 멈춘 상태에 처리를 하겠다는 뜻
-        if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastitemVisibleFlag) {
+        if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastitemVisibleFlag_out) {
             String result="";
             try {
                 HttpClient client = new DefaultHttpClient();
@@ -473,6 +476,14 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && firstitemVIsibleFlag_out) {
+            Match_Layout_Tab.setVisibility(View.VISIBLE);
+            Match_Layout_Out_Address.setVisibility(View.VISIBLE);
+        }
+        if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING){
+            Match_Layout_Tab.setVisibility(View.GONE);
+            Match_Layout_Out_Address.setVisibility(View.GONE);
         }
     }
 });
@@ -638,17 +649,17 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
                     });
 
                     Match_In_CustomList.setOnScrollListener(new AbsListView.OnScrollListener() {
-
                         @Override
                         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                             //현재 화면에 보이는 첫번째 리스트 아이템의 번호(firstVisibleItem) + 현재 화면에 보이는 리스트 아이템의 갯수(visibleItemCount)가 리스트 전체의 갯수(totalItemCount) -1 보다 크거나 같을때
-                            lastitemVisibleFlag = (totalItemCount > 0) && (firstVisibleItem + visibleItemCount >= totalItemCount);
+                            lastitemVisibleFlag_in = (totalItemCount > 0) && (firstVisibleItem + visibleItemCount >= totalItemCount);
+                            firstitemVIsibleFlag_in = (totalItemCount > 0) && (firstVisibleItem==0);
                         }
                         @Override
                         public void onScrollStateChanged(AbsListView view, int scrollState) {
                             //OnScrollListener.SCROLL_STATE_IDLE은 스크롤이 이동하다가 멈추었을때 발생되는 스크롤 상태입니다.
                             //즉 스크롤이 바닦에 닿아 멈춘 상태에 처리를 하겠다는 뜻
-                            if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastitemVisibleFlag) {
+                            if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastitemVisibleFlag_in) {
                                 try {
                                     HttpClient client = new DefaultHttpClient();
                                     String postURL = "http://210.122.7.195:8080/Web_basket/Match_InList_Scroll.jsp";
@@ -678,6 +689,14 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
+                            }
+                            if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && firstitemVIsibleFlag_in) {
+                                Match_Layout_Tab.setVisibility(View.VISIBLE);
+                                Match_Layout_In_Address.setVisibility(View.VISIBLE);
+                            }
+                            if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING){
+                                Match_Layout_Tab.setVisibility(View.GONE);
+                                Match_Layout_In_Address.setVisibility(View.GONE);
                             }
                         }
 

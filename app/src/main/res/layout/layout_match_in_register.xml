@@ -22,20 +22,28 @@
                 android:hint="제목  ex)교류전 팀 구함/ 게스트 2명 구함"
                 app:met_minCharacters="0"
                 app:met_maxCharacters="10"
-                android:id="@+id/Match_In_Register_EditText_Title" />
+                android:id="@+id/Match_In_Register_EditText_Title"
+                android:textSize="17dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="팀명*"
                 android:id="@+id/textView3"
-                android:textColor="@color/Black" />
+                android:textColor="@color/Black"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="17dp" />
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:text="New Button"
-                android:id="@+id/Match_In_Register_Button_TeamName" />
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/White"
+                android:id="@+id/Match_In_Register_Button_TeamName"
+                android:layout_marginBottom="5dp"
+                android:textSize="13dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -43,19 +51,42 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="지역*"
                 android:id="@+id/textView27"
-                android:textColor="@color/Black" />
+                android:textColor="@color/Black"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="17dp" />
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:text="New Button"
-                android:id="@+id/Match_In_Register_Button_TeamAddress" />
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/White"
+                android:id="@+id/Match_In_Register_Button_TeamAddress"
+                android:layout_marginBottom="5dp"
+                android:textSize="13dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="상세주소"
+                android:id="@+id/textView50"
+                android:textColor="@color/Black"
+                android:textSize="17dp"
+                android:layout_marginBottom="5dp" />
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:met_floatingLabel="highlight"
+                android:id="@+id/Match_In_Register_EditText_AddressFocus"
+                android:hint="ex) xxx체육관" />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="5dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -64,7 +95,9 @@
                     android:text="운동일정"
                     android:id="@+id/textView34"
                     android:textColor="@color/Black"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:layout_marginLeft="8dp"
+                    android:textSize="17dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -73,28 +106,33 @@
                     android:text="시간"
                     android:id="@+id/textView35"
                     android:textColor="@color/Black"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:layout_marginLeft="8dp"
+                    android:textSize="17dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="5dp">
 
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="New Button"
                     android:id="@+id/Match_In_Register_Button_Schedule_Date"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:textSize="13dp" />
 
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="New Button"
                     android:id="@+id/Match_In_Register_Button_Schedule_Time"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:textSize="13dp" />
             </LinearLayout>
 
             <TextView
@@ -103,12 +141,12 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="기타사항"
                 android:id="@+id/textView36"
-                android:textColor="@color/Black" />
+                android:textColor="@color/Black"
+                android:textSize="17dp" />
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:met_floatingLabel="highlight"
-                android:hint="교류지원비"
                 android:id="@+id/Match_In_Register_EditText_Consideration"/>
 
             <LinearLayout
@@ -144,21 +182,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal" >
-
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="전광판"
+                    android:id="@+id/Match_In_Register_CheckBox_Display"
+                    android:layout_weight="1" />
                 <CheckBox
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="샤워시설"
                     android:id="@+id/Match_In_Register_CheckBox_Shower"
                     android:layout_weight="1" />
-
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="화장실"
-                    android:id="@+id/Match_In_Register_CheckBox_Toilet"
-                    android:layout_weight="1" />
-
                 <CheckBox
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -167,7 +202,13 @@
                     android:layout_weight="1" />
 
             </LinearLayout>
-
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:met_floatingLabel="highlight"
+                android:hint="연락받을번호 ex)010-1234-1234"
+                android:inputType="phone"
+                android:id="@+id/Match_In_Register_EditText_Phone"/>
 
         </LinearLayout>
     </ScrollView>

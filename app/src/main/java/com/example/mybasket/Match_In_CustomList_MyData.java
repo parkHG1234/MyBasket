@@ -12,13 +12,13 @@ public class Match_In_CustomList_MyData {
     private String Title;
     private String Id;
     private String Name;
-    private String Profile;
+    private String Emblem;
     private String month;
     private String day;
     private String hour;
     private String minute;
     private String MyId;
-    public Match_In_CustomList_MyData(String TeamName,String Address,String Date, String Time,String ScheduleId,String Title,String Id, String Name, String Profile, String month, String day, String hour, String minute,String MyId){
+    public Match_In_CustomList_MyData(String TeamName,String Address,String Date, String Time,String ScheduleId,String Title,String Id, String Name, String Emblem, String month, String day, String hour, String minute,String MyId){
         this.TeamName = TeamName;
         this.Address= Address;
         this.Date=Date;
@@ -27,7 +27,7 @@ public class Match_In_CustomList_MyData {
         this.Title = Title;
         this.Id = Id;
         this.Name = Name;
-        this.Profile = Profile;
+        this.Emblem = Emblem;
         this.month = month;
         this.day = day;
         this.hour = hour;
@@ -54,7 +54,7 @@ public class Match_In_CustomList_MyData {
     }
     public String getId(){return Id;}
     public String getName(){return Name;}
-    public String getProfile(){return Profile;}
+    public String getEmblem(){return Emblem;}
     public String getMonth() {
         return month;
     }

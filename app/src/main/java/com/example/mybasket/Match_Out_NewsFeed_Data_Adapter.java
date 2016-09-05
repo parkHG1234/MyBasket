@@ -217,15 +217,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
         NewsFeed_CustomList_Data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
-                CommentIntent.putExtra("Num", arrData.get(position).getnum());
-                CommentIntent.putExtra("Court", arrData.get(position).getcourt());
-                CommentIntent.putExtra("Data", arrData.get(position).getdata());
-                CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", UserID);
-                CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
-                CommentIntent.putExtra("Image", arrData.get(position).getImage());
-                context.startActivity(CommentIntent);
+
             }
         });
 
@@ -299,13 +291,33 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
             }
         });
 
-        ImageView NewsFeed_CustomList_CommentImage =  (ImageView) convertView.findViewById(R.id.NewsFeed_CustomList_CommentImage);
+        //ImageView NewsFeed_CustomList_CommentImage =  (ImageView) convertView.findViewById(R.id.NewsFeed_CustomList_CommentImage);
 
         TextView NewsFeed_CustomList_CommentCount = (TextView)convertView.findViewById(R.id.NewsFeed_CustomList_CommentCount);
         String result = "";
-
-        NewsFeed_CustomList_CommentCount.setText(arrData.get(position).getComment_Count());
-
+        String CommentCount = arrData.get(position).getComment_Count();
+        if(Integer.parseInt(CommentCount)==0)
+        {
+            NewsFeed_CustomList_CommentCount.setText("댓글 쓰기.");
+        }
+        else
+        {
+            NewsFeed_CustomList_CommentCount.setText("..댓글 "+CommentCount+"개 더보기");
+        }
+        NewsFeed_CustomList_CommentCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
+                CommentIntent.putExtra("Num", arrData.get(position).getnum());
+                CommentIntent.putExtra("Court", arrData.get(position).getcourt());
+                CommentIntent.putExtra("Data", arrData.get(position).getdata());
+                CommentIntent.putExtra("Time", GetTime(position));
+                CommentIntent.putExtra("Id", UserID);
+                CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
+                CommentIntent.putExtra("Image", arrData.get(position).getImage());
+                context.startActivity(CommentIntent);
+            }
+        });
         ImageView NewSpeed_ImageView = (ImageView) convertView.findViewById(R.id.NewSpeed_ImageView);
         try {
             if (String.valueOf(arrData.get(position).getImage()).equals(".")) {

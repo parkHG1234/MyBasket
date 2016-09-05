@@ -168,7 +168,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="5dp">
-
+                        <CheckBox
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="전광판"
+                            android:id="@+id/Match_In_Focus_CheckBox_Display"
+                            android:layout_weight="1"
+                            android:clickable="false"/>
                         <CheckBox
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -176,15 +182,6 @@
                             android:id="@+id/Match_In_Focus_CheckBox_Shower"
                             android:layout_weight="1"
                             android:clickable="false"/>
-
-                        <CheckBox
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="화장실"
-                            android:id="@+id/Match_In_Focus_CheckBox_Toilet"
-                            android:layout_weight="1"
-                            android:clickable="false"/>
-
                         <CheckBox
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"

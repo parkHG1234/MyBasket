@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
@@ -53,9 +54,11 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
     private String PaidParking="";
     private String NoParking="";
     private String Shower="";
-    private String Toilet="";
+    private String Display="";
     private String HeatingAndCooling="";
     private String ScheduleId="";
+    private String AddressFocus="";
+    private String Phone="";
     private MaterialEditText Match_In_Modify_EditText_Title;
     private MaterialEditText Match_In_Modify_EditText_Consideration;
     private Button Match_In_Modify_Button_TeamName;
@@ -67,9 +70,10 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
     private CheckBox Match_In_Modify_CheckBox_PaidParking;
     private CheckBox Match_In_Modify_CheckBox_NoParking;
     private CheckBox Match_In_Modify_CheckBox_Shower;
-    private CheckBox Match_In_Modify_CheckBox_Toilet;
+    private CheckBox Match_In_Modify_CheckBox_Display;
     private CheckBox Match_In_Modify_CheckBox_HeatingAndCooling;
-
+    private EditText Match_In_Modify_EditText_Phone;
+    private EditText Match_In_Modify_EditText_AddressFocus;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_match_in_modify);
@@ -77,6 +81,7 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
 
         Match_In_Modify_EditText_Title = (MaterialEditText)findViewById(R.id.Match_In_Modify_EditText_Title);
         Match_In_Modify_EditText_Consideration = (MaterialEditText)findViewById(R.id.Match_In_Modify_EditText_Consideration);
+        Match_In_Modify_EditText_AddressFocus =(MaterialEditText)findViewById(R.id.Match_In_Modify_EditText_AddressFocus);
         Match_In_Modify_Button_TeamName = (Button)findViewById(R.id.Match_In_Modify_Button_TeamName);
         Match_In_Modify_Button_TeamAddress = (Button)findViewById(R.id.Match_In_Modify_Button_TeamAddress);
         Match_In_Modify_Button_Schedule_Date = (Button)findViewById(R.id.Match_In_Modify_Button_Schedule_Date);
@@ -86,8 +91,9 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
         Match_In_Modify_CheckBox_PaidParking = (CheckBox)findViewById(R.id.Match_In_Modify_CheckBox_PaidParking);
         Match_In_Modify_CheckBox_NoParking = (CheckBox)findViewById(R.id.Match_In_Modify_CheckBox_NoParking);
         Match_In_Modify_CheckBox_Shower = (CheckBox)findViewById(R.id.Match_In_Modify_CheckBox_Shower);
-        Match_In_Modify_CheckBox_Toilet = (CheckBox)findViewById(R.id.Match_In_Modify_CheckBox_Toilet);
+        Match_In_Modify_CheckBox_Display = (CheckBox)findViewById(R.id.Match_In_Modify_CheckBox_Display);
         Match_In_Modify_CheckBox_HeatingAndCooling = (CheckBox)findViewById(R.id.Match_In_Modify_CheckBox_HeatingAndCooling);
+        Match_In_Modify_EditText_Phone = (MaterialEditText)findViewById(R.id.Match_In_Modify_EditText_Phone);
 
         Intent intent1 = getIntent();
         ScheduleId = intent1.getStringExtra("ScheduleId");
@@ -136,8 +142,10 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
         PaidParking=parsedData_Data[0][7];
         NoParking=parsedData_Data[0][8];
         Shower=parsedData_Data[0][9];
-        Toilet=parsedData_Data[0][10];
+        Display=parsedData_Data[0][10];
         HeatingAndCooling=parsedData_Data[0][11];
+        AddressFocus = parsedData_Data[0][14];
+        Phone =parsedData_Data[0][15];
 
         Match_In_Modify_EditText_Title.setText(Title);
         Match_In_Modify_Button_TeamName.setText(TeamName);
@@ -145,6 +153,8 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
         Match_In_Modify_Button_Schedule_Date.setText(BookDay);
         Match_In_Modify_Button_Schedule_Time.setText(BookTime);
         Match_In_Modify_EditText_Consideration.setText(Consideration);
+        Match_In_Modify_EditText_AddressFocus.setText(AddressFocus);
+        Match_In_Modify_EditText_Phone.setText(Phone);
 
         if(FreeParking.equals("true")){
             Match_In_Modify_CheckBox_FreeParking.setChecked(true);
@@ -158,8 +168,8 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
         if(Shower.equals("true")){
             Match_In_Modify_CheckBox_Shower.setChecked(true);
         }
-        if(Toilet.equals("true")){
-            Match_In_Modify_CheckBox_Toilet.setChecked(true);
+        if(Display.equals("true")){
+            Match_In_Modify_CheckBox_Display.setChecked(true);
         }
         if(HeatingAndCooling.equals("true")){
             Match_In_Modify_CheckBox_HeatingAndCooling.setChecked(true);
@@ -202,8 +212,10 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
                 PaidParking = String.valueOf(Match_In_Modify_CheckBox_PaidParking.isChecked());
                 NoParking = String.valueOf(Match_In_Modify_CheckBox_NoParking.isChecked());
                 Shower = String.valueOf(Match_In_Modify_CheckBox_Shower.isChecked());
-                Toilet = String.valueOf(Match_In_Modify_CheckBox_Toilet.isChecked());
+                Display = String.valueOf(Match_In_Modify_CheckBox_Display.isChecked());
                 HeatingAndCooling = String.valueOf(Match_In_Modify_CheckBox_HeatingAndCooling.isChecked());
+                AddressFocus = Match_In_Modify_EditText_AddressFocus.getText().toString();
+                Phone = Match_In_Modify_EditText_Phone.getText().toString();
                 Match_In_Modify_Button_Modify.setProgress(25);
                 String result="";
                 try {
@@ -224,13 +236,15 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
                     params.add(new BasicNameValuePair("PaidParking", PaidParking));
                     params.add(new BasicNameValuePair("NoParking", NoParking));
                     params.add(new BasicNameValuePair("Shower", Shower));
-                    params.add(new BasicNameValuePair("Toilet", Toilet));
+                    params.add(new BasicNameValuePair("Display", Display));
                     params.add(new BasicNameValuePair("HeatingAndCooling", HeatingAndCooling));
                     params.add(new BasicNameValuePair("Id", Id));
                     params.add(new BasicNameValuePair("NewsFeed_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Day", new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Hour", new SimpleDateFormat("kk").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Minute", new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis()))));
+                    params.add(new BasicNameValuePair("AddressFocus", AddressFocus));
+                    params.add(new BasicNameValuePair("Phone", Phone));
 
                     UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                     post.setEntity(ent);
@@ -286,7 +300,7 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
 
-            String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9","msg10","msg11","msg12","msg13","msg14"};
+            String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9","msg10","msg11","msg12","msg13","msg14","msg15","msg16"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for(int i = 0; i<jArr.length();i++){
                 json = jArr.getJSONObject(i);

@@ -77,7 +77,7 @@ public class Match_In_CustomList_MyAdapter extends BaseAdapter {
         String Time = arrData.get(position).getTime();
         String Title = arrData.get(position).getTitle();
         String Name = arrData.get(position).getName();
-        String Profile = arrData.get(position).getProfile();
+        String Emblem = arrData.get(position).getEmblem();
         String MyId = arrData.get(position).getMyId();
         String Id = arrData.get(position).getId();
         String ScheduleId = arrData.get(position).getScheduleId();
@@ -87,17 +87,17 @@ public class Match_In_CustomList_MyAdapter extends BaseAdapter {
         final TextView Match_In_CustomList_Address = (TextView)convertView.findViewById(R.id.Match_In_CustomList_Address);
         final TextView Match_In_CustomList_Time = (TextView)convertView.findViewById(R.id.Match_In_CustomList_Time);
         final ImageView Match_In_CustomList_Profile = (ImageView) convertView.findViewById(R.id.Match_In_CustomList_Profile);
-        final TextView Match_In_CustomList_Name = (TextView)convertView.findViewById(R.id.Match_In_CustomList_Name);
+      //  final TextView Match_In_CustomList_Name = (TextView)convertView.findViewById(R.id.Match_In_CustomList_Name);
         final TextView Match_In_CustomList_RealTime = (TextView)convertView.findViewById(R.id.Match_In_CustomList_WritingTime);
         final ImageButton Mathc_In_CustomList_Setting = (ImageButton)convertView.findViewById(R.id.Mathc_In_CustomList_Setting);
 
         //유저 개인 이미지를 서버에서 받아옵니다.
         try {
-            String En_Profile = URLEncoder.encode(Profile, "utf-8");
-            if (Profile.equals(".")) {
+            String En_Emblem = URLEncoder.encode(Emblem, "utf-8");
+            if (Emblem.equals(".")) {
                 Glide.with(context).load(R.drawable.profile_basic_image).into(Match_In_CustomList_Profile);
             } else {
-                Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
+                Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
                         .into(Match_In_CustomList_Profile);
             }
         } catch (UnsupportedEncodingException e) {
@@ -106,7 +106,7 @@ public class Match_In_CustomList_MyAdapter extends BaseAdapter {
         if(MyId.equals(Id)){
             Mathc_In_CustomList_Setting.setVisibility(View.VISIBLE);
         }
-        Match_In_CustomList_Name.setText(Name);
+   //     Match_In_CustomList_Name.setText(Name);
         Match_In_CustomList_RealTime.setText(GetTime(position));
         Match_In_CustomList_Title.setText(Title);
         Match_In_CustomList_TeamName.setText(TeamName);

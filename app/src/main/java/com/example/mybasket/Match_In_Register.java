@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
@@ -52,10 +53,14 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
     private String PaidParking="";
     private String NoParking="";
     private String Shower="";
-    private String Toilet="";
+    private String Display="";
     private String HeatingAndCooling="";
+    private String Phone="";
+    private String AddressFocus="";
+
     private MaterialEditText Match_In_Register_EditText_Title;
     private MaterialEditText Match_In_Register_EditText_Consideration;
+    private MaterialEditText Match_In_Register_EditText_AddressFocus;
     private Button Match_In_Register_Button_TeamName;
     private Button Match_In_Register_Button_TeamAddress;
     private Button Match_In_Register_Button_Schedule_Date;
@@ -65,9 +70,9 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
     private CheckBox Match_In_Register_CheckBox_PaidParking;
     private CheckBox Match_In_Register_CheckBox_NoParking;
     private CheckBox Match_In_Register_CheckBox_Shower;
-    private CheckBox Match_In_Register_CheckBox_Toilet;
+    private CheckBox Match_In_Register_CheckBox_Display;
     private CheckBox Match_In_Register_CheckBox_HeatingAndCooling;
-
+    private EditText Match_In_Register_EditText_Phone;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_match_in_register);
@@ -77,6 +82,7 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
         Match_In_Register_EditText_Consideration = (MaterialEditText)findViewById(R.id.Match_In_Register_EditText_Consideration);
         Match_In_Register_Button_TeamName = (Button)findViewById(R.id.Match_In_Register_Button_TeamName);
         Match_In_Register_Button_TeamAddress = (Button)findViewById(R.id.Match_In_Register_Button_TeamAddress);
+        Match_In_Register_EditText_AddressFocus =(MaterialEditText)findViewById(R.id.Match_In_Register_EditText_AddressFocus);
         Match_In_Register_Button_Schedule_Date = (Button)findViewById(R.id.Match_In_Register_Button_Schedule_Date);
         Match_In_Register_Button_Schedule_Time = (Button)findViewById(R.id.Match_In_Register_Button_Schedule_Time);
         Match_In_Register_Button_Register = (CircularProgressButton)findViewById(R.id.Match_In_Register_Button_Register);
@@ -84,8 +90,9 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
         Match_In_Register_CheckBox_PaidParking = (CheckBox)findViewById(R.id.Match_In_Register_CheckBox_PaidParking);
         Match_In_Register_CheckBox_NoParking = (CheckBox)findViewById(R.id.Match_In_Register_CheckBox_NoParking);
         Match_In_Register_CheckBox_Shower = (CheckBox)findViewById(R.id.Match_In_Register_CheckBox_Shower);
-        Match_In_Register_CheckBox_Toilet = (CheckBox)findViewById(R.id.Match_In_Register_CheckBox_Toilet);
+        Match_In_Register_CheckBox_Display = (CheckBox)findViewById(R.id.Match_In_Register_CheckBox_Display);
         Match_In_Register_CheckBox_HeatingAndCooling = (CheckBox)findViewById(R.id.Match_In_Register_CheckBox_HeatingAndCooling);
+        Match_In_Register_EditText_Phone = (EditText)findViewById(R.id.Match_In_Register_EditText_Phone);
 
         Intent intent1 = getIntent();
         Id = intent1.getStringExtra("Id");
@@ -171,8 +178,10 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
                 PaidParking = String.valueOf(Match_In_Register_CheckBox_PaidParking.isChecked());
                 NoParking = String.valueOf(Match_In_Register_CheckBox_NoParking.isChecked());
                 Shower = String.valueOf(Match_In_Register_CheckBox_Shower.isChecked());
-                Toilet = String.valueOf(Match_In_Register_CheckBox_Toilet.isChecked());
+                Display = String.valueOf(Match_In_Register_CheckBox_Display.isChecked());
                 HeatingAndCooling = String.valueOf(Match_In_Register_CheckBox_HeatingAndCooling.isChecked());
+                Phone =Match_In_Register_EditText_Phone.getText().toString();
+                AddressFocus = Match_In_Register_EditText_AddressFocus.getText().toString();
                 Match_In_Register_Button_Register.setProgress(25);
                 String result="";
                 try {
@@ -192,13 +201,15 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
                     params.add(new BasicNameValuePair("PaidParking", PaidParking));
                     params.add(new BasicNameValuePair("NoParking", NoParking));
                     params.add(new BasicNameValuePair("Shower", Shower));
-                    params.add(new BasicNameValuePair("Toilet", Toilet));
+                    params.add(new BasicNameValuePair("Display", Display));
                     params.add(new BasicNameValuePair("HeatingAndCooling", HeatingAndCooling));
                     params.add(new BasicNameValuePair("Id", Id));
                     params.add(new BasicNameValuePair("NewsFeed_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Day", new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Hour", new SimpleDateFormat("kk").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("NewsFeed_Minute", new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis()))));
+                    params.add(new BasicNameValuePair("Phone", Phone));
+                    params.add(new BasicNameValuePair("AddressFocus", AddressFocus));
 
                     UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                     post.setEntity(ent);

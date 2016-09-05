@@ -1,11 +1,13 @@
 package com.example.mybasket;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -31,6 +33,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -49,13 +52,15 @@ public class Match_In_Focus extends AppCompatActivity {
     private String PaidParking="";
     private String NoParking="";
     private String Shower="";
-    private String Toilet="";
+    private String Display="";
     private String HeatingAndCooling="";
     private String Consideraion="";
     private String TeamAddress="";
     private String HomeCourt="";
     private String TeamTime="";
     private String TeamIntro="";
+    private String Phone="";
+    private String AddressFocus="";
     String Image1="";
     String Image2="";
     String Image3="";
@@ -69,7 +74,7 @@ public class Match_In_Focus extends AppCompatActivity {
     private CheckBox Match_In_Focus_CheckBox_PaidParking;
     private CheckBox Match_In_Focus_CheckBox_NoParking;
     private CheckBox Match_In_Focus_CheckBox_Shower;
-    private CheckBox Match_In_Focus_CheckBox_Toilet;
+    private CheckBox Match_In_Focus_CheckBox_DIsplay;
     private CheckBox Match_In_Focus_CheckBox_HeatingAndCooling;
     private TextView Match_In_Focus_TextView_Consideration;
 
@@ -88,6 +93,11 @@ public class Match_In_Focus extends AppCompatActivity {
     Match_In_Focus_Player_MyAdapter match_In_Focus_Player_MyAdapter;
     ArrayList<Match_In_Focus_Player_MyData> match_In_Focus_Player_MyData;
     String result="";
+    int playerCount;
+    int Height_Total;
+    int Height_Avg;
+    int Age_avg;
+    int Age_Total;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_match_in_focus);
@@ -107,7 +117,7 @@ public class Match_In_Focus extends AppCompatActivity {
         Match_In_Focus_CheckBox_PaidParking = (CheckBox)findViewById(R.id.Match_In_Focus_CheckBox_PaidParking);
         Match_In_Focus_CheckBox_NoParking = (CheckBox)findViewById(R.id.Match_In_Focus_CheckBox_NoParking);
         Match_In_Focus_CheckBox_Shower = (CheckBox)findViewById(R.id.Match_In_Focus_CheckBox_Shower);
-        Match_In_Focus_CheckBox_Toilet = (CheckBox)findViewById(R.id.Match_In_Focus_CheckBox_Toilet);
+        Match_In_Focus_CheckBox_DIsplay = (CheckBox)findViewById(R.id.Match_In_Focus_CheckBox_Display);
         Match_In_Focus_CheckBox_HeatingAndCooling = (CheckBox)findViewById(R.id.Match_In_Focus_CheckBox_HeatingAndCooling);
         Match_In_Focus_TextView_Consideration = (TextView)findViewById(R.id.Match_In_Focus_TextView_Consideration);
 
@@ -158,7 +168,7 @@ public class Match_In_Focus extends AppCompatActivity {
         PaidParking=parsedData[0][7];
         NoParking=parsedData[0][8];
         Shower=parsedData[0][9];
-        Toilet=parsedData[0][10];
+        Display=parsedData[0][10];
         HeatingAndCooling=parsedData[0][11];
         Consideraion = parsedData[0][12];
         TeamAddress = parsedData[0][14];
@@ -168,10 +178,11 @@ public class Match_In_Focus extends AppCompatActivity {
         Image2 = parsedData[0][21];
         Image3 = parsedData[0][22];
         TeamIntro = parsedData[0][17];
-
+        Phone = parsedData[0][23];
+        AddressFocus = parsedData[0][24];
         //리스트 뷰 정보 입력
         Match_In_Focus_TextView_Title.setText(Title);
-        Match_In_Focus_TextView_Address.setText(Address);
+        Match_In_Focus_TextView_Address.setText(Address + AddressFocus);
         Match_In_Focus_TextView_Date.setText(Time);
         Match_In_Focus_TextView_Time.setText(Date);
 
@@ -188,8 +199,8 @@ public class Match_In_Focus extends AppCompatActivity {
         if(Shower.equals("true")){
             Match_In_Focus_CheckBox_Shower.setChecked(true);
         }
-        if(Toilet.equals("true")){
-            Match_In_Focus_CheckBox_Toilet.setChecked(true);
+        if(Display.equals("true")){
+            Match_In_Focus_CheckBox_DIsplay.setChecked(true);
         }
         if(HeatingAndCooling.equals("true")){
             Match_In_Focus_CheckBox_HeatingAndCooling.setChecked(true);
@@ -229,6 +240,17 @@ public class Match_In_Focus extends AppCompatActivity {
         match_In_Focus_Player_MyAdapter = new Match_In_Focus_Player_MyAdapter(Match_In_Focus.this, match_In_Focus_Player_MyData);
         //리스트뷰에 어댑터 연결
         Match_In_Focus_ListView_Player.setAdapter(match_In_Focus_Player_MyAdapter);
+
+        for(int i =0 ; i<3; i++)
+        {
+            Age_Total = Age_Total+Integer.parseInt(ChangeAge(parsedData_Player[i][3]));
+            Height_Total = Height_Total+Integer.parseInt(parsedData_Player[i][6]);
+            playerCount++;
+        }
+        Height_Avg = Height_Total/playerCount;
+        Age_avg = Age_Total/playerCount;
+        Match_In_Focus_TextView_TeamAgeAndHeight.setText("평균 나이 "+Integer.toString(Age_avg)+"/ 신장 "+Integer.toString(Height_Avg));
+
         //팀소개 이미지 업로드
         try {
             String En_Image1 = URLEncoder.encode(Image1, "utf-8");
@@ -258,7 +280,13 @@ public class Match_In_Focus extends AppCompatActivity {
 
         Match_In_Focus_TextView_TeamIntroduce.setText(TeamIntro);
 
-
+        Match_In_Focus_Button_Call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+Phone));
+                startActivity(intent);
+            }
+        });
     }
     public String[][] jsonParserList(String pRecvServerPage){
         Log.i("서버에서 받은 전체 내용", pRecvServerPage);
@@ -266,7 +294,7 @@ public class Match_In_Focus extends AppCompatActivity {
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
 
-            String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9", "msg10","msg11","msg12","msg13","msg14","msg15","msg16","msg17","msg18","msg19", "msg20","msg21","msg22","msg23"};
+            String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9", "msg10","msg11","msg12","msg13","msg14","msg15","msg16","msg17","msg18","msg19", "msg20","msg21","msg22","msg23","msg24","msg25"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for(int i = 0; i<jArr.length();i++){
                 json = jArr.getJSONObject(i);
@@ -286,7 +314,7 @@ public class Match_In_Focus extends AppCompatActivity {
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List2");
 
-            String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6"};
+            String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6","msg7"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for(int i = 0; i<jArr.length();i++){
                 json = jArr.getJSONObject(i);
@@ -311,5 +339,30 @@ public class Match_In_Focus extends AppCompatActivity {
     public String http(){
 
         return result;
+    }
+    //date 입력받아 나이 구하는 함수
+    public String ChangeAge(String Age){
+        Calendar cal= Calendar.getInstance ();
+        String[] str = new String(Age).split(" \\/ ");
+        String[] str_day = new String(str[2]).split(" ");
+        int year = Integer.parseInt(str[0]);
+        int month = Integer.parseInt(str[1]);
+        int day = Integer.parseInt(str_day[0]);
+
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month-1);
+        cal.set(Calendar.DATE, day);
+
+        Calendar now = Calendar.getInstance ();
+
+        int age = now.get(Calendar.YEAR) - cal.get(Calendar.YEAR);
+        if (  (cal.get(Calendar.MONTH) > now.get(Calendar.MONTH))
+                || (    cal.get(Calendar.MONTH) == now.get(Calendar.MONTH)
+                && cal.get(Calendar.DAY_OF_MONTH) > now.get(Calendar.DAY_OF_MONTH)   )
+                ){
+            age--;
+        }
+        String Str_age = Integer.toString(age);
+        return Str_age;
     }
 }

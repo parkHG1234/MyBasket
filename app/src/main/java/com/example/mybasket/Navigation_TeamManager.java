@@ -185,7 +185,33 @@ public class Navigation_TeamManager extends AppCompatActivity {
                                 .setNegativeButton("탈퇴", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
+                                        String result="";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamManager_WithDraw.jsp";
+                                            HttpPost post = new HttpPost(postURL);
 
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("Id", Id));
+                                            params.add(new BasicNameValuePair("TeamName", Team));
+
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        parsedData = jsonParserList(result);
+                                        if(parsedData[0][0].equals("succed")){
+                                            TeamPlayerDialog.dismiss();
+                                        }
                                     }
                                 })
                                 .setPositiveButton("취소", new View.OnClickListener() {
