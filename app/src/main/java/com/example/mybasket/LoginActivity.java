@@ -56,6 +56,8 @@ public class LoginActivity extends Activity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+        SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
+
         id_EditText = (EditText) findViewById(R.id.id_Layout_EditText);
         pw_EditText = (EditText) findViewById(R.id.pw_Layout_EditText);
         login_Button = (Button) findViewById(R.id.login_button);
@@ -76,10 +78,34 @@ public class LoginActivity extends Activity {
             }
         });
 
+        autoLoginChkbox.setChecked(true);
 
         callback = new SessionCallback();                  // 이 두개의 함수 중요함
         Session.getCurrentSession().addCallback(callback);
         Session.getCurrentSession().checkAndImplicitOpen();
+
+        if(autoLoginChkbox.equals(true)){
+
+            //preference 이름을 autoLogin
+            String autologID = preferences.getString("id", "");
+            String autologPW = preferences.getString("pw", "");
+            if(autologID.equals("")) {
+            }else {
+                String result = SendByHttp(autologID, autologPW);
+                parsedData = jsonParserList(result);
+                if(parsedData != null && parsedData[0][0].equals("succed")) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("LoginCheck",parsedData[0][0]);
+                    intent.putExtra("Id",parsedData[0][1]);
+
+                    startActivity(intent);
+
+                    finish();
+
+                }
+            }
+        }
+
     }
     public void join_Button (View view) {
         Intent intent = new Intent(LoginActivity.this, JoinIdActivity.class);
@@ -110,6 +136,8 @@ public class LoginActivity extends Activity {
                 editor.putString("id", _id);
                 editor.putString("pw", _pw);
                 editor.commit();
+
+            }else {
 
             }
             //메인엑티비티에다 데이터를보내
