@@ -351,6 +351,231 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                     }
+                    if (adspin1.getItem(i).equals("인천")) {
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_incheon, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_Address_si.setAdapter(adspin2);
+                        spinner_Address_si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                address2 = adspin2.getItem(i).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                    }
+                    if (adspin1.getItem(i).equals("광주")) {
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_gwangju, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_Address_si.setAdapter(adspin2);
+                        spinner_Address_si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                address2 = adspin2.getItem(i).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                    }
+                    if (adspin1.getItem(i).equals("대구")) {
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_DaeGu, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_Address_si.setAdapter(adspin2);
+                        spinner_Address_si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                address2 = adspin2.getItem(i).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                    }
+                    if (adspin1.getItem(i).equals("울산")) {
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Ulsan, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_Address_si.setAdapter(adspin2);
+                        spinner_Address_si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                address2 = adspin2.getItem(i).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                    }
+                    if (adspin1.getItem(i).equals("대전")) {
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_DaeJeon, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_Address_si.setAdapter(adspin2);
+                        spinner_Address_si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                address2 = adspin2.getItem(i).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                    }
+                    if (adspin1.getItem(i).equals("부산")) {
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Busan, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_Address_si.setAdapter(adspin2);
+                        spinner_Address_si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                address2 = adspin2.getItem(i).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                    }
+                    if (adspin1.getItem(i).equals("강원도")) {
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gangwondo, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_Address_si.setAdapter(adspin2);
+                        spinner_Address_si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                address2 = adspin2.getItem(i).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                    }
+                    if (adspin1.getItem(i).equals("경기도")) {
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeonggido, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_Address_si.setAdapter(adspin2);
+                        spinner_Address_si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                address2 = adspin2.getItem(i).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                    }
+                    if (adspin1.getItem(i).equals("충청북도")) {
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Chungcheongbukdo, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_Address_si.setAdapter(adspin2);
+                        spinner_Address_si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                address2 = adspin2.getItem(i).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                    }
+                    if (adspin1.getItem(i).equals("충청남도")) {
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Chungcheongnamdo, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_Address_si.setAdapter(adspin2);
+                        spinner_Address_si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                address2 = adspin2.getItem(i).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                    }
+                    if (adspin1.getItem(i).equals("전라북도")) {
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jeolabukdo, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_Address_si.setAdapter(adspin2);
+                        spinner_Address_si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                address2 = adspin2.getItem(i).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                    }
+                    if (adspin1.getItem(i).equals("전라남도")) {
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jeolanamdo, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_Address_si.setAdapter(adspin2);
+                        spinner_Address_si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                address2 = adspin2.getItem(i).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                    }
+                    if (adspin1.getItem(i).equals("경상북도")) {
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeongsangbukdo, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_Address_si.setAdapter(adspin2);
+                        spinner_Address_si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                address2 = adspin2.getItem(i).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                    }
+                    if (adspin1.getItem(i).equals("경상남도")) {
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeongsangnamdo, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_Address_si.setAdapter(adspin2);
+                        spinner_Address_si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                address2 = adspin2.getItem(i).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                    }
+                    if (adspin1.getItem(i).equals("제주도")) {
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jejudo, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_Address_si.setAdapter(adspin2);
+                        spinner_Address_si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                address2 = adspin2.getItem(i).toString();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                    }
                 }
 
                 @Override
