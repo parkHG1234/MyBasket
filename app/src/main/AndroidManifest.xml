@@ -49,7 +49,8 @@
         <activity android:name=".Profile_Focus"></activity>
         <activity android:name=".Match_Out_NewsFeed_Writing"></activity>
         <activity android:name=".Match_Out_NewsFeed_Comment"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".Match_Out_NewsFeed_Data_Modify"></activity>
         <activity android:name=".Match_Out_NewsFeed_Camera"></activity>
