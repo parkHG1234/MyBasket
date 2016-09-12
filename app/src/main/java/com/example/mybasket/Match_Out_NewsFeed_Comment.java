@@ -3,7 +3,6 @@ package com.example.mybasket;
 /**
  * Created by 박효근 on 2016-07-22.
  */
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -90,21 +89,9 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
         //setContentView(R.layout.layout_match_out_newsfeed_comment);
         setContentView(R.layout.layout_123);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar123);
-        setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        final View aa = navigationView.inflateHeaderView(R.layout.layout_courtinfo_navheader);
-        final TextView CourtInfo_Nav_CourtName = (TextView) aa.findViewById(R.id.CourtInfo_Nav_CourtName);
-        final TextView CourtInfo_Nav_CourtFloor = (TextView) aa.findViewById(R.id.CourtInfo_Nav_CourtFloor);
-        final TextView CourtInfo_Nav_CourtAddress = (TextView) aa.findViewById(R.id.CourtInfo_Nav_CourtAddress);
-        final TextView CourtInfo_Nav_CourtCount = (TextView) aa.findViewById(R.id.CourtInfo_Nav_CourtCount);
-        final ImageView CourtInfo_Nav_Img1 = (ImageView)aa.findViewById(R.id.CourtInfo_Nav_Img1);
-        final ImageView CourtInfo_Nav_Img2 = (ImageView)aa.findViewById(R.id.CourtInfo_Nav_Img2);
-        final ImageView CourtInfo_Nav_Img3 = (ImageView)aa.findViewById(R.id.CourtInfo_Nav_Img3);
+
+
+
 
         NewsFeed_Comment_Emblem = (ImageView) findViewById(R.id.NewsFeed_Comment_Emblem);
         NewsFeed_Comment_User =  (TextView) findViewById(R.id.NewsFeed_Comment_User);
@@ -164,11 +151,28 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
             String Image1 =parsedData_CourtInfo[0][6];
             String Image2 =parsedData_CourtInfo[0][7];
             String Image3 =parsedData_CourtInfo[0][8];
+        //툴바 셋팅
+        toolbar.setTitle(CourtName);
+        setSupportActionBar(toolbar);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        final View aa = navigationView.inflateHeaderView(R.layout.layout_courtinfo_navheader);
+        final TextView CourtInfo_Nav_CourtName = (TextView) aa.findViewById(R.id.CourtInfo_Nav_CourtName);
+        final TextView CourtInfo_Nav_CourtFloor = (TextView) aa.findViewById(R.id.CourtInfo_Nav_CourtFloor);
+        final TextView CourtInfo_Nav_CourtAddress = (TextView) aa.findViewById(R.id.CourtInfo_Nav_CourtAddress);
+        final TextView CourtInfo_Nav_CourtCount = (TextView) aa.findViewById(R.id.CourtInfo_Nav_CourtCount);
+        final ImageView CourtInfo_Nav_Img1 = (ImageView)aa.findViewById(R.id.CourtInfo_Nav_Img1);
+        final ImageView CourtInfo_Nav_Img2 = (ImageView)aa.findViewById(R.id.CourtInfo_Nav_Img2);
+        final ImageView CourtInfo_Nav_Img3 = (ImageView)aa.findViewById(R.id.CourtInfo_Nav_Img3);
+        CourtInfo_Nav_CourtName.setText(CourtName);
+        CourtInfo_Nav_CourtAddress.setText(CourtAddress);
+        CourtInfo_Nav_CourtCount.setText(CourtCount);
+        CourtInfo_Nav_CourtFloor.setText(CourtFloor);
 
-            CourtInfo_Nav_CourtName.setText(CourtName);
-            CourtInfo_Nav_CourtAddress.setText(CourtAddress);
-            CourtInfo_Nav_CourtCount.setText(CourtCount);
-            CourtInfo_Nav_CourtFloor.setText(CourtFloor);
         //URI 한글 인코딩
             try{
                     String En_Image1 = URLEncoder.encode(Image1, "utf-8");
