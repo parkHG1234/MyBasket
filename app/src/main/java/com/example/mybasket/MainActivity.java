@@ -5,10 +5,13 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -57,8 +60,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -264,6 +274,7 @@ public class MainActivity extends AppCompatActivity {
         String address1="서울", address2="전 체";
         ImageView NewsFeed_Writing;
 
+
         Match_Out_NewsFeed_Data_Adapter dataadapter;
         ArrayList<Match_Out_NewsFeed_Data_Setting> arrData;
 
@@ -360,9 +371,33 @@ public class MainActivity extends AppCompatActivity {
             NewsFeed_Select_Button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    String result = "";
+                    try {
+                        HttpClient client = new DefaultHttpClient();
+                        String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_download.jsp";
+                        HttpPost post = new HttpPost(postURL);
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("NewsFeed_Do", address1));
+                        params.add(new BasicNameValuePair("NewsFeed_Si", address2 ));
+                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                        post.setEntity(ent);
+                        HttpResponse response = client.execute(post);
+                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                        String line = null;
+                        while ((line = bufreader.readLine()) != null) {
+                            result += line;
+                        }
+                        parsedData_out = jsonParserList(result);
+                        setData();
+                        dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData, Id, MaxNum_out);
+                        dataadapter.listview(NewsFeed_List);
+                        NewsFeed_List.setAdapter(dataadapter);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
+
 
             NewsFeed_Writing.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -741,7 +776,6 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
                     if (out_minScheduleId > Integer.parseInt(parsedData_out[i][0])) {
                         out_minScheduleId = Integer.parseInt(parsedData_out[i][0]);
                     }
-                    Log.i("minScheduleId",Integer.toString(out_minScheduleId));
                 }
                 return parsedData_out;
             }
@@ -1087,7 +1121,6 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
         Button Profile_Button_TeamMake, Profile_Button_TeamManager, Profile_Button_TeamSearch, Profile_Button_Logout;
         ImageView Profile_ImageVIew_Profile;
         String[][] parsedData, parsedData_overLap, parsedData_TeamCheck;
-        String ProfileUrl;
         Bitmap bmImg;
         String Profile;
         final int REQ_SELECT = 0;
@@ -1152,7 +1185,6 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
                 } else {
                     Glide.with(rootView.getContext()).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(rootView.getContext()).getBitmapPool()))
                             .into(Profile_ImageVIew_Profile);
-
                 }
             } catch (UnsupportedEncodingException e) {
 
@@ -1193,6 +1225,25 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
                             public void onClick(View view) {
                                 Profile_ImageVIew_Profile.setImageResource(R.drawable.profile_basic_image);
                                 Profile = ".";
+
+                                try {
+                                    HttpClient client = new DefaultHttpClient();
+                                    String postURL = "http://210.122.7.195:8080/gg/newsfeed_Profile_upload.jsp";
+                                    HttpPost post = new HttpPost(postURL);
+                                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                    params.add(new BasicNameValuePair("User_Id", Id));
+                                    params.add(new BasicNameValuePair("User_Profile", Profile));
+                                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                    post.setEntity(ent);
+                                    HttpResponse response = client.execute(post);
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+
+
                                 ad.dismiss();
                             }
                         });
@@ -1404,53 +1455,58 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
         }
     }
 
-    /*  public void onActivityResult(int requestCode, int resultCode, Intent data) {
-          Button Match_Layout_Out_Button_CheckIn = (Button)findViewById(R.id.Match_Layout_Out_Button_CheckIn);
-          IntentResult result = IntentIntegrator.parseActivityResult(requestCode,
-                  resultCode, data);
-          String[][] parsedData;
 
-          String str = result.getContents();
-          String[] result1 = str.split("=");
-          Log.i("msg",result1[1]);
-          String postResult="";
-          try {
-              HttpClient client = new DefaultHttpClient();
-              String postURL = "http://210.122.7.195:8080/Web_basket/CheckIn.jsp";
-              HttpPost post = new HttpPost(postURL);
 
-              List<NameValuePair> params = new ArrayList<NameValuePair>();
-              params.add(new BasicNameValuePair("Id", Id));
-              params.add(new BasicNameValuePair("CourtName", result1[1]));
-              params.add(new BasicNameValuePair("Time", realTime));
-              UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-              post.setEntity(ent);
 
-              HttpResponse response = client.execute(post);
-              BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
 
-              String line = null;
+    static String ProfileUrl,ProfileFile,Profile=".",ProfilePath;
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-              while ((line = bufreader.readLine()) != null) {
-                  postResult += line;
-              }
-          } catch (Exception e) {
-              e.printStackTrace();
-          }
-          parsedData = jsonParserList(postResult);
-          if(parsedData[0][0].equals("succed")){
-              Toast.makeText(this,result1[1]+"\nCheck - In",Toast.LENGTH_SHORT).show();
-              Match_Layout_Out_Button_CheckIn.setText(result1[1] + " Check - OUT");
-              SharedPreferences prefs2 = getSharedPreferences("Mybasket_CheckIn", MODE_PRIVATE);
-              SharedPreferences.Editor editor = prefs2.edit();
-              editor.putString("status", "checking");
-              editor.putString("time", realTime);
-              editor.putString("court", result1[1]);
-              editor.commit();
-          }
-          SharedPreferences prefs = getSharedPreferences("Mybasket_CheckIn", MODE_PRIVATE);
-          ////////////////////////////////리스트 뷰 구현////////////////////////////////////////////////
-      }*/
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyBasket");
+        Uri uri = data.getData();
+        ProfileFile= getName(uri);
+        ProfilePath=getPath(uri);
+        int i = ProfilePath.length();
+
+        ProfileUrl = mediaStorageDir.getPath() + File.separator + ProfileFile;
+        String urlString = "http://210.122.7.195:8080/gg/newsfeed_ProfileImage_upload.jsp";
+        HttpFileUpload(urlString, "", ProfileUrl);
+
+
+        try {
+            HttpClient client = new DefaultHttpClient();
+            String postURL = "http://210.122.7.195:8080/gg/newsfeed_Profile_upload.jsp";
+            HttpPost post = new HttpPost(postURL);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("User_Id", Id));
+            params.add(new BasicNameValuePair("User_Profile", Id));
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private String getName(Uri uri)
+    {
+        String[] projection = { MediaStore.Images.ImageColumns.DISPLAY_NAME };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DISPLAY_NAME);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+    private String getPath(Uri uri)
+    {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
     public String[][] jsonParserList(String pRecvServerPage) {
         Log.i("서버에서 받은 전체 내용", pRecvServerPage);
         try {
@@ -1472,6 +1528,77 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
         }
     }
 
+    public void HttpFileUpload(String urlString, String params, String fileName) {
+
+
+        String lineEnd = "\r\n";
+        String twoHyphens = "--";
+        String boundary = "*****";
+        // fileName=TeamName;
+        try {
+            //선택한 파일의 절대 경로를 이용해서 파일 입력 스트림 객체를 얻어온다.
+            FileInputStream mFileInputStream = new FileInputStream(fileName);
+            //파일을 업로드할 서버의 url 주소를이용해서 URL 객체 생성하기.
+            URL connectUrl = new URL(urlString);
+            //Connection 객체 얻어오기.
+            HttpURLConnection conn = (HttpURLConnection) connectUrl.openConnection();
+            conn.setDoInput(true);//입력할수 있도록
+            conn.setDoOutput(true); //출력할수 있도록
+            conn.setUseCaches(false);  //캐쉬 사용하지 않음
+
+            //post 전송
+            conn.setRequestMethod("POST");
+            //파일 업로드 할수 있도록 설정하기.
+            conn.setRequestProperty("Connection", "Keep-Alive");
+            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+
+            //DataOutputStream 객체 생성하기.
+            DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+            //전송할 데이터의 시작임을 알린다.
+
+            //String En_TeamName = URLEncoder.encode(TeamName, "utf-8");
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + URLEncoder.encode(Id, "utf-8") + ".jpg" + "\"" + lineEnd);
+            dos.writeBytes(lineEnd);
+            //한번에 읽어들일수있는 스트림의 크기를 얻어온다.
+            int bytesAvailable = mFileInputStream.available();
+            //byte단위로 읽어오기 위하여 byte 배열 객체를 준비한다.
+            byte[] buffer = new byte[bytesAvailable];
+            int bytesRead = 0;
+            // read image
+            while (bytesRead != -1) {
+                //파일에서 바이트단위로 읽어온다.
+                bytesRead = mFileInputStream.read(buffer);
+                if (bytesRead == -1) break; //더이상 읽을 데이터가 없다면 빠저나온다.
+                Log.d("Test", "image byte is " + bytesRead);
+                //읽은만큼 출력한다.
+                dos.write(buffer, 0, bytesRead);
+                //출력한 데이터 밀어내기
+                dos.flush();
+            }
+            //전송할 데이터의 끝임을 알린다.
+            dos.writeBytes(lineEnd);
+            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+            //flush() 타이밍??
+            //dos.flush();
+            dos.close();//스트림 닫아주기
+            mFileInputStream.close();//스트림 닫아주기.
+            // get response
+            int ch;
+            //입력 스트림 객체를 얻어온다.
+            InputStream is = conn.getInputStream();
+            StringBuffer b = new StringBuffer();
+            while ((ch = is.read()) != -1) {
+                b.append((char) ch);
+            }
+            String s = b.toString();
+            Log.e("Test", "result = " + s);
+            Profile=Id;
+        } catch (Exception e) {
+            Log.d("Test", "exception " + e.getMessage());
+            Toast.makeText(this, "업로드중 에러발생!", Toast.LENGTH_SHORT).show();
+        }
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -1,199 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="5dp">
 
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="7">
+        android:layout_weight="7"
+        android:orientation="horizontal">
 
         <Button
+            android:id="@+id/NewsFeed_Writing_cancelButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="취소"
-            android:id="@+id/NewsFeed_Writing_cancelButton"
             android:layout_weight="2"
             android:background="@color/White"
+            android:text="취소"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/button7"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="게시글 작성"
-            android:id="@+id/button7"
             android:layout_weight="1"
             android:background="@color/White"
+            android:enabled="false"
+            android:text="게시글 작성"
+            android:textColor="@color/Black"
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/NewsFeed_Writing_Button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="게시"
-            android:id="@+id/NewsFeed_Writing_Button"
             android:layout_weight="2"
             android:background="@color/White"
+            android:longClickable="true"
+            android:text="게시"
+            android:textColor="@color/Gray"
             android:textStyle="bold" />
     </LinearLayout>
+
     <Button
+        android:id="@+id/button9"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:text="New Button"
-        android:id="@+id/button9"
-        android:background="@color/DarkGray" />
+        android:background="@color/DarkGray"
+        android:text="New Button" />
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1.2"
-        android:background="#ffffff">
+        android:background="#ffffff"
+        android:orientation="vertical">
+
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="6">
+            android:layout_weight="6"
+            android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/NewsFeed_Writing_ImageView_Profile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/NewsFeed_Writing_ImageView_Profile"
-                android:layout_weight="3"
-                android:background="@drawable/profile_basic_image"
-                android:focusable="true"
                 android:layout_margin="5dp"
                 android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp" />
+                android:layout_marginRight="2dp"
+                android:layout_weight="3"
+                android:background="@drawable/profile_basic_image"
+                android:focusable="true" />
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/NewsFeed_Writing_TextView_Name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="박효근"
-                    android:id="@+id/NewsFeed_Writing_TextView_Name"
                     android:layout_weight="1.3"
                     android:gravity="center_vertical"
-                    android:paddingLeft="5dp" />
+                    android:paddingLeft="5dp"
+                    android:text="박효근" />
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/NewsFeed_Writing_TextVIew_Court"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="인하대 농구코트"
-                        android:id="@+id/NewsFeed_Writing_TextVIew_Court"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:paddingLeft="5dp" />
+                        android:paddingLeft="5dp"
+                        android:text="인하대 농구코트" />
 
                     <Button
+                        android:id="@+id/NewsFeed_Writing_Button_CourtModify"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="수  정"
-                        android:id="@+id/NewsFeed_Writing_Button_CourtModify"
                         android:layout_weight="3"
-                        android:textSize="12dp"
                         android:background="@color/White"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorPrimary" />
+                        android:text="수  정"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/NewsFeed_Writing_Layout_Spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility="gone"
-                android:id="@+id/NewsFeed_Writing_Layout_Spinner">
+                android:visibility="gone">
 
-                <Spinner
-                    android:id="@+id/NewsFeed_Writing_addDoSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_weight="1" />
 
-                <Spinner
-                    android:id="@+id/NewsFeed_Writing_addSiSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="@+id/NewsFeed_Writing_addDoSpinner"
-                    android:layout_alignParentTop="true"
-                    android:layout_weight="1" />
-
-                <Spinner
-                    android:id="@+id/NewsFeed_Writing_addCourtSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="@+id/NewsFeed_Writing_addSiSpinner"
-                    android:layout_alignParentTop="true"
-                    android:layout_weight="1" />
             </LinearLayout>
 
             <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/NewsFeed_Writing_TextEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:hint="ex) 7시에 4명 갑니다. 얼른 오세요.~"
-                android:id="@+id/NewsFeed_Writing_TextEditText"
-                app:met_floatingLabel="highlight"
-                app:met_minCharacters="1"
-                app:met_maxCharacters="30"
                 android:visibility="visible"
-                android:layout_weight="1" />
+                app:met_floatingLabel="highlight"
+                app:met_maxCharacters="30"
+                app:met_minCharacters="1" />
 
             <ImageView
                 android:id="@+id/NewsFeed_Camera_Image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="#000000"
                 android:scaleType="fitXY"
-                android:visibility="gone"
-                android:layout_weight="1" />
+                android:visibility="gone" />
 
         </LinearLayout>
 
     </LinearLayout>
 
     <Button
+        android:id="@+id/button6"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:text="New Button"
-        android:id="@+id/button6"
-        android:background="@color/DarkGray" />
+        android:background="@color/DarkGray"
+        android:text="New Button" />
 
     <Button
+        android:id="@+id/NewsFeed_Writing_CameraButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/NewsFeed_Writing_CameraButton"
         android:layout_gravity="center_horizontal"
-        android:text="+ 사진 등록"
         android:layout_weight="7"
-        android:textStyle="bold"
-        android:background="@color/White" />
+        android:background="@color/White"
+        android:text="+ 사진 등록"
+        android:textStyle="bold" />
 
 
 </LinearLayout>

@@ -217,7 +217,15 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
         NewsFeed_CustomList_Data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
+                CommentIntent.putExtra("Num", arrData.get(position).getnum());
+                CommentIntent.putExtra("Court", arrData.get(position).getcourt());
+                CommentIntent.putExtra("Data", arrData.get(position).getdata());
+                CommentIntent.putExtra("Time", GetTime(position));
+                CommentIntent.putExtra("Id", UserID);
+                CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
+                CommentIntent.putExtra("Image", arrData.get(position).getImage());
+                context.startActivity(CommentIntent);
             }
         });
 
@@ -266,6 +274,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                     context.startActivity(DataIntent);
                 } else {
                 }
+                Dialog.dismiss();
             }
         });
         NewsFeed_delete_button.setOnClickListener(new View.OnClickListener() {
@@ -291,7 +300,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
             }
         });
 
-        //ImageView NewsFeed_CustomList_CommentImage =  (ImageView) convertView.findViewById(R.id.NewsFeed_CustomList_CommentImage);
+//        ImageView NewsFeed_CustomList_CommentImage =  (ImageView) convertView.findViewById(R.id.NewsFeed_CustomList_CommentImage);
 
         TextView NewsFeed_CustomList_CommentCount = (TextView)convertView.findViewById(R.id.NewsFeed_CustomList_CommentCount);
         String result = "";
@@ -304,6 +313,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
         {
             NewsFeed_CustomList_CommentCount.setText("..댓글 "+CommentCount+"개 더보기");
         }
+
         NewsFeed_CustomList_CommentCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -318,6 +328,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 context.startActivity(CommentIntent);
             }
         });
+
         ImageView NewSpeed_ImageView = (ImageView) convertView.findViewById(R.id.NewSpeed_ImageView);
         try {
             if (String.valueOf(arrData.get(position).getImage()).equals(".")) {
@@ -326,7 +337,6 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 NewSpeed_ImageView.setVisibility(View.VISIBLE);
                 En_Profile = URLEncoder.encode(String.valueOf(arrData.get(position).getImage()), "utf-8");
                 Glide.with(convertView.getContext()).load("http://210.122.7.195:8080/gg/imgs1/" + En_Profile + ".jpg").into(NewSpeed_ImageView);
-                Log.i("data_adapter",En_Profile);
             }
         } catch (UnsupportedEncodingException e) {
         }

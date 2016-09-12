@@ -8,8 +8,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,9 +60,6 @@ import me.drakeet.materialdialog.MaterialDialog;
  */
 public class Match_Out_NewsFeed_Data_Modify extends Activity {
 
-    Spinner NewsFeed_Writing_addDoSpinner;
-    Spinner NewsFeed_Writing_addSiSpinner;
-    Spinner NewsFeed_Writing_addCourtSpinner;
     EditText NewsFeed_Writing_TextEditText;
     ImageView NewsFeed_Camera_Image;
     Button NewsFeed_Writing_Button;
@@ -80,6 +80,8 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
     private static boolean flag = false;
     Intent CameraIntent = null;
 
+    Boolean enabled = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -96,9 +98,6 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         NewsFeed_Writing_TextVIew_Court = (TextView) findViewById(R.id.NewsFeed_Writing_TextVIew_Court);
         NewsFeed_Camera_Image = (ImageView) findViewById(R.id.NewsFeed_Camera_Image);
         NewsFeed_Writing_CameraButton = (Button) findViewById(R.id.NewsFeed_Writing_CameraButton);
-        NewsFeed_Writing_addDoSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addDoSpinner);
-        NewsFeed_Writing_addSiSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addSiSpinner);
-        NewsFeed_Writing_addCourtSpinner = (Spinner) findViewById(R.id.NewsFeed_Writing_addCourtSpinner);
         NewsFeed_Writing_TextEditText = (EditText) findViewById(R.id.NewsFeed_Writing_TextEditText);
         NewsFeed_Writing_Button = (Button) findViewById(R.id.NewsFeed_Writing_Button);
         NewsFeed_Writing_cancelButton = (Button) findViewById(R.id.NewsFeed_Writing_cancelButton);
@@ -109,9 +108,13 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         NewsFeed_Writing_TextView_Name.setText(DataIntent.getExtras().getString("User"));
         NewsFeed_Writing_TextEditText.setText(DataIntent.getExtras().getString("data"));
         NewsFeed_Writing_TextVIew_Court.setText(DataIntent.getExtras().getString("court"));
-        Do=DataIntent.getExtras().getString("Do");
-        Si=DataIntent.getExtras().getString("Si");
-        Court=DataIntent.getExtras().getString("court");
+        Do = DataIntent.getExtras().getString("Do");
+        Si = DataIntent.getExtras().getString("Si");
+        Court = DataIntent.getExtras().getString("court");
+
+
+        NewsFeed_Writing_Button.setTextColor(Color.BLACK);
+        NewsFeed_Writing_Button.setEnabled(true);
 
         try {
             if (DataIntent.getExtras().getString("Image").equals(".")) {
@@ -128,70 +131,26 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         }
         adspin1 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do, R.layout.zfile_spinner_test);
         adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        NewsFeed_Writing_addDoSpinner.setAdapter(adspin1);
-        NewsFeed_Writing_addDoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        NewsFeed_Writing_TextEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                spinnum1 = i;
-                Do = adspin1.getItem(i).toString();
-                if (adspin1.getItem(i).equals("서울")) {
-                    adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
-                    adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    NewsFeed_Writing_addSiSpinner.setAdapter(adspin2);
-                    NewsFeed_Writing_addSiSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                            spinnum2 = i;
-                            Si = adspin2.getItem(i).toString();
-                            String result = "";
-                            try {
-                                HttpClient client = new DefaultHttpClient();
-                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
-                                HttpPost post = new HttpPost(postURL);
-                                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
-                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
-                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                post.setEntity(ent);
-                                HttpResponse response = client.execute(post);
-                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                                String line = null;
-                                while ((line = bufreader.readLine()) != null) {
-                                    result += line;
-                                }
-                                parsedData = jsonParserList(result);
-                                arr = new ArrayList();
-                                for (int a = 0; a < parsedData.length; a++) {
-                                    arr.add(parsedData[a][0]);
-                                }
-                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
-                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                NewsFeed_Writing_addCourtSpinner.setAdapter(adspin3);
-                                NewsFeed_Writing_addCourtSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                        Court = adspin3.getItem(i).toString();
-                                    }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> adapterView) {
-                                    }
-                                });
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
+            }
 
-                        @Override
-                        public void onNothingSelected(AdapterView<?> adapterView) {
-                        }
-                    });
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (NewsFeed_Writing_TextEditText.getText().length() >= 1) {
+                    NewsFeed_Writing_Button.setTextColor(Color.BLACK);
+                    enabled = true;
+                } else if (NewsFeed_Writing_TextEditText.getText().length() <= 0) {
+                    NewsFeed_Writing_Button.setTextColor(Color.GRAY);
+                    enabled = false;
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void afterTextChanged(Editable editable) {
             }
         });
 
@@ -207,7 +166,11 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                 .setPositiveButton("선택 완료", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        TeamPlayerDialog.dismiss();
+                        if (Court.equals("코트 선택")) {
+                            Toast.makeText(getApplicationContext(), "코트를 선택해주세요.", Toast.LENGTH_LONG).show();
+                        } else {
+                            TeamPlayerDialog.dismiss();
+                        }
                     }
                 });
         NewsFeed_Writing_Button_CourtModify.setOnClickListener(new View.OnClickListener() {
@@ -219,7 +182,11 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                         .setPositiveButton("선택 완료", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                TeamPlayerDialog.dismiss();
+                                if (Court.equals("코트 선택")) {
+                                    Toast.makeText(getApplicationContext(), "코트를 선택해주세요.", Toast.LENGTH_LONG).show();
+                                } else {
+                                    TeamPlayerDialog.dismiss();
+                                }
                             }
                         });
                 TeamPlayerDialog.show();
@@ -289,6 +256,846 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                         }
                                     }
                             );
+                        } else if (adspin1.getItem(i).equals("인천")) {
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_incheon, R.layout.zfile_spinner_test);
+                            adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            spinnum2 = i;
+                                            Si = adspin2.getItem(i).toString();
+                                            String result = "";
+                                            try {
+                                                HttpClient client = new DefaultHttpClient();
+                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                HttpPost post = new HttpPost(postURL);
+                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
+                                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
+                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                post.setEntity(ent);
+                                                HttpResponse response = client.execute(post);
+                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                String line = null;
+                                                while ((line = bufreader.readLine()) != null) {
+                                                    result += line;
+                                                }
+                                                parsedData = jsonParserList(result);
+                                                arr = new ArrayList();
+                                                arr.add("코트 선택");
+                                                for (int a = 0; a < parsedData.length; a++) {
+                                                    arr.add(parsedData[a][0]);
+                                                }
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        Court = adspin3.getItem(i).toString();
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
+                                                    }
+
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                        }
+                                    }
+                            );
+                        } else if (adspin1.getItem(i).equals("광주")) {
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_gwangju, R.layout.zfile_spinner_test);
+                            adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            spinnum2 = i;
+                                            Si = adspin2.getItem(i).toString();
+                                            String result = "";
+                                            try {
+                                                HttpClient client = new DefaultHttpClient();
+                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                HttpPost post = new HttpPost(postURL);
+                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
+                                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
+                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                post.setEntity(ent);
+                                                HttpResponse response = client.execute(post);
+                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                String line = null;
+                                                while ((line = bufreader.readLine()) != null) {
+                                                    result += line;
+                                                }
+                                                parsedData = jsonParserList(result);
+                                                arr = new ArrayList();
+                                                arr.add("코트 선택");
+                                                for (int a = 0; a < parsedData.length; a++) {
+                                                    arr.add(parsedData[a][0]);
+                                                }
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        Court = adspin3.getItem(i).toString();
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
+                                                    }
+
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                        }
+                                    }
+                            );
+                        }else if (adspin1.getItem(i).equals("대구")) {
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_DaeGu, R.layout.zfile_spinner_test);
+                            adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            spinnum2 = i;
+                                            Si = adspin2.getItem(i).toString();
+                                            String result = "";
+                                            try {
+                                                HttpClient client = new DefaultHttpClient();
+                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                HttpPost post = new HttpPost(postURL);
+                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
+                                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
+                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                post.setEntity(ent);
+                                                HttpResponse response = client.execute(post);
+                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                String line = null;
+                                                while ((line = bufreader.readLine()) != null) {
+                                                    result += line;
+                                                }
+                                                parsedData = jsonParserList(result);
+                                                arr = new ArrayList();
+                                                arr.add("코트 선택");
+                                                for (int a = 0; a < parsedData.length; a++) {
+                                                    arr.add(parsedData[a][0]);
+                                                }
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        Court = adspin3.getItem(i).toString();
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
+                                                    }
+
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                        }
+                                    }
+                            );
+                        }else if (adspin1.getItem(i).equals("울산")) {
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_Ulsan, R.layout.zfile_spinner_test);
+                            adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            spinnum2 = i;
+                                            Si = adspin2.getItem(i).toString();
+                                            String result = "";
+                                            try {
+                                                HttpClient client = new DefaultHttpClient();
+                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                HttpPost post = new HttpPost(postURL);
+                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
+                                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
+                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                post.setEntity(ent);
+                                                HttpResponse response = client.execute(post);
+                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                String line = null;
+                                                while ((line = bufreader.readLine()) != null) {
+                                                    result += line;
+                                                }
+                                                parsedData = jsonParserList(result);
+                                                arr = new ArrayList();
+                                                arr.add("코트 선택");
+                                                for (int a = 0; a < parsedData.length; a++) {
+                                                    arr.add(parsedData[a][0]);
+                                                }
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        Court = adspin3.getItem(i).toString();
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
+                                                    }
+
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                        }
+                                    }
+                            );
+                        }else if (adspin1.getItem(i).equals("대전")) {
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_DaeJeon, R.layout.zfile_spinner_test);
+                            adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            spinnum2 = i;
+                                            Si = adspin2.getItem(i).toString();
+                                            String result = "";
+                                            try {
+                                                HttpClient client = new DefaultHttpClient();
+                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                HttpPost post = new HttpPost(postURL);
+                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
+                                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
+                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                post.setEntity(ent);
+                                                HttpResponse response = client.execute(post);
+                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                String line = null;
+                                                while ((line = bufreader.readLine()) != null) {
+                                                    result += line;
+                                                }
+                                                parsedData = jsonParserList(result);
+                                                arr = new ArrayList();
+                                                arr.add("코트 선택");
+                                                for (int a = 0; a < parsedData.length; a++) {
+                                                    arr.add(parsedData[a][0]);
+                                                }
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        Court = adspin3.getItem(i).toString();
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
+                                                    }
+
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                        }
+                                    }
+                            );
+                        }else if (adspin1.getItem(i).equals("부산")) {
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_Busan, R.layout.zfile_spinner_test);
+                            adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            spinnum2 = i;
+                                            Si = adspin2.getItem(i).toString();
+                                            String result = "";
+                                            try {
+                                                HttpClient client = new DefaultHttpClient();
+                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                HttpPost post = new HttpPost(postURL);
+                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
+                                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
+                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                post.setEntity(ent);
+                                                HttpResponse response = client.execute(post);
+                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                String line = null;
+                                                while ((line = bufreader.readLine()) != null) {
+                                                    result += line;
+                                                }
+                                                parsedData = jsonParserList(result);
+                                                arr = new ArrayList();
+                                                arr.add("코트 선택");
+                                                for (int a = 0; a < parsedData.length; a++) {
+                                                    arr.add(parsedData[a][0]);
+                                                }
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        Court = adspin3.getItem(i).toString();
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
+                                                    }
+
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                        }
+                                    }
+                            );
+                        }else if (adspin1.getItem(i).equals("강원도")) {
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_Gangwondo, R.layout.zfile_spinner_test);
+                            adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            spinnum2 = i;
+                                            Si = adspin2.getItem(i).toString();
+                                            String result = "";
+                                            try {
+                                                HttpClient client = new DefaultHttpClient();
+                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                HttpPost post = new HttpPost(postURL);
+                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
+                                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
+                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                post.setEntity(ent);
+                                                HttpResponse response = client.execute(post);
+                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                String line = null;
+                                                while ((line = bufreader.readLine()) != null) {
+                                                    result += line;
+                                                }
+                                                parsedData = jsonParserList(result);
+                                                arr = new ArrayList();
+                                                arr.add("코트 선택");
+                                                for (int a = 0; a < parsedData.length; a++) {
+                                                    arr.add(parsedData[a][0]);
+                                                }
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        Court = adspin3.getItem(i).toString();
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
+                                                    }
+
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                        }
+                                    }
+                            );
+                        }else if (adspin1.getItem(i).equals("경기도")) {
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_Gyeonggido, R.layout.zfile_spinner_test);
+                            adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            spinnum2 = i;
+                                            Si = adspin2.getItem(i).toString();
+                                            String result = "";
+                                            try {
+                                                HttpClient client = new DefaultHttpClient();
+                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                HttpPost post = new HttpPost(postURL);
+                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
+                                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
+                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                post.setEntity(ent);
+                                                HttpResponse response = client.execute(post);
+                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                String line = null;
+                                                while ((line = bufreader.readLine()) != null) {
+                                                    result += line;
+                                                }
+                                                parsedData = jsonParserList(result);
+                                                arr = new ArrayList();
+                                                arr.add("코트 선택");
+                                                for (int a = 0; a < parsedData.length; a++) {
+                                                    arr.add(parsedData[a][0]);
+                                                }
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        Court = adspin3.getItem(i).toString();
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
+                                                    }
+
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                        }
+                                    }
+                            );
+                        }else if (adspin1.getItem(i).equals("충청북도")) {
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_Chungcheongbukdo, R.layout.zfile_spinner_test);
+                            adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            spinnum2 = i;
+                                            Si = adspin2.getItem(i).toString();
+                                            String result = "";
+                                            try {
+                                                HttpClient client = new DefaultHttpClient();
+                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                HttpPost post = new HttpPost(postURL);
+                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
+                                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
+                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                post.setEntity(ent);
+                                                HttpResponse response = client.execute(post);
+                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                String line = null;
+                                                while ((line = bufreader.readLine()) != null) {
+                                                    result += line;
+                                                }
+                                                parsedData = jsonParserList(result);
+                                                arr = new ArrayList();
+                                                arr.add("코트 선택");
+                                                for (int a = 0; a < parsedData.length; a++) {
+                                                    arr.add(parsedData[a][0]);
+                                                }
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        Court = adspin3.getItem(i).toString();
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
+                                                    }
+
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                        }
+                                    }
+                            );
+                        }else if (adspin1.getItem(i).equals("충청남도")) {
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_Chungcheongnamdo, R.layout.zfile_spinner_test);
+                            adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            spinnum2 = i;
+                                            Si = adspin2.getItem(i).toString();
+                                            String result = "";
+                                            try {
+                                                HttpClient client = new DefaultHttpClient();
+                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                HttpPost post = new HttpPost(postURL);
+                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
+                                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
+                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                post.setEntity(ent);
+                                                HttpResponse response = client.execute(post);
+                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                String line = null;
+                                                while ((line = bufreader.readLine()) != null) {
+                                                    result += line;
+                                                }
+                                                parsedData = jsonParserList(result);
+                                                arr = new ArrayList();
+                                                arr.add("코트 선택");
+                                                for (int a = 0; a < parsedData.length; a++) {
+                                                    arr.add(parsedData[a][0]);
+                                                }
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        Court = adspin3.getItem(i).toString();
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
+                                                    }
+
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                        }
+                                    }
+                            );
+                        }else if (adspin1.getItem(i).equals("전라북도")) {
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_Jeolabukdo, R.layout.zfile_spinner_test);
+                            adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            spinnum2 = i;
+                                            Si = adspin2.getItem(i).toString();
+                                            String result = "";
+                                            try {
+                                                HttpClient client = new DefaultHttpClient();
+                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                HttpPost post = new HttpPost(postURL);
+                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
+                                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
+                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                post.setEntity(ent);
+                                                HttpResponse response = client.execute(post);
+                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                String line = null;
+                                                while ((line = bufreader.readLine()) != null) {
+                                                    result += line;
+                                                }
+                                                parsedData = jsonParserList(result);
+                                                arr = new ArrayList();
+                                                arr.add("코트 선택");
+                                                for (int a = 0; a < parsedData.length; a++) {
+                                                    arr.add(parsedData[a][0]);
+                                                }
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        Court = adspin3.getItem(i).toString();
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
+                                                    }
+
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                        }
+                                    }
+                            );
+                        }else if (adspin1.getItem(i).equals("전라남도")) {
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_Jeolanamdo, R.layout.zfile_spinner_test);
+                            adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            spinnum2 = i;
+                                            Si = adspin2.getItem(i).toString();
+                                            String result = "";
+                                            try {
+                                                HttpClient client = new DefaultHttpClient();
+                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                HttpPost post = new HttpPost(postURL);
+                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
+                                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
+                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                post.setEntity(ent);
+                                                HttpResponse response = client.execute(post);
+                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                String line = null;
+                                                while ((line = bufreader.readLine()) != null) {
+                                                    result += line;
+                                                }
+                                                parsedData = jsonParserList(result);
+                                                arr = new ArrayList();
+                                                arr.add("코트 선택");
+                                                for (int a = 0; a < parsedData.length; a++) {
+                                                    arr.add(parsedData[a][0]);
+                                                }
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        Court = adspin3.getItem(i).toString();
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
+                                                    }
+
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                        }
+                                    }
+                            );
+                        }else if (adspin1.getItem(i).equals("경상북도")) {
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_Gyeongsangbukdo, R.layout.zfile_spinner_test);
+                            adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            spinnum2 = i;
+                                            Si = adspin2.getItem(i).toString();
+                                            String result = "";
+                                            try {
+                                                HttpClient client = new DefaultHttpClient();
+                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                HttpPost post = new HttpPost(postURL);
+                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
+                                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
+                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                post.setEntity(ent);
+                                                HttpResponse response = client.execute(post);
+                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                String line = null;
+                                                while ((line = bufreader.readLine()) != null) {
+                                                    result += line;
+                                                }
+                                                parsedData = jsonParserList(result);
+                                                arr = new ArrayList();
+                                                arr.add("코트 선택");
+                                                for (int a = 0; a < parsedData.length; a++) {
+                                                    arr.add(parsedData[a][0]);
+                                                }
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        Court = adspin3.getItem(i).toString();
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
+                                                    }
+
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                        }
+                                    }
+                            );
+                        }else if (adspin1.getItem(i).equals("경상남도")) {
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_Gyeongsangnamdo, R.layout.zfile_spinner_test);
+                            adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            spinnum2 = i;
+                                            Si = adspin2.getItem(i).toString();
+                                            String result = "";
+                                            try {
+                                                HttpClient client = new DefaultHttpClient();
+                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                HttpPost post = new HttpPost(postURL);
+                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
+                                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
+                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                post.setEntity(ent);
+                                                HttpResponse response = client.execute(post);
+                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                String line = null;
+                                                while ((line = bufreader.readLine()) != null) {
+                                                    result += line;
+                                                }
+                                                parsedData = jsonParserList(result);
+                                                arr = new ArrayList();
+                                                arr.add("코트 선택");
+                                                for (int a = 0; a < parsedData.length; a++) {
+                                                    arr.add(parsedData[a][0]);
+                                                }
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        Court = adspin3.getItem(i).toString();
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
+                                                    }
+
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                        }
+                                    }
+                            );
+                        }else if (adspin1.getItem(i).equals("제주도")) {
+                            adspin2 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do_Jejudo, R.layout.zfile_spinner_test);
+                            adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Layout_CustomDialog_CourtChoice_Se.setAdapter(adspin2);
+                            Layout_CustomDialog_CourtChoice_Se.setOnItemSelectedListener(
+                                    new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            spinnum2 = i;
+                                            Si = adspin2.getItem(i).toString();
+                                            String result = "";
+                                            try {
+                                                HttpClient client = new DefaultHttpClient();
+                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                HttpPost post = new HttpPost(postURL);
+                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
+                                                params.add(new BasicNameValuePair("NewsFeed_Si", (String) adspin2.getItem(spinnum2)));
+                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                post.setEntity(ent);
+                                                HttpResponse response = client.execute(post);
+                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                String line = null;
+                                                while ((line = bufreader.readLine()) != null) {
+                                                    result += line;
+                                                }
+                                                parsedData = jsonParserList(result);
+                                                arr = new ArrayList();
+                                                arr.add("코트 선택");
+                                                for (int a = 0; a < parsedData.length; a++) {
+                                                    arr.add(parsedData[a][0]);
+                                                }
+                                                adspin3 = new ArrayAdapter<CharSequence>(Match_Out_NewsFeed_Data_Modify.this, android.R.layout.simple_spinner_item, arr);
+                                                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                Layout_CustomDialog_CourtChoice_Court.setAdapter(adspin3);
+                                                Layout_CustomDialog_CourtChoice_Court.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        Court = adspin3.getItem(i).toString();
+                                                        NewsFeed_Writing_TextVIew_Court.setText(Court);
+                                                    }
+
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+                                        }
+                                    }
+                            );
                         }
                     }
 
@@ -297,7 +1104,6 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                     }
                 }
         );
-
 
 
         NewsFeed_Camera_Image.setOnClickListener(new View.OnClickListener() {
@@ -333,40 +1139,44 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         NewsFeed_Writing_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_modify.jsp";
-                    HttpPost post = new HttpPost(postURL);
-                    List<NameValuePair> params = new ArrayList<NameValuePair>();
-                    params.add(new BasicNameValuePair("NewsFeed_Num", (DataIntent.getExtras().getString("Num"))));
-                    params.add(new BasicNameValuePair("NewsFeed_Do", Do));
-                    params.add(new BasicNameValuePair("NewsFeed_Si", Si));
-                    params.add(new BasicNameValuePair("NewsFeed_Court", Court));
-                    params.add(new BasicNameValuePair("NewsFeed_Data", NewsFeed_Writing_TextEditText.getText().toString()));
-                    params.add(new BasicNameValuePair("NewsFeed_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));
-                    params.add(new BasicNameValuePair("NewsFeed_Day", new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis()))));
-                    params.add(new BasicNameValuePair("NewsFeed_Hour", new SimpleDateFormat("kk").format(new java.sql.Date(System.currentTimeMillis()))));
-                    params.add(new BasicNameValuePair("NewsFeed_Minute", new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis()))));
+                if (enabled) {
+                    try {
+                        HttpClient client = new DefaultHttpClient();
+                        String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_modify.jsp";
+                        HttpPost post = new HttpPost(postURL);
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("NewsFeed_Num", (DataIntent.getExtras().getString("Num"))));
+                        params.add(new BasicNameValuePair("NewsFeed_Do", Do));
+                        params.add(new BasicNameValuePair("NewsFeed_Si", Si));
+                        params.add(new BasicNameValuePair("NewsFeed_Court", Court));
+                        params.add(new BasicNameValuePair("NewsFeed_Data", NewsFeed_Writing_TextEditText.getText().toString()));
+                        params.add(new BasicNameValuePair("NewsFeed_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));
+                        params.add(new BasicNameValuePair("NewsFeed_Day", new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis()))));
+                        params.add(new BasicNameValuePair("NewsFeed_Hour", new SimpleDateFormat("kk").format(new java.sql.Date(System.currentTimeMillis()))));
+                        params.add(new BasicNameValuePair("NewsFeed_Minute", new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis()))));
 
-                    int MaxNum = Integer.parseInt(DataIntent.getExtras().getString("MaxNum")) + 1;
-                    params.add(new BasicNameValuePair("NewsFeed_MaxNum", String.valueOf(MaxNum)));
+                        int MaxNum = Integer.parseInt(DataIntent.getExtras().getString("MaxNum")) + 1;
+                        params.add(new BasicNameValuePair("NewsFeed_MaxNum", String.valueOf(MaxNum)));
 
-                    if (flag) {
-                        params.add(new BasicNameValuePair("NewsFeed_Image", ImageFile));
-                        String urlString = "http://210.122.7.195:8080/gg/newsfeed_Image_upload.jsp";
-                        //파일 업로드 시작!
-                        HttpFileUpload(urlString, "", ImageURL);
-                    } else {
-                        params.add(new BasicNameValuePair("NewsFeed_Image", "."));
+                        if (flag) {
+                            params.add(new BasicNameValuePair("NewsFeed_Image", ImageFile));
+                            String urlString = "http://210.122.7.195:8080/gg/newsfeed_Image_upload.jsp";
+                            //파일 업로드 시작!
+                            HttpFileUpload(urlString, "", ImageURL);
+                        } else {
+                            params.add(new BasicNameValuePair("NewsFeed_Image", "."));
+                        }
+                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                        post.setEntity(ent);
+                        HttpResponse response = client.execute(post);
+
+                        flag = false;
+                        finish();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                    post.setEntity(ent);
-                    HttpResponse response = client.execute(post);
-
-                    flag = false;
-                    finish();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } else {
+                    Toast.makeText(getApplicationContext(), "내용 입력후 게시하여주세요", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -6,8 +6,7 @@ package com.example.mybasket;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.database.Cursor;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,11 +20,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -102,6 +98,17 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
         }
     }
 
+//    private String getPath(Uri uri)
+//    {
+//        String[] projection = { MediaStore.Images.Media.DATA };
+//        Cursor cursor = managedQuery(uri, projection, null, null, null);
+//        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//        cursor.moveToFirst();
+//        return cursor.getString(column_index);
+//    }
+
+
+
     private static File getOutputMediaFile(){
         //SD 카드가 마운트 되어있는지 먼저 확인
         // Environment.getExternalStorageState() 로 마운트 상태 확인 가능합니다
@@ -121,6 +128,7 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
 
         mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + ImageFile + ".jpg");
         ImageURL=String.valueOf(mediaStorageDir.getPath() + File.separator + "IMG_" + ImageFile + ".jpg");
+
 
         return mediaFile;
     }
@@ -144,7 +152,14 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
             return;
         }
     }
-
+    private String getPath(Uri uri)
+    {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder,int format, int width, int height) {
         refreshCamera();
