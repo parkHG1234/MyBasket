@@ -56,15 +56,20 @@
         <activity android:name=".Match_Out_NewsFeed_Camera"></activity>
 
         <activity android:name=".User_Information"></activity>
-        <!--android:screenOrientation="landscape"-->
-        <service android:name=".FirebaseMessagingService">
+        <activity android:name=".FCMTest">
+
+        </activity>
+        <service
+            android:name=".MyFcmListenerService">
             <intent-filter>
-                <action android:name=".com.google.firebase.MESSAGING_EVENT"></action>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".FirebaseInstanceIDService">
+
+        <service
+            android:name=".MyInstanceIDListenerService">
             <intent-filter>
-                <action android:name=".com.google.firebase.INSTANCE_ID_EVENT"></action>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         <meta-data

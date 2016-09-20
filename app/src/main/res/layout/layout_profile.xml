@@ -162,6 +162,36 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/DarkGray"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="설 정"
+                    android:id="@+id/Profile_Button_Setting"
+                    android:textColor="@color/BlackGray"
+                    android:background="@color/Gray" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/Profile_LinearLayout_Setting"
+                    android:visibility="gone">
+
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="알림 기능"
+                        android:id="@+id/Profile_Setting_Switch_Alarm"
+                        android:layout_margin="10dp" />
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/DarkGray"
+                    android:id="@+id/button3" />
+
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -169,6 +199,7 @@
                     android:id="@+id/Profile_Button_Logout"
                     android:textColor="@color/BlackGray"
                     android:background="@color/Gray"/>
+
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="1dp"

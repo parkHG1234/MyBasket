@@ -25,7 +25,8 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp">
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp">
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -34,18 +35,21 @@
 
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="30dp"
                             android:id="@+id/imageView"
                             android:layout_weight="5"
-                            android:src="@drawable/teamname"/>
+                            android:src="@drawable/teamname"
+                            android:layout_gravity="center_vertical" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Large Text"
+                            android:text="교류전 할 상대팀 구합니다."
                             android:id="@+id/Match_In_Focus_TextView_Title"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:textSize="15dp"
+                            android:gravity="center_vertical" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -55,22 +59,25 @@
 
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="30dp"
                             android:id="@+id/imageView2"
                             android:layout_weight="5"
-                            android:src="@drawable/location"/>
+                            android:src="@drawable/location"
+                            android:layout_gravity="center_vertical" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Large Text"
+                            android:text="경기도 의정부시 효자고 체육관"
                             android:id="@+id/Match_In_Focus_TextView_Address"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:textSize="15dp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -82,10 +89,11 @@
 
                             <ImageView
                                 android:layout_width="match_parent"
-                                android:layout_height="40dp"
+                                android:layout_height="30dp"
                                 android:id="@+id/imageView3"
                                 android:layout_weight="5"
-                                android:src="@drawable/calendar"/>
+                                android:src="@drawable/calendar"
+                                android:layout_gravity="center_vertical" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -93,7 +101,9 @@
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:text="Large Text"
                                 android:id="@+id/Match_In_Focus_TextView_Date"
-                                android:layout_weight="1" />
+                                android:layout_weight="1"
+                                android:textSize="15dp"
+                                android:gravity="center_vertical" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -104,10 +114,11 @@
 
                             <ImageView
                                 android:layout_width="match_parent"
-                                android:layout_height="40dp"
+                                android:layout_height="30dp"
                                 android:id="@+id/imageView4"
                                 android:layout_weight="5"
-                                android:src="@drawable/clock"/>
+                                android:src="@drawable/clock"
+                                android:layout_gravity="center_vertical" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -115,7 +126,9 @@
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:text="Large Text"
                                 android:id="@+id/Match_In_Focus_TextView_Time"
-                                android:layout_weight="1" />
+                                android:layout_weight="1"
+                                android:textSize="15dp"
+                                android:gravity="center_vertical" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -126,7 +139,11 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="-편의시설-"
-                    android:id="@+id/textView41" />
+                    android:id="@+id/textView41"
+                    android:textSize="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp" />
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -197,7 +214,10 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="-기타사항-"
-                    android:id="@+id/textView42" />
+                    android:id="@+id/textView42"
+                    android:textSize="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -206,7 +226,9 @@
                     android:text="Large Text"
                     android:id="@+id/Match_In_Focus_TextView_Consideration"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="5dp" />
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -214,7 +236,9 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="팀 소개"
                     android:id="@+id/textView44"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="15dp"
+                    android:layout_marginBottom="10dp" />
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -224,7 +248,7 @@
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" >
+                        android:layout_height="120dp" >
 
                         <LinearLayout
                             android:orientation="vertical"
@@ -238,14 +262,21 @@
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:text="팀명"
                                 android:id="@+id/textView49"
-                                android:layout_weight="1" />
+                                android:layout_weight="1.2"
+                                android:textSize="15dp"
+                                android:layout_marginLeft="10dp" />
 
                             <Button
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:text="New Button"
                                 android:id="@+id/Match_In_Focus_Button_TeamName"
-                                android:layout_weight="1" />
+                                android:layout_weight="1"
+                                android:textColor="@color/White"
+                                android:background="@color/colorPrimary"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginBottom="5dp" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -253,7 +284,9 @@
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:text="홈코트"
                                 android:id="@+id/textView50"
-                                android:layout_weight="1" />
+                                android:layout_weight="1.2"
+                                android:textSize="15dp"
+                                android:layout_marginLeft="10dp" />
 
                             <Button
                                 android:layout_width="match_parent"
@@ -275,14 +308,21 @@
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:text="팀 주소"
                                 android:id="@+id/textView51"
-                                android:layout_weight="1" />
+                                android:layout_weight="1.2"
+                                android:textSize="15dp"
+                                android:layout_marginLeft="10dp" />
 
                             <Button
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:text="New Button"
                                 android:id="@+id/Match_In_Focus_Button_TeamAddress"
-                                android:layout_weight="1" />
+                                android:layout_weight="1"
+                                android:textColor="@color/White"
+                                android:background="@color/colorPrimary"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginBottom="5dp" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -290,7 +330,9 @@
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:text="사용시간"
                                 android:id="@+id/textView52"
-                                android:layout_weight="1" />
+                                android:layout_weight="1.2"
+                                android:textSize="15dp"
+                                android:layout_marginLeft="10dp" />
 
                             <Button
                                 android:layout_width="match_parent"
@@ -306,7 +348,9 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="팀원"
-                        android:id="@+id/textView53" />
+                        android:id="@+id/textView53"
+                        android:textSize="15dp"
+                        android:layout_marginLeft="10dp" />
 
                     <ListView
                         android:layout_width="match_parent"
@@ -320,6 +364,7 @@
                         android:text="평균 나이 30.1세/신장 178cm"
                         android:id="@+id/Match_In_Focus_TextView_TeamAgeAndHeight"
                         android:layout_gravity="right"
+                        android:textSize="15dp"
                         android:textColor="@color/Red" />
 
                     <TextView
@@ -327,37 +372,36 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="팀 사진"
-                        android:id="@+id/textView55" />
+                        android:id="@+id/textView55"
+                        android:textSize="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="10dp" />
 
                     <LinearLayout
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_gravity="center_horizontal">
+                        android:layout_height="wrap_content">
 
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="300dp"
                             android:id="@+id/Match_In_Focus_ImageVIew_TeamImageView1"
-                            android:layout_weight="1"
                             android:padding="2sp"
-                            android:scaleType="centerCrop"/>
+                            android:scaleType="fitXY"/>
 
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="300dp"
                             android:id="@+id/Match_In_Focus_ImageVIew_TeamImageView2"
-                            android:layout_weight="1"
                             android:padding="2sp"
-                            android:scaleType="centerCrop"/>
+                            android:scaleType="fitXY"/>
 
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="300dp"
                             android:id="@+id/Match_In_Focus_ImageVIew_TeamImageView3"
-                            android:layout_weight="1"
                             android:padding="2sp"
-                            android:scaleType="centerCrop"/>
+                            android:scaleType="fitXY"/>
                     </LinearLayout>
 
                     <TextView
@@ -365,7 +409,10 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="소개글"
-                        android:id="@+id/textView56" />
+                        android:id="@+id/textView56"
+                        android:textSize="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="10dp" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -384,7 +431,7 @@
             android:text="연락하기"
             android:id="@+id/Match_In_Focus_Button_Call"
             android:layout_gravity="bottom"
-            android:layout_weight="10"
+            android:layout_weight="13"
             android:textColor="@color/White"
             android:background="@color/colorPrimary" />
     </LinearLayout>
