@@ -146,6 +146,7 @@ public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
                 Glide.with(Match_Out_NewsFeed_Writing.this).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(Match_Out_NewsFeed_Writing.this).getBitmapPool()))
                         .into(NewsFeed_Writing_ImageView_Profile);
             }
+
         } catch (UnsupportedEncodingException e) {
 
         }
