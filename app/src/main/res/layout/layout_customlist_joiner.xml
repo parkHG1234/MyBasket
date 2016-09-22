@@ -6,13 +6,14 @@ android:layout_height="match_parent">
 <LinearLayout
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="70dp">
+    android:layout_height="40dp">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/Joiner_CustomList_JoinerProfile"
-        android:layout_weight="2" />
+        android:layout_weight="4"
+        android:layout_margin="5dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -21,7 +22,8 @@ android:layout_height="match_parent">
         android:text="1"
         android:id="@+id/Joiner_CustomList_JoinerNumber"
         android:layout_weight="2"
-        android:gravity="center" />
+        android:gravity="center"
+        android:visibility="gone" />
 
     <TextView
         android:layout_width="match_parent"
@@ -30,7 +32,8 @@ android:layout_height="match_parent">
         android:text="박효근"
         android:id="@+id/Joiner_CustomList_JoinerName"
         android:layout_weight="1"
-        android:gravity="center" />
+        android:gravity="center"
+        android:textSize="15dp" />
 
 </LinearLayout>
 

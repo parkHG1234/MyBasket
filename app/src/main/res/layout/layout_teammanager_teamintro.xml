@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -56,81 +58,123 @@
                     android:visibility="visible">
 
                     <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp">
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:text="팀명"
+                                android:id="@+id/textView38"
+                                android:textSize="15dp"
+                                android:textColor="@color/Black"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="1.2"
+                                android:layout_marginBottom="5dp" />
+
+                            <Button
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:text="Large Text"
+                                android:id="@+id/TeamManager_TeamIntro_EditText_TeamName"
+                                android:textSize="15dp"
+                                android:textColor="@color/White"
+                                android:textStyle="bold"
+                                android:background="@color/colorPrimary"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:text="팀 지역"
+                                android:id="@+id/textView40"
+                                android:textSize="15dp"
+                                android:textColor="@color/Black"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_weight="1.2" />
+
+                            <Button
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:text="Large Text"
+                                android:id="@+id/TeamManager_TeamIntro_EditText_TeamAddress"
+                                android:textSize="15dp"
+                                android:textColor="@color/White"
+                                android:textStyle="bold"
+                                android:background="@color/colorPrimary"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal" >
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="팀명"
-                            android:id="@+id/textView38" />
-
-                        <Button
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="홈코트"
+                            android:id="@+id/textView45"
+                            android:layout_weight="1"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:textColor="@color/Black"
+                            android:textSize="15dp"
+                            android:layout_marginLeft="5dp" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:text="Large Text"
-                            android:id="@+id/TeamManager_TeamIntro_EditText_TeamName" />
+                            android:id="@+id/TeamManager_TeamIntro_EditText_HomeCourt"
+                            android:layout_weight="1"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="15dp" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="팀 지역"
-                            android:id="@+id/textView40" />
-
-                        <Button
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Large Text"
-                            android:id="@+id/TeamManager_TeamIntro_EditText_TeamAddress" />
+                            android:text="사용시간"
+                            android:id="@+id/textView100"
+                            android:layout_weight="1"
+                            android:textColor="@color/Black"
+                            android:textSize="15dp"
+                            android:layout_marginBottom="5dp" />
 
-                        <LinearLayout
-                            android:orientation="horizontal"
+                        <EditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:text="홈코트"
-                                android:id="@+id/textView45"
-                                android:layout_weight="1" />
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:text="사용시간"
-                                android:id="@+id/textView100"
-                                android:layout_weight="1" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal">
-
-                            <EditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Large Text"
-                                android:id="@+id/TeamManager_TeamIntro_EditText_HomeCourt"
-                                android:layout_weight="1" />
-
-                            <EditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="New Button"
-                                android:id="@+id/TeamManager_TeamIntro_EditText_Time"
-                                android:layout_weight="1" />
-                        </LinearLayout>
+                            android:text="New Button"
+                            android:id="@+id/TeamManager_TeamIntro_EditText_Time"
+                            android:layout_weight="1"
+                            android:textSize="15dp" />
 
                     </LinearLayout>
 
@@ -153,7 +197,10 @@
                                 android:text="엠뷸램"
                                 android:id="@+id/textView47"
                                 android:layout_weight="1"
-                                android:gravity="center" />
+                                android:gravity="center"
+                                android:textColor="@color/Black"
+                                android:textSize="15dp"
+                                android:layout_margin="5dp" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -162,7 +209,10 @@
                                 android:text="유니폼색"
                                 android:id="@+id/textView48"
                                 android:layout_weight="1"
-                                android:gravity="center" />
+                                android:gravity="center"
+                                android:textColor="@color/Black"
+                                android:textSize="15dp"
+                                android:layout_margin="5dp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -176,14 +226,18 @@
                                 android:layout_height="match_parent"
                                 android:id="@+id/TeamManager_TeamIntro_ImageView_Emblem"
                                 android:longClickable="true"
-                                android:layout_weight="1" />
+                                android:layout_weight="1"
+                                android:layout_margin="5dp" />
 
                             <Button
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:text="유니폼 상의"
                                 android:id="@+id/TeamManager_TeamIntro_Button_UniformTop"
-                                android:layout_weight="1" />
+                                android:layout_weight="1"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginLeft="105dp"
+                                android:layout_marginRight="105dp" />
 
                         </LinearLayout>
 
@@ -230,7 +284,9 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="팀 소개"
                         android:id="@+id/textView19"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/Black"
+                        android:textSize="15dp" />
 
                     <EditText
                         android:layout_width="match_parent"
@@ -238,7 +294,8 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Large Text"
                         android:id="@+id/TeamManager_TeamIntro_EditText_TeamIntro"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="15dp" />
 
                 </LinearLayout>
             </LinearLayout>

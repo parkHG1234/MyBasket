@@ -31,19 +31,20 @@
                 android:text="팀명*"
                 android:id="@+id/textView3"
                 android:textColor="@color/Black"
-                android:textSize="17dp"
-                android:layout_marginLeft="8dp"
+                android:textSize="15dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginBottom="5dp" />
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:text="New Button"
                 android:id="@+id/Match_In_Modify_Button_TeamName"
                 android:background="@color/colorPrimaryDark"
                 android:textColor="@color/White"
-                android:textSize="13dp"
-                android:layout_marginBottom="5dp" />
+                android:textSize="15dp"
+                android:layout_marginBottom="5dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -52,19 +53,20 @@
                 android:text="지역*"
                 android:id="@+id/textView27"
                 android:textColor="@color/Black"
-                android:textSize="17dp"
-                android:layout_marginLeft="8dp"
+                android:textSize="15dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginBottom="5dp" />
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:text="New Button"
                 android:id="@+id/Match_In_Modify_Button_TeamAddress"
                 android:background="@color/colorPrimaryDark"
                 android:textColor="@color/White"
-                android:textSize="13dp"
-                android:layout_marginBottom="5dp" />
+                android:textSize="15dp"
+                android:layout_marginBottom="5dp"
+                android:textStyle="bold" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,8 +74,9 @@
                 android:text="상세주소"
                 android:id="@+id/textView50"
                 android:textColor="@color/Black"
-                android:textSize="17dp"
-                android:layout_marginBottom="5dp" />
+                android:textSize="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp" />
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -96,7 +99,8 @@
                     android:id="@+id/textView34"
                     android:textColor="@color/Black"
                     android:layout_weight="1"
-                    android:textSize="17dp" />
+                    android:textSize="15dp"
+                    android:layout_marginLeft="5dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -107,7 +111,8 @@
                     android:textColor="@color/Black"
                     android:layout_weight="1"
                     android:textIsSelectable="false"
-                    android:textSize="17dp" />
+                    android:textSize="15dp"
+                    android:layout_marginLeft="5dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -119,19 +124,19 @@
 
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="New Button"
                     android:id="@+id/Match_In_Modify_Button_Schedule_Date"
                     android:layout_weight="1"
-                    android:textSize="13dp" />
+                    android:textSize="15dp" />
 
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:text="New Button"
                     android:id="@+id/Match_In_Modify_Button_Schedule_Time"
                     android:layout_weight="1"
-                    android:textSize="13dp" />
+                    android:textSize="15dp" />
             </LinearLayout>
 
             <TextView
@@ -142,14 +147,15 @@
                 android:id="@+id/textView36"
                 android:textColor="@color/Black"
                 android:textSize="17dp"
-                android:layout_marginBottom="5dp" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp" />
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:met_floatingLabel="highlight"
                 android:hint="교류지원비"
                 android:id="@+id/Match_In_Modify_EditText_Consideration"
-                android:textSize="13dp"
+                android:textSize="15dp"
                 android:layout_marginBottom="5dp" />
 
             <LinearLayout
@@ -220,7 +226,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:layout_weight="10"
+        android:layout_weight="12"
         android:textColor="@color/White"
         android:textSize="18sp"
         app:cpb_textComplete="성공"

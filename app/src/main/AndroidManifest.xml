@@ -55,7 +55,7 @@
         </activity>
         <activity android:name=".Match_Out_NewsFeed_Data_Modify"></activity>
         <activity android:name=".Match_Out_NewsFeed_Camera"></activity>
-
+        <activity android:name=".Setting"></activity>
         <activity android:name=".User_Information"></activity>
         <activity android:name=".FCMTest">
 

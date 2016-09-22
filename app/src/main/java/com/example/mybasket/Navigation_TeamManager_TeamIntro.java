@@ -19,9 +19,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.ViewTarget;
+import com.pkmmte.view.CircularImageView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -60,7 +65,7 @@ public class Navigation_TeamManager_TeamIntro extends Activity implements
     ImageView TeamManager_TeamIntro_ImageView_Emblem,TeamManager_TeamIntro_ImageView_Image1,TeamManager_TeamIntro_ImageView_Image2,TeamManager_TeamIntro_ImageView_Image3;
     EditText TeamManager_TeamIntro_EditText_HomeCourt, TeamManager_TeamIntro_EditText_Time,TeamManager_TeamIntro_EditText_TeamIntro;
     Button TeamManager_TeamIntro_Button_Save,TeamManager_TeamIntro_Button_Cancel;
-    Button TeamManager_TeamIntro_Button_UniformTop;
+    Button  TeamManager_TeamIntro_Button_UniformTop;
     Button TeamManager_TeamIntro_EditText_TeamName, TeamManager_TeamIntro_EditText_TeamAddress;
     static String Id="";
     String[][] parsedData;
@@ -99,12 +104,13 @@ public class Navigation_TeamManager_TeamIntro extends Activity implements
         TeamManager_TeamIntro_EditText_HomeCourt = (EditText)findViewById(R.id.TeamManager_TeamIntro_EditText_HomeCourt);
         TeamManager_TeamIntro_EditText_Time = (EditText)findViewById(R.id.TeamManager_TeamIntro_EditText_Time);
         TeamManager_TeamIntro_EditText_TeamIntro = (EditText)findViewById(R.id.TeamManager_TeamIntro_EditText_TeamIntro);
-        TeamManager_TeamIntro_Button_UniformTop = (Button)findViewById(R.id.TeamManager_TeamIntro_Button_UniformTop);
+        TeamManager_TeamIntro_Button_UniformTop = (Button) findViewById(R.id.TeamManager_TeamIntro_Button_UniformTop);
         TeamManager_TeamIntro_Button_Save = (Button)findViewById(R.id.TeamManager_TeamIntro_Button_Save);
         TeamManager_TeamIntro_Button_Cancel = (Button)findViewById(R.id.TeamManager_TeamIntro_Button_Cancel);
         Intent intent1 = getIntent();
         Id = intent1.getStringExtra("Id");
         Log.i("Team",Id);
+
         String result="";
         try {
             HttpClient client = new DefaultHttpClient();
@@ -127,6 +133,7 @@ public class Navigation_TeamManager_TeamIntro extends Activity implements
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         parsedData = jsonParserList(result);
 
         TeamName = parsedData[0][0];
@@ -165,7 +172,7 @@ public class Navigation_TeamManager_TeamIntro extends Activity implements
                         .into(TeamManager_TeamIntro_ImageView_Image3);
             }
             if(!Emblem.equals(".")) {
-                Glide.with(Navigation_TeamManager_TeamIntro.this).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg")
+                Glide.with(Navigation_TeamManager_TeamIntro.this).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(Navigation_TeamManager_TeamIntro.this).getBitmapPool()))
                         .into(TeamManager_TeamIntro_ImageView_Emblem);
             }
             TeamManager_TeamIntro_ImageView_Image1.setOnClickListener(new View.OnClickListener() {

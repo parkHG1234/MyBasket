@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -31,16 +32,19 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -73,9 +77,11 @@ public class MainActivity extends AppCompatActivity {
     static String realTime = "";
     static int MaxNum_out;
     static int in_MinNum;
-
+    static String Token="";
+    static String Alarm="";
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TabLayout tabLayout;
+    static String[][] parsedData_BasicSetting;
     ///////탭 아이콘 불러오기/////////////////
     private int[] tabIcons_match = {
             R.drawable.basketball_clicked,
@@ -101,7 +107,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
-
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -147,8 +154,58 @@ public class MainActivity extends AppCompatActivity {
         Id = intent1.getStringExtra("Id");
 
         realTime = new SimpleDateFormat("HHmm").format(new java.sql.Date(System.currentTimeMillis()));
-    }
 
+        //gcm 데이터 등록
+        Token = FirebaseInstanceId.getInstance().getToken();
+        Log.i("Id",Id);
+        Log.i("token",Token);
+        String result="";
+        try {
+            HttpClient client = new DefaultHttpClient();
+            String postURL = "http://210.122.7.195:8080/Web_basket/Gcm_IdAdd_Alarm.jsp";
+            HttpPost post = new HttpPost(postURL);
+
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("Id", Id));
+            params.add(new BasicNameValuePair("Token", Token));
+
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+            String line = null;
+            while ((line = bufreader.readLine()) != null) {
+                result += line;
+            }
+            Log.i("결과",result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i("실패","실패");
+        }
+        parsedData_BasicSetting=jsonParserList_BasicSetting(result);
+    }
+    public String[][] jsonParserList_BasicSetting(String pRecvServerPage) {
+        Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+        try {
+            JSONObject json = new JSONObject(pRecvServerPage);
+            JSONArray jArr = json.getJSONArray("List");
+
+            String[] jsonName = {"msg1"};
+            String[][] parseredData = new String[jArr.length()][jsonName.length];
+            for (int i = 0; i < jArr.length(); i++) {
+                json = jArr.getJSONObject(i);
+                for (int j = 0; j < jsonName.length; j++) {
+                    parseredData[i][j] = json.getString(jsonName[j]);
+                }
+            }
+            return parseredData;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -158,7 +215,6 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
     public static class PlaceholderFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
@@ -197,7 +253,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
         tabLayout.getTabAt(3).setIcon(tabIcons[3]);
     }
-
     private void setupTabIcons_match() {
         tabLayout.getTabAt(0).setIcon(tabIcons_match[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons_match[1]);
@@ -280,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
         JSONArray jArr_out, jArr_in;
         String[] jsonName = {"NewsFeed_Num", "NewsFeed_User", "NewsFeed_Do", "NewsFeed_Si", "NewsFeed_Court", "NewsFeed_Data", "NewsFeed_Month", "NewsFeed_Day", "NewsFeed_Hour", "NewsFeed_Minute", "NewsFeed_Image", "Name", "Birth", "Sex", "Position", "Team", "Profile", "Height", "Weight", "Phone","Comment_Count"};
         ProgressBar NewsFeed_ProgressBar;
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Button Match_Button_Out, Match_Button_In, Match_In_Button_Search;
         LinearLayout Match_Layout_Tab;LinearLayout Match_Layout_Out_Address;LinearLayout Match_Layout_In_Address;
         FloatingActionButton Match_In_FloatingActionButton_fab;
@@ -664,54 +719,54 @@ public class MainActivity extends AppCompatActivity {
                     ////////////////////////////////리스트 뷰 구현////////////////////////////////////////////////
                 }
             });
-NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        //현재 화면에 보이는 첫번째 리스트 아이템의 번호(firstVisibleItem) + 현재 화면에 보이는 리스트 아이템의 갯수(visibleItemCount)가 리스트 전체의 갯수(totalItemCount) -1 보다 크거나 같을때
-        lastitemVisibleFlag_out = (totalItemCount > 0) && (firstVisibleItem + visibleItemCount >= totalItemCount);
-        firstitemVIsibleFlag_out = (totalItemCount > 0) && (firstVisibleItem==0);
-    }
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        //OnScrollListener.SCROLL_STATE_IDLE은 스크롤이 이동하다가 멈추었을때 발생되는 스크롤 상태입니다.
-        //즉 스크롤이 바닦에 닿아 멈춘 상태에 처리를 하겠다는 뜻
-        if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastitemVisibleFlag_out) {
-            String result="";
-            try {
-                HttpClient client = new DefaultHttpClient();
-                String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_download_scroll.jsp";
-                HttpPost post = new HttpPost(postURL);
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("NewsFeed_Do", (String) address1));
-                params.add(new BasicNameValuePair("NewsFeed_Si", (String) address2));
-                params.add(new BasicNameValuePair("minScheduleId", Integer.toString(out_minScheduleId)));
-                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                post.setEntity(ent);
-                HttpResponse response = client.execute(post);
-                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                String line = null;
-                while ((line = bufreader.readLine()) != null) {
-                    result += line;
+            NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
+                @Override
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                    //현재 화면에 보이는 첫번째 리스트 아이템의 번호(firstVisibleItem) + 현재 화면에 보이는 리스트 아이템의 갯수(visibleItemCount)가 리스트 전체의 갯수(totalItemCount) -1 보다 크거나 같을때
+                    lastitemVisibleFlag_out = (totalItemCount > 0) && (firstVisibleItem + visibleItemCount >= totalItemCount);
+                    firstitemVIsibleFlag_out = (totalItemCount > 0) && (firstVisibleItem==0);
                 }
-                parsedData_out = jsonParserList(result);
-                for (int a = 0; a < parsedData_out.length; a++) {
-                    arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData_out[a][0], parsedData_out[a][1], parsedData_out[a][2], parsedData_out[a][3], parsedData_out[a][4], parsedData_out[a][5], parsedData_out[a][6], parsedData_out[a][7], parsedData_out[a][8], parsedData_out[a][9], parsedData_out[a][10], parsedData_out[a][11], parsedData_out[a][12], parsedData_out[a][13], parsedData_out[a][14], parsedData_out[a][15], parsedData_out[a][16], parsedData_out[a][17], parsedData_out[a][18], parsedData_out[a][19], parsedData_out[a][20]));
+                @Override
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
+                    //OnScrollListener.SCROLL_STATE_IDLE은 스크롤이 이동하다가 멈추었을때 발생되는 스크롤 상태입니다.
+                    //즉 스크롤이 바닦에 닿아 멈춘 상태에 처리를 하겠다는 뜻
+                    if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastitemVisibleFlag_out) {
+                        String result="";
+                        try {
+                            HttpClient client = new DefaultHttpClient();
+                            String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_download_scroll.jsp";
+                            HttpPost post = new HttpPost(postURL);
+                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                            params.add(new BasicNameValuePair("NewsFeed_Do", (String) address1));
+                            params.add(new BasicNameValuePair("NewsFeed_Si", (String) address2));
+                            params.add(new BasicNameValuePair("minScheduleId", Integer.toString(out_minScheduleId)));
+                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                            post.setEntity(ent);
+                            HttpResponse response = client.execute(post);
+                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                            String line = null;
+                            while ((line = bufreader.readLine()) != null) {
+                                result += line;
+                            }
+                            parsedData_out = jsonParserList(result);
+                            for (int a = 0; a < parsedData_out.length; a++) {
+                                arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData_out[a][0], parsedData_out[a][1], parsedData_out[a][2], parsedData_out[a][3], parsedData_out[a][4], parsedData_out[a][5], parsedData_out[a][6], parsedData_out[a][7], parsedData_out[a][8], parsedData_out[a][9], parsedData_out[a][10], parsedData_out[a][11], parsedData_out[a][12], parsedData_out[a][13], parsedData_out[a][14], parsedData_out[a][15], parsedData_out[a][16], parsedData_out[a][17], parsedData_out[a][18], parsedData_out[a][19], parsedData_out[a][20]));
+                            }
+                            dataadapter.notifyDataSetChanged();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && firstitemVIsibleFlag_out) {
+                        Match_Layout_Tab.setVisibility(View.VISIBLE);
+                        Match_Layout_Out_Address.setVisibility(View.VISIBLE);
+                    }
+                    if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING){
+                        Match_Layout_Tab.setVisibility(View.GONE);
+                        Match_Layout_Out_Address.setVisibility(View.GONE);
+                    }
                 }
-                dataadapter.notifyDataSetChanged();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && firstitemVIsibleFlag_out) {
-            Match_Layout_Tab.setVisibility(View.VISIBLE);
-            Match_Layout_Out_Address.setVisibility(View.VISIBLE);
-        }
-        if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING){
-            Match_Layout_Tab.setVisibility(View.GONE);
-            Match_Layout_Out_Address.setVisibility(View.GONE);
-        }
-    }
-});
+            });
             ////////////////////////////////리스트 뷰 구현////////////////////////////////////////////////
 
 ////////////////////////////////            /////매칭 -In 구현/////////////////////////////////////////////////////////////////////////////////
@@ -1167,10 +1222,10 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         private void setData() {
             arrData = new ArrayList<Match_Out_NewsFeed_Data_Setting>();
-                for (int a = 0; a < parsedData_out.length; a++) {
-                    arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData_out[a][0], parsedData_out[a][1], parsedData_out[a][2], parsedData_out[a][3], parsedData_out[a][4], parsedData_out[a][5], parsedData_out[a][6], parsedData_out[a][7], parsedData_out[a][8], parsedData_out[a][9], parsedData_out[a][10], parsedData_out[a][11], parsedData_out[a][12], parsedData_out[a][13], parsedData_out[a][14], parsedData_out[a][15], parsedData_out[a][16], parsedData_out[a][17], parsedData_out[a][18], parsedData_out[a][19], parsedData_out[a][20]));
+            for (int a = 0; a < parsedData_out.length; a++) {
+                arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData_out[a][0], parsedData_out[a][1], parsedData_out[a][2], parsedData_out[a][3], parsedData_out[a][4], parsedData_out[a][5], parsedData_out[a][6], parsedData_out[a][7], parsedData_out[a][8], parsedData_out[a][9], parsedData_out[a][10], parsedData_out[a][11], parsedData_out[a][12], parsedData_out[a][13], parsedData_out[a][14], parsedData_out[a][15], parsedData_out[a][16], parsedData_out[a][17], parsedData_out[a][18], parsedData_out[a][19], parsedData_out[a][20]));
 
-                }
+            }
         }
 
         public String[][] jsonParserList(String pRecvServerPage) {
@@ -1534,8 +1589,9 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
     public static class SectionsFragment4 extends Fragment {
         Button Profile_Button_Name, Profile_Button_Position, Profile_Button_Age_Physical, Profile_Button_TeamName;
         Button Profile_Button_TeamMake, Profile_Button_TeamManager, Profile_Button_TeamSearch, Profile_Button_Logout;
+        Button Profile_Button_Setting;LinearLayout Profile_LinearLayout_Setting;String Setting_Choice="close";Switch Profile_Setting_Switch_Alarm;
         ImageView Profile_ImageVIew_Profile;
-        String[][] parsedData, parsedData_overLap, parsedData_TeamCheck;
+        String[][] parsedData, parsedData_overLap, parsedData_TeamCheck,parsedData_Alarm;
         String ProfileUrl;
         Bitmap bmImg;
         String Profile;
@@ -1559,6 +1615,9 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
             Profile_Button_TeamManager = (Button) rootView.findViewById(R.id.Profile_Button_TeamManager);
             Profile_Button_TeamSearch = (Button) rootView.findViewById(R.id.Profile_Button_TeamSearch);
             Profile_Button_Logout = (Button) rootView.findViewById(R.id.Profile_Button_Logout);
+            Profile_Button_Setting = (Button)rootView.findViewById(R.id.Profile_Button_Setting);
+            Profile_LinearLayout_Setting = (LinearLayout)rootView.findViewById(R.id.Profile_LinearLayout_Setting);
+            Profile_Setting_Switch_Alarm = (Switch)rootView.findViewById(R.id.Profile_Setting_Switch_Alarm);
 
             String result = "";
             try {
@@ -1593,6 +1652,12 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
             Profile_Button_Position.setText(Position);
             Profile_Button_Age_Physical.setText(Age);
             Profile_Button_TeamName.setText(Team1);
+            if(parsedData_BasicSetting[0][0].equals("on")){
+                Profile_Setting_Switch_Alarm.setChecked(true);
+            }
+            else if(parsedData_BasicSetting[0][0].equals("off")){
+                Profile_Setting_Switch_Alarm.setChecked(false);
+            }
             //유저 개인 이미지를 서버에서 받아옵니다.
             try {
                 String En_Profile = URLEncoder.encode(Profile, "utf-8");
@@ -1743,6 +1808,86 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
                     startActivity(intent_TeamIntro);
                 }
             });
+            Profile_Button_Setting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(Setting_Choice.equals("close")){
+                        Profile_LinearLayout_Setting.setVisibility(View.VISIBLE);
+                        Setting_Choice = "open";
+
+                    }
+                    else if(Setting_Choice.equals("open")){
+                        Profile_LinearLayout_Setting.setVisibility(View.GONE);
+                        Setting_Choice = "close";
+                    }
+                }
+            });
+            Profile_Setting_Switch_Alarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if(isChecked==true)
+                    {
+                        String Alarm_off_result = "";
+                        try {
+                            HttpClient client = new DefaultHttpClient();
+                            String postURL = "http://210.122.7.195:8080/Web_basket/Alarm.jsp";
+                            HttpPost post = new HttpPost(postURL);
+
+                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                            params.add(new BasicNameValuePair("Id", Id));
+                            params.add(new BasicNameValuePair("Alarm", "on"));
+                            params.add(new BasicNameValuePair("Token", Token));
+                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                            post.setEntity(ent);
+
+                            HttpResponse response = client.execute(post);
+                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                            String line = null;
+                            while ((line = bufreader.readLine()) != null) {
+                                Alarm_off_result += line;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        parsedData_Alarm = jsonParserList_Alarm(Alarm_off_result);
+                        if(parsedData_Alarm[0][0].equals("succed")){
+                            Profile_Setting_Switch_Alarm.setChecked(true);
+                        }
+                    }
+                    else
+                    {
+
+                        String Alarm_on_result = "";
+                        try {
+                            HttpClient client = new DefaultHttpClient();
+                            String postURL = "http://210.122.7.195:8080/Web_basket/Alarm.jsp";
+                            HttpPost post = new HttpPost(postURL);
+
+                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                            params.add(new BasicNameValuePair("Id", Id));
+                            params.add(new BasicNameValuePair("Alarm", "off"));
+                            params.add(new BasicNameValuePair("Token", Token));
+                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                            post.setEntity(ent);
+
+                            HttpResponse response = client.execute(post);
+                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                            String line = null;
+                            while ((line = bufreader.readLine()) != null) {
+                                Alarm_on_result += line;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        parsedData_Alarm = jsonParserList_Alarm(Alarm_on_result);
+                        if(parsedData_Alarm[0][0].equals("succed")){
+                            Profile_Setting_Switch_Alarm.setChecked(false);
+                        }
+                    }
+                }
+            });
             Profile_Button_Logout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1851,6 +1996,26 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
                 return null;
             }
         }
+        public String[][] jsonParserList_Alarm(String pRecvServerPage) {
+            Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+            try {
+                JSONObject json = new JSONObject(pRecvServerPage);
+                JSONArray jArr = json.getJSONArray("List");
+
+                String[] jsonName = {"msg1"};
+                String[][] parseredData = new String[jArr.length()][jsonName.length];
+                for (int i = 0; i < jArr.length(); i++) {
+                    json = jArr.getJSONObject(i);
+                    for (int j = 0; j < jsonName.length; j++) {
+                        parseredData[i][j] = json.getString(jsonName[j]);
+                    }
+                }
+                return parseredData;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
     }
 
     /*  public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -1858,7 +2023,6 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
           IntentResult result = IntentIntegrator.parseActivityResult(requestCode,
                   resultCode, data);
           String[][] parsedData;
-
           String str = result.getContents();
           String[] result1 = str.split("=");
           Log.i("msg",result1[1]);
@@ -1867,19 +2031,15 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
               HttpClient client = new DefaultHttpClient();
               String postURL = "http://210.122.7.195:8080/Web_basket/CheckIn.jsp";
               HttpPost post = new HttpPost(postURL);
-
               List<NameValuePair> params = new ArrayList<NameValuePair>();
               params.add(new BasicNameValuePair("Id", Id));
               params.add(new BasicNameValuePair("CourtName", result1[1]));
               params.add(new BasicNameValuePair("Time", realTime));
               UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
               post.setEntity(ent);
-
               HttpResponse response = client.execute(post);
               BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-
               String line = null;
-
               while ((line = bufreader.readLine()) != null) {
                   postResult += line;
               }
@@ -1900,6 +2060,7 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
           SharedPreferences prefs = getSharedPreferences("Mybasket_CheckIn", MODE_PRIVATE);
           ////////////////////////////////리스트 뷰 구현////////////////////////////////////////////////
       }*/
+
     public String[][] jsonParserList(String pRecvServerPage) {
         Log.i("서버에서 받은 전체 내용", pRecvServerPage);
         try {
@@ -1926,4 +2087,3 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
         super.onDestroy();
     }
 }
-
