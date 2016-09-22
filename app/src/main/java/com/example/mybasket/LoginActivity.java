@@ -45,7 +45,7 @@ public class LoginActivity extends Activity {
     CheckBox autoLoginChkbox;
 
     SharedPreferences preferences;
-    SharedPreferences.Editor editor = preferences.edit();
+    SharedPreferences.Editor editor;
 
     private SessionCallback callback;      //콜백 선언
 
@@ -135,6 +135,7 @@ public class LoginActivity extends Activity {
             if(autoLoginChkbox.equals(true)){
                 preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
                 //preference 이름을 autoLogin
+                editor = preferences.edit();
 
 
                 editor.putString("id", _id);
