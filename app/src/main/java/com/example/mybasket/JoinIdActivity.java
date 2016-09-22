@@ -70,6 +70,10 @@ public class JoinIdActivity extends Activity {
         }
     }
 
+    public void onClickTerms(View view) {
+        startActivity(new Intent(JoinIdActivity.this, Terms.class));
+    }
+
 
     private String SendByHttp(String id) {
         try {

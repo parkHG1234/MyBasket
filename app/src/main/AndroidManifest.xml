@@ -14,6 +14,7 @@
         <activity android:name=".JoinIdActivity"></activity>
         <activity android:name=".JoinPwActivity"></activity>
         <activity android:name=".JoinAddActivity"></activity>
+        <activity android:name=".Terms"></activity>
         <activity
             android:name=".LoginActivity">
             <intent-filter>

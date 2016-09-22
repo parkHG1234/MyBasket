@@ -57,4 +57,20 @@
         android:id="@+id/join_id_layout_next_Button"
         android:layout_gravity="center_horizontal"
         android:onClick="onClickNext"/>
+
+    <Button
+        android:layout_width="362dp"
+        android:layout_height="wrap_content"
+        android:text="약관 보기"
+        android:id="@+id/join_id_layout_terms_Button"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClickTerms"/>
+
+    <TextView
+        android:layout_width="314dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="다음 버튼을 눌러 마이 바스켓의 서비스 약관(개인정보 취급방침)에 동의합니다."
+        android:id="@+id/textView12"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>
