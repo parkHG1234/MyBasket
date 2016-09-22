@@ -43,6 +43,7 @@
                         android:layout_weight="1"
                         android:layout_gravity="center"
                         />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -143,13 +144,15 @@
                     android:text="내 팀 정보"
                     android:id="@+id/Profile_Button_MyTeam"
                     android:textColor="@color/BlackGray"
-                    android:background="@color/Gray" />
+                    android:background="@color/Gray"
+                    android:visibility="gone" />
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/DarkGray"
-                    android:id="@+id/button5" />
+                    android:id="@+id/button5"
+                    android:visibility="gone" />
 
                 <Button
                     android:layout_width="match_parent"
@@ -157,7 +160,8 @@
                     android:text="전국 팀 정보"
                     android:id="@+id/Profile_Button_TeamSearch"
                     android:textColor="@color/BlackGray"
-                    android:background="@color/Gray"/>
+                    android:background="@color/Gray"
+                    android:visibility="gone" />
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="1dp"

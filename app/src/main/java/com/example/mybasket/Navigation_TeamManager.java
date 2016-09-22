@@ -3,6 +3,7 @@ package com.example.mybasket;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -139,8 +140,9 @@ public class Navigation_TeamManager extends AppCompatActivity {
             TeamManager_Button_ScheduleManager.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent_Schedule = new Intent(Navigation_TeamManager.this, Navigation_TeamManager_Schedule.class);
-                    startActivity(intent_Schedule);
+                    Snackbar.make(view,"준비중입니다.", Snackbar.LENGTH_SHORT).show();
+                   /* Intent intent_Schedule = new Intent(Navigation_TeamManager.this, Navigation_TeamManager_Schedule.class);
+                    startActivity(intent_Schedule);*/
                 }
             });
             TeamManager_Button_TeamIntroManager.setOnClickListener(new View.OnClickListener() {
@@ -159,6 +161,12 @@ public class Navigation_TeamManager extends AppCompatActivity {
                     intent_TeamMember.putExtra("Team", Team);
                     intent_TeamMember.putExtra("MyDuty", Duty);
                     startActivity(intent_TeamMember);
+                }
+            });
+            TeamManager_Button_NoticeManager.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view,"준비중입니다.", Snackbar.LENGTH_SHORT).show();
                 }
             });
             TeamManager_Button_Withdraw.setOnClickListener(new View.OnClickListener() {

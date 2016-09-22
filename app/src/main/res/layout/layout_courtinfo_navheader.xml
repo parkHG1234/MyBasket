@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="800dp"
+    android:layout_height="wrap_content"
     android:background="@color/White"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -11,155 +11,190 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:id="@+id/Layout">
 
-    <LinearLayout
-        android:orientation="vertical"
+
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/CourtInfo_Nav_Root_TeamName"
-        android:layout_marginTop="20dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="테스트 농구코트"
-            android:textSize="18dp"
-            android:textColor="@color/White"
-            android:id="@+id/CourtInfo_Nav_CourtName"
-            android:background="@color/colorPrimaryDark"
-            android:gravity="center_vertical" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="420dp"
-        android:id="@+id/CourtInfo_Nav_Root_Img">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:id="@+id/CourtInfo_Nav_Img1"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:scaleType="fitXY"
-            android:layout_marginTop="10dp" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:id="@+id/CourtInfo_Nav_Img2"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:scaleType="fitXY"
-            android:layout_marginTop="10dp" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:id="@+id/CourtInfo_Nav_Img3"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:scaleType="fitXY"
-            android:layout_marginTop="10dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView2" >
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/colorPrimaryDark"
-            android:layout_marginTop="5dp">
+            android:layout_height="match_parent">
 
-            <TextView
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="코트 주소"
-                android:id="@+id/textView15"
-                android:layout_weight="1"
-                android:textColor="@color/White"
-                android:textSize="15dp"
-                android:gravity="center" />
+                android:layout_height="50dp"
+                android:id="@+id/CourtInfo_Nav_Root_TeamName"
+                android:layout_marginTop="20dp">
 
-            <TextView
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="테스트 농구코트"
+                    android:textSize="18dp"
+                    android:textColor="@color/White"
+                    android:id="@+id/CourtInfo_Nav_CourtName"
+                    android:background="@color/colorPrimaryDark"
+                    android:gravity="center_vertical" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="10"
-                android:id="@+id/CourtInfo_Nav_CourtAddress"
-                android:layout_weight="1"
-                android:textColor="@color/White"
-                android:textSize="15dp"
-                android:gravity="center" />
+                android:layout_height="wrap_content"
+                android:id="@+id/CourtInfo_Nav_Root_Img">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:id="@+id/CourtInfo_Nav_Img1"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:layout_marginTop="10dp"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:id="@+id/CourtInfo_Nav_Img2"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:layout_marginTop="10dp"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:id="@+id/CourtInfo_Nav_Img3"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:layout_marginTop="10dp" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:id="@+id/CourtInfo_Nav_Img4"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:layout_marginTop="10dp" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:id="@+id/CourtInfo_Nav_Img5"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="코트 주소"
+                        android:id="@+id/textView15"
+                        android:layout_weight="1"
+                        android:textColor="@color/White"
+                        android:textSize="15dp"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="10"
+                        android:id="@+id/CourtInfo_Nav_CourtAddress"
+                        android:layout_weight="1"
+                        android:textColor="@color/White"
+                        android:textSize="15dp"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="코트 수"
+                        android:id="@+id/textView24"
+                        android:layout_weight="1"
+                        android:textColor="@color/White"
+                        android:textSize="15dp"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="10"
+                        android:id="@+id/CourtInfo_Nav_CourtCount"
+                        android:layout_weight="1"
+                        android:textColor="@color/White"
+                        android:textSize="15dp"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="바닥 재질"
+                        android:id="@+id/textView28"
+                        android:layout_weight="1"
+                        android:textColor="@color/White"
+                        android:textSize="15dp"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="10"
+                        android:id="@+id/CourtInfo_Nav_CourtFloor"
+                        android:layout_weight="1"
+                        android:textColor="@color/White"
+                        android:textSize="15dp"
+                        android:gravity="center" />
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/colorPrimaryDark"
-            android:layout_marginTop="5dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="코트 수"
-                android:id="@+id/textView24"
-                android:layout_weight="1"
-                android:textColor="@color/White"
-                android:textSize="15dp"
-                android:gravity="center" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="10"
-                android:id="@+id/CourtInfo_Nav_CourtCount"
-                android:layout_weight="1"
-                android:textColor="@color/White"
-                android:textSize="15dp"
-                android:gravity="center" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/colorPrimaryDark"
-            android:layout_marginTop="5dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="바닥 재질"
-                android:id="@+id/textView28"
-                android:layout_weight="1"
-                android:textColor="@color/White"
-                android:textSize="15dp"
-                android:gravity="center" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="10"
-                android:id="@+id/CourtInfo_Nav_CourtFloor"
-                android:layout_weight="1"
-                android:textColor="@color/White"
-                android:textSize="15dp"
-                android:gravity="center" />
-        </LinearLayout>
-
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

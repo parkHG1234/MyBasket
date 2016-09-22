@@ -151,6 +151,8 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
             String Image1 =parsedData_CourtInfo[0][6];
             String Image2 =parsedData_CourtInfo[0][7];
             String Image3 =parsedData_CourtInfo[0][8];
+            String Image4 =parsedData_CourtInfo[0][9];
+            String Image5 = parsedData_CourtInfo[0][10];
         //툴바 셋팅
         toolbar.setTitle(CourtName);
         setSupportActionBar(toolbar);
@@ -168,22 +170,44 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
         final ImageView CourtInfo_Nav_Img1 = (ImageView)aa.findViewById(R.id.CourtInfo_Nav_Img1);
         final ImageView CourtInfo_Nav_Img2 = (ImageView)aa.findViewById(R.id.CourtInfo_Nav_Img2);
         final ImageView CourtInfo_Nav_Img3 = (ImageView)aa.findViewById(R.id.CourtInfo_Nav_Img3);
-        CourtInfo_Nav_CourtName.setText(CourtName);
+        final ImageView CourtInfo_Nav_Img4 = (ImageView)aa.findViewById(R.id.CourtInfo_Nav_Img4);
+        final ImageView CourtInfo_Nav_Img5 = (ImageView)aa.findViewById(R.id.CourtInfo_Nav_Img5);
+        CourtInfo_Nav_CourtName.setText("  "+CourtName);
         CourtInfo_Nav_CourtAddress.setText(CourtAddress);
         CourtInfo_Nav_CourtCount.setText(CourtCount);
         CourtInfo_Nav_CourtFloor.setText(CourtFloor);
-
+        if(Image1.equals(".")){
+            CourtInfo_Nav_Img1.setVisibility(View.GONE);
+        }
+        if(Image2.equals(".")){
+            CourtInfo_Nav_Img2.setVisibility(View.GONE);
+        }
+        if(Image3.equals(".")){
+            CourtInfo_Nav_Img3.setVisibility(View.GONE);
+        }
+        if(Image4.equals(".")){
+            CourtInfo_Nav_Img4.setVisibility(View.GONE);
+        }
+        if(Image5.equals(".")){
+            CourtInfo_Nav_Img5.setVisibility(View.GONE);
+        }
         //URI 한글 인코딩
             try{
                     String En_Image1 = URLEncoder.encode(Image1, "utf-8");
                     String En_Image2 = URLEncoder.encode(Image2, "utf-8");
                     String En_Image3 = URLEncoder.encode(Image3, "utf-8");
-                    Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/Web_basket/imgs/Court/"+En_Image1+".jpg")
+                    String En_Image4 = URLEncoder.encode(Image4, "utf-8");
+                    String En_Image5 = URLEncoder.encode(Image5, "utf-8");
+                    Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image1+".jpg")
                                 .into(CourtInfo_Nav_Img1);
-                    Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/Web_basket/imgs/Court/"+En_Image2+".jpg")
+                    Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image2+".jpg")
                                 .into(CourtInfo_Nav_Img2);
-                    Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/Web_basket/imgs/Court/"+En_Image3+".jpg")
+                    Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image3+".jpg")
                                 .into(CourtInfo_Nav_Img3);
+                    Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image4+".jpg")
+                                .into(CourtInfo_Nav_Img4);
+                    Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image5+".jpg")
+                                .into(CourtInfo_Nav_Img5);
             }catch (UnsupportedEncodingException e){
 
             }
@@ -308,7 +332,7 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
         try{
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
-            String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9"};
+            String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9","msg10","msg11"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for(int i = 0; i<jArr.length();i++){
                 json = jArr.getJSONObject(i);
