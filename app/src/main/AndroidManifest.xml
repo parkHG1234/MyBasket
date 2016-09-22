@@ -47,7 +47,6 @@
         <activity android:name=".CourtInfo_ImageFocus"></activity>
         <activity android:name=".Navigation_TeamManager_Schedule"></activity>
         <activity android:name=".Profile_Focus"></activity>
-        <activity android:name=".Setting"></activity>
         <activity android:name=".Match_Out_NewsFeed_Writing"></activity>
         <activity android:name=".Match_Out_NewsFeed_Comment"
             android:theme="@style/AppTheme.NoActionBar"
@@ -57,8 +56,22 @@
         <activity android:name=".Match_Out_NewsFeed_Camera"></activity>
 
         <activity android:name=".User_Information"></activity>
-        <!--android:screenOrientation="landscape"-->
+        <activity android:name=".FCMTest">
 
+        </activity>
+        <service
+            android:name=".MyFcmListenerService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".MyInstanceIDListenerService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/Kakao_App_Key"/>

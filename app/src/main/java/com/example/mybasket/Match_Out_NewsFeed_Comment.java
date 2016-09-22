@@ -222,7 +222,7 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
                 if(!(NewsFeed_Comment_EditText.getText().equals("null"))){
                 try {
                     HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/gg/newsfeed_comment_upload.jsp";
+                    String postURL = "http://210.122.7.195:8080/Web_basket/test123123.jsp";
                     HttpPost post = new HttpPost(postURL);
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
                     params.add(new BasicNameValuePair("NewsFeed_Num", NewsFeed_Num));

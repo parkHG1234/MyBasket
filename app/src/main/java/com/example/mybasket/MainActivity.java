@@ -34,7 +34,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,12 +46,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 import com.melnykov.fab.FloatingActionButton;
-import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -158,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent1 = getIntent();
         Id = intent1.getStringExtra("Id");
-
 
         realTime = new SimpleDateFormat("HHmm").format(new java.sql.Date(System.currentTimeMillis()));
     }
@@ -275,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
         Spinner spinner_Address_Do, spinner_Address_si;
         Button NewsFeed_Select_Button;
         ListView NewsFeed_List;
-        String address1 = "서울", address2 = "전 체";
+        String address1="서울", address2="전 체";
         ImageView NewsFeed_Writing;
 
 
@@ -284,22 +280,20 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView NewsFeed_Emblem;
         TextView NewsFeed_Court, NewsFeed_Data;
-        String Choice_Tab = "out";
+        String Choice_Tab="out";
         boolean VisibleFlag = false;
-        int cnt_out, cnt_in, pos;
+        int cnt_out,cnt_in, pos;
         static int Position = 0;
         private int MonthGap[] = {-30, -30, -27, -30, -29, -30, -29, -30, -30, -29, -30, -29};
 
 
-        JSONObject json_out, json_in;
+        JSONObject json_out,json_in;
         JSONArray jArr_out, jArr_in;
-        String[] jsonName = {"NewsFeed_Num", "NewsFeed_User", "NewsFeed_Do", "NewsFeed_Si", "NewsFeed_Court", "NewsFeed_Data", "NewsFeed_Month", "NewsFeed_Day", "NewsFeed_Hour", "NewsFeed_Minute", "NewsFeed_Image", "Name", "Birth", "Sex", "Position", "Team", "Profile", "Height", "Weight", "Phone", "Comment_Count"};
+        String[] jsonName = {"NewsFeed_Num", "NewsFeed_User", "NewsFeed_Do", "NewsFeed_Si", "NewsFeed_Court", "NewsFeed_Data", "NewsFeed_Month", "NewsFeed_Day", "NewsFeed_Hour", "NewsFeed_Minute", "NewsFeed_Image", "Name", "Birth", "Sex", "Position", "Team", "Profile", "Height", "Weight", "Phone","Comment_Count"};
         ProgressBar NewsFeed_ProgressBar;
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Button Match_Button_Out, Match_Button_In, Match_In_Button_Search;
-        LinearLayout Match_Layout_Tab;
-        LinearLayout Match_Layout_Out_Address;
-        LinearLayout Match_Layout_In_Address;
+        LinearLayout Match_Layout_Tab;LinearLayout Match_Layout_Out_Address;LinearLayout Match_Layout_In_Address;
         FloatingActionButton Match_In_FloatingActionButton_fab;
         ListView Match_In_CustomList;
         LinearLayout Match_Layout_Out, Match_Layout_In;
@@ -309,14 +303,13 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adspin1, adspin2;
         String[][] parsedData_out, parsedData_TeamCheck;
         String[][] parsedData_in;
-        String choice_do = "서울", choice_se = "전 체";
-        int in_minScheduleId = 10000000;
-        int out_minScheduleId = 10000000;
+        String choice_do="서울", choice_se="전 체";
+        int in_minScheduleId=10000000;
+        int out_minScheduleId=10000000;
         boolean lastitemVisibleFlag_out = false;        //화면에 리스트의 마지막 아이템이 보여지는지 체크
         boolean firstitemVIsibleFlag_out = false;
         boolean lastitemVisibleFlag_in = false;        //화면에 리스트의 마지막 아이템이 보여지는지 체크
         boolean firstitemVIsibleFlag_in = false;
-
         public SectionsFragment1() {
         }
 
@@ -325,9 +318,9 @@ public class MainActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
 
             final View rootView = inflater.inflate(R.layout.layout_match, container, false);
-            Match_Layout_Tab = (LinearLayout) rootView.findViewById(R.id.Match_Layout_Tab);
-            Match_Layout_Out_Address = (LinearLayout) rootView.findViewById(R.id.Match_Layout_Out_Address);
-            Match_Layout_In_Address = (LinearLayout) rootView.findViewById(R.id.Match_Layout_In_Address);
+            Match_Layout_Tab = (LinearLayout)rootView.findViewById(R.id.Match_Layout_Tab);
+            Match_Layout_Out_Address=(LinearLayout)rootView.findViewById(R.id.Match_Layout_Out_Address);
+            Match_Layout_In_Address =(LinearLayout)rootView.findViewById(R.id.Match_Layout_In_Address);
             Match_In_CustomList = (ListView) rootView.findViewById(R.id.Match_In_CustomList);
             Match_Button_Out = (Button) rootView.findViewById(R.id.Match_Button_Out);
             Match_Layout_Out = (LinearLayout) rootView.findViewById(R.id.Match_Layout_Out);
@@ -610,7 +603,7 @@ public class MainActivity extends AppCompatActivity {
                         HttpPost post = new HttpPost(postURL);
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                         params.add(new BasicNameValuePair("NewsFeed_Do", address1));
-                        params.add(new BasicNameValuePair("NewsFeed_Si", address2));
+                        params.add(new BasicNameValuePair("NewsFeed_Si", address2 ));
                         UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                         post.setEntity(ent);
                         HttpResponse response = client.execute(post);
@@ -635,7 +628,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent DataIntent = new Intent(getContext(), Match_Out_NewsFeed_Writing.class);
-                    DataIntent.putExtra("Id", Id);
+                    DataIntent.putExtra("Id",Id);
                     startActivity(DataIntent);
                 }
             });
@@ -660,9 +653,7 @@ public class MainActivity extends AppCompatActivity {
                 dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData, Id, MaxNum_out);
                 dataadapter.listview(NewsFeed_List);
                 NewsFeed_List.setAdapter(dataadapter);
-            } catch(HttpResponseException e){
-                Toast.makeText(getContext(), "프로그램을 재시작시켜주세요.", Toast.LENGTH_SHORT).show();
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -676,8 +667,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Match_Layout_Out.setVisibility(View.VISIBLE);
                     Match_Layout_In.setVisibility(View.GONE);
-                    Choice_Tab = "out";
-                    out_minScheduleId = 10000;
+                    Choice_Tab="out";
+                    out_minScheduleId=10000;
                     try {
                         HttpClient client = new DefaultHttpClient();
                         String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_download.jsp";
@@ -708,55 +699,54 @@ public class MainActivity extends AppCompatActivity {
                     ////////////////////////////////리스트 뷰 구현////////////////////////////////////////////////
                 }
             });
-            NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
-                @Override
-                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                    //현재 화면에 보이는 첫번째 리스트 아이템의 번호(firstVisibleItem) + 현재 화면에 보이는 리스트 아이템의 갯수(visibleItemCount)가 리스트 전체의 갯수(totalItemCount) -1 보다 크거나 같을때
-                    lastitemVisibleFlag_out = (totalItemCount > 0) && (firstVisibleItem + visibleItemCount >= totalItemCount);
-                    firstitemVIsibleFlag_out = (totalItemCount > 0) && (firstVisibleItem == 0);
+NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        //현재 화면에 보이는 첫번째 리스트 아이템의 번호(firstVisibleItem) + 현재 화면에 보이는 리스트 아이템의 갯수(visibleItemCount)가 리스트 전체의 갯수(totalItemCount) -1 보다 크거나 같을때
+        lastitemVisibleFlag_out = (totalItemCount > 0) && (firstVisibleItem + visibleItemCount >= totalItemCount);
+        firstitemVIsibleFlag_out = (totalItemCount > 0) && (firstVisibleItem==0);
+    }
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        //OnScrollListener.SCROLL_STATE_IDLE은 스크롤이 이동하다가 멈추었을때 발생되는 스크롤 상태입니다.
+        //즉 스크롤이 바닦에 닿아 멈춘 상태에 처리를 하겠다는 뜻
+        if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastitemVisibleFlag_out) {
+            String result="";
+            try {
+                HttpClient client = new DefaultHttpClient();
+                String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_download_scroll.jsp";
+                HttpPost post = new HttpPost(postURL);
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("NewsFeed_Do", (String) address1));
+                params.add(new BasicNameValuePair("NewsFeed_Si", (String) address2));
+                params.add(new BasicNameValuePair("minScheduleId", Integer.toString(out_minScheduleId)));
+                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                post.setEntity(ent);
+                HttpResponse response = client.execute(post);
+                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                String line = null;
+                while ((line = bufreader.readLine()) != null) {
+                    result += line;
                 }
-
-                @Override
-                public void onScrollStateChanged(AbsListView view, int scrollState) {
-                    //OnScrollListener.SCROLL_STATE_IDLE은 스크롤이 이동하다가 멈추었을때 발생되는 스크롤 상태입니다.
-                    //즉 스크롤이 바닦에 닿아 멈춘 상태에 처리를 하겠다는 뜻
-                    if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastitemVisibleFlag_out) {
-                        String result = "";
-                        try {
-                            HttpClient client = new DefaultHttpClient();
-                            String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_download_scroll.jsp";
-                            HttpPost post = new HttpPost(postURL);
-                            List<NameValuePair> params = new ArrayList<NameValuePair>();
-                            params.add(new BasicNameValuePair("NewsFeed_Do", (String) address1));
-                            params.add(new BasicNameValuePair("NewsFeed_Si", (String) address2));
-                            params.add(new BasicNameValuePair("minScheduleId", Integer.toString(out_minScheduleId)));
-                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                            post.setEntity(ent);
-                            HttpResponse response = client.execute(post);
-                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                            String line = null;
-                            while ((line = bufreader.readLine()) != null) {
-                                result += line;
-                            }
-                            parsedData_out = jsonParserList(result);
-                            for (int a = 0; a < parsedData_out.length; a++) {
-                                arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData_out[a][0], parsedData_out[a][1], parsedData_out[a][2], parsedData_out[a][3], parsedData_out[a][4], parsedData_out[a][5], parsedData_out[a][6], parsedData_out[a][7], parsedData_out[a][8], parsedData_out[a][9], parsedData_out[a][10], parsedData_out[a][11], parsedData_out[a][12], parsedData_out[a][13], parsedData_out[a][14], parsedData_out[a][15], parsedData_out[a][16], parsedData_out[a][17], parsedData_out[a][18], parsedData_out[a][19], parsedData_out[a][20]));
-                            }
-                            dataadapter.notifyDataSetChanged();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && firstitemVIsibleFlag_out) {
-                        Match_Layout_Tab.setVisibility(View.VISIBLE);
-                        Match_Layout_Out_Address.setVisibility(View.VISIBLE);
-                    }
-                    if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
-                        Match_Layout_Tab.setVisibility(View.GONE);
-                        Match_Layout_Out_Address.setVisibility(View.GONE);
-                    }
+                parsedData_out = jsonParserList(result);
+                for (int a = 0; a < parsedData_out.length; a++) {
+                    arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData_out[a][0], parsedData_out[a][1], parsedData_out[a][2], parsedData_out[a][3], parsedData_out[a][4], parsedData_out[a][5], parsedData_out[a][6], parsedData_out[a][7], parsedData_out[a][8], parsedData_out[a][9], parsedData_out[a][10], parsedData_out[a][11], parsedData_out[a][12], parsedData_out[a][13], parsedData_out[a][14], parsedData_out[a][15], parsedData_out[a][16], parsedData_out[a][17], parsedData_out[a][18], parsedData_out[a][19], parsedData_out[a][20]));
                 }
-            });
+                dataadapter.notifyDataSetChanged();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && firstitemVIsibleFlag_out) {
+            Match_Layout_Tab.setVisibility(View.VISIBLE);
+            Match_Layout_Out_Address.setVisibility(View.VISIBLE);
+        }
+        if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING){
+            Match_Layout_Tab.setVisibility(View.GONE);
+            Match_Layout_Out_Address.setVisibility(View.GONE);
+        }
+    }
+});
             ////////////////////////////////리스트 뷰 구현////////////////////////////////////////////////
 
 ////////////////////////////////            /////매칭 -In 구현/////////////////////////////////////////////////////////////////////////////////
@@ -765,10 +755,10 @@ public class MainActivity extends AppCompatActivity {
             Match_Button_In.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    in_minScheduleId = 10000;
+                    in_minScheduleId=10000;
                     Match_Layout_Out.setVisibility(View.GONE);
                     Match_Layout_In.setVisibility(View.VISIBLE);
-                    Choice_Tab = "in";
+                    Choice_Tab="in";
 
                     adspin1 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do, R.layout.zfile_spinner_test);
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -808,7 +798,8 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            } else if (adspin1.getItem(i).equals("광주")) {
+                            }
+                            else if (adspin1.getItem(i).equals("광주")) {
                                 choice_do = "광주";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_gwangju, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -823,7 +814,8 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            } else if (adspin1.getItem(i).equals("대구")) {
+                            }
+                            else if (adspin1.getItem(i).equals("대구")) {
                                 choice_do = "대구";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_DaeGu, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -838,7 +830,8 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            } else if (adspin1.getItem(i).equals("울산")) {
+                            }
+                            else if (adspin1.getItem(i).equals("울산")) {
                                 choice_do = "울산";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Ulsan, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -853,7 +846,8 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            } else if (adspin1.getItem(i).equals("대전")) {
+                            }
+                            else if (adspin1.getItem(i).equals("대전")) {
                                 choice_do = "대전";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_DaeJeon, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -868,7 +862,8 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            } else if (adspin1.getItem(i).equals("부산")) {
+                            }
+                            else if (adspin1.getItem(i).equals("부산")) {
                                 choice_do = "부산";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Busan, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -883,7 +878,8 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            } else if (adspin1.getItem(i).equals("강원도")) {
+                            }
+                            else if (adspin1.getItem(i).equals("강원도")) {
                                 choice_do = "강원도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Gangwondo, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -898,7 +894,8 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            } else if (adspin1.getItem(i).equals("경기도")) {
+                            }
+                            else if (adspin1.getItem(i).equals("경기도")) {
                                 choice_do = "경기도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Gyeonggido, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -913,7 +910,8 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            } else if (adspin1.getItem(i).equals("충청남도")) {
+                            }
+                            else if (adspin1.getItem(i).equals("충청남도")) {
                                 choice_do = "충청남도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Chungcheongnamdo, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -928,7 +926,8 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            } else if (adspin1.getItem(i).equals("충청북도")) {
+                            }
+                            else if (adspin1.getItem(i).equals("충청북도")) {
                                 choice_do = "충청북도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Chungcheongbukdo, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -943,7 +942,8 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            } else if (adspin1.getItem(i).equals("전라북도")) {
+                            }
+                            else if (adspin1.getItem(i).equals("전라북도")) {
                                 choice_do = "전라북도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Jeolabukdo, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -958,7 +958,8 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            } else if (adspin1.getItem(i).equals("전라남도")) {
+                            }
+                            else if (adspin1.getItem(i).equals("전라남도")) {
                                 choice_do = "전라남도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Jeolanamdo, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -973,7 +974,8 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            } else if (adspin1.getItem(i).equals("경상북도")) {
+                            }
+                            else if (adspin1.getItem(i).equals("경상북도")) {
                                 choice_do = "경상북도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Gyeongsangbukdo, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -988,7 +990,8 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            } else if (adspin1.getItem(i).equals("경상남도")) {
+                            }
+                            else if (adspin1.getItem(i).equals("경상남도")) {
                                 choice_do = "경상남도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Gyeongsangnamdo, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1003,7 +1006,8 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            } else if (adspin1.getItem(i).equals("제주도")) {
+                            }
+                            else if (adspin1.getItem(i).equals("제주도")) {
                                 choice_do = "제주도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Jejudo, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1133,14 +1137,13 @@ public class MainActivity extends AppCompatActivity {
                         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                             //현재 화면에 보이는 첫번째 리스트 아이템의 번호(firstVisibleItem) + 현재 화면에 보이는 리스트 아이템의 갯수(visibleItemCount)가 리스트 전체의 갯수(totalItemCount) -1 보다 크거나 같을때
                             lastitemVisibleFlag_in = (totalItemCount > 0) && (firstVisibleItem + visibleItemCount >= totalItemCount);
-                            firstitemVIsibleFlag_in = (totalItemCount > 0) && (firstVisibleItem == 0);
+                            firstitemVIsibleFlag_in = (totalItemCount > 0) && (firstVisibleItem==0);
                         }
-
                         @Override
                         public void onScrollStateChanged(AbsListView view, int scrollState) {
                             //OnScrollListener.SCROLL_STATE_IDLE은 스크롤이 이동하다가 멈추었을때 발생되는 스크롤 상태입니다.
                             //즉 스크롤이 바닦에 닿아 멈춘 상태에 처리를 하겠다는 뜻
-                            if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastitemVisibleFlag_in) {
+                            if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastitemVisibleFlag_in) {
                                 try {
                                     HttpClient client = new DefaultHttpClient();
                                     String postURL = "http://210.122.7.195:8080/Web_basket/Match_InList_Scroll.jsp";
@@ -1163,19 +1166,19 @@ public class MainActivity extends AppCompatActivity {
                                         result += line;
                                     }
                                     parsedData_in = inList_jsonParserList(result);
-                                    for (int i = 0; i < parsedData_in.length; i++) {
-                                        match_In_CustomList_MyData.add(new Match_In_CustomList_MyData(parsedData_in[i][0], parsedData_in[i][1], parsedData_in[i][2], parsedData_in[i][3], parsedData_in[i][4], parsedData_in[i][5], parsedData_in[i][6], parsedData_in[i][7], parsedData_in[i][8], parsedData_in[i][9], parsedData_in[i][10], parsedData_in[i][11], parsedData_in[i][12], Id));
+                                    for (int i = 0; i <parsedData_in.length ; i++) {
+                                        match_In_CustomList_MyData.add(new Match_In_CustomList_MyData(parsedData_in[i][0], parsedData_in[i][1], parsedData_in[i][2], parsedData_in[i][3], parsedData_in[i][4], parsedData_in[i][5],parsedData_in[i][6],parsedData_in[i][7],parsedData_in[i][8],parsedData_in[i][9],parsedData_in[i][10],parsedData_in[i][11],parsedData_in[i][12],Id));
                                     }
                                     match_In_CustomList_MyAdapter.notifyDataSetChanged();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
-                            if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && firstitemVIsibleFlag_in) {
+                            if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && firstitemVIsibleFlag_in) {
                                 Match_Layout_Tab.setVisibility(View.VISIBLE);
                                 Match_Layout_In_Address.setVisibility(View.VISIBLE);
                             }
-                            if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
+                            if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING){
                                 Match_Layout_Tab.setVisibility(View.GONE);
                                 Match_Layout_In_Address.setVisibility(View.GONE);
                             }
@@ -1189,21 +1192,20 @@ public class MainActivity extends AppCompatActivity {
 
             return rootView;
         }
-
         private void inList_setData() {
             match_In_CustomList_MyData = new ArrayList<Match_In_CustomList_MyData>();
-            for (int i = 0; i < parsedData_in.length; i++) {
-                match_In_CustomList_MyData.add(new Match_In_CustomList_MyData(parsedData_in[i][0], parsedData_in[i][1], parsedData_in[i][2], parsedData_in[i][3], parsedData_in[i][4], parsedData_in[i][5], parsedData_in[i][6], parsedData_in[i][7], parsedData_in[i][8], parsedData_in[i][9], parsedData_in[i][10], parsedData_in[i][11], parsedData_in[i][12], Id));
+            for (int i = 0; i <parsedData_in.length ; i++) {
+                match_In_CustomList_MyData.add(new Match_In_CustomList_MyData(parsedData_in[i][0], parsedData_in[i][1], parsedData_in[i][2], parsedData_in[i][3], parsedData_in[i][4], parsedData_in[i][5],parsedData_in[i][6],parsedData_in[i][7],parsedData_in[i][8],parsedData_in[i][9],parsedData_in[i][10],parsedData_in[i][11],parsedData_in[i][12],Id));
             }
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         private void setData() {
             arrData = new ArrayList<Match_Out_NewsFeed_Data_Setting>();
-            for (int a = 0; a < parsedData_out.length; a++) {
-                arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData_out[a][0], parsedData_out[a][1], parsedData_out[a][2], parsedData_out[a][3], parsedData_out[a][4], parsedData_out[a][5], parsedData_out[a][6], parsedData_out[a][7], parsedData_out[a][8], parsedData_out[a][9], parsedData_out[a][10], parsedData_out[a][11], parsedData_out[a][12], parsedData_out[a][13], parsedData_out[a][14], parsedData_out[a][15], parsedData_out[a][16], parsedData_out[a][17], parsedData_out[a][18], parsedData_out[a][19], parsedData_out[a][20]));
+                for (int a = 0; a < parsedData_out.length; a++) {
+                    arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData_out[a][0], parsedData_out[a][1], parsedData_out[a][2], parsedData_out[a][3], parsedData_out[a][4], parsedData_out[a][5], parsedData_out[a][6], parsedData_out[a][7], parsedData_out[a][8], parsedData_out[a][9], parsedData_out[a][10], parsedData_out[a][11], parsedData_out[a][12], parsedData_out[a][13], parsedData_out[a][14], parsedData_out[a][15], parsedData_out[a][16], parsedData_out[a][17], parsedData_out[a][18], parsedData_out[a][19], parsedData_out[a][20]));
 
-            }
+                }
         }
 
         public String[][] jsonParserList(String pRecvServerPage) {
@@ -1225,18 +1227,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 return parsedData_out;
-            } catch (JSONException e) {
+            }
+            catch (JSONException e) {
                 return null;
             }
         }
-
         /////매칭 탭 - in : 받아온 json 파싱합니다.//////////////////////////////////////////////////////////
         public String[][] inList_jsonParserList(String pRecvServerPage) {
             Log.i("서버에서 받은 전체 내용", pRecvServerPage);
             try {
                 json_in = new JSONObject(pRecvServerPage);
                 jArr_in = json_in.getJSONArray("List");
-                String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6", "msg7", "msg8", "msg9", "msg10", "msg11", "msg12", "msg13"};
+                String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6","msg7", "msg8", "msg9", "msg10","msg11","msg12","msg13"};
                 parsedData_in = new String[jArr_in.length()][jsonName.length];
                 for (int i = 0; i < jArr_in.length(); i++) {
                     json_in = jArr_in.getJSONObject(i);
@@ -1246,7 +1248,7 @@ public class MainActivity extends AppCompatActivity {
                     if (in_minScheduleId > Integer.parseInt(parsedData_in[i][4])) {
                         in_minScheduleId = Integer.parseInt(parsedData_in[i][4]);
                     }
-                    Log.i("minScheduleId", Integer.toString(in_minScheduleId));
+                    Log.i("minScheduleId",Integer.toString(in_minScheduleId));
                 }
                 return parsedData_in;
             } catch (JSONException e) {
@@ -1254,7 +1256,6 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         }
-
         public String GetTime(int position) {
             String Time;
             Integer Month, Day, Hour, Minute;
@@ -1328,7 +1329,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
     public static class SectionsFragment2 extends Fragment {
         Spinner League_League_Spinner_Do, League_League_Spinner_Se;
         ArrayAdapter<CharSequence> adspin1, adspin2;
@@ -1568,7 +1568,6 @@ public class MainActivity extends AppCompatActivity {
     public static class SectionsFragment4 extends Fragment {
         Button Profile_Button_Name, Profile_Button_Position, Profile_Button_Age_Physical, Profile_Button_TeamName;
         Button Profile_Button_TeamMake, Profile_Button_TeamManager, Profile_Button_TeamSearch, Profile_Button_Logout;
-        ImageButton Profile_Button_setting;
         ImageView Profile_ImageVIew_Profile;
         String[][] parsedData, parsedData_overLap, parsedData_TeamCheck;
         Bitmap bmImg;
@@ -1583,7 +1582,6 @@ public class MainActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
 
             final View rootView = inflater.inflate(R.layout.layout_profile, container, false);
-            Profile_Button_setting = (ImageButton)rootView.findViewById(R.id.Profile_Button_setting);
             Profile_Button_Name = (Button) rootView.findViewById(R.id.Profile_Button_Name);
             Profile_Button_Position = (Button) rootView.findViewById(R.id.Profile_Button_Position);
             Profile_Button_Age_Physical = (Button) rootView.findViewById(R.id.Profile_Button_Age_Physical);
@@ -1640,15 +1638,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (UnsupportedEncodingException e) {
 
             }
-            Profile_Button_setting.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent settingIntent = new Intent(getContext(), Setting.class);
-                    settingIntent.putExtra("Id", Id);
-                    startActivity(settingIntent);
-                }
-            });
-
             Profile_ImageVIew_Profile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1701,6 +1690,7 @@ public class MainActivity extends AppCompatActivity {
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
+
 
 
                                 ad.dismiss();
@@ -1761,8 +1751,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-
-
             Profile_Button_TeamManager.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1917,25 +1905,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    static String ProfileUrl, ProfileFile, Profile = ".", ProfilePath;
 
+
+
+    static String ProfileUrl,ProfileFile,Profile=".",ProfilePath;
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyBasket");
+        Uri uri = data.getData();
+        ProfileFile= getName(uri);
+        ProfilePath=getPath(uri);
+        int i = ProfilePath.length();
+
+        ProfileUrl = mediaStorageDir.getPath() + File.separator + ProfileFile;
+        String urlString = "http://210.122.7.195:8080/gg/newsfeed_ProfileImage_upload.jsp";
+        HttpFileUpload(urlString, "", ProfileUrl);
 
 
         try {
-
-
-            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyBasket");
-            Uri uri = data.getData();
-            ProfileFile = getName(uri);
-            ProfilePath = getPath(uri);
-            int i = ProfilePath.length();
-
-            ProfileUrl = mediaStorageDir.getPath() + File.separator + ProfileFile;
-            String urlString = "http://210.122.7.195:8080/gg/newsfeed_ProfileImage_upload.jsp";
-            HttpFileUpload(urlString, "", ProfileUrl);
-
-
             HttpClient client = new DefaultHttpClient();
             String postURL = "http://210.122.7.195:8080/gg/newsfeed_Profile_upload.jsp";
             HttpPost post = new HttpPost(postURL);
@@ -1949,23 +1936,20 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
         }
     }
-
-
-    private String getName(Uri uri) {
-        String[] projection = {MediaStore.Images.ImageColumns.DISPLAY_NAME};
+    private String getName(Uri uri)
+    {
+        String[] projection = { MediaStore.Images.ImageColumns.DISPLAY_NAME };
         Cursor cursor = managedQuery(uri, projection, null, null, null);
         int column_index = cursor
                 .getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DISPLAY_NAME);
         cursor.moveToFirst();
         return cursor.getString(column_index);
     }
-
-    private String getPath(Uri uri) {
-        String[] projection = {MediaStore.Images.Media.DATA};
+    private String getPath(Uri uri)
+    {
+        String[] projection = { MediaStore.Images.Media.DATA };
         Cursor cursor = managedQuery(uri, projection, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
@@ -2058,13 +2042,12 @@ public class MainActivity extends AppCompatActivity {
             }
             String s = b.toString();
             Log.e("Test", "result = " + s);
-            Profile = Id;
+            Profile=Id;
         } catch (Exception e) {
             Log.d("Test", "exception " + e.getMessage());
             Toast.makeText(this, "업로드중 에러발생!", Toast.LENGTH_SHORT).show();
         }
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
