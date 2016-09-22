@@ -283,8 +283,7 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
         try {
             json = new JSONObject(pRecvServerPage);
             jArr = json.getJSONArray("List");
-
-            if (jArr.length() >9) {
+            if (jArr.length() >=9) {
                 cnt = 10;
             } else {
                 cnt = jArr.length();
@@ -330,13 +329,6 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
             }  else{
                 cnt = cnt + 10;
             }
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    NewsFeed_Comment_ProgressBar.setVisibility(View.GONE);
-                }
-            }, 1000);
             try {
                 for (int i = 0; i < cnt; i++) {
                     json = jArr.getJSONObject(i);

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/Setting_ImageView"
+                android:background="@color/mdtp_light_gray"
+                android:src="@drawable/left" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textSize="30dp"
+                android:textColor="@color/Black"
+                android:text=" 설정" />
+        </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/BlackGray"/>
+
+        <Button
+            android:id="@+id/Setting_Button_notice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="공지사항"
+            android:textAlignment="viewStart"
+            android:textColor="@color/BlackGray"
+            android:textSize="15dp" />
+
+
+        <ExpandableListView
+            android:id="@+id/notice_ListView"
+            android:groupIndicator="@null"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/Setting_Button_recommend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="건의사항"
+            android:textAlignment="viewStart"
+            android:textColor="@color/BlackGray"
+            android:textSize="15dp" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/recommend_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:visibility="gone"
+            android:maxLength="150"
+            android:paddingLeft="15dp"
+            android:hint="150자로간단하게입력해주세요" />
+
+        <Button
+            android:id="@+id/recommend_Button"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:text="공지사항 등록"
+            android:textSize="15dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:ems="10"
+            android:background="@drawable/round"
+            android:inputType="textMultiLine"/>
+
+        <Button
+            android:id="@+id/Setting_Button_newPW"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="비밀번호변경"
+            android:textAlignment="viewStart"
+            android:textColor="@color/BlackGray"
+            android:textSize="15dp" />
+
+        <Button
+            android:id="@+id/Setting_Button_DropOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="회원탈퇴"
+            android:textAlignment="viewStart"
+            android:textColor="@color/BlackGray"
+            android:textSize="15dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/BlackGray"/>
+    </LinearLayout>
+
+
+</LinearLayout>
