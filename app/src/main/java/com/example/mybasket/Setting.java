@@ -94,7 +94,7 @@ public class Setting extends Activity {
         Intent intent1 = getIntent();
         Id = intent1.getStringExtra("Id");
 
-
+        Setting_ImageView = (ImageView)findViewById(R.id.Setting_ImageView);
         Setting_Button_notice = (Button) findViewById(R.id.Setting_Button_notice);
         notice_ListView =(ExpandableListView) findViewById(R.id.notice_ListView);
         Setting_Button_recommend = (Button) findViewById(R.id.Setting_Button_recommend);

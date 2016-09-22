@@ -1568,6 +1568,7 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
     public static class SectionsFragment4 extends Fragment {
         Button Profile_Button_Name, Profile_Button_Position, Profile_Button_Age_Physical, Profile_Button_TeamName;
         Button Profile_Button_TeamMake, Profile_Button_TeamManager, Profile_Button_TeamSearch, Profile_Button_Logout;
+        ImageButton Profile_Button_setting;
         ImageView Profile_ImageVIew_Profile;
         String[][] parsedData, parsedData_overLap, parsedData_TeamCheck;
         Bitmap bmImg;
@@ -1582,6 +1583,7 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
                                  Bundle savedInstanceState) {
 
             final View rootView = inflater.inflate(R.layout.layout_profile, container, false);
+            Profile_Button_setting=(ImageButton)rootView.findViewById(R.id.Profile_Button_setting);
             Profile_Button_Name = (Button) rootView.findViewById(R.id.Profile_Button_Name);
             Profile_Button_Position = (Button) rootView.findViewById(R.id.Profile_Button_Position);
             Profile_Button_Age_Physical = (Button) rootView.findViewById(R.id.Profile_Button_Age_Physical);
@@ -1638,6 +1640,15 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
             } catch (UnsupportedEncodingException e) {
 
             }
+
+            Profile_Button_setting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent settingIntent = new Intent(getContext(), Setting.class);
+                    settingIntent.putExtra("Id", Id);
+                    startActivity(settingIntent);
+                }
+            });
             Profile_ImageVIew_Profile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1690,9 +1701,6 @@ NewsFeed_List.setOnScrollListener(new AbsListView.OnScrollListener() {
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
-
-
-
                                 ad.dismiss();
                             }
                         });
