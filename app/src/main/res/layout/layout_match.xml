@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:fab="http://schemas.android.com/apk/res-auto">
@@ -12,10 +13,10 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
-            android:id="@+id/Match_Layout_Tab">
+            android:id="@+id/Match_Layout_Tab"
+            android:layout_height="50dp">
 
             <Button
                 android:layout_width="match_parent"
@@ -45,7 +46,7 @@
             android:layout_gravity="center_horizontal"
             android:id="@+id/Match_Layout_Out"
             android:visibility="visible"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="5dp">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -56,10 +57,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-                    android:layout_weight="8"
+                    android:layout_weight="10"
                     android:id="@+id/Match_Layout_Out_Address"
                     android:visibility="visible"
-                    android:background="@color/White">
+                    android:background="@color/White"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
 
                     <Spinner
                         android:layout_width="match_parent"

@@ -2,12 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scrollView5">
+        android:id="@+id/scrollView5"
+        android:visibility="gone">
 
         <LinearLayout
             android:orientation="vertical"
@@ -51,4 +50,16 @@
                     android:layout_gravity="center_horizontal" />
         </LinearLayout>
     </ScrollView>
+
+    <TextView
+        android:text="준비중입니다."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView26"
+        android:layout_weight="1"
+        android:textColor="@color/Black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_margin="20dp"
+        android:layout_marginLeft="20dp" />
 </LinearLayout>

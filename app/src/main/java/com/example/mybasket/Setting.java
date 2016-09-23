@@ -72,7 +72,7 @@ public class Setting extends Activity {
     ImageView Setting_ImageView;
     Button Setting_Button_notice;
     Button Setting_Button_recommend;
-    Button Setting_Button_newPW;
+    Button Setting_Button_Alarm;
     Button Setting_Button_DropOut;
 
 
@@ -100,6 +100,7 @@ public class Setting extends Activity {
         Setting_Button_recommend = (Button) findViewById(R.id.Setting_Button_recommend);
         recommend_EditText = (MaterialEditText)findViewById(R.id.recommend_EditText);
         recommend_Button = (Button)findViewById(R.id.recommend_Button);
+        Setting_Button_Alarm = (Button)findViewById(R.id.Setting_Button_Alarm);
 
 
 
@@ -138,7 +139,8 @@ public class Setting extends Activity {
 
                         noticeAdapter = new Setting_Notice_Adapter(Setting.this, arrData);
                         notice_ListView.setAdapter(noticeAdapter);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e) {
                         e.printStackTrace();
                     }
                     flag=false;
@@ -188,6 +190,12 @@ public class Setting extends Activity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        Setting_Button_Alarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }

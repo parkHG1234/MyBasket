@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/tools">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -32,13 +33,6 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="15dp" />
 
-                <ImageButton
-                    android:id="@+id/Profile_Button_setting"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:src="@drawable/setting"
-                    android:background="@color/White"
-                    android:layout_weight="5"/>
             </LinearLayout>
 
             <LinearLayout
@@ -108,18 +102,18 @@
                 </LinearLayout>
 
             </LinearLayout>
-
             <TextView
-                android:id="@+id/textView25"
+                android:id="@+id/textView29"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/White"
                 android:gravity="center"
-                android:text="설정"
+                android:text="팀 관리"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorPrimary"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:layout_weight="1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -160,13 +154,15 @@
                     android:layout_height="40dp"
                     android:background="@color/Gray"
                     android:text="내 팀 정보"
-                    android:textColor="@color/BlackGray" />
+                    android:textColor="@color/BlackGray"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/button5"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/DarkGray" />
+                    android:background="@color/DarkGray"
+                    android:visibility="gone"/>
 
                 <Button
                     android:id="@+id/Profile_Button_TeamSearch"
@@ -176,12 +172,43 @@
                     android:text="전국 팀 정보"
                     android:textColor="@color/BlackGray" />
 
+                <TextView
+                    android:id="@+id/textView25"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/White"
+                    android:gravity="center"
+                    android:text="개인정보 관리"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15dp" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="설 정"
+                    android:id="@+id/Profile_Button_Setting"
+                    android:textColor="@color/BlackGray"
+                    android:background="@color/Gray" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/Profile_LinearLayout_Setting"
+                    android:visibility="gone">
+
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="알림 기능"
+                        android:id="@+id/Profile_Setting_Switch_Alarm"
+                        android:layout_margin="10dp" />
+                </LinearLayout>
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/DarkGray" />
-
-
                 <Button
                     android:id="@+id/Profile_Button_Logout"
                     android:layout_width="match_parent"
@@ -195,7 +222,22 @@
                     android:layout_height="1dp"
                     android:background="@color/DarkGray" />
             </LinearLayout>
-
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <com.melnykov.fab.FloatingActionButton
+                    android:id="@+id/Profile_Button_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:layout_margin="16dp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:src="@drawable/settings"
+                    fab:fab_colorNormal="@color/White"
+                    fab:fab_colorPressed="@color/DarkGray"
+                    fab:fab_colorRipple="@color/White"
+                    />
+            </FrameLayout>
         </LinearLayout>
     </ScrollView>
 

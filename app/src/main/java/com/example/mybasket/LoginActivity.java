@@ -44,9 +44,6 @@ public class LoginActivity extends Activity {
     AlertDialog dlg;
     CheckBox autoLoginChkbox;
 
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor = preferences.edit();
-
     private SessionCallback callback;      //콜백 선언
 
     @Override
@@ -59,13 +56,15 @@ public class LoginActivity extends Activity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
 
         id_EditText = (EditText) findViewById(R.id.id_Layout_EditText);
         pw_EditText = (EditText) findViewById(R.id.pw_Layout_EditText);
         login_Button = (Button) findViewById(R.id.login_button);
         join_Button = (Button) findViewById(R.id.join_button);
+
         autoLoginChkbox = (CheckBox) findViewById(R.id.autuLogin_chkbox);
+
         join_Button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -79,12 +78,7 @@ public class LoginActivity extends Activity {
             }
         });
 
-
-        autoLoginChkbox.setChecked(false);
-        String autoChkbox = preferences.getString("autologinChkbox","");  //로그아웃시 autologinChkbox ""로 변경 or preference 삭제
-        if(autoChkbox.equals("true")) {
-            autoLoginChkbox.setChecked(true);
-        }
+        autoLoginChkbox.setChecked(true);
 
         callback = new SessionCallback();                  // 이 두개의 함수 중요함
         Session.getCurrentSession().addCallback(callback);
@@ -105,7 +99,9 @@ public class LoginActivity extends Activity {
                     intent.putExtra("Id",parsedData[0][1]);
 
                     startActivity(intent);
+
                     finish();
+
                 }
             }
         }
@@ -133,16 +129,16 @@ public class LoginActivity extends Activity {
         {
 
             if(autoLoginChkbox.equals(true)){
-                preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
+                SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
                 //preference 이름을 autoLogin
-
+                SharedPreferences.Editor editor = preferences.edit();
 
                 editor.putString("id", _id);
                 editor.putString("pw", _pw);
-                editor.putString("autologinChkbox", "true");
                 editor.commit();
 
             }else {
+
             }
             //메인엑티비티에다 데이터를보내
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -179,30 +175,23 @@ public class LoginActivity extends Activity {
     }
     /*
         public class loginHttp extends AsyncTask<String, Void, Void> {
-
             @Override
             protected Void doInBackground(String. .. params) {
                 try {
                     String url = "http://ldong.cafe24.com:8080/login_test.jsp";
                     URL obj = new URL(url);
                     HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
-
                     conn.setReadTimeout(10000);
                     conn.setConnectTimeout(15000);
                     conn.setRequestMethod("GET");
                     conn.setDoOutput(true);
                     conn.setDoInput(true);
                     conn.setRequestProperty("Content-Type","application/json");
-
-
                     byte[] outputInBytes = params[0].getBytes("UTF-8");
                     OutputStream os = conn.getOutputStream();
                     os.write( outputInBytes );
                     os.close();
-
                     int retCode = conn.getResponseCode();
-
-
                     InputStream is = conn.getInputStream();
                     BufferedReader br = new BufferedReader(new InputStreamReader(is));
                     String line;
@@ -212,13 +201,10 @@ public class LoginActivity extends Activity {
                         response.append('\r');
                     }
                     br.close();
-
                     String res = response.toString();
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 return null;
             }
         }SendByHttp

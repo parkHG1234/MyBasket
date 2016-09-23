@@ -1590,6 +1590,7 @@ public class MainActivity extends AppCompatActivity {
         Button Profile_Button_Name, Profile_Button_Position, Profile_Button_Age_Physical, Profile_Button_TeamName;
         Button Profile_Button_TeamMake, Profile_Button_TeamManager, Profile_Button_TeamSearch, Profile_Button_Logout;
         Button Profile_Button_Setting;LinearLayout Profile_LinearLayout_Setting;String Setting_Choice="close";Switch Profile_Setting_Switch_Alarm;
+        FloatingActionButton Profile_Button_setting;
         ImageView Profile_ImageVIew_Profile;
         String[][] parsedData, parsedData_overLap, parsedData_TeamCheck,parsedData_Alarm;
         String ProfileUrl;
@@ -1615,10 +1616,18 @@ public class MainActivity extends AppCompatActivity {
             Profile_Button_TeamManager = (Button) rootView.findViewById(R.id.Profile_Button_TeamManager);
             Profile_Button_TeamSearch = (Button) rootView.findViewById(R.id.Profile_Button_TeamSearch);
             Profile_Button_Logout = (Button) rootView.findViewById(R.id.Profile_Button_Logout);
+            Profile_Button_setting=(FloatingActionButton)rootView.findViewById(R.id.Profile_Button_setting);
             Profile_Button_Setting = (Button)rootView.findViewById(R.id.Profile_Button_Setting);
             Profile_LinearLayout_Setting = (LinearLayout)rootView.findViewById(R.id.Profile_LinearLayout_Setting);
             Profile_Setting_Switch_Alarm = (Switch)rootView.findViewById(R.id.Profile_Setting_Switch_Alarm);
-
+            Profile_Button_setting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent settingIntent = new Intent(getContext(), Setting.class);
+                    settingIntent.putExtra("Id", Id);
+                    startActivity(settingIntent);
+                }
+            });
             String result = "";
             try {
                 HttpClient client = new DefaultHttpClient();

@@ -85,10 +85,10 @@
             android:inputType="textMultiLine"/>
 
         <Button
-            android:id="@+id/Setting_Button_newPW"
+            android:id="@+id/Setting_Button_Alarm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="비밀번호변경"
+            android:text="알림기능"
             android:textAlignment="viewStart"
             android:textColor="@color/BlackGray"
             android:textSize="15dp" />

@@ -336,7 +336,8 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
             } else {
                 NewSpeed_ImageView.setVisibility(View.VISIBLE);
                 En_Profile = URLEncoder.encode(String.valueOf(arrData.get(position).getImage()), "utf-8");
-                Glide.with(convertView.getContext()).load("http://210.122.7.195:8080/gg/imgs1/" + En_Profile + ".jpg").into(NewSpeed_ImageView);
+                Glide.with(convertView.getContext()).load("http://210.122.7.195:8080/gg/imgs1/" + En_Profile + ".jpg").thumbnail(0.7f)
+                        .into(NewSpeed_ImageView);
             }
         } catch (UnsupportedEncodingException e) {
         }
