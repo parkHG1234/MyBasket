@@ -232,7 +232,6 @@
                     android:layout_gravity="bottom|right"
                     android:layout_margin="16dp"
                     android:backgroundTint="@color/colorPrimary"
-                    android:src="@drawable/settings"
                     fab:fab_colorNormal="@color/White"
                     fab:fab_colorPressed="@color/DarkGray"
                     fab:fab_colorRipple="@color/White"

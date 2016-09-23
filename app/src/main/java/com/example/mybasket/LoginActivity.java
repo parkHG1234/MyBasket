@@ -105,7 +105,6 @@ public class LoginActivity extends Activity {
                 }
             }
         }
-
     }
     public void join_Button (View view) {
         Intent intent = new Intent(LoginActivity.this, JoinIdActivity.class);
