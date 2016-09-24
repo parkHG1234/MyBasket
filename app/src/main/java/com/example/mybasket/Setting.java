@@ -22,11 +22,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,11 +71,13 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class Setting extends Activity {
 
     String Id;
-
+    String Alarm;
+    String Token;
     ImageView Setting_ImageView;
     Button Setting_Button_notice;
     Button Setting_Button_recommend;
     Button Setting_Button_Alarm;
+    LinearLayout Setting_LinearLayout_Alarm;Switch Setting_Switch_Alarm;String Setting_Choice="close";
     Button Setting_Button_DropOut;
 
 
@@ -86,13 +91,14 @@ public class Setting extends Activity {
     private ArrayList<String> mChildListContent = null;
     Setting_Notice_Adapter noticeAdapter;
     ArrayList<Setting_Notice_Setting> arrData;
-    String[][] parsedData;
+    String[][] parsedData,parsedData_Alarm, parsedData_BasicSetting;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_setting);
         Intent intent1 = getIntent();
         Id = intent1.getStringExtra("Id");
+        Token = intent1.getStringExtra("Token");
 
         Setting_ImageView = (ImageView)findViewById(R.id.Setting_ImageView);
         Setting_Button_notice = (Button) findViewById(R.id.Setting_Button_notice);
@@ -101,9 +107,41 @@ public class Setting extends Activity {
         recommend_EditText = (MaterialEditText)findViewById(R.id.recommend_EditText);
         recommend_Button = (Button)findViewById(R.id.recommend_Button);
         Setting_Button_Alarm = (Button)findViewById(R.id.Setting_Button_Alarm);
+        Setting_LinearLayout_Alarm = (LinearLayout)findViewById(R.id.Setting_LinearLayout_Alarm);
+        Setting_Switch_Alarm = (Switch)findViewById(R.id.Setting_Switch_Alarm);
 
+        String result="";
+        try {
+            HttpClient client = new DefaultHttpClient();
+            String postURL = "http://210.122.7.195:8080/Web_basket/Gcm_IdAdd_Alarm.jsp";
+            HttpPost post = new HttpPost(postURL);
 
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("Id", Id));
+            params.add(new BasicNameValuePair("Token", Token));
 
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+            String line = null;
+            while ((line = bufreader.readLine()) != null) {
+                result += line;
+            }
+            Log.i("결과",result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i("실패","실패");
+        }
+        parsedData_BasicSetting=jsonParserList_BasicSetting(result);
+        if(parsedData_BasicSetting[0][0].equals("on")){
+            Setting_Switch_Alarm.setChecked(true);
+        }
+        else if(parsedData_BasicSetting[0][0].equals("off")){
+            Setting_Switch_Alarm.setChecked(false);
+        }
         Setting_ImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -195,7 +233,81 @@ public class Setting extends Activity {
         Setting_Button_Alarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(Setting_Choice.equals("close")){
+                    Setting_LinearLayout_Alarm.setVisibility(View.VISIBLE);
+                    Setting_Choice = "open";
 
+                }
+                else if(Setting_Choice.equals("open")){
+                    Setting_LinearLayout_Alarm.setVisibility(View.GONE);
+                    Setting_Choice = "close";
+                }
+            }
+        });
+        Setting_Switch_Alarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked==true)
+                {
+                    String Alarm_off_result = "";
+                    try {
+                        HttpClient client = new DefaultHttpClient();
+                        String postURL = "http://210.122.7.195:8080/Web_basket/Alarm.jsp";
+                        HttpPost post = new HttpPost(postURL);
+
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("Id", Id));
+                        params.add(new BasicNameValuePair("Alarm", "on"));
+                        params.add(new BasicNameValuePair("Token", Token));
+                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                        post.setEntity(ent);
+
+                        HttpResponse response = client.execute(post);
+                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                        String line = null;
+                        while ((line = bufreader.readLine()) != null) {
+                            Alarm_off_result += line;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    parsedData_Alarm = jsonParserList_Alarm(Alarm_off_result);
+                    if(parsedData_Alarm[0][0].equals("succed")){
+                        Setting_Switch_Alarm.setChecked(true);
+                    }
+                }
+                else
+                {
+
+                    String Alarm_on_result = "";
+                    try {
+                        HttpClient client = new DefaultHttpClient();
+                        String postURL = "http://210.122.7.195:8080/Web_basket/Alarm.jsp";
+                        HttpPost post = new HttpPost(postURL);
+
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("Id", Id));
+                        params.add(new BasicNameValuePair("Alarm", "off"));
+                        params.add(new BasicNameValuePair("Token", Token));
+                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                        post.setEntity(ent);
+
+                        HttpResponse response = client.execute(post);
+                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                        String line = null;
+                        while ((line = bufreader.readLine()) != null) {
+                            Alarm_on_result += line;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    parsedData_Alarm = jsonParserList_Alarm(Alarm_on_result);
+                    if(parsedData_Alarm[0][0].equals("succed")){
+                        Setting_Switch_Alarm.setChecked(false);
+                    }
+                }
             }
         });
     }
@@ -214,6 +326,46 @@ public class Setting extends Activity {
             JSONArray jArr = json.getJSONArray("List");
 
             String[] jsonName = {"notice_num","notice_title","notice_content"};
+            String[][] parseredData = new String[jArr.length()][jsonName.length];
+            for (int i = 0; i < jArr.length(); i++) {
+                json = jArr.getJSONObject(i);
+                for (int j = 0; j < jsonName.length; j++) {
+                    parseredData[i][j] = json.getString(jsonName[j]);
+                }
+            }
+            return parseredData;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public String[][] jsonParserList_Alarm(String pRecvServerPage) {
+        Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+        try {
+            JSONObject json = new JSONObject(pRecvServerPage);
+            JSONArray jArr = json.getJSONArray("List");
+
+            String[] jsonName = {"msg1"};
+            String[][] parseredData = new String[jArr.length()][jsonName.length];
+            for (int i = 0; i < jArr.length(); i++) {
+                json = jArr.getJSONObject(i);
+                for (int j = 0; j < jsonName.length; j++) {
+                    parseredData[i][j] = json.getString(jsonName[j]);
+                }
+            }
+            return parseredData;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public String[][] jsonParserList_BasicSetting(String pRecvServerPage) {
+        Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+        try {
+            JSONObject json = new JSONObject(pRecvServerPage);
+            JSONArray jArr = json.getJSONArray("List");
+
+            String[] jsonName = {"msg1"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for (int i = 0; i < jArr.length(); i++) {
                 json = jArr.getJSONObject(i);

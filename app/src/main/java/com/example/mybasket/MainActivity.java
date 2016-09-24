@@ -179,12 +179,12 @@ public class MainActivity extends AppCompatActivity {
             while ((line = bufreader.readLine()) != null) {
                 result += line;
             }
+            parsedData_BasicSetting=jsonParserList_BasicSetting(result);
             Log.i("결과",result);
         } catch (Exception e) {
             e.printStackTrace();
             Log.i("실패","실패");
         }
-        parsedData_BasicSetting=jsonParserList_BasicSetting(result);
     }
     public String[][] jsonParserList_BasicSetting(String pRecvServerPage) {
         Log.i("서버에서 받은 전체 내용", pRecvServerPage);
@@ -1589,7 +1589,6 @@ public class MainActivity extends AppCompatActivity {
     public static class SectionsFragment4 extends Fragment {
         Button Profile_Button_Name, Profile_Button_Position, Profile_Button_Age_Physical, Profile_Button_TeamName;
         Button Profile_Button_TeamMake, Profile_Button_TeamManager, Profile_Button_TeamSearch, Profile_Button_Logout;
-        Button Profile_Button_Setting;LinearLayout Profile_LinearLayout_Setting;String Setting_Choice="close";Switch Profile_Setting_Switch_Alarm;
         FloatingActionButton Profile_Button_setting;
         ImageView Profile_ImageVIew_Profile;
         String[][] parsedData, parsedData_overLap, parsedData_TeamCheck,parsedData_Alarm;
@@ -1617,14 +1616,12 @@ public class MainActivity extends AppCompatActivity {
             Profile_Button_TeamSearch = (Button) rootView.findViewById(R.id.Profile_Button_TeamSearch);
             Profile_Button_Logout = (Button) rootView.findViewById(R.id.Profile_Button_Logout);
             Profile_Button_setting=(FloatingActionButton)rootView.findViewById(R.id.Profile_Button_setting);
-            Profile_Button_Setting = (Button)rootView.findViewById(R.id.Profile_Button_Setting);
-            Profile_LinearLayout_Setting = (LinearLayout)rootView.findViewById(R.id.Profile_LinearLayout_Setting);
-            Profile_Setting_Switch_Alarm = (Switch)rootView.findViewById(R.id.Profile_Setting_Switch_Alarm);
             Profile_Button_setting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent settingIntent = new Intent(getContext(), Setting.class);
                     settingIntent.putExtra("Id", Id);
+                    settingIntent.putExtra("Token", Token);
                     startActivity(settingIntent);
                 }
             });
@@ -1661,12 +1658,6 @@ public class MainActivity extends AppCompatActivity {
             Profile_Button_Position.setText(Position);
             Profile_Button_Age_Physical.setText(Age);
             Profile_Button_TeamName.setText(Team1);
-            if(parsedData_BasicSetting[0][0].equals("on")){
-                Profile_Setting_Switch_Alarm.setChecked(true);
-            }
-            else if(parsedData_BasicSetting[0][0].equals("off")){
-                Profile_Setting_Switch_Alarm.setChecked(false);
-            }
             //유저 개인 이미지를 서버에서 받아옵니다.
             try {
                 String En_Profile = URLEncoder.encode(Profile, "utf-8");
@@ -1815,86 +1806,6 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent_TeamIntro = new Intent(rootView.getContext(), Navigation_TeamIntro.class);
                     intent_TeamIntro.putExtra("Id", Id);
                     startActivity(intent_TeamIntro);
-                }
-            });
-            Profile_Button_Setting.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(Setting_Choice.equals("close")){
-                        Profile_LinearLayout_Setting.setVisibility(View.VISIBLE);
-                        Setting_Choice = "open";
-
-                    }
-                    else if(Setting_Choice.equals("open")){
-                        Profile_LinearLayout_Setting.setVisibility(View.GONE);
-                        Setting_Choice = "close";
-                    }
-                }
-            });
-            Profile_Setting_Switch_Alarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                    if(isChecked==true)
-                    {
-                        String Alarm_off_result = "";
-                        try {
-                            HttpClient client = new DefaultHttpClient();
-                            String postURL = "http://210.122.7.195:8080/Web_basket/Alarm.jsp";
-                            HttpPost post = new HttpPost(postURL);
-
-                            List<NameValuePair> params = new ArrayList<NameValuePair>();
-                            params.add(new BasicNameValuePair("Id", Id));
-                            params.add(new BasicNameValuePair("Alarm", "on"));
-                            params.add(new BasicNameValuePair("Token", Token));
-                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                            post.setEntity(ent);
-
-                            HttpResponse response = client.execute(post);
-                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-
-                            String line = null;
-                            while ((line = bufreader.readLine()) != null) {
-                                Alarm_off_result += line;
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        parsedData_Alarm = jsonParserList_Alarm(Alarm_off_result);
-                        if(parsedData_Alarm[0][0].equals("succed")){
-                            Profile_Setting_Switch_Alarm.setChecked(true);
-                        }
-                    }
-                    else
-                    {
-
-                        String Alarm_on_result = "";
-                        try {
-                            HttpClient client = new DefaultHttpClient();
-                            String postURL = "http://210.122.7.195:8080/Web_basket/Alarm.jsp";
-                            HttpPost post = new HttpPost(postURL);
-
-                            List<NameValuePair> params = new ArrayList<NameValuePair>();
-                            params.add(new BasicNameValuePair("Id", Id));
-                            params.add(new BasicNameValuePair("Alarm", "off"));
-                            params.add(new BasicNameValuePair("Token", Token));
-                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                            post.setEntity(ent);
-
-                            HttpResponse response = client.execute(post);
-                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-
-                            String line = null;
-                            while ((line = bufreader.readLine()) != null) {
-                                Alarm_on_result += line;
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        parsedData_Alarm = jsonParserList_Alarm(Alarm_on_result);
-                        if(parsedData_Alarm[0][0].equals("succed")){
-                            Profile_Setting_Switch_Alarm.setChecked(false);
-                        }
-                    }
                 }
             });
             Profile_Button_Logout.setOnClickListener(new View.OnClickListener() {

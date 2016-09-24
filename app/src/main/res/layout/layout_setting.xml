@@ -93,6 +93,20 @@
             android:textColor="@color/BlackGray"
             android:textSize="15dp" />
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:id="@+id/Setting_LinearLayout_Alarm"
+            android:visibility="gone">
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="알림 기능"
+                android:id="@+id/Setting_Switch_Alarm"
+                android:layout_margin="20dp" />
+        </LinearLayout>
         <Button
             android:id="@+id/Setting_Button_DropOut"
             android:layout_width="match_parent"
