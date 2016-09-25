@@ -45,6 +45,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -1811,18 +1813,37 @@ public class MainActivity extends AppCompatActivity {
             Profile_Button_Logout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SharedPreferences prefs1 = rootView.getContext().getSharedPreferences("basketball_user", MODE_PRIVATE);
+
+                    SharedPreferences prefs1 = rootView.getContext().getSharedPreferences("autoLogin", MODE_PRIVATE);
                     SharedPreferences.Editor editor1 = prefs1.edit();
-                    editor1.putString("phone", ".");
-                    editor1.putString("pw", ".");
-                    editor1.putString("login1", "logout");
+                    editor1.putString("id", "");
+                    editor1.putString("pw", "");
+                    editor1.putString("auto", "false");
                     editor1.commit();
                     Intent intent_Login = new Intent(rootView.getContext(), LoginActivity.class);
                     startActivity(intent_Login);
+                    onClickLogout();
                     getActivity().finish();
                 }
             });
+
+
             return rootView;
+        }
+        private void onClickLogout() {
+            UserManagement.requestLogout(new LogoutResponseCallback() {
+                @Override
+                public void onCompleteLogout() {
+                    redirectLoginActivity();
+                }
+            });
+        }
+
+        protected void redirectLoginActivity() {
+            final Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+            getActivity().finish();
         }
 
         //date 입력받아 나이 구하는 함수
@@ -2006,4 +2027,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
 }

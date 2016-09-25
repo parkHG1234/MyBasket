@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +45,9 @@ public class LoginActivity extends Activity {
     AlertDialog dlg;
     CheckBox autoLoginChkbox;
 
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+
     private SessionCallback callback;      //콜백 선언
 
     @Override
@@ -62,9 +66,7 @@ public class LoginActivity extends Activity {
         pw_EditText = (EditText) findViewById(R.id.pw_Layout_EditText);
         login_Button = (Button) findViewById(R.id.login_button);
         join_Button = (Button) findViewById(R.id.join_button);
-
         autoLoginChkbox = (CheckBox) findViewById(R.id.autuLogin_chkbox);
-
         join_Button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -78,13 +80,17 @@ public class LoginActivity extends Activity {
             }
         });
 
-        autoLoginChkbox.setChecked(true);
+        autoLoginChkbox.setChecked(false);
+        String autoChkbox = preferences.getString("auto","");  //로그아웃시 autologinChkbox ""로 변경 or preference 삭제
+        if(autoChkbox.equals("true")) {
+            autoLoginChkbox.setChecked(true);
+        }
 
         callback = new SessionCallback();                  // 이 두개의 함수 중요함
         Session.getCurrentSession().addCallback(callback);
         Session.getCurrentSession().checkAndImplicitOpen();
 
-        if(autoLoginChkbox.equals(true)){
+        if(autoLoginChkbox.isChecked()){
 
             //preference 이름을 autoLogin
             String autologID = preferences.getString("id", "");
@@ -99,12 +105,11 @@ public class LoginActivity extends Activity {
                     intent.putExtra("Id",parsedData[0][1]);
 
                     startActivity(intent);
-
                     finish();
-
                 }
             }
         }
+
     }
     public void join_Button (View view) {
         Intent intent = new Intent(LoginActivity.this, JoinIdActivity.class);
@@ -126,18 +131,21 @@ public class LoginActivity extends Activity {
 
         if(parsedData != null && parsedData[0][0].equals("succed"))
         {
-
-            if(autoLoginChkbox.equals(true)){
+            if(autoLoginChkbox.isChecked()){
                 SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
                 //preference 이름을 autoLogin
                 SharedPreferences.Editor editor = preferences.edit();
 
+
                 editor.putString("id", _id);
                 editor.putString("pw", _pw);
+                editor.putString("auto", "true");
                 editor.commit();
+                Snackbar.make(view, preferences.getString("auto",""), Snackbar.LENGTH_LONG)
+                        .show();
+
 
             }else {
-
             }
             //메인엑티비티에다 데이터를보내
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
