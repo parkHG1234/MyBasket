@@ -353,36 +353,34 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
         Hour = (Integer.parseInt(new SimpleDateFormat("kk").format(new java.sql.Date(System.currentTimeMillis())))) - Integer.parseInt(arrData.get(position).getHour());
         Minute = (Integer.parseInt(new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis())))) - Integer.parseInt(arrData.get(position).getMinute());
         if (Month > 0) {
-            //매달 1일 일 경우
-            if (Day == MonthGap[(Integer.parseInt(new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))))]) {
-                if (Hour > 1) {
-                    return Hour + "시간전";
-                } else if (Hour == 1 && Minute >= 0) {
-                    return Hour + "시간전";
-                } else if (Hour > 0 && Minute <= 0) {
-                    return 60 + Minute + "분전";
-                }
-            } else {
+            Month = Integer.parseInt(arrData.get(position).getMonth());
+            Day = Integer.parseInt(arrData.get(position).getDay());
+            Hour = Integer.parseInt(arrData.get(position).getHour());
+            Minute = Integer.parseInt(arrData.get(position).getMinute());
+            Time = Month + "월 " + Day + "일 " + Hour + "시 " + Minute + "분 ";
+
+            return Time;
+        } else {
+            if (Day > 0 && Day < 7) {
+                Day = (Integer.parseInt(new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis())))) - Integer.parseInt(arrData.get(position).getDay());
+                return Day + "일전";
+            } else if (Day > 6) {
                 Month = Integer.parseInt(arrData.get(position).getMonth());
                 Day = Integer.parseInt(arrData.get(position).getDay());
                 Hour = Integer.parseInt(arrData.get(position).getHour());
                 Minute = Integer.parseInt(arrData.get(position).getMinute());
                 Time = Month + "월 " + Day + "일 " + Hour + "시 " + Minute + "분 ";
                 return Time;
-            }
-        } else {
-            if (Day > 0) {
-                return Day + "일전";
             } else {
                 if (Hour > 1 && Minute > 0) {
                     return Hour + "시간전";
                 } else if (Hour > 1 && Minute < 0) {
                     return Hour - 1 + "시간전";
-                } else if (Hour == 1 && Minute > 0) {
+                } else if (Hour == 1 && Minute >0) {
                     return Hour + "시간전";
                 } else if (Hour == 1 && Minute < 0) {
                     return 60 + Minute + "분전";
-                } else if (Hour == 0 && Minute > 0) {
+                } else if (Hour == 0 && Minute >0) {
                     return Minute + "분전";
                 } else if (Hour == 0 && Minute < 0) {
                     return 60 + Minute + "분전";
@@ -391,6 +389,5 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 }
             }
         }
-        return "Time Error";
     }
 }

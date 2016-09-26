@@ -54,6 +54,8 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements AbsListView.OnScrollListener,NavigationView.OnNavigationItemSelectedListener {
 
+
+
     ImageView NewsFeed_Comment_Emblem;
     TextView NewsFeed_Comment_User;
     TextView NewsFeed_Comment_Court;
@@ -348,10 +350,10 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
     @Override
     public void onScrollStateChanged(AbsListView absListView, int scrollState) {
         if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && VisibleFlag) {
-            if (jArr.length() <= cnt) {
-                cnt = jArr.length();
-            }  else{
+            if (jArr.length()>=(cnt+10)) {
                 cnt = cnt + 10;
+            }  else {
+                cnt = jArr.length();
             }
             try {
                 for (int i = 0; i < cnt; i++) {
@@ -371,6 +373,8 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
             NewSpeed_Comment_List.setSelection(pos + 3);
         }
     }
+
+
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         VisibleFlag = (totalItemCount > 0) && (firstVisibleItem + visibleItemCount >= totalItemCount);

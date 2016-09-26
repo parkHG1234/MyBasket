@@ -67,7 +67,9 @@
             android:layout_height="300dp"
             android:visibility="gone"
             android:maxLength="150"
+            android:scrollHorizontally="false"
             android:paddingLeft="15dp"
+            android:maxLines="12"
             android:hint="150자로간단하게입력해주세요" />
 
         <Button
