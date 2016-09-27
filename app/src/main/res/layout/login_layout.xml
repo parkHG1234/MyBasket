@@ -33,7 +33,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/id_Layout_EditText"
-                android:text="test123"
                 android:layout_weight="1"
                 android:ems="20"
                 android:hint="ID" />
@@ -49,11 +48,11 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:text="1234"
                 android:ems="20"
                 android:id="@+id/pw_Layout_EditText"
                 android:layout_weight="1"
@@ -115,7 +114,8 @@
         android:layout_marginBottom="30dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
     <TextView
         android:layout_width="351dp"
