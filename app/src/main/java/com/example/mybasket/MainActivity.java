@@ -1591,6 +1591,7 @@ public class MainActivity extends AppCompatActivity {
     public static class SectionsFragment4 extends Fragment {
         Button Profile_Button_Name, Profile_Button_Position, Profile_Button_Age_Physical, Profile_Button_TeamName;
         Button Profile_Button_TeamMake, Profile_Button_TeamManager, Profile_Button_TeamSearch, Profile_Button_Logout;
+        Button Profile_Button_Password;
         FloatingActionButton Profile_Button_setting;
         ImageView Profile_ImageVIew_Profile;
         String[][] parsedData, parsedData_overLap, parsedData_TeamCheck,parsedData_Alarm;
@@ -1616,6 +1617,7 @@ public class MainActivity extends AppCompatActivity {
             Profile_Button_TeamMake = (Button) rootView.findViewById(R.id.Profile_Button_TeamMake);
             Profile_Button_TeamManager = (Button) rootView.findViewById(R.id.Profile_Button_TeamManager);
             Profile_Button_TeamSearch = (Button) rootView.findViewById(R.id.Profile_Button_TeamSearch);
+            Profile_Button_Password = (Button)rootView.findViewById(R.id.Profile_Button_Password);
             Profile_Button_Logout = (Button) rootView.findViewById(R.id.Profile_Button_Logout);
             Profile_Button_setting=(FloatingActionButton)rootView.findViewById(R.id.Profile_Button_setting);
             Profile_Button_setting.setOnClickListener(new View.OnClickListener() {
@@ -1808,6 +1810,13 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent_TeamIntro = new Intent(rootView.getContext(), Navigation_TeamIntro.class);
                     intent_TeamIntro.putExtra("Id", Id);
                     startActivity(intent_TeamIntro);
+                }
+            });
+            Profile_Button_Password.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "준비중입니다.", Snackbar.LENGTH_LONG)
+                            .show();
                 }
             });
             Profile_Button_Logout.setOnClickListener(new View.OnClickListener() {

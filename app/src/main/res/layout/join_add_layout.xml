@@ -69,6 +69,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -81,15 +82,38 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:weightSum="1">
+        android:layout_height="50dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="성별"
-            android:id="@+id/textView6" />
+            android:id="@+id/textView6"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="포지션"
+            android:id="@+id/textView7"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:isScrollContainer="false"
+            android:gravity="center_vertical"
+            android:textSize="15dp" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
         <RadioGroup
             android:id="@+id/sex_radio"
             android:layout_width="match_parent"
@@ -97,26 +121,23 @@
             android:orientation="horizontal">
 
             <Spinner
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/spinner_sex"
-                android:entries="@array/sex" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="포지션"
-                android:id="@+id/textView7" />
+                android:entries="@array/sex"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" />
 
             <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/spinner_position"
                 android:entries="@array/position"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" />
         </RadioGroup>
-
     </LinearLayout>
 
     <LinearLayout
@@ -133,38 +154,27 @@
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:weightSum="1" >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="생일"
-                    android:id="@+id/textView" />
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent" />
+                    android:id="@+id/textView"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="10dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:text="2016 / 01 / 01"
-                    android:id="@+id/join_layout_birth_tv" />
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"></LinearLayout>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="변경"
-                    android:id="@+id/join_layout_birth_btn" />
+                    android:id="@+id/join_layout_birth_tv"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" />
 
             </LinearLayout>
         </RadioGroup>

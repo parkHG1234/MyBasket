@@ -6,9 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -37,18 +41,19 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import me.drakeet.materialdialog.MaterialDialog;
+
 /**
  * Created by ldong on 2016-07-05.
  */
-public class JoinAddActivity extends Activity{
+public class JoinAddActivity extends AppCompatActivity{
 
     static String id, pw, user_type;
     RadioGroup join_sex_Radio, join_posi_Radio;
     EditText join_name_EditText,join_layout_weight_editText,join_layout_height_editText;
     String[][] parsedData;
-
+    ArrayAdapter<CharSequence> adspin1,adspin2;
     TextView tvBirth;
-
     Spinner s_Sex;
     Spinner s_Position;
 
@@ -82,15 +87,12 @@ public class JoinAddActivity extends Activity{
         s_Sex = (Spinner)findViewById(R.id.spinner_sex);
         s_Position = (Spinner)findViewById(R.id.spinner_position);
 
-        findViewById(R.id.join_layout_birth_btn).setOnClickListener(new View.OnClickListener() {
+        tvBirth.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
+            public void onClick(View view) {
                 new DatePickerDialog(JoinAddActivity.this, dateSetListener, year, month, day).show();
             }
         });
-
-
 
 
         s_Sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -132,7 +134,57 @@ public class JoinAddActivity extends Activity{
         join_posi_Radio = (RadioGroup) this.findViewById(R.id.position_radio);
         join_layout_weight_editText= (EditText)findViewById(R.id.join_layout_weight_editText);
         join_layout_height_editText =(EditText)findViewById(R.id.join_layout_height_editText);
+        join_layout_weight_editText.setFocusable(false);
+        join_layout_height_editText.setFocusable(false);
+///키 커스텀 다이얼로그
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View layout = inflater.inflate(R.layout.layout_customdialog_join_height, (ViewGroup) findViewById(R.id.Layout_CustomDialog_Join_Height_Root));
+        final Spinner Layout_CustomDialog_Joing_Heigh_Height = (Spinner) layout.findViewById(R.id.Layout_CustomDialog_Joing_Heigh_Height);
 
+        final MaterialDialog HeightDialog = new MaterialDialog(JoinAddActivity.this);
+        join_layout_height_editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adspin1 = ArrayAdapter.createFromResource(JoinAddActivity.this, R.array.height, R.layout.zfile_spinner_test);
+                adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                Layout_CustomDialog_Joing_Heigh_Height.setAdapter(adspin1);
+                HeightDialog
+                        .setView(layout)
+                        .setPositiveButton("선택완료", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                join_layout_height_editText.setText(Layout_CustomDialog_Joing_Heigh_Height.getSelectedItem().toString());
+                                HeightDialog.dismiss();
+                            }
+                        });
+                HeightDialog.show();
+            }
+        });
+
+
+        LayoutInflater inflater1 = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View layout1 = inflater1.inflate(R.layout.layout_customdialog_join_weight, (ViewGroup) findViewById(R.id.Layout_CustomDialog_Join_Weight_Root));
+        final Spinner Layout_CustomDialog_Joing_Weight = (Spinner) layout1.findViewById(R.id.Layout_CustomDialog_Join_Weight);
+        final MaterialDialog WeightDialog = new MaterialDialog(JoinAddActivity.this);
+
+        join_layout_weight_editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adspin2 = ArrayAdapter.createFromResource(JoinAddActivity.this, R.array.weight, R.layout.zfile_spinner_test);
+                adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                Layout_CustomDialog_Joing_Weight.setAdapter(adspin2);
+                WeightDialog
+                        .setView(layout1)
+                        .setPositiveButton("선택완료", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                join_layout_weight_editText.setText(Layout_CustomDialog_Joing_Weight.getSelectedItem().toString());
+                                WeightDialog.dismiss();
+                            }
+                        });
+                WeightDialog.show();
+            }
+        });
     }
 
 
@@ -145,7 +197,6 @@ public class JoinAddActivity extends Activity{
             String msg = String.format("%d / %d / %d", year,monthOfYear+1, dayOfMonth);
             tvBirth.setText(msg);
 
-            Toast.makeText(JoinAddActivity.this, msg, Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -160,21 +211,40 @@ public class JoinAddActivity extends Activity{
         String sex = s_Sex.getSelectedItem().toString();
         String posi = s_Position.getSelectedItem().toString();
 
-        Toast.makeText(JoinAddActivity.this, "height = "+height, Toast.LENGTH_LONG).show();
-        String result = JoinByHttp(id,pw,user_type,name,sex,birth,posi,weight,height);
-        parsedData = jsonParserList(result);
-
-        if(parsedData != null && parsedData.equals("succed")) {
-
-            Snackbar.make(view, "회원가입이 완료되었습니다.", Snackbar.LENGTH_LONG)
+        if (name.equals(null)||name.equals("")) {
+            Snackbar.make(view, "이름이 입력되지 않았습니다.", Snackbar.LENGTH_LONG)
                     .show();
+        } else if (sex.equals(null)||sex.equals("")) {
+            Snackbar.make(view, "성별이 입력되지 않았습니다.", Snackbar.LENGTH_LONG)
+                    .show();
+        } else if (birth.equals(null)||birth.equals("")) {
+            Snackbar.make(view, "생일이 입력되지 않았습니다.", Snackbar.LENGTH_LONG)
+                    .show();
+        } else if (posi.equals(null)||posi.equals("")) {
+            Snackbar.make(view, "포지션이 입력되지 않았습니다.", Snackbar.LENGTH_LONG)
+                    .show();
+        } else if (weight.equals(null)||weight.equals("")) {
+            Snackbar.make(view, "몸무게가 입력되지 않았습니다.", Snackbar.LENGTH_LONG)
+                    .show();
+        } else if (height.equals(null)||height.equals("")) {
+            Snackbar.make(view, "키가 입력되지 않았습니다.", Snackbar.LENGTH_LONG)
+                    .show();
+        } else {
+            String result = JoinByHttp(id,pw,user_type,name,sex,birth,posi,weight,height);
+            parsedData = jsonParserList(result);
+            if(parsedData[0][0] != null && parsedData[0][0].equals("succed")) {
 
-            Intent intent = new Intent(JoinAddActivity.this, LoginActivity.class);
-            startActivity(intent);
+                Snackbar.make(view, "회원가입이 완료되었습니다.", Snackbar.LENGTH_LONG)
+                        .show();
 
-        }else {
+                Intent intent = new Intent(JoinAddActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }else {
 
+            }
         }
+
 
         //joinThread jt = new joinThread();
         //jt.run();

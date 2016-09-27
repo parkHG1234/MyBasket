@@ -220,6 +220,7 @@
                     fab:fab_colorNormal="@color/White"
                     fab:fab_colorPressed="@color/DarkGray"
                     fab:fab_colorRipple="@color/White"
+                    android:src="@drawable/settings"
                     />
             </FrameLayout>
         </LinearLayout>

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="@color/White">
 
     <LinearLayout
         android:orientation="vertical"
@@ -69,27 +71,61 @@
         android:layout_weight="0.15"
         android:checked="false" />
 
-    <Button
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:text="로그인"
-        android:id="@+id/login_button"
-        android:onClick="onClicked"
-        android:layout_gravity="center_horizontal" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/round_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp">
 
-    <Button
-        android:layout_width="351dp"
-        android:layout_height="wrap_content"
-        android:text="회원가입"
-        android:id="@+id/join_button"
-        android:layout_gravity="center_horizontal" />
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/basketball_white"
+            android:id="@+id/imageButton"
+            android:layout_weight="4"
+            android:scaleType="fitXY"
+            android:background="@color/colorPrimary"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="18dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="플레이바스켓 로그인"
+            android:textColor="@color/White"
+            android:id="@+id/login_button"
+            android:onClick="onClicked"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_weight="1"
+            android:textStyle="normal|bold"
+            android:textSize="17dp" />
+    </LinearLayout>
 
     <com.kakao.usermgmt.LoginButton
         android:id="@+id/com_kakao_login"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="30dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        android:layout_marginRight="20dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="351dp"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:id="@+id/join_button"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/White"
+        android:textStyle="normal|bold"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical|center_horizontal|center"
+        android:textColor="@color/Black"/>
 </LinearLayout>

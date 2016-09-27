@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -40,7 +41,8 @@ import java.util.List;
  */
 public class LoginActivity extends Activity {
     EditText id_EditText, pw_EditText;
-    Button login_Button, join_Button;
+    Button login_Button;
+    TextView join_Button;
     String[][] parsedData;
     AlertDialog dlg;
     CheckBox autoLoginChkbox;
@@ -65,7 +67,7 @@ public class LoginActivity extends Activity {
         id_EditText = (EditText) findViewById(R.id.id_Layout_EditText);
         pw_EditText = (EditText) findViewById(R.id.pw_Layout_EditText);
         login_Button = (Button) findViewById(R.id.login_button);
-        join_Button = (Button) findViewById(R.id.join_button);
+        join_Button = (TextView) findViewById(R.id.join_button);
         autoLoginChkbox = (CheckBox) findViewById(R.id.autuLogin_chkbox);
         join_Button.setOnClickListener(new View.OnClickListener(){
             @Override
