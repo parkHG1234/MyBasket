@@ -159,7 +159,7 @@ public class LoginActivity extends Activity {
             finish();
         }
         else if(parsedData != null && parsedData[0][0].equals("failed")){
-            dlg = new AlertDialog.Builder(this).setTitle("알동")
+            dlg = new AlertDialog.Builder(this).setTitle("플레이 바스켓")
                     ////나중에 아이콘모양 넣기 .setIcon(R.drawable.icon)~~
                     .setMessage("아이뒤 패스워드를 확인해주세요.")
                     .setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -170,7 +170,7 @@ public class LoginActivity extends Activity {
                     }).show();
         }
         else{
-            dlg = new AlertDialog.Builder(this).setTitle("알동")
+            dlg = new AlertDialog.Builder(this).setTitle("플레이 바스켓")
                     ////나중에 아이콘모양 넣기 .setIcon(R.drawable.icon)~~
                     .setMessage("서버와의 접속에 실패하였습니다.")
                     .setPositiveButton("확인", new DialogInterface.OnClickListener() {

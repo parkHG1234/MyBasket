@@ -50,7 +50,7 @@ public class Navigation_TeamIntro_CustomList_MyAdapter extends BaseAdapter {
         Navi_TeamIntro_CustomList_TeamName.setText(arrData.get(position).getTeamName());
         try{
             String En_Emblem = URLEncoder.encode(arrData.get(position).getEmblem(), "utf-8");
-            if(arrData.get(position).getEmblem().equals(""))
+            if(arrData.get(position).getEmblem().equals("."))
             {
                 Glide.with(context).load(R.drawable.profile_basic_image).into(Navi_TeamIntro_CustomList_Emblem);
             }

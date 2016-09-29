@@ -60,7 +60,7 @@ public class Navigation_TeamManager_Member_CustomList_Joiner_MyAdapter extends B
        // Button Refuse = (Button)convertView.findViewById(R.id.Joiner_CustomList_Refuse);
         try{
             String En_Profile = URLEncoder.encode(arrData.get(position).getProfile(), "utf-8");
-            if(arrData.get(position).getProfile().equals(""))
+            if(arrData.get(position).getProfile().equals("."))
             {
                 Glide.with(context).load(R.drawable.profile_basic_image).into(JoinerProfile);
             }

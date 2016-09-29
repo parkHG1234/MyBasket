@@ -5,10 +5,12 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -33,6 +35,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -53,8 +56,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -73,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TabLayout tabLayout;
     static String[][] parsedData_BasicSetting;
+    static ImageView Profile_ImageVIew_Profile;
     ///////탭 아이콘 불러오기/////////////////
     private int[] tabIcons_match = {
             R.drawable.basketball_clicked,
@@ -1582,7 +1593,6 @@ public class MainActivity extends AppCompatActivity {
         Button Profile_Button_TeamMake, Profile_Button_TeamManager, Profile_Button_TeamSearch, Profile_Button_Logout;
         Button Profile_Button_Password;
         FloatingActionButton Profile_Button_setting;
-        ImageView Profile_ImageVIew_Profile;
         String[][] parsedData, parsedData_overLap, parsedData_TeamCheck,parsedData_Alarm;
         String ProfileUrl;
         Bitmap bmImg;
@@ -2025,50 +2035,8 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         }
-    }
 
-    /*  public void onActivityResult(int requestCode, int resultCode, Intent data) {
-          Button Match_Layout_Out_Button_CheckIn = (Button)findViewById(R.id.Match_Layout_Out_Button_CheckIn);
-          IntentResult result = IntentIntegrator.parseActivityResult(requestCode,
-                  resultCode, data);
-          String[][] parsedData;
-          String str = result.getContents();
-          String[] result1 = str.split("=");
-          Log.i("msg",result1[1]);
-          String postResult="";
-          try {
-              HttpClient client = new DefaultHttpClient();
-              String postURL = "http://210.122.7.195:8080/Web_basket/CheckIn.jsp";
-              HttpPost post = new HttpPost(postURL);
-              List<NameValuePair> params = new ArrayList<NameValuePair>();
-              params.add(new BasicNameValuePair("Id", Id));
-              params.add(new BasicNameValuePair("CourtName", result1[1]));
-              params.add(new BasicNameValuePair("Time", realTime));
-              UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-              post.setEntity(ent);
-              HttpResponse response = client.execute(post);
-              BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-              String line = null;
-              while ((line = bufreader.readLine()) != null) {
-                  postResult += line;
-              }
-          } catch (Exception e) {
-              e.printStackTrace();
-          }
-          parsedData = jsonParserList(postResult);
-          if(parsedData[0][0].equals("succed")){
-              Toast.makeText(this,result1[1]+"\nCheck - In",Toast.LENGTH_SHORT).show();
-              Match_Layout_Out_Button_CheckIn.setText(result1[1] + " Check - OUT");
-              SharedPreferences prefs2 = getSharedPreferences("Mybasket_CheckIn", MODE_PRIVATE);
-              SharedPreferences.Editor editor = prefs2.edit();
-              editor.putString("status", "checking");
-              editor.putString("time", realTime);
-              editor.putString("court", result1[1]);
-              editor.commit();
-          }
-          SharedPreferences prefs = getSharedPreferences("Mybasket_CheckIn", MODE_PRIVATE);
-          ////////////////////////////////리스트 뷰 구현////////////////////////////////////////////////
-      }*/
+    }
 
     public String[][] jsonParserList(String pRecvServerPage) {
         Log.i("서버에서 받은 전체 내용", pRecvServerPage);
@@ -2096,5 +2064,117 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        try {
+            //인텐트에 데이터가 담겨 왔다면
+            if (!intent.getData().equals(null)) {
+                //해당경로의 이미지를 intent에 담긴 이미지 uri를 이용해서 Bitmap형태로 읽어온다.
+                Bitmap selPhoto = MediaStore.Images.Media.getBitmap(getContentResolver(), intent.getData());
+                //이미지의 크기 조절하기.
+                selPhoto = Bitmap.createScaledBitmap(selPhoto, 100, 100, true);
+                //image_bt.setImageBitmap(selPhoto);//썸네일
+                //화면에 출력해본다.
+                //Profile_ImageVIew_Profile.setImageBitmap(selPhoto);
+                Log.e("선택 된 이미지 ", "selPhoto : " + selPhoto);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+//선택한 이미지의 uri를 읽어온다.
+        Uri selPhotoUri = intent.getData();
+        Log.e("전송", "시~~작 ~~~~~!");
+//업로드할 서버의 url 주소
+        String urlString="";
+        urlString = "http://210.122.7.195:8080/Web_basket/Upload_Profile.jsp";
+        //절대경로를 획득한다!!! 중요~
+        Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null, null, null,null);
+        c.moveToNext();
+        //업로드할 파일의 절대경로 얻어오기("_data") 로 해도 된다.
+        String absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+        Log.e("###파일의 절대 경로###", absolutePath);
+        //파일 업로드 시작!
+        HttpFileUpload(urlString ,"", absolutePath);
+        try {
+            String En_Profile = URLEncoder.encode(Id, "utf-8");
+            Glide.with(MainActivity.this).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(MainActivity.this).getBitmapPool()))
+                    .into(Profile_ImageVIew_Profile);
 
+        } catch (UnsupportedEncodingException e) {
+
+        }
+    }
+
+    String lineEnd = "\r\n";
+    String twoHyphens = "--";
+    String boundary = "*****";
+
+    public void HttpFileUpload(String urlString, String params, String fileName) {
+        // fileName=TeamName;
+        try{
+            //선택한 파일의 절대 경로를 이용해서 파일 입력 스트림 객체를 얻어온다.
+            FileInputStream mFileInputStream = new FileInputStream(fileName);
+            //파일을 업로드할 서버의 url 주소를이용해서 URL 객체 생성하기.
+            URL connectUrl = new URL(urlString);
+            //Connection 객체 얻어오기.
+            HttpURLConnection conn = (HttpURLConnection)connectUrl.openConnection();
+            conn.setDoInput(true);//입력할수 있도록
+            conn.setDoOutput(true); //출력할수 있도록
+            conn.setUseCaches(false);  //캐쉬 사용하지 않음
+
+            //post 전송
+            conn.setRequestMethod("POST");
+            //파일 업로드 할수 있도록 설정하기.
+            conn.setRequestProperty("Connection", "Keep-Alive");
+            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+
+            //DataOutputStream 객체 생성하기.
+            DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+            //전송할 데이터의 시작임을 알린다.
+            //String En_TeamName = URLEncoder.encode(TeamName, "utf-8");
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + URLEncoder.encode(Id, "utf-8")+".jpg"+"\"" + lineEnd);
+            dos.writeBytes(lineEnd);
+            //한번에 읽어들일수있는 스트림의 크기를 얻어온다.
+            int bytesAvailable = mFileInputStream.available();
+            //byte단위로 읽어오기 위하여 byte 배열 객체를 준비한다.
+            byte[] buffer = new byte[bytesAvailable];
+            int bytesRead = 0;
+            // read image
+            while (bytesRead!=-1) {
+                //파일에서 바이트단위로 읽어온다.
+                bytesRead = mFileInputStream.read(buffer);
+                if(bytesRead==-1)break; //더이상 읽을 데이터가 없다면 빠저나온다.
+                Log.d("Test", "image byte is " + bytesRead);
+                //읽은만큼 출력한다.
+                dos.write(buffer, 0, bytesRead);
+                //출력한 데이터 밀어내기
+                dos.flush();
+            }
+            //전송할 데이터의 끝임을 알린다.
+            dos.writeBytes(lineEnd);
+            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+            //flush() 타이밍??
+            //dos.flush();
+            dos.close();//스트림 닫아주기
+            mFileInputStream.close();//스트림 닫아주기.
+            // get response
+            int ch;
+            //입력 스트림 객체를 얻어온다.
+            InputStream is = conn.getInputStream();
+            StringBuffer b =new StringBuffer();
+            while( ( ch = is.read() ) != -1 ){
+                b.append( (char)ch );
+            }
+            String s=b.toString();
+            Log.e("Test", "result = " + s);
+
+        } catch (Exception e) {
+            Log.d("Test", "exception " + e.getMessage());
+            Toast.makeText(this,"업로드중 에러발생!", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

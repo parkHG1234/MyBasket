@@ -61,7 +61,7 @@ public class Navigation_TeamIntro_Focus_Player_MyAdapter extends BaseAdapter {
         Duty.setText(arrData.get(position).getDuty());
         try {
             String En_Profile = URLEncoder.encode(arrData.get(position).getProfile(), "utf-8");
-            if (arrData.get(position).getProfile().equals("")) {
+            if (arrData.get(position).getProfile().equals(".")) {
                 Glide.with(context).load(R.drawable.profile_basic_image).bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
                         .into(Teamintro_Focus_Player_CustomList_ProfileImage);
             } else {

@@ -108,7 +108,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
 
         try {
             En_Profile = URLEncoder.encode(arrData.get(position).getInformation_Profile(), "utf-8");
-            if (arrData.get(position).getInformation_Profile().equals("")) {
+            if (arrData.get(position).getInformation_Profile().equals(".")) {
                 Glide.with(context).load(R.drawable.profile_basic_image).into(NewsFeed_CustomList_Emblem);
             } else {
                 Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))

@@ -121,6 +121,7 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
                     .into(NewsFeed_Comment_Emblem);
         }
         String result_CourtInfo="";
+        Log.i("test",CommentIntent.getExtras().getString("Court"));
             try {
                         HttpClient client = new DefaultHttpClient();
                         String postURL = "http://210.122.7.195:8080/Web_basket/CourtInfo.jsp";
@@ -178,19 +179,19 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
         CourtInfo_Nav_CourtAddress.setText(CourtAddress);
         CourtInfo_Nav_CourtCount.setText(CourtCount);
         CourtInfo_Nav_CourtFloor.setText(CourtFloor);
-        if(Image1.equals("")){
+        if(Image1.equals(".")){
             CourtInfo_Nav_Img1.setVisibility(View.GONE);
         }
-        if(Image2.equals("")){
+        if(Image2.equals(".")){
             CourtInfo_Nav_Img2.setVisibility(View.GONE);
         }
-        if(Image3.equals("")){
+        if(Image3.equals(".")){
             CourtInfo_Nav_Img3.setVisibility(View.GONE);
         }
-        if(Image4.equals("")){
+        if(Image4.equals(".")){
             CourtInfo_Nav_Img4.setVisibility(View.GONE);
         }
-        if(Image5.equals("")){
+        if(Image5.equals(".")){
             CourtInfo_Nav_Img5.setVisibility(View.GONE);
         }
         //URI 한글 인코딩

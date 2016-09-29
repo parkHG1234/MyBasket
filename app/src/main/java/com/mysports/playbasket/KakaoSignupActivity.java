@@ -1,8 +1,6 @@
 package com.mysports.playbasket;
 
-/**
- * Created by hp on 2016-01-26.
- */
+
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -84,7 +82,8 @@ public class KakaoSignupActivity extends Activity{
                 Logger.d("UserProfile : " + userProfile.toString());
                 id = userProfile.getId();
                 String strId = Long.toString(id);
-                redirectMainActivity(strId); // 로그인 성공시 MainActivity로
+                redirectMainActivity(strId);// 로그인 성공시 MainActivity로
+                finish();
             }
         });
     }
@@ -92,13 +91,14 @@ public class KakaoSignupActivity extends Activity{
     private void redirectMainActivity(final String id) {
         //db에 id에 해당하는 member가 있는지 확인 후 있으면 MainActivity 없으면 가입 권유 메시지 후 JoinAddActivity로 인텐트
         String result = SendByHttp(id);
-        String[] parsedData = jsonParserList(result);
-        if(parsedData != null && parsedData[0].equals("Duplicate")){
+        String[][] parsedData = jsonParserList(result);
+        if(parsedData != null && parsedData[0][0].equals("Duplicate")){
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("id", id);
+            Log.i("kakaoid", id);
+            intent.putExtra("Id", id);
             startActivity(intent);
             finish();
-        }else if(parsedData != null && parsedData[0].equals("noDuplicate")) {
+        }else if(parsedData != null && parsedData[0][0].equals("noDuplicate")) {
             AlertDialog dlg = new AlertDialog.Builder(this).setTitle("카카오 계정")
                     .setMessage("카카오 계정으로 가입된 아이디가 없습니다. 새로 가입하시겠습니까?")
                     .setPositiveButton("예", new DialogInterface.OnClickListener() {
@@ -115,7 +115,8 @@ public class KakaoSignupActivity extends Activity{
                     .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            startActivity(new Intent(KakaoSignupActivity.this, LoginActivity.class));
+                            Intent intent2 = new Intent(KakaoSignupActivity.this, LoginActivity.class);
+                            startActivity(intent2);
                             finish();
                         }
                     }).show();
@@ -129,7 +130,7 @@ public class KakaoSignupActivity extends Activity{
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("id", id));
+            params.add(new BasicNameValuePair("Id", id));
 
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
@@ -150,28 +151,26 @@ public class KakaoSignupActivity extends Activity{
             return "";
         }
     }
-    private String[] jsonParserList(String pRecvServerPage) {
+    public String[][] jsonParserList(String pRecvServerPage) {
         Log.i("서버에서 받은 전체 내용", pRecvServerPage);
         try {
             JSONObject json = new JSONObject(pRecvServerPage);
-            JSONArray jarr = json.getJSONArray("List");
+            JSONArray jArr = json.getJSONArray("List");
 
             String[] jsonName = {"CheckId"};
-            String[] parseredData = new String[jarr.length()];
-            for(int i = 0; i<jarr.length();i++){
-                json = jarr.getJSONObject(i);
-                parseredData[i] = json.getString(jsonName[i]);
-            }
-            for(int i=0;i<parseredData.length;i++) {
-                Log.i("JSON을 분석한 데이터" + i + ":", parseredData[i]);
+            String[][] parseredData = new String[jArr.length()][jsonName.length];
+            for (int i = 0; i < jArr.length(); i++) {
+                json = jArr.getJSONObject(i);
+                for (int j = 0; j < jsonName.length; j++) {
+                    parseredData[i][j] = json.getString(jsonName[j]);
+                }
             }
             return parseredData;
-        }catch(JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
-
     protected void redirectLoginActivity() {
         final Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

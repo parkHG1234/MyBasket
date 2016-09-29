@@ -56,7 +56,7 @@ public class Navigation_TeamManager_Member_Customlist_TeamPlayer_MyAdapter exten
         TeamPlayer_CustomList_TeamNumber.setText(arrData.get(position).getNumber());
         try{
             String En_Profile = URLEncoder.encode(arrData.get(position).getProfile(), "utf-8");
-            if(arrData.get(position).getProfile().equals(""))
+            if(arrData.get(position).getProfile().equals("."))
             {
                 Glide.with(context).load(R.drawable.profile_basic_image).into(TeamPlayer_CustomList_Profile);
             }

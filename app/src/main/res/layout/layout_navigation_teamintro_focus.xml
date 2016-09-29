@@ -6,7 +6,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/Teamintro_scrollView" >
+        android:id="@+id/Teamintro_scrollView"
+        android:background="@color/White">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -23,41 +24,57 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal" >
+                    android:layout_gravity="center_horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="팀명"
-                        android:id="@+id/textView38" />
+                        android:id="@+id/textView38"
+                        android:textSize="15dp"
+                        android:textStyle="normal|bold"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="10dp" />
 
                     <Button
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Large Text"
-                        android:id="@+id/TeamIntro_Foucs_TextView_TeamName" />
+                        android:id="@+id/TeamIntro_Foucs_TextView_TeamName"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="15dp"
+                        android:textStyle="normal|bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="팀 지역"
-                        android:id="@+id/textView40" />
+                        android:id="@+id/textView40"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15dp"
+                        android:textStyle="normal|bold"
+                        android:layout_marginBottom="5dp" />
 
                     <Button
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Large Text"
-                        android:id="@+id/TeamIntro_Foucs_TextView_TeamAddress" />
+                        android:id="@+id/TeamIntro_Foucs_TextView_TeamAddress"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="15dp"
+                        android:textStyle="normal|bold" />
 
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal">
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="5dp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -65,35 +82,46 @@
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:text="홈코트"
                             android:id="@+id/textView45"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:layout_marginLeft="10dp"
+                            android:textStyle="normal|bold"
+                            android:textSize="15dp" />
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:text="사용시간"
                             android:id="@+id/textView100"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:textStyle="normal|bold"
+                            android:layout_marginLeft="5dp"
+                            android:textSize="15dp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal">
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="20dp">
 
                         <Button
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="40dp"
                             android:text="Large Text"
                             android:id="@+id/TeamIntro_Foucs_TextView_HomeCourt"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:textStyle="normal|bold"
+                            android:textSize="15dp" />
 
                         <Button
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="40dp"
                             android:text="New Button"
                             android:id="@+id/TeamIntro_Foucs_TextView_Time"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:textStyle="normal|bold"
+                            android:textSize="15dp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -101,8 +129,9 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center_horizontal">
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:layout_height="110dp">
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -117,16 +146,21 @@
                             android:text="엠뷸램"
                             android:id="@+id/textView47"
                             android:layout_weight="1"
-                            android:gravity="center" />
+                            android:gravity="center"
+                            android:textStyle="normal|bold"
+                            android:textSize="15dp"
+                            android:layout_marginBottom="10dp" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="유니폼색"
+                            android:text="유니폼"
                             android:id="@+id/textView48"
                             android:layout_weight="1"
-                            android:gravity="center" />
+                            android:gravity="center"
+                            android:textSize="15dp"
+                            android:textStyle="normal|bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -140,14 +174,16 @@
                             android:layout_height="match_parent"
                             android:id="@+id/TeamIntro_Foucs_ImageView_Emblem"
                             android:longClickable="true"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:layout_marginBottom="10dp" />
 
                         <Button
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="유니폼 상의"
                             android:id="@+id/TeamIntro_Foucs_Button_UniformTop"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:layout_marginLeft="80dp"
+                            android:layout_marginRight="80dp" />
 
                     </LinearLayout>
 
@@ -163,52 +199,73 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="팀원"
-                        android:id="@+id/textView54" />
+                        android:id="@+id/textView54"
+                        android:textStyle="normal|bold"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="15dp" />
 
                     <ListView
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
-                        android:id="@+id/TeamIntro_Foucs_ImageView_TeamPlayer"></ListView>
+                        android:id="@+id/TeamIntro_Foucs_ImageView_TeamPlayer"
+                        android:layout_marginBottom="10dp"></ListView>
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="평균 나이 30.1세/신장 178cm"
                         android:id="@+id/TeamIntro_Foucs_TextView_AgeAndHeight"
-                        android:textColor="@color/Red" />
+                        android:textColor="@color/Red"
+                        android:layout_marginBottom="20dp"
+                        android:textSize="15dp"
+                        android:textStyle="normal|bold"
+                        android:gravity="right"
+                        android:layout_marginRight="10dp" />
 
                 </LinearLayout>
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:id="@+id/TeamIntro_ImageView_Image1"
-                        android:src="@drawable/basic_image"
-                        android:padding="2sp"
-                        android:scaleType="fitXY" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:id="@+id/TeamIntro_ImageView_Image2"
-                        android:background="@drawable/basic_image"
-                        android:padding="2sp"
-                        android:scaleType="centerCrop" />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
                         android:id="@+id/TeamIntro_ImageView_Image3"
                         android:background="@drawable/basic_image"
                         android:padding="2sp"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        android:layout_height="300dp" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:id="@+id/TeamIntro_ImageView_Image2"
+                        android:background="@drawable/basic_image"
+                        android:padding="2sp"
+                        android:scaleType="centerCrop"
+                        android:layout_height="300dp" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:id="@+id/TeamIntro_ImageView_Image1"
+                        android:background="@drawable/basic_image"
+                        android:padding="2sp"
+                        android:scaleType="fitXY"
+                        android:layout_height="300dp" />
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="팀 소개"
                     android:id="@+id/textView19"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:textStyle="normal|bold"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -216,7 +273,10 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Large Text"
                     android:id="@+id/TeamIntro_Foucs_TextView_TeamIntro"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:textStyle="normal|bold"
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -227,8 +287,12 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="가입신청"
-                        android:id="@+id/TeamIntro_Foucs_Button_Join" />
+                        android:text="입단신청"
+                        android:id="@+id/TeamIntro_Foucs_Button_Join"
+                        android:textStyle="normal|bold"
+                        android:textColor="@color/White"
+                        android:background="@color/colorPrimary"
+                        android:textSize="15dp" />
 
                 </LinearLayout>
 
