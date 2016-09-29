@@ -52,7 +52,7 @@ public class Navigation_TeamManager_TeamMake1 extends AppCompatActivity {
     Spinner TeamManager_TeamMake_Spinner_Address_Se;
     static String Id="";
     ArrayAdapter<CharSequence> adspin1, adspin2;
-    String[][] parsedData;
+    String[][] parsedData,parsedData_TeamName;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_teammanager_teammake1);
@@ -68,45 +68,12 @@ public class Navigation_TeamManager_TeamMake1 extends AppCompatActivity {
 
         Intent intent1 = getIntent();
         Id = intent1.getStringExtra("Id");
-
-        //이미 팀 존재하는 지 확인 후 중복 제거
-        String result="";
-        try {
-            HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/Web_basket/TeamMake_OverLap.jsp";
-            HttpPost post = new HttpPost(postURL);
-
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("Id", Id));
-
-            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-            post.setEntity(ent);
-
-            HttpResponse response = client.execute(post);
-            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-
-            String line = null;
-            while ((line = bufreader.readLine()) != null) {
-                result += line;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        parsedData = jsonParserList(result);
-        if(parsedData[0][0].equals("overLap"))
-        {
-            TeamManager_TeamMake_Layout_Maker.setVisibility(View.GONE);
-            TeamManager_TeamMake_Layout_OverLap.setVisibility(View.VISIBLE);
-        }
-        ///////////////////////////////////////////////////////////////////////
-        else
-        {
-            TeamManager_TeamMake_Layout_Maker.setVisibility(View.VISIBLE);
-            TeamManager_TeamMake_Layout_OverLap.setVisibility(View.GONE);
-            adspin1 = ArrayAdapter.createFromResource(Navigation_TeamManager_TeamMake1.this, R.array.spinner_do, R.layout.zfile_spinner_test);
-            adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            TeamManager_TeamMake_Spinner_Address_Do.setAdapter(adspin1);
-            TeamManager_TeamMake_Spinner_Address_Do.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        TeamManager_TeamMake_Layout_Maker.setVisibility(View.VISIBLE);
+        TeamManager_TeamMake_Layout_OverLap.setVisibility(View.GONE);
+        adspin1 = ArrayAdapter.createFromResource(Navigation_TeamManager_TeamMake1.this, R.array.spinner_do, R.layout.zfile_spinner_test);
+        adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        TeamManager_TeamMake_Spinner_Address_Do.setAdapter(adspin1);
+        TeamManager_TeamMake_Spinner_Address_Do.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
@@ -161,21 +128,49 @@ public class Navigation_TeamManager_TeamMake1 extends AppCompatActivity {
                     {
                         Toast.makeText(getApplicationContext(),"팀명을 입력해주세요.",Toast.LENGTH_SHORT).show();
                     }
-                    else {
-                        Intent intent1 = new Intent(getApplicationContext(), Navigation_TeamManager_TeamMake2.class);
-                        intent1.putExtra("Id", Id);
-                        intent1.putExtra("TeamName", Str_TeamManager_TeamMake_EditText_TeamName);
-                        intent1.putExtra("TeamAddress_do", Str_TeamManager_TeamMake_EditText_TeamAddress_do);
-                        intent1.putExtra("TeamAddress_se", Str_TeamManager_TeamMake_EditText_TeamAddress_se);
-                        intent1.putExtra("HomeCourt", Str_TeamManager_TeamMake_EditText_HomeCourt);
-                        intent1.putExtra("Time", Str_TeamManager_TeamMake_EditText_Time);
-                        intent1.putExtra("TeamIntro", Str_TeamManager_TeamMake_EditText_TeamIntro);
-                        startActivity(intent1);
-                        finish();
+                    else{
+                        //팀명 중복검사
+                        String result="";
+                        try {
+                            HttpClient client = new DefaultHttpClient();
+                            String postURL = "http://210.122.7.195:8080/Web_basket/Navi_Teamanager_TeamMake.jsp";
+                            HttpPost post = new HttpPost(postURL);
+
+                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                            params.add(new BasicNameValuePair("TeamName", Str_TeamManager_TeamMake_EditText_TeamName));
+
+                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                            post.setEntity(ent);
+
+                            HttpResponse response = client.execute(post);
+                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                            String line = null;
+                            while ((line = bufreader.readLine()) != null) {
+                                result += line;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        parsedData_TeamName = jsonParserList(result);
+                        if(parsedData_TeamName[0][0].equals("succed")){
+                            Intent intent1 = new Intent(getApplicationContext(), Navigation_TeamManager_TeamMake2.class);
+                            intent1.putExtra("Id", Id);
+                            intent1.putExtra("TeamName", Str_TeamManager_TeamMake_EditText_TeamName);
+                            intent1.putExtra("TeamAddress_do", Str_TeamManager_TeamMake_EditText_TeamAddress_do);
+                            intent1.putExtra("TeamAddress_se", Str_TeamManager_TeamMake_EditText_TeamAddress_se);
+                            intent1.putExtra("HomeCourt", Str_TeamManager_TeamMake_EditText_HomeCourt);
+                            intent1.putExtra("Time", Str_TeamManager_TeamMake_EditText_Time);
+                            intent1.putExtra("TeamIntro", Str_TeamManager_TeamMake_EditText_TeamIntro);
+                            startActivity(intent1);
+                            finish();
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),"중복된 팀 이름입니다.",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });
-        }
     }
     public String[][] jsonParserList(String pRecvServerPage){
         Log.i("서버에서 받은 전체 내용", pRecvServerPage);

@@ -226,6 +226,7 @@
                                 android:layout_height="match_parent"
                                 android:id="@+id/TeamManager_TeamIntro_ImageView_Emblem"
                                 android:longClickable="true"
+                                android:src="@drawable/emblem"
                                 android:layout_weight="1"
                                 android:layout_margin="5dp" />
 

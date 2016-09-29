@@ -253,19 +253,19 @@ public class Match_In_Focus extends AppCompatActivity {
             String En_Image1 = URLEncoder.encode(Image1, "utf-8");
             String En_Image2 = URLEncoder.encode(Image2, "utf-8");
             String En_Image3 = URLEncoder.encode(Image3, "utf-8");
-            if (Image1.equals("")) {
+            if (Image1.equals(".")) {
                 Match_In_Focus_ImageVIew_TeamImageView1.setVisibility(View.GONE);
             }
             else{
                 Glide.with(Match_In_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image1 + ".jpg").into(Match_In_Focus_ImageVIew_TeamImageView1);
             }
-            if (Image2.equals("")) {
+            if (Image2.equals(".")) {
                 Match_In_Focus_ImageVIew_TeamImageView2.setVisibility(View.GONE);
             }
             else{
                 Glide.with(Match_In_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image2 + ".jpg").into(Match_In_Focus_ImageVIew_TeamImageView2);
             }
-            if (Image3.equals("")) {
+            if (Image3.equals(".")) {
                 Match_In_Focus_ImageVIew_TeamImageView3.setVisibility(View.GONE);
             }
             else{

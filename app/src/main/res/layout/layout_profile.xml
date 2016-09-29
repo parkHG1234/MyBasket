@@ -170,7 +170,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@color/Gray"
-                    android:text="전국 팀 정보"
+                    android:text="팀 찾기"
                     android:textColor="@color/BlackGray" />
 
                 <TextView

@@ -87,8 +87,9 @@ public class Match_In_CustomList_MyAdapter extends BaseAdapter {
         //유저 개인 이미지를 서버에서 받아옵니다.
         try {
             String En_Emblem = URLEncoder.encode(Emblem, "utf-8");
-            if (Emblem.equals("")) {
-                Glide.with(context).load(R.drawable.profile_basic_image).into(Match_In_CustomList_Profile);
+            if (Emblem.equals(".")) {
+                Glide.with(context).load(R.drawable.emblem).bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
+                        .into(Match_In_CustomList_Profile);
             } else {
                 Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
                         .into(Match_In_CustomList_Profile);

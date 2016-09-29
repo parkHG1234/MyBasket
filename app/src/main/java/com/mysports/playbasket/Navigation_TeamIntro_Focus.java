@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 /**
  * Created by park on 2016-06-16.
  */
@@ -127,7 +129,7 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
             String En_Image2 = URLEncoder.encode(Image2, "utf-8");
             String En_Image3 = URLEncoder.encode(Image3, "utf-8");
             String En_Emblem = URLEncoder.encode(Emblem, "utf-8");
-            if(Image1.equals(""))
+            if(Image1.equals("."))
             {
                 TeamIntro_ImageView_Image1.setVisibility(View.GONE);
             }
@@ -135,7 +137,7 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
                 Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image1 + ".jpg")
                         .into(TeamIntro_ImageView_Image1);
             }
-            if(Image2.equals(""))
+            if(Image2.equals("."))
             {
                 TeamIntro_ImageView_Image2.setVisibility(View.GONE);
             }
@@ -143,7 +145,7 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
                 Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image2 + ".jpg")
                         .into(TeamIntro_ImageView_Image2);
             }
-            if(Image3.equals(""))
+            if(Image3.equals("."))
             {
                 TeamIntro_ImageView_Image3.setVisibility(View.GONE);
             }
@@ -151,13 +153,13 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
                 Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image3 + ".jpg")
                         .into(TeamIntro_ImageView_Image3);
             }
-            if(Emblem.equals(""))
+            if(Emblem.equals("."))
             {
-                Glide.with(Navigation_TeamIntro_Focus.this).load(R.drawable.basic_image)
+                Glide.with(Navigation_TeamIntro_Focus.this).load(R.drawable.emblem).bitmapTransform(new CropCircleTransformation(Glide.get(Navigation_TeamIntro_Focus.this).getBitmapPool()))
                         .into(TeamIntro_Foucs_ImageView_Emblem);
             }
             else{
-                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg")
+                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(Navigation_TeamIntro_Focus.this).getBitmapPool()))
                         .into(TeamIntro_Foucs_ImageView_Emblem);
             }
         }

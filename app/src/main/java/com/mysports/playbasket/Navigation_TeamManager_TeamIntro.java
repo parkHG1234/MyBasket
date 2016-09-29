@@ -164,7 +164,11 @@ public class Navigation_TeamManager_TeamIntro extends Activity implements
                 Glide.with(Navigation_TeamManager_TeamIntro.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image3 + ".jpg")
                         .into(TeamManager_TeamIntro_ImageView_Image3);
             }
-            if(!Emblem.equals(".")) {
+            if(Emblem.equals(".")) {
+                Glide.with(Navigation_TeamManager_TeamIntro.this).load(R.drawable.emblem).bitmapTransform(new CropCircleTransformation(Glide.get(Navigation_TeamManager_TeamIntro.this).getBitmapPool()))
+                        .into(TeamManager_TeamIntro_ImageView_Emblem);
+            }
+            else{
                 Glide.with(Navigation_TeamManager_TeamIntro.this).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(Navigation_TeamManager_TeamIntro.this).getBitmapPool()))
                         .into(TeamManager_TeamIntro_ImageView_Emblem);
             }
@@ -367,7 +371,7 @@ public class Navigation_TeamManager_TeamIntro extends Activity implements
             @Override
             public void onClick(View view) {
                 choice = "image3";
-                if (Image1.equals(".")) {
+                if (Image1.equals("")) {
                     //사진 읽어오기위한 uri 작성하기.
                     Uri uri = Uri.parse("content://media/external/images/media");
                     //무언가 보여달라는 암시적 인텐트 객체 생성하기.
@@ -401,7 +405,7 @@ public class Navigation_TeamManager_TeamIntro extends Activity implements
                         @Override
                         public void onClick(View view) {
                             TeamManager_TeamIntro_ImageView_Image3.setImageResource(R.drawable.basic_image);
-                            Image3 = ".";
+                            Image3 = "";
                             ad.dismiss();
                         }
                     });
