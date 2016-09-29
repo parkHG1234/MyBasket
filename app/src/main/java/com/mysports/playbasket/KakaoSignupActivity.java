@@ -83,7 +83,6 @@ public class KakaoSignupActivity extends Activity{
                 id = userProfile.getId();
                 String strId = Long.toString(id);
                 redirectMainActivity(strId);// 로그인 성공시 MainActivity로
-                finish();
             }
         });
     }
@@ -99,7 +98,7 @@ public class KakaoSignupActivity extends Activity{
             startActivity(intent);
             finish();
         }else if(parsedData != null && parsedData[0][0].equals("noDuplicate")) {
-            AlertDialog dlg = new AlertDialog.Builder(this).setTitle("카카오 계정")
+            final AlertDialog dlg = new AlertDialog.Builder(this).setTitle("카카오 계정")
                     .setMessage("카카오 계정으로 가입된 아이디가 없습니다. 새로 가입하시겠습니까?")
                     .setPositiveButton("예", new DialogInterface.OnClickListener() {
                         @Override
@@ -117,10 +116,10 @@ public class KakaoSignupActivity extends Activity{
                         public void onClick(DialogInterface dialogInterface, int i) {
                             Intent intent2 = new Intent(KakaoSignupActivity.this, LoginActivity.class);
                             startActivity(intent2);
-                            finish();
                         }
                     }).show();
         }
+
     }
 
     private String SendByHttp(String id) {
