@@ -161,14 +161,13 @@
                     android:layout_height="match_parent"
                     android:id="@+id/Match_In_Spinner_Address_se"
                     android:layout_weight="1" />
-
                 <Button
+                    android:id="@+id/Match_In_Button_Search"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1.5"
                     android:background="@drawable/search"
-                    android:id="@+id/Match_In_Button_Search"
-                    android:layout_weight="1.5"/>
-
+                    />
             </LinearLayout>
 
             <FrameLayout

@@ -15,11 +15,14 @@
             android:text="팀이 생성되었습니다."
             android:id="@+id/textView14"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="150dp" />
+            android:layout_marginTop="150dp"
+            android:textSize="30dp"
+            android:textStyle="normal|bold"
+            android:layout_marginBottom="10dp" />
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal">
 
@@ -29,11 +32,6 @@
                 android:text="메인화면으로"
                 android:id="@+id/TeamManager__TeamMake_Button_Main" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="팀관리메뉴로"
-                android:id="@+id/TeamManager__TeamMake_Button_Manager" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

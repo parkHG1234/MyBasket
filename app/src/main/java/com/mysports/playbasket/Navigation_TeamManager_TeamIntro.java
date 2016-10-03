@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +34,8 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xdty.preference.colorpicker.ColorPickerDialog;
+import org.xdty.preference.colorpicker.ColorPickerSwatch;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -52,8 +56,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 /**
  * Created by park on 2016-05-17.
  */
-public class Navigation_TeamManager_TeamIntro extends Activity implements
-        Navigation_TeamManager_TeamIntro_ColorPicker.OnColorChangedListener{
+public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
 
     ImageView TeamManager_TeamIntro_ImageView_Emblem,TeamManager_TeamIntro_ImageView_Image1,TeamManager_TeamIntro_ImageView_Image2,TeamManager_TeamIntro_ImageView_Image3;
     EditText TeamManager_TeamIntro_EditText_HomeCourt, TeamManager_TeamIntro_EditText_Time,TeamManager_TeamIntro_EditText_TeamIntro;
@@ -80,6 +83,9 @@ public class Navigation_TeamManager_TeamIntro extends Activity implements
     String Emblem = "";
     boolean Top_Color, Bottom_Color;
 
+    private int mSelectedColor;
+    ColorPickerDialog dialog;
+
     final int REQ_SELECT=0;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +106,25 @@ public class Navigation_TeamManager_TeamIntro extends Activity implements
         TeamManager_TeamIntro_Button_UniformTop = (Button) findViewById(R.id.TeamManager_TeamIntro_Button_UniformTop);
         TeamManager_TeamIntro_Button_Save = (Button)findViewById(R.id.TeamManager_TeamIntro_Button_Save);
         TeamManager_TeamIntro_Button_Cancel = (Button)findViewById(R.id.TeamManager_TeamIntro_Button_Cancel);
+
+        mSelectedColor = ContextCompat.getColor(this, R.color.flamingo);
+        int[] mColors = getResources().getIntArray(R.array.default_rainbow);
+        dialog = ColorPickerDialog.newInstance(R.string.color_picker_default_title,
+                mColors,
+                mSelectedColor,
+                5, // Number of columns
+                ColorPickerDialog.SIZE_SMALL);
+
+        dialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
+
+            @Override
+            public void onColorSelected(int color) {
+                mSelectedColor = color;
+                TeamManager_TeamIntro_Button_UniformTop.setBackgroundColor(mSelectedColor);
+                UniformTop = Integer.toString(mSelectedColor);
+            }
+
+        });
         Intent intent1 = getIntent();
         Id = intent1.getStringExtra("Id");
         Log.i("Team",Id);
@@ -434,7 +459,8 @@ public class Navigation_TeamManager_TeamIntro extends Activity implements
             public void onClick(View view) {
                 Top_Color = true;
                 Bottom_Color = false;
-                getColor(view);
+                //getColor(view);
+                dialog.show(getFragmentManager(), "color_dialog_test");
             }
         });
 
@@ -535,20 +561,8 @@ public class Navigation_TeamManager_TeamIntro extends Activity implements
             return null;
         }
     }
-    public void colorChanged(String str,int color)
-    {
-        if(Top_Color == true)
-        {
-            Navigation_TeamManager_TeamIntro.this.findViewById(R.id.TeamManager_TeamIntro_Button_UniformTop).setBackgroundColor(color);
-            UniformTop = Integer.toString(color);
-        }
-    }
 
     Activity activity;
-
-    public void getColor(View v) {
-        new Navigation_TeamManager_TeamIntro_ColorPicker(activity, this, "", Color.BLACK, Color.WHITE).show();
-    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         try {

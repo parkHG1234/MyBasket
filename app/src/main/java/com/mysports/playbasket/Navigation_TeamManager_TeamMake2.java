@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,8 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xdty.preference.colorpicker.ColorPickerDialog;
+import org.xdty.preference.colorpicker.ColorPickerSwatch;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -43,7 +46,9 @@ public class Navigation_TeamManager_TeamMake2 extends Activity implements
     static String TeamIntro="";
     static String UniformTop = "";
     static String UniformBottom = "";
+    private int mSelectedColor;
     boolean Top_Color, Bottom_Color;
+    ColorPickerDialog dialog;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_teammanager_teammake2);
@@ -57,6 +62,26 @@ public class Navigation_TeamManager_TeamMake2 extends Activity implements
         Time = intent1.getStringExtra("Time");
         TeamIntro = intent1.getStringExtra("TeamIntro");
         Id = intent1.getStringExtra("Id");
+
+
+        mSelectedColor = ContextCompat.getColor(this, R.color.flamingo);
+        int[] mColors = getResources().getIntArray(R.array.default_rainbow);
+        dialog = ColorPickerDialog.newInstance(R.string.color_picker_default_title,
+                mColors,
+                mSelectedColor,
+                5, // Number of columns
+                ColorPickerDialog.SIZE_SMALL);
+
+        dialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
+
+            @Override
+            public void onColorSelected(int color) {
+                mSelectedColor = color;
+                Navigation_TeamManager_TeamMake2.this.findViewById(R.id.TeamManager__TeamMake_Button_Top).setBackgroundColor(mSelectedColor);
+                UniformTop = Integer.toString(mSelectedColor);
+            }
+
+        });
         this.activity = this;
         final Button TeamManager__TeamMake_Button_Top = (Button)findViewById(R.id.TeamManager__TeamMake_Button_Top);
         TeamManager__TeamMake_Button_Top.setOnClickListener(new View.OnClickListener() {
@@ -64,8 +89,8 @@ public class Navigation_TeamManager_TeamMake2 extends Activity implements
             public void onClick(View view) {
                 Top_Color = true;
                 Bottom_Color = false;
-                getColor(view);
-
+               // getColor(view);
+                dialog.show(getFragmentManager(), "color_dialog_test");
             }
         });
         final Button TeamManager__TeamMake_Button_Bottom = (Button)findViewById(R.id.TeamManager__TeamMake_Button_Bottom);
@@ -95,7 +120,7 @@ public class Navigation_TeamManager_TeamMake2 extends Activity implements
                     params.add(new BasicNameValuePair("Time", Time));
                     params.add(new BasicNameValuePair("TeamIntro", TeamIntro));
                     params.add(new BasicNameValuePair("UniformTop", UniformTop));
-                    params.add(new BasicNameValuePair("UniformBottom", UniformBottom));
+                    params.add(new BasicNameValuePair("UniformBottom", "no"));
 
                     UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                     post.setEntity(ent);
@@ -127,6 +152,7 @@ public class Navigation_TeamManager_TeamMake2 extends Activity implements
 
             }
         });
+
     }
     public String[][] jsonParserList(String pRecvServerPage){
         Log.i("서버에서 받은 전체 내용", pRecvServerPage);

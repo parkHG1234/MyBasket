@@ -2,6 +2,7 @@ package com.mysports.playbasket;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -22,6 +23,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.dd.CircularProgressButton;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
@@ -216,6 +219,24 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+             switch(keyCode) {
+                   case KeyEvent.KEYCODE_BACK:
+                         new AlertDialog.Builder(this)
+                                        .setTitle("바스켓북")
+                                        .setMessage("어플리케이션을 종료 하시겠습니까?")
+                                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                                              public void onClick(DialogInterface dialog, int whichButton) {
+                                                    finish();
+                                                  }
+                                            })
+                                        .setNegativeButton("아니오", null).show();
+                                       return false;
+                     default:
+                           return false;
+                 }
     }
     public static class PlaceholderFragment extends Fragment {
         /**

@@ -419,7 +419,8 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Large Text"
-                        android:id="@+id/Match_In_Focus_TextView_TeamIntroduce" />
+                        android:id="@+id/Match_In_Focus_TextView_TeamIntroduce"
+                        android:textSize="15dp" />
                 </LinearLayout>
 
             </LinearLayout>

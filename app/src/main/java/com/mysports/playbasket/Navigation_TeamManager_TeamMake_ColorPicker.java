@@ -1,5 +1,6 @@
 package com.mysports.playbasket;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,7 +12,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class Navigation_TeamManager_TeamMake_ColorPicker extends Dialog {
+public class Navigation_TeamManager_TeamMake_ColorPicker extends AlertDialog {
         public interface OnColorChangedListener {
             void colorChanged(String key, int color);
         }

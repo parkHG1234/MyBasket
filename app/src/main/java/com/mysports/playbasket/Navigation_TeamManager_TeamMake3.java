@@ -16,7 +16,7 @@ public class Navigation_TeamManager_TeamMake3 extends AppCompatActivity {
         setContentView(R.layout.layout_teammanager_teammake3);
 
         TeamManager__TeamMake_Button_Main = (Button)findViewById(R.id.TeamManager__TeamMake_Button_Main);
-        TeamManager__TeamMake_Button_Manager =(Button)findViewById(R.id.TeamManager__TeamMake_Button_Manager);
+        //TeamManager__TeamMake_Button_Manager =(Button)findViewById(R.id.TeamManager__TeamMake_Button_Manager);
 
         TeamManager__TeamMake_Button_Main.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -25,11 +25,11 @@ public class Navigation_TeamManager_TeamMake3 extends AppCompatActivity {
                 finish();
             }
         });
-        TeamManager__TeamMake_Button_Manager.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+//        TeamManager__TeamMake_Button_Manager.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
     }
 }
