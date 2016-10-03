@@ -126,60 +126,69 @@ public class LoginActivity extends Activity {
 
         String _id = id_EditText.getText().toString();
         String _pw = pw_EditText.getText().toString();
-        String result = SendByHttp(_id, _pw);
-        Log.i("JSON을 분석한 데이터1111 :", result);
-        parsedData = jsonParserList(result);
+        if(_id.equals("")) {
+            Snackbar.make(view, "아이디를 입력해 주세요.", Snackbar.LENGTH_LONG)
+                    .show();
+        }else if(_pw.equals("")) {
+            Snackbar.make(view, "비밀번호를 입력해 주세요.", Snackbar.LENGTH_LONG)
+                    .show();
+        }else {
+            String result = SendByHttp(_id, _pw);
+            Log.i("JSON을 분석한 데이터1111 :", result);
+            parsedData = jsonParserList(result);
 
 
-        if(parsedData != null && parsedData[0][0].equals("succed"))
-        {
-            if(autoLoginChkbox.isChecked()){
-                SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
-                //preference 이름을 autoLogin
-                SharedPreferences.Editor editor = preferences.edit();
+            if(parsedData != null && parsedData[0][0].equals("succed"))
+            {
+                if(autoLoginChkbox.isChecked()){
+                    SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
+                    //preference 이름을 autoLogin
+                    SharedPreferences.Editor editor = preferences.edit();
 
 
-                editor.putString("id", _id);
-                editor.putString("pw", _pw);
-                editor.putString("auto", "true");
-                editor.commit();
-                Snackbar.make(view, preferences.getString("auto",""), Snackbar.LENGTH_LONG)
-                        .show();
+                    editor.putString("id", _id);
+                    editor.putString("pw", _pw);
+                    editor.putString("auto", "true");
+                    editor.commit();
+                    Snackbar.make(view, preferences.getString("auto",""), Snackbar.LENGTH_LONG)
+                            .show();
 
 
-            }else {
+                }else {
+                }
+                //메인엑티비티에다 데이터를보내
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra("LoginCheck",parsedData[0][0]);
+                intent.putExtra("Id",parsedData[0][1]);
+
+                startActivity(intent);
+
+                finish();
             }
-            //메인엑티비티에다 데이터를보내
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.putExtra("LoginCheck",parsedData[0][0]);
-            intent.putExtra("Id",parsedData[0][1]);
+            else if(parsedData != null && parsedData[0][0].equals("failed")){
+                dlg = new AlertDialog.Builder(this).setTitle("플레이 바스켓")
+                        ////나중에 아이콘모양 넣기 .setIcon(R.drawable.icon)~~
+                        .setMessage("아이뒤 패스워드를 확인해주세요.")
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+            }
+            else{
+                dlg = new AlertDialog.Builder(this).setTitle("플레이 바스켓")
+                        ////나중에 아이콘모양 넣기 .setIcon(R.drawable.icon)~~
+                        .setMessage("서버와의 접속에 실패하였습니다.")
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+            }
+        }
 
-            startActivity(intent);
-
-            finish();
-        }
-        else if(parsedData != null && parsedData[0][0].equals("failed")){
-            dlg = new AlertDialog.Builder(this).setTitle("플레이 바스켓")
-                    ////나중에 아이콘모양 넣기 .setIcon(R.drawable.icon)~~
-                    .setMessage("아이뒤 패스워드를 확인해주세요.")
-                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    }).show();
-        }
-        else{
-            dlg = new AlertDialog.Builder(this).setTitle("플레이 바스켓")
-                    ////나중에 아이콘모양 넣기 .setIcon(R.drawable.icon)~~
-                    .setMessage("서버와의 접속에 실패하였습니다.")
-                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    }).show();
-        }
 
     }
     /*

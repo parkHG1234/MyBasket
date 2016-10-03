@@ -12,6 +12,7 @@ import android.util.Log;
 import com.kakao.auth.ErrorCode;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.helper.log.Logger;
@@ -83,15 +84,16 @@ public class KakaoSignupActivity extends Activity{
                 id = userProfile.getId();
                 String strId = Long.toString(id);
                 redirectMainActivity(strId);// 로그인 성공시 MainActivity로
-                finish();
             }
         });
     }
+
 
     private void redirectMainActivity(final String id) {
         //db에 id에 해당하는 member가 있는지 확인 후 있으면 MainActivity 없으면 가입 권유 메시지 후 JoinAddActivity로 인텐트
         String result = SendByHttp(id);
         String[][] parsedData = jsonParserList(result);
+        final AlertDialog dlg;
         if(parsedData != null && parsedData[0][0].equals("Duplicate")){
             Intent intent = new Intent(this, MainActivity.class);
             Log.i("kakaoid", id);
@@ -99,7 +101,7 @@ public class KakaoSignupActivity extends Activity{
             startActivity(intent);
             finish();
         }else if(parsedData != null && parsedData[0][0].equals("noDuplicate")) {
-            AlertDialog dlg = new AlertDialog.Builder(this).setTitle("카카오 계정")
+            dlg = new AlertDialog.Builder(this).setTitle("카카오 계정")
                     .setMessage("카카오 계정으로 가입된 아이디가 없습니다. 새로 가입하시겠습니까?")
                     .setPositiveButton("예", new DialogInterface.OnClickListener() {
                         @Override
@@ -115,12 +117,12 @@ public class KakaoSignupActivity extends Activity{
                     .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent intent2 = new Intent(KakaoSignupActivity.this, LoginActivity.class);
-                            startActivity(intent2);
+                            onClickLogout();
                             finish();
                         }
                     }).show();
         }
+
     }
 
     private String SendByHttp(String id) {
@@ -178,4 +180,12 @@ public class KakaoSignupActivity extends Activity{
         finish();
     }
 
+    private void onClickLogout() {
+        UserManagement.requestLogout(new LogoutResponseCallback() {
+            @Override
+            public void onCompleteLogout() {
+                redirectLoginActivity();
+            }
+        });
+    }
 }
