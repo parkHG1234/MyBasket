@@ -6,6 +6,7 @@ package com.mysports.playbasket;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
 
     private Context context;
+    View view;
     private ArrayList<Match_Out_NewsFeed_Comment_Setting> arrComment;
     private LayoutInflater inflater;
     static ListView NewSpeed_Comment_List;
@@ -119,10 +121,10 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
         }
         NewsFeed_CommentList_Setting_Button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                view =v;
                 final CharSequence[] items = {"삭제"};
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-
 //                alertDialogBuilder.setTitle("선택 목록 대화 상자");
                 alertDialogBuilder.setItems(items, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int i) {
@@ -160,7 +162,7 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
 
                                     }
                                     else{
-                                        Toast.makeText(context, "사용자를확인해주세요", Toast.LENGTH_SHORT).show();
+                                        Snackbar.make(view, "사용자를확인해주세요.", Snackbar.LENGTH_SHORT).show();
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();

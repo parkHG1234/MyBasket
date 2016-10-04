@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -32,6 +33,7 @@ import java.util.Date;
 public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder.Callback {
 
     @SuppressWarnings("deprecation")
+    View view;
     android.hardware.Camera camera;
     SurfaceView NewsFeed_Camera_SurfaceView;
     SurfaceHolder surfaceHolder;
@@ -51,13 +53,13 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
         NewsFeed_Camera_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                view =v;
                 camera.takePicture(null, null, jpegCallback);
             }
         });
         getWindow().setFormat(PixelFormat.UNKNOWN);
         Intent IntentURL = new Intent(getApplicationContext(), Match_Out_NewsFeed_Writing.class);
         NewsFeed_Camera_SurfaceView = (SurfaceView) findViewById(R.id.NewsFeed_Camera_SurfaceView);
-//        NewsFeed_Camera_SurfaceView.setRotation(180);
         surfaceHolder = NewsFeed_Camera_SurfaceView.getHolder();
         surfaceHolder.addCallback(this);
 
@@ -68,7 +70,7 @@ public class Match_Out_NewsFeed_Camera extends Activity implements SurfaceHolder
 
                 try {
                     if(pictureFile == null){
-                        Toast.makeText(getApplicationContext(), "Error camera image saving", Toast.LENGTH_SHORT).show();
+                        Snackbar.make(view, "Error camera image saving", Snackbar.LENGTH_SHORT).show();
                         return;
                     }
                     FileOutputStream fos = new FileOutputStream(pictureFile);

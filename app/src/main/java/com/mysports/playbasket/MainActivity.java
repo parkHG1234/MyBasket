@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     static int MaxNum_out;
     static int in_MinNum;
     static String Token="";
+    View rootView;
     static String Alarm="";
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TabLayout tabLayout;
@@ -663,9 +664,33 @@ public class MainActivity extends AppCompatActivity {
             NewsFeed_Select_Button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    String result = "";
+                    try {
+                        HttpClient client = new DefaultHttpClient();
+                        String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_download.jsp";
+                        HttpPost post = new HttpPost(postURL);
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("NewsFeed_Do", address1));
+                        params.add(new BasicNameValuePair("NewsFeed_Si", address2));
+                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                        post.setEntity(ent);
+                        HttpResponse response = client.execute(post);
+                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                        String line = null;
+                        while ((line = bufreader.readLine()) != null) {
+                            result += line;
+                        }
+                        parsedData_out = jsonParserList(result);
+                        setData();
+                        dataadapter = new Match_Out_NewsFeed_Data_Adapter(getContext(), arrData, Id, MaxNum_out);
+                        dataadapter.listview(NewsFeed_List);
+                        NewsFeed_List.setAdapter(dataadapter);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
+
 
             NewsFeed_Writing.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -2193,7 +2218,8 @@ public class MainActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             Log.d("Test", "exception " + e.getMessage());
-            Toast.makeText(this,"업로드중 에러발생!", Toast.LENGTH_SHORT).show();
+            Snackbar.make(rootView, "업로드중 에러발생!.", Snackbar.LENGTH_SHORT).show();
+
         }
     }
 }

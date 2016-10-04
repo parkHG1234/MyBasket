@@ -5,11 +5,11 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -504,11 +504,11 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
                 parsedData = jsonParserList_save(result);
                 if(parsedData[0][0].equals("succed"))
                 {
-                    Toast.makeText(Navigation_TeamManager_TeamIntro.this,"수정완료",Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view,"수정완료",Snackbar.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    Toast.makeText(Navigation_TeamManager_TeamIntro.this,"잠시 후 다시 시도해주세요.",Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view,"잠시 후 다시 시도해주세요.",Snackbar.LENGTH_SHORT).show();
                 }
             }
         });

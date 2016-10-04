@@ -2,6 +2,7 @@ package com.mysports.playbasket;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -177,7 +178,8 @@ public class Match_In_CustomList_MyAdapter extends BaseAdapter {
                 if(parsedData[0][0].equals("succed")){
                     DutyDialog.dismiss();
                     notifyDataSetChanged();
-                    Toast.makeText(context,"게시글이 삭제되었습니다.",Toast.LENGTH_SHORT).show();
+
+                    Snackbar.make(view, "게시글이 삭제되었습니다.", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });

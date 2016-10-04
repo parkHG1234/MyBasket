@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -59,6 +60,7 @@ import me.drakeet.materialdialog.MaterialDialog;
  */
 public class Match_Out_NewsFeed_Data_Modify extends Activity {
 
+    View view;
     EditText NewsFeed_Writing_TextEditText;
     ImageView NewsFeed_Camera_Image;
     Button NewsFeed_Writing_Button;
@@ -78,7 +80,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
 
     private static boolean flag = false;
     Intent CameraIntent = null;
-
+    String str;
     Boolean enabled = true;
 
     @Override
@@ -131,6 +133,13 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
         adspin1 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Data_Modify.this, R.array.spinner_do, R.layout.zfile_spinner_test);
         adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        NewsFeed_Writing_TextEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view = v;
+            }
+        });
+
         NewsFeed_Writing_TextEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -145,6 +154,11 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                 } else if (NewsFeed_Writing_TextEditText.getText().length() <= 0) {
                     NewsFeed_Writing_Button.setTextColor(Color.GRAY);
                     enabled = false;
+                }
+                if(NewsFeed_Writing_TextEditText.getText().toString().length()>200){
+                    str = NewsFeed_Writing_TextEditText.getText().toString();
+                    NewsFeed_Writing_TextEditText.setText(str.substring(0,199));
+                    Snackbar.make(view, "200자안으로 작성해주세요.", Snackbar.LENGTH_SHORT).show();
                 }
             }
 
@@ -165,8 +179,9 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                 .setPositiveButton("선택 완료", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        view =v;
                         if (Court.equals("코트 선택")) {
-                            Toast.makeText(getApplicationContext(), "코트를 선택해주세요.", Toast.LENGTH_LONG).show();
+                            Snackbar.make(v, "코트를 선택해주세요", Snackbar.LENGTH_SHORT).show();
                         } else {
                             TeamPlayerDialog.dismiss();
                         }
@@ -174,7 +189,8 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                 });
         NewsFeed_Writing_Button_CourtModify.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                view =v;
                 TeamPlayerDialog
                         .setTitle("코트 선택")
                         .setView(layout)
@@ -182,7 +198,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                             @Override
                             public void onClick(View v) {
                                 if (Court.equals("코트 선택")) {
-                                    Toast.makeText(getApplicationContext(), "코트를 선택해주세요.", Toast.LENGTH_LONG).show();
+                                    Snackbar.make(view, "코트를 선택해주세요", Snackbar.LENGTH_SHORT).show();
                                 } else {
                                     TeamPlayerDialog.dismiss();
                                 }
@@ -1175,7 +1191,8 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), "내용 입력후 게시하여주세요", Toast.LENGTH_SHORT).show();
+
+                    Snackbar.make(view, "내용 입력후 게시하여주세요", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -1315,7 +1332,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
 
         } catch (Exception e) {
             Log.d("Test", "exception " + e.getMessage());
-            Toast.makeText(this, "업로드중 에러발생!", Toast.LENGTH_SHORT).show();
+            Snackbar.make(view, "업로드중 에러발생!", Snackbar.LENGTH_SHORT).show();
         }
     }
 }

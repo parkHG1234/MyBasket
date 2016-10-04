@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -76,12 +77,15 @@ public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
     String[][] parsedData, parsedData_MyInfo;
     static String Do, Si, Court, ImageURL = null, ImageFile = null;
     static String Id = "", Name, Profile;
+    String str;
     private static boolean flag = false;
+    View view;
     Boolean enabled=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.layout_match_out_newsfeed_writing);
         Intent intent1 = getIntent();
         Id = intent1.getStringExtra("Id");
@@ -111,6 +115,7 @@ public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
             NewsFeed_Writing_Button_Write.setTextColor(Color.GRAY);
             enabled=false;
         }
+
 
         //id에 해당하는 정보 받아온다.
         String id_info = "";
@@ -160,13 +165,43 @@ public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if(Court.equals("코트 선택")){
-                            Toast.makeText(getApplicationContext(),"코트를 선택해주세요.",Toast.LENGTH_SHORT).show();
+                            Snackbar.make(v, "코트를 선택해주세요.", Snackbar.LENGTH_SHORT).show();
                         }else {
                             TeamPlayerDialog.dismiss();
                         }
                     }
                 });
         TeamPlayerDialog.show();
+
+        NewsFeed_Writing_TextEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view=v;
+            }
+        });
+
+        NewsFeed_Writing_TextEditText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if(NewsFeed_Writing_TextEditText.getText().toString().length()>200){
+                    str = NewsFeed_Writing_TextEditText.getText().toString();
+                    NewsFeed_Writing_TextEditText.setText(str.substring(0,199));
+                    Snackbar.make(view, "200자안으로 작성해주세요.", Snackbar.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
         adspin1 = ArrayAdapter.createFromResource(Match_Out_NewsFeed_Writing.this, R.array.spinner_do, R.layout.zfile_spinner_test);
         adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1092,7 +1127,7 @@ public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 if(Court.equals("코트 선택")){
-                                    Toast.makeText(getApplicationContext(),"코트를 선택해주세요.",Toast.LENGTH_LONG).show();
+                                    Snackbar.make(v, "코트를 선택해주세요.", Snackbar.LENGTH_SHORT).show();
                                 }else {
                                     TeamPlayerDialog.dismiss();
                                 }
@@ -1167,8 +1202,7 @@ public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
                     }
 
                 } else {
-
-                    Toast.makeText(getApplicationContext(), "내용 입력후 게시하여주세요", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "코트를 선택해주세요.", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -1323,7 +1357,8 @@ public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
 
         } catch (Exception e) {
             Log.d("Test", "exception " + e.getMessage());
-            Toast.makeText(this, "업로드중 에러발생!", Toast.LENGTH_SHORT).show();
+
+            Snackbar.make(view, "업로드중 에러발생!", Snackbar.LENGTH_SHORT).show();
         }
     }
 }

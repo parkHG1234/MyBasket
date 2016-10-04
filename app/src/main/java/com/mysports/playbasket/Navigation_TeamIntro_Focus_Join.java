@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +43,7 @@ import java.util.List;
  * Created by park on 2016-06-22.
  */
 public class Navigation_TeamIntro_Focus_Join extends Activity{
+    View view;
     ImageView TeamIntro_Foucs_Join_ImageView_Emblem;
     TextView TeamIntro_Foucs_Join_TextView_TeamName;
     EditText TeamIntro_Foucs_Join_EditText_Introduce;
@@ -84,6 +86,7 @@ public class Navigation_TeamIntro_Focus_Join extends Activity{
         TeamIntro_Foucs_Join_Button_Join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                view = v;
                 String result="";
                 try {
                     HttpClient client = new DefaultHttpClient();
@@ -110,7 +113,8 @@ public class Navigation_TeamIntro_Focus_Join extends Activity{
                 }
                 parsedData = jsonParserList(result);
                 if(parsedData[0][0].equals("succed")){
-                    Toast.makeText(Navigation_TeamIntro_Focus_Join.this, "가입 신청 완료", Toast.LENGTH_SHORT).show();
+
+                    Snackbar.make(view, "가입 신청 완료", Snackbar.LENGTH_SHORT).show();
                     finish();
                 }
             }

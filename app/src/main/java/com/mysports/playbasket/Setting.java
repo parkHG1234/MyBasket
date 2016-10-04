@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -55,8 +56,9 @@ public class Setting extends Activity {
     String Id;
     String Alarm;
     String Token;
-    String msg = "2016 / 1 / 1";
+    String msg = "2016 / 01 / 01";
 
+    View view;
     ImageView Setting_ImageView;
     Button Setting_Button_notice;
     Button Setting_Button_recommend;
@@ -141,6 +143,7 @@ public class Setting extends Activity {
         Setting_ImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                view =v;
                 finish();
             }
         });
@@ -221,9 +224,9 @@ public class Setting extends Activity {
                     HttpResponse response = client.execute(post);
 
                     recommend_EditText.setText("");
-                    Toast.makeText(getApplicationContext(), "건의사항이등록되었습니다.", Toast.LENGTH_LONG).show();
+
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "다시시도해주세요.", Toast.LENGTH_LONG).show();
+                    Snackbar.make(v, "다시시도해주세요.", Snackbar.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }
@@ -307,6 +310,7 @@ public class Setting extends Activity {
 
         final View layout = inflater.inflate(R.layout.layout_setting_dropout_dialog, (ViewGroup) findViewById(R.id.Layout_Setting_Dropout_Root));
         Layout_Setting_TextView_Dropout = (TextView) layout.findViewById(R.id.Layout_Setting_TextView_Dropout);
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("회원탈퇴")        // 제목 설정
                 .setMessage("탈퇴하시겠습니까?")        // 메세지 설정
@@ -324,7 +328,8 @@ public class Setting extends Activity {
                             post.setEntity(ent);
                             client.execute(post);
 
-                            Toast.makeText(getApplicationContext(), "회원탈퇴되었습니다.", Toast.LENGTH_LONG).show();
+
+                            Toast.makeText(getApplicationContext(),"회원탈퇴되었습니다.",Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
 
                         }
@@ -357,12 +362,13 @@ public class Setting extends Activity {
                 .setPositiveButton("완료", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Log.i("aaaaaaaaa",parsedData_dropout[0][0]);
+                        Log.i("aaaaaaaaa",msg);
                         if (msg.equals(parsedData_dropout[0][0])) {
                             dialog.show();
                         } else {
 
-                            Toast.makeText(getApplicationContext(), "생년월일을확인해주세요", Toast.LENGTH_SHORT).show();
+                            Snackbar.make(v, "생년월일을확인해주세요.", Snackbar.LENGTH_SHORT).show();
                         }
                     }
                 });

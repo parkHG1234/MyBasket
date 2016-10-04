@@ -88,11 +88,12 @@
         <TextView
             android:id="@+id/NewsFeed_CustomList_Data"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="8dp"
             android:paddingTop="10dp"
+            android:maxLength="200"
             android:text="Medium Text"
             android:textSize="18dp" />
 

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -122,9 +123,9 @@ public class AccountActivity extends Activity {
 						imageView.setImageBitmap(bitmap);
 						doSaveFile();                 // sdcard에 파일 저장
 						doFileUpload();              //서버에 이미지를 전송하는 메서드 호출
-						Toast.makeText(AccountActivity.this, "서버에 파일을 성공적으로 전송하였습니다",
-								Toast.LENGTH_LONG).show();
 
+
+						Snackbar.make(view, "서버에 파일을 성공적으로 전송하였습니다.", Snackbar.LENGTH_SHORT).show();
 						camera.startPreview();   // 정지된 프리뷰를 재개
 						inProgress = false;        // 처리중 플래그를 끔
 
