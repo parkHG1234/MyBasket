@@ -18,7 +18,8 @@ public class Match_In_CustomList_MyData {
     private String hour;
     private String minute;
     private String MyId;
-    public Match_In_CustomList_MyData(String TeamName,String Address,String Date, String Time,String ScheduleId,String Title,String Id, String Name, String Emblem, String month, String day, String hour, String minute,String MyId){
+    private String TimeEnd;
+    public Match_In_CustomList_MyData(String TeamName,String Address,String Date, String Time,String ScheduleId,String Title,String Id, String Name, String Emblem, String month, String day, String hour, String minute,String MyId,String TimeEnd){
         this.TeamName = TeamName;
         this.Address= Address;
         this.Date=Date;
@@ -33,6 +34,7 @@ public class Match_In_CustomList_MyData {
         this.hour = hour;
         this.minute = minute;
         this.MyId = MyId;
+        this.TimeEnd = TimeEnd;
     }
     public String getTeamName() {
         return TeamName;
@@ -66,4 +68,7 @@ public class Match_In_CustomList_MyData {
         return minute;
     }
     public String getMyId(){return MyId;}
+    public String getTimeEnd(){
+        return TimeEnd;
+    }
 }

@@ -102,17 +102,6 @@
                     android:textSize="15dp"
                     android:layout_marginLeft="5dp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="시간"
-                    android:id="@+id/textView35"
-                    android:textColor="@color/Black"
-                    android:layout_weight="1"
-                    android:textIsSelectable="false"
-                    android:textSize="15dp"
-                    android:layout_marginLeft="5dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -130,13 +119,62 @@
                     android:layout_weight="1"
                     android:textSize="15dp" />
 
-                <Button
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:text="New Button"
-                    android:id="@+id/Match_In_Modify_Button_Schedule_Time"
-                    android:layout_weight="1"
-                    android:textSize="15dp" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="시작시간"
+                        android:id="@+id/textView35"
+                        android:textColor="@color/Black"
+                        android:layout_weight="1.5"
+                        android:textIsSelectable="false"
+                        android:textSize="15dp"
+                        android:layout_marginLeft="5dp" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="New Button"
+                        android:id="@+id/Match_In_Modify_Button_Schedule_Time"
+                        android:layout_weight="1"
+                        android:textSize="15dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:text="종료시간"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/textView30"
+                        android:layout_weight="1.5"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical" />
+
+                    <Button
+                        android:text="Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/Match_In_Modify_Button_Schedule_TimeEnd"
+                        android:layout_weight="1" />
+                </LinearLayout>
             </LinearLayout>
 
             <TextView

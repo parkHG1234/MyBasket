@@ -46,7 +46,8 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
     private String TeamAddress_Do = "";
     private String TeamAddress_Se = "";
     private String BookDay="";
-    private String BookTime="";
+    private String StartTime="";
+    private String EndTime="";
     private String Consideration="";
     private String FreeParking="";
     private String PaidParking="";
@@ -64,6 +65,7 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
     private Button Match_In_Register_Button_TeamAddress;
     private Button Match_In_Register_Button_Schedule_Date;
     private Button Match_In_Register_Button_Schedule_Time;
+    private Button Match_In_Register_Button_Schedule_TimeEnd;
     private CircularProgressButton Match_In_Register_Button_Register;
     private CheckBox Match_In_Register_CheckBox_FreeParking;
     private CheckBox Match_In_Register_CheckBox_PaidParking;
@@ -72,6 +74,8 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
     private CheckBox Match_In_Register_CheckBox_Display;
     private CheckBox Match_In_Register_CheckBox_HeatingAndCooling;
     private EditText Match_In_Register_EditText_Phone;
+
+    static String Time_Start="off",Time_End="off";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_match_in_register);
@@ -84,6 +88,7 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
         Match_In_Register_EditText_AddressFocus =(MaterialEditText)findViewById(R.id.Match_In_Register_EditText_AddressFocus);
         Match_In_Register_Button_Schedule_Date = (Button)findViewById(R.id.Match_In_Register_Button_Schedule_Date);
         Match_In_Register_Button_Schedule_Time = (Button)findViewById(R.id.Match_In_Register_Button_Schedule_Time);
+        Match_In_Register_Button_Schedule_TimeEnd = (Button)findViewById(R.id.Match_In_Register_Button_Schedule_TimeEnd);
         Match_In_Register_Button_Register = (CircularProgressButton)findViewById(R.id.Match_In_Register_Button_Register);
         Match_In_Register_CheckBox_FreeParking = (CheckBox)findViewById(R.id.Match_In_Register_CheckBox_FreeParking);
         Match_In_Register_CheckBox_PaidParking = (CheckBox)findViewById(R.id.Match_In_Register_CheckBox_PaidParking);
@@ -132,13 +137,14 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
         TeamAddress_Do = parsedData[0][1];
         TeamAddress_Se = parsedData[0][2];
         BookDay = CurrentYear+ " - " + CurrentMonth + " - "+CurrentDate;
-        BookTime = Currenthour+ " : " + CurrentMin;
-
+        StartTime = Currenthour+ " : " + CurrentMin;
+        EndTime = (Currenthour+3)+ " : " + CurrentMin;
 
         Match_In_Register_Button_TeamName.setText(TeamName);
         Match_In_Register_Button_TeamAddress.setText(TeamAddress_Do+" "+TeamAddress_Se);
         Match_In_Register_Button_Schedule_Date.setText(BookDay);
-        Match_In_Register_Button_Schedule_Time.setText(BookTime);
+        Match_In_Register_Button_Schedule_Time.setText(StartTime);
+        Match_In_Register_Button_Schedule_TimeEnd.setText(EndTime);
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //운동일정 버튼 클릭 이벤트 -> Calender 다이얼로그 창 띄움
         Match_In_Register_Button_Schedule_Date.setOnClickListener(new View.OnClickListener() {
@@ -157,6 +163,23 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
         Match_In_Register_Button_Schedule_Time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Time_Start = "on";
+                Time_End="off";
+                Calendar now = Calendar.getInstance();
+                TimePickerDialog tpd = TimePickerDialog.newInstance(
+                        Match_In_Register.this,
+                        now.get(Calendar.HOUR_OF_DAY),
+                        now.get(Calendar.MINUTE),
+                        false
+                );
+                tpd.show(getFragmentManager(), "Datepickerdialog");
+            }
+        });
+        Match_In_Register_Button_Schedule_TimeEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Time_Start = "off";
+                Time_End="on";
                 Calendar now = Calendar.getInstance();
                 TimePickerDialog tpd = TimePickerDialog.newInstance(
                         Match_In_Register.this,
@@ -195,7 +218,8 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
                     params.add(new BasicNameValuePair("TeamAddress_Do", TeamAddress_Do));
                     params.add(new BasicNameValuePair("TeamAddress_Se", TeamAddress_Se));
                     params.add(new BasicNameValuePair("BookDay", BookDay));
-                    params.add(new BasicNameValuePair("BookTime", BookTime));
+                    params.add(new BasicNameValuePair("BookTime", StartTime));
+                    params.add(new BasicNameValuePair("BookTimeEnd", EndTime));
                     params.add(new BasicNameValuePair("FreeParking", FreeParking));
                     params.add(new BasicNameValuePair("PaidParking", PaidParking));
                     params.add(new BasicNameValuePair("NoParking", NoParking));
@@ -253,8 +277,15 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
         String hourString = hourOfDay < 10 ? "0"+hourOfDay : ""+hourOfDay;
         String minuteString = minute < 10 ? "0"+minute : ""+minute;
-        BookTime = hourString+ " : " + minuteString;
-        Match_In_Register_Button_Schedule_Time.setText(BookTime);
+        if(Time_Start.equals("on")){
+            StartTime = hourString+ " : " + minuteString;
+            Match_In_Register_Button_Schedule_Time.setText(StartTime);
+        }
+        if(Time_End.equals("on")){
+            EndTime = hourString+ " : " + minuteString;
+            Match_In_Register_Button_Schedule_TimeEnd.setText(EndTime);
+        }
+
     }
     /////네비 탭 - 매 팀정보 : 받아온 json 파싱합니다.//////////////////////////////////////////////////////////
     public String[][] jsonParserList(String pRecvServerPage){

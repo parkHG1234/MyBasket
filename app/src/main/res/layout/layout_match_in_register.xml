@@ -99,16 +99,6 @@
                     android:layout_marginLeft="8dp"
                     android:textSize="17dp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="시간"
-                    android:id="@+id/textView35"
-                    android:textColor="@color/Black"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="8dp"
-                    android:textSize="17dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -126,13 +116,68 @@
                     android:layout_weight="1"
                     android:textSize="13dp" />
 
-                <Button
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:text="New Button"
-                    android:id="@+id/Match_In_Register_Button_Schedule_Time"
-                    android:layout_weight="1"
-                    android:textSize="13dp" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="시작시간"
+                        android:id="@+id/textView35"
+                        android:textColor="@color/Black"
+                        android:layout_weight="1.2"
+                        android:layout_marginLeft="8dp"
+                        android:textSize="17dp"
+                        android:gravity="center_vertical" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="New Button"
+                        android:id="@+id/Match_In_Register_Button_Schedule_Time"
+                        android:layout_weight="1"
+                        android:textSize="13dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="종료시간"
+                        android:id="@+id/textView37"
+                        android:textColor="@color/Black"
+                        android:layout_weight="1.2"
+                        android:layout_marginLeft="8dp"
+                        android:textSize="17dp"
+                        android:gravity="center_vertical" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="New Button"
+                        android:id="@+id/Match_In_Register_Button_Schedule_TimeEnd"
+                        android:layout_weight="1"
+                        android:textSize="13dp" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <TextView

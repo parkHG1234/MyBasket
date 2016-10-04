@@ -58,6 +58,7 @@ public class Match_In_Focus extends AppCompatActivity {
     private String TeamIntro="";
     private String Phone="";
     private String AddressFocus="";
+    private String TimeEnd="";
     String Image1="";
     String Image2="";
     String Image3="";
@@ -177,11 +178,12 @@ public class Match_In_Focus extends AppCompatActivity {
         TeamIntro = parsedData[0][17];
         Phone = parsedData[0][23];
         AddressFocus = parsedData[0][24];
+        TimeEnd = parsedData[0][25];
         //리스트 뷰 정보 입력
         Match_In_Focus_TextView_Title.setText(Title);
         Match_In_Focus_TextView_Address.setText(Address + AddressFocus);
         Match_In_Focus_TextView_Date.setText(Time);
-        Match_In_Focus_TextView_Time.setText(Date);
+        Match_In_Focus_TextView_Time.setText(Date+" ~ "+TimeEnd);
 
         //추가정보 입력
         if(FreeParking.equals("true")){
@@ -291,7 +293,7 @@ public class Match_In_Focus extends AppCompatActivity {
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
 
-            String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9", "msg10","msg11","msg12","msg13","msg14","msg15","msg16","msg17","msg18","msg19", "msg20","msg21","msg22","msg23","msg24","msg25"};
+            String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9", "msg10","msg11","msg12","msg13","msg14","msg15","msg16","msg17","msg18","msg19", "msg20","msg21","msg22","msg23","msg24","msg25","msg26"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for(int i = 0; i<jArr.length();i++){
                 json = jArr.getJSONObject(i);

@@ -47,7 +47,8 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
     private String TeamAddress_Do = "";
     private String TeamAddress_Se = "";
     private String BookDay="";
-    private String BookTime="";
+    private String StartTime="";
+    private String EndTime="";
     private String Consideration="";
     private String FreeParking="";
     private String PaidParking="";
@@ -58,12 +59,15 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
     private String ScheduleId="";
     private String AddressFocus="";
     private String Phone="";
+    private String BookTimeEnd="";
+
     private MaterialEditText Match_In_Modify_EditText_Title;
     private MaterialEditText Match_In_Modify_EditText_Consideration;
     private Button Match_In_Modify_Button_TeamName;
     private Button Match_In_Modify_Button_TeamAddress;
     private Button Match_In_Modify_Button_Schedule_Date;
     private Button Match_In_Modify_Button_Schedule_Time;
+    private Button Match_In_Modify_Button_Schedule_TimeEnd;
     private CircularProgressButton Match_In_Modify_Button_Modify;
     private CheckBox Match_In_Modify_CheckBox_FreeParking;
     private CheckBox Match_In_Modify_CheckBox_PaidParking;
@@ -73,6 +77,7 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
     private CheckBox Match_In_Modify_CheckBox_HeatingAndCooling;
     private EditText Match_In_Modify_EditText_Phone;
     private EditText Match_In_Modify_EditText_AddressFocus;
+    static String Time_Start="off",Time_End="off";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_match_in_modify);
@@ -85,6 +90,7 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
         Match_In_Modify_Button_TeamAddress = (Button)findViewById(R.id.Match_In_Modify_Button_TeamAddress);
         Match_In_Modify_Button_Schedule_Date = (Button)findViewById(R.id.Match_In_Modify_Button_Schedule_Date);
         Match_In_Modify_Button_Schedule_Time = (Button)findViewById(R.id.Match_In_Modify_Button_Schedule_Time);
+        Match_In_Modify_Button_Schedule_TimeEnd = (Button)findViewById(R.id.Match_In_Modify_Button_Schedule_TimeEnd);
         Match_In_Modify_Button_Modify = (CircularProgressButton)findViewById(R.id.Match_In_Modify_Button_Modify);
         Match_In_Modify_CheckBox_FreeParking = (CheckBox)findViewById(R.id.Match_In_Modify_CheckBox_FreeParking);
         Match_In_Modify_CheckBox_PaidParking = (CheckBox)findViewById(R.id.Match_In_Modify_CheckBox_PaidParking);
@@ -134,7 +140,7 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
         TeamAddress_Do= parsedData_Data[0][1];
         TeamAddress_Se = parsedData_Data[0][13];
         BookDay = parsedData_Data[0][2];
-        BookTime = parsedData_Data[0][3];
+        StartTime = parsedData_Data[0][3];
         Title = parsedData_Data[0][5];
         Consideration = parsedData_Data[0][12];
         FreeParking = parsedData_Data[0][6];
@@ -145,12 +151,14 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
         HeatingAndCooling=parsedData_Data[0][11];
         AddressFocus = parsedData_Data[0][14];
         Phone =parsedData_Data[0][15];
+        BookTimeEnd = parsedData_Data[0][16];
 
         Match_In_Modify_EditText_Title.setText(Title);
         Match_In_Modify_Button_TeamName.setText(TeamName);
         Match_In_Modify_Button_TeamAddress.setText(TeamAddress_Do+" "+TeamAddress_Se);
         Match_In_Modify_Button_Schedule_Date.setText(BookDay);
-        Match_In_Modify_Button_Schedule_Time.setText(BookTime);
+        Match_In_Modify_Button_Schedule_Time.setText(StartTime);
+        Match_In_Modify_Button_Schedule_TimeEnd.setText(BookTimeEnd);
         Match_In_Modify_EditText_Consideration.setText(Consideration);
         Match_In_Modify_EditText_AddressFocus.setText(AddressFocus);
         Match_In_Modify_EditText_Phone.setText(Phone);
@@ -191,6 +199,23 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
         Match_In_Modify_Button_Schedule_Time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Time_Start = "on";
+                Time_End="off";
+                Calendar now = Calendar.getInstance();
+                TimePickerDialog tpd = TimePickerDialog.newInstance(
+                        Match_In_Register_Modify.this,
+                        now.get(Calendar.HOUR_OF_DAY),
+                        now.get(Calendar.MINUTE),
+                        false
+                );
+                tpd.show(getFragmentManager(), "Datepickerdialog");
+            }
+        });
+        Match_In_Modify_Button_Schedule_TimeEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Time_Start = "off";
+                Time_End="on";
                 Calendar now = Calendar.getInstance();
                 TimePickerDialog tpd = TimePickerDialog.newInstance(
                         Match_In_Register_Modify.this,
@@ -230,7 +255,7 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
                     params.add(new BasicNameValuePair("TeamAddress_Do", TeamAddress_Do));
                     params.add(new BasicNameValuePair("TeamAddress_Se", TeamAddress_Se));
                     params.add(new BasicNameValuePair("BookDay", BookDay));
-                    params.add(new BasicNameValuePair("BookTime", BookTime));
+                    params.add(new BasicNameValuePair("BookTime", StartTime));
                     params.add(new BasicNameValuePair("FreeParking", FreeParking));
                     params.add(new BasicNameValuePair("PaidParking", PaidParking));
                     params.add(new BasicNameValuePair("NoParking", NoParking));
@@ -244,7 +269,7 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
                     params.add(new BasicNameValuePair("NewsFeed_Minute", new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis()))));
                     params.add(new BasicNameValuePair("AddressFocus", AddressFocus));
                     params.add(new BasicNameValuePair("Phone", Phone));
-
+                    params.add(new BasicNameValuePair("BookTimeEnd", EndTime));
                     UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                     post.setEntity(ent);
                     Match_In_Modify_Button_Modify.setProgress(50);
@@ -289,8 +314,15 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
         String hourString = hourOfDay < 10 ? "0"+hourOfDay : ""+hourOfDay;
         String minuteString = minute < 10 ? "0"+minute : ""+minute;
-        BookTime = hourString+ " : " + minuteString;
-        Match_In_Modify_Button_Schedule_Time.setText(BookTime);
+        if(Time_Start.equals("on")) {
+            StartTime = hourString+ " : " + minuteString;
+            Match_In_Modify_Button_Schedule_Time.setText(StartTime);
+        }
+        if(Time_End.equals("on")){
+            EndTime = hourString+ " : " + minuteString;
+            Match_In_Modify_Button_Schedule_TimeEnd.setText(EndTime);
+        }
+
     }
     /////네비 탭 - 매 팀정보 : 받아온 json 파싱합니다.//////////////////////////////////////////////////////////
     public String[][] jsonParserList(String pRecvServerPage){
@@ -299,7 +331,7 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
 
-            String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9","msg10","msg11","msg12","msg13","msg14","msg15","msg16"};
+            String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8","msg9","msg10","msg11","msg12","msg13","msg14","msg15","msg16","msg17"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for(int i = 0; i<jArr.length();i++){
                 json = jArr.getJSONObject(i);

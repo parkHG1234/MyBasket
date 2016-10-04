@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 android {
+    signingConfigs {
+        release {
+            keyAlias 'relasekey'
+            keyPassword 'gyrms123'
+            storeFile file('C:/keypass/release.jks')
+            storePassword 'gyrms123'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "24.0.0"
-
     defaultConfig {
         applicationId "com.mysports.playbasket"
         minSdkVersion 19
@@ -15,6 +22,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }

@@ -163,7 +163,7 @@ public class LoginActivity extends Activity {
 
                 startActivity(intent);
 
-                finish();
+                super.finish();
             }
             else if(parsedData != null && parsedData[0][0].equals("failed")){
                 dlg = new AlertDialog.Builder(this).setTitle("플레이 바스켓")

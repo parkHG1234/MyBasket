@@ -73,6 +73,7 @@ public class Match_In_CustomList_MyAdapter extends BaseAdapter {
         String Emblem = arrData.get(position).getEmblem();
         String MyId = arrData.get(position).getMyId();
         String Id = arrData.get(position).getId();
+        String TimeEnd = arrData.get(position).getTimeEnd();
         String ScheduleId = arrData.get(position).getScheduleId();
         final TextView Match_In_CustomList_Title = (TextView)convertView.findViewById(R.id.Match_In_CustomList_Title);
         final LinearLayout Match_In_CustomList_Layout = (LinearLayout)convertView.findViewById(R.id.Match_In_CustomList_Layout);
@@ -107,8 +108,9 @@ public class Match_In_CustomList_MyAdapter extends BaseAdapter {
         Match_In_CustomList_Address.setText(Address);
         String[] str_Date = new String(Date).split(" - ");
         Time = ChageTime(Time);
+        TimeEnd = ChageTime(TimeEnd);
         //Match_In_CustomList_Time.setText(str_Date[1]+ "월 " + str_Date[2]+"일 | "+ Time);
-        Match_In_CustomList_Time.setText(str_Date[1]+"월"+str_Date[2]+"일 | "+ Time);
+        Match_In_CustomList_Time.setText(str_Date[1]+"월"+str_Date[2]+"일 | "+ Time + " ~ " + TimeEnd);
        // Match_In_CustomList_Time.setText(Date +" | "+ Time);
         Match_In_CustomList_Layout.setOnClickListener(new View.OnClickListener() {
             @Override

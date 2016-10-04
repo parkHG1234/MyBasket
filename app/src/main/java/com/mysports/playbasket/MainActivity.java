@@ -1210,7 +1210,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                     parsedData_in = inList_jsonParserList(result);
                                     for (int i = 0; i <parsedData_in.length ; i++) {
-                                        match_In_CustomList_MyData.add(new Match_In_CustomList_MyData(parsedData_in[i][0], parsedData_in[i][1], parsedData_in[i][2], parsedData_in[i][3], parsedData_in[i][4], parsedData_in[i][5],parsedData_in[i][6],parsedData_in[i][7],parsedData_in[i][8],parsedData_in[i][9],parsedData_in[i][10],parsedData_in[i][11],parsedData_in[i][12],Id));
+                                        match_In_CustomList_MyData.add(new Match_In_CustomList_MyData(parsedData_in[i][0], parsedData_in[i][1], parsedData_in[i][2], parsedData_in[i][3], parsedData_in[i][4], parsedData_in[i][5],parsedData_in[i][6],parsedData_in[i][7],parsedData_in[i][8],parsedData_in[i][9],parsedData_in[i][10],parsedData_in[i][11],parsedData_in[i][12],Id,parsedData_in[i][13]));
                                     }
                                     match_In_CustomList_MyAdapter.notifyDataSetChanged();
                                 } catch (Exception e) {
@@ -1238,7 +1238,7 @@ public class MainActivity extends AppCompatActivity {
         private void inList_setData() {
             match_In_CustomList_MyData = new ArrayList<Match_In_CustomList_MyData>();
             for (int i = 0; i <parsedData_in.length ; i++) {
-                match_In_CustomList_MyData.add(new Match_In_CustomList_MyData(parsedData_in[i][0], parsedData_in[i][1], parsedData_in[i][2], parsedData_in[i][3], parsedData_in[i][4], parsedData_in[i][5],parsedData_in[i][6],parsedData_in[i][7],parsedData_in[i][8],parsedData_in[i][9],parsedData_in[i][10],parsedData_in[i][11],parsedData_in[i][12],Id));
+                match_In_CustomList_MyData.add(new Match_In_CustomList_MyData(parsedData_in[i][0], parsedData_in[i][1], parsedData_in[i][2], parsedData_in[i][3], parsedData_in[i][4], parsedData_in[i][5],parsedData_in[i][6],parsedData_in[i][7],parsedData_in[i][8],parsedData_in[i][9],parsedData_in[i][10],parsedData_in[i][11],parsedData_in[i][12],Id,parsedData_in[i][13]));
             }
         }
 
@@ -1282,7 +1282,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 json_in = new JSONObject(pRecvServerPage);
                 jArr_in = json_in.getJSONArray("List");
-                String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6","msg7", "msg8", "msg9", "msg10","msg11","msg12","msg13"};
+                String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6","msg7", "msg8", "msg9", "msg10","msg11","msg12","msg13","msg14"};
                 parsedData_in = new String[jArr_in.length()][jsonName.length];
                 for (int i = 0; i < jArr_in.length(); i++) {
                     json_in = jArr_in.getJSONObject(i);
@@ -1919,10 +1919,8 @@ public class MainActivity extends AppCompatActivity {
                     editor1.putString("pw", "");
                     editor1.putString("auto", "false");
                     editor1.commit();
-                    Intent intent_Login = new Intent(rootView.getContext(), LoginActivity.class);
-                    startActivity(intent_Login);
+
                     onClickLogout();
-                    getActivity().finish();
                 }
             });
 
