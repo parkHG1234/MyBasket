@@ -1,6 +1,8 @@
 package com.mysports.playbasket;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -229,15 +231,21 @@ public class JoinAddActivity extends AppCompatActivity{
             String result = JoinByHttp(id,pw,user_type,name,sex,birth,posi,weight,height);
             parsedData = jsonParserList(result);
             if(parsedData[0][0] != null && parsedData[0][0].equals("succed")) {
-
-                Snackbar.make(view, "회원가입이 완료되었습니다.", Snackbar.LENGTH_LONG)
-                        .show();
-
-                Intent intent = new Intent(JoinAddActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+                AlertDialog dlg = new AlertDialog.Builder(this).setTitle("회원가입 완료")
+                        .setMessage("회원가입이 완료되었습니다. 로그인 화면으로 이동합니다.")
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        }).show();
             }else {
-
+                AlertDialog dlg = new AlertDialog.Builder(this).setTitle("오류")
+                        .setMessage("에러가 발생하였습니다. 다시한번 시도해 주세요.")
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {}
+                        }).show();
             }
         }
 

@@ -3,8 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/0922.iml" filepath="$PROJECT_DIR$/0922.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BasketBook.iml" filepath="$PROJECT_DIR$/BasketBook.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyBasket.iml" filepath="$PROJECT_DIR$/MyBasket.iml" />
       <module fileurl="file://$PROJECT_DIR$/Mybasket.iml" filepath="$PROJECT_DIR$/Mybasket.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

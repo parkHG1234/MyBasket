@@ -63,6 +63,7 @@ public class JoinIdActivity extends Activity {
                 intent.putExtra("id",id);
 
                 startActivity(intent);
+                finish();
             }
 
         }else {
