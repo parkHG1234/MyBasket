@@ -44,6 +44,7 @@ public class JoinPwActivity extends Activity {
                 intent.putExtra("pw", pw1);
                 intent.putExtra("user_type", "basic");
                 startActivity(intent);
+                finish();
             }
 
         }else {
