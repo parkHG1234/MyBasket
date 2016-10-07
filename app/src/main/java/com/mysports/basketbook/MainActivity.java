@@ -1955,8 +1955,9 @@ public class MainActivity extends AppCompatActivity {
             Profile_Button_Password.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view, "준비중입니다.", Snackbar.LENGTH_LONG)
-                            .show();
+                    Intent intent_Changepw = new Intent(rootView.getContext(), ChangePw1Activity.class);
+                    intent_Changepw.putExtra("Id", Id);
+                    startActivity(intent_Changepw);
                 }
             });
             Profile_Button_Logout.setOnClickListener(new View.OnClickListener() {
