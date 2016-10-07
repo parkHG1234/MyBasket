@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mysports.playbasket">
+    package="com.mysports.basketbook">
 
     <application
-        android:name="com.mysports.playbasket.GlobalApplication"
+        android:name="com.mysports.basketbook.GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.mysports.playbasket.KakaoSignupActivity"></activity>
-        <activity android:name="com.mysports.playbasket.JoinPhoneActivity"></activity>
-        <activity android:name="com.mysports.playbasket.JoinIdActivity"></activity>
-        <activity android:name="com.mysports.playbasket.JoinPwActivity"></activity>
-        <activity android:name="com.mysports.playbasket.JoinAddActivity"></activity>
-        <activity android:name="com.mysports.playbasket.Terms"></activity>
+        <activity android:name="com.mysports.basketbook.KakaoSignupActivity"></activity>
+        <activity android:name="com.mysports.basketbook.JoinPhoneActivity"></activity>
+        <activity android:name="com.mysports.basketbook.JoinIdActivity"></activity>
+        <activity android:name="com.mysports.basketbook.JoinPwActivity"></activity>
+        <activity android:name="com.mysports.basketbook.JoinAddActivity"></activity>
+        <activity android:name="com.mysports.basketbook.Terms"></activity>
         <activity
-            android:name="com.mysports.playbasket.LoginActivity">
+            android:name="com.mysports.basketbook.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,50 +24,50 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mysports.playbasket.MainActivity"
+            android:name="com.mysports.basketbook.MainActivity"
             android:label="@string/app_name"
 
             android:theme="@style/AppTheme.NoActionBar"
             >
         </activity>
-        <activity android:name="com.mysports.playbasket.Navigation_TeamManager"></activity>
-        <activity android:name="com.mysports.playbasket.Navigation_TeamManager_Member"></activity>
-        <activity android:name="com.mysports.playbasket.Navigation_TeamManager_TeamIntro"></activity>
-        <activity android:name="com.mysports.playbasket.Navigation_TeamManager_TeamMake1"></activity>
-        <activity android:name="com.mysports.playbasket.Navigation_TeamManager_TeamMake2"></activity>
-        <activity android:name="com.mysports.playbasket.Navigation_TeamManager_TeamMake3"></activity>
-        <activity android:name="com.mysports.playbasket.Navigation_TeamIntro"></activity>
-        <activity android:name="com.mysports.playbasket.Navigation_TeamIntro_Focus"></activity>
-        <activity android:name="com.mysports.playbasket.Navigation_TeamIntro_Focus_ImageFocus"></activity>
-        <activity android:name="com.mysports.playbasket.Navigation_TeamIntro_Focus_Join"></activity>
-        <activity android:name="com.mysports.playbasket.test"></activity>
-        <activity android:name="com.mysports.playbasket.TeamInfo"></activity>
-        <activity android:name="com.mysports.playbasket.Match_In_Register"></activity>
-        <activity android:name="com.mysports.playbasket.Match_In_Register_Modify"></activity>
-        <activity android:name="com.mysports.playbasket.Match_In_Focus"></activity>
-        <activity android:name="com.mysports.playbasket.CourtInfo_ImageFocus"></activity>
-        <activity android:name="com.mysports.playbasket.Navigation_TeamManager_Schedule"></activity>
-        <activity android:name="com.mysports.playbasket.Profile_Focus"></activity>
-        <activity android:name="com.mysports.playbasket.Match_Out_NewsFeed_Writing"></activity>
-        <activity android:name="com.mysports.playbasket.Match_Out_NewsFeed_Comment"
+        <activity android:name="com.mysports.basketbook.Navigation_TeamManager"></activity>
+        <activity android:name="com.mysports.basketbook.Navigation_TeamManager_Member"></activity>
+        <activity android:name="com.mysports.basketbook.Navigation_TeamManager_TeamIntro"></activity>
+        <activity android:name="com.mysports.basketbook.Navigation_TeamManager_TeamMake1"></activity>
+        <activity android:name="com.mysports.basketbook.Navigation_TeamManager_TeamMake2"></activity>
+        <activity android:name="com.mysports.basketbook.Navigation_TeamManager_TeamMake3"></activity>
+        <activity android:name="com.mysports.basketbook.Navigation_TeamIntro"></activity>
+        <activity android:name="com.mysports.basketbook.Navigation_TeamIntro_Focus"></activity>
+        <activity android:name="com.mysports.basketbook.Navigation_TeamIntro_Focus_ImageFocus"></activity>
+        <activity android:name="com.mysports.basketbook.Navigation_TeamIntro_Focus_Join"></activity>
+        <activity android:name="com.mysports.basketbook.test"></activity>
+        <activity android:name="com.mysports.basketbook.TeamInfo"></activity>
+        <activity android:name="com.mysports.basketbook.Match_In_Register"></activity>
+        <activity android:name="com.mysports.basketbook.Match_In_Register_Modify"></activity>
+        <activity android:name="com.mysports.basketbook.Match_In_Focus"></activity>
+        <activity android:name="com.mysports.basketbook.CourtInfo_ImageFocus"></activity>
+        <activity android:name="com.mysports.basketbook.Navigation_TeamManager_Schedule"></activity>
+        <activity android:name="com.mysports.basketbook.Profile_Focus"></activity>
+        <activity android:name="com.mysports.basketbook.Match_Out_NewsFeed_Writing"></activity>
+        <activity android:name="com.mysports.basketbook.Match_Out_NewsFeed_Comment"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name="com.mysports.playbasket.Match_Out_NewsFeed_Data_Modify"></activity>
-        <activity android:name="com.mysports.playbasket.Match_Out_NewsFeed_Camera"></activity>
-        <activity android:name="com.mysports.playbasket.Setting"></activity>
-        <activity android:name="com.mysports.playbasket.FCMTest">
+        <activity android:name="com.mysports.basketbook.Match_Out_NewsFeed_Data_Modify"></activity>
+        <activity android:name="com.mysports.basketbook.Match_Out_NewsFeed_Camera"></activity>
+        <activity android:name="com.mysports.basketbook.Setting"></activity>
+        <activity android:name="com.mysports.basketbook.FCMTest">
 
         </activity>
         <service
-            android:name="com.mysports.playbasket.MyFcmListenerService">
+            android:name="com.mysports.basketbook.MyFcmListenerService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <service
-            android:name="com.mysports.playbasket.MyInstanceIDListenerService">
+            android:name="com.mysports.basketbook.MyInstanceIDListenerService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

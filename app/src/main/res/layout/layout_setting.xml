@@ -20,7 +20,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:id="@+id/Setting_ImageView"
-                android:background="@color/mdtp_light_gray"
+                android:background="@color/Gray"
                 android:src="@drawable/left" />
 
             <TextView

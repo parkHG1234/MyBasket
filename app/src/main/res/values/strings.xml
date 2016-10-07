@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">플레이바스켓</string>
+    <string name="app_name">바스켓북</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

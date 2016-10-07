@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "490112232994",
-    "firebase_url": "https://mybasket-140604.firebaseio.com",
-    "project_id": "mybasket-140604",
-    "storage_bucket": "mybasket-140604.appspot.com"
+    "project_number": "471885067332",
+    "firebase_url": "https://basketbook1-496fc.firebaseio.com",
+    "project_id": "basketbook1-496fc",
+    "storage_bucket": "basketbook1-496fc.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:490112232994:android:e552d0b8a5e79b92",
+        "mobilesdk_app_id": "1:471885067332:android:dd7b7e60de661e77",
         "android_client_info": {
-          "package_name": "com.mysports.playbasket"
+          "package_name": "com.mysports.basketbook"
         }
       },
       "oauth_client": [
         {
-          "client_id": "490112232994-o1s3njrh5r8r3dgvtidqqhsv8qcl1c1e.apps.googleusercontent.com",
+          "client_id": "471885067332-uo1ujdgqbbagkmtlpta2i1fhfa432jmb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCdO0tBjYhwrr3InP6_BSsDC-PojnxvB48"
+          "current_key": "AIzaSyCrUDTopx7LO9AT4aBRQrH8E_UJpjAzIs4"
         }
       ],
       "services": {

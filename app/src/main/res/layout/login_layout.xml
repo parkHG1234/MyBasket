@@ -96,7 +96,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="플레이바스켓 로그인"
+            android:text="바스켓북 로그인"
             android:textColor="@color/White"
             android:id="@+id/login_button"
             android:onClick="onClicked"

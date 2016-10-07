@@ -70,7 +70,7 @@
         android:layout_width="314dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="다음 버튼을 눌러 마이 바스켓의 서비스 약관(개인정보 취급방침)에 동의합니다."
+        android:text="다음 버튼을 눌러 바스켓북의 서비스 약관(개인정보 취급방침)에 동의합니다."
         android:id="@+id/textView12"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>
