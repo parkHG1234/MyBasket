@@ -49,13 +49,13 @@ public class JoinAddActivity extends AppCompatActivity{
     static String id, pw, user_type;
     RadioGroup join_sex_Radio, join_posi_Radio;
     EditText join_name_EditText,join_layout_weight_editText,join_layout_height_editText;
+    EditText year_EditText, month_EditText, day_EditText;
     String[][] parsedData;
     ArrayAdapter<CharSequence> adspin1,adspin2;
-    TextView tvBirth;
     Spinner s_Sex;
     Spinner s_Position;
     DatePickerDialog DatePickerDialog;
-    int year, month, day, hour, minute;
+    String year, month, day, hour, minute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,26 +73,14 @@ public class JoinAddActivity extends AppCompatActivity{
         String posiTemp = "";
 
 
-        GregorianCalendar calendar = new GregorianCalendar();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-        hour = calendar.get(Calendar.HOUR_OF_DAY);
-        minute = calendar.get(Calendar.MINUTE);
+        year_EditText = (EditText) findViewById(R.id.Year_EditText);
+        month_EditText = (EditText) findViewById(R.id.Month_EditText);
+        day_EditText = (EditText) findViewById(R.id.Day_EditText);
 
-        tvBirth = (TextView) findViewById(R.id.join_layout_birth_tv);
 
         s_Sex = (Spinner)findViewById(R.id.spinner_sex);
         s_Position = (Spinner)findViewById(R.id.spinner_position);
 
-        tvBirth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatePickerDialog = new DatePickerDialog(JoinAddActivity.this, dateSetListener, year, month, day);
-                DatePickerDialog.getDatePicker().setCalendarViewShown(false);
-                DatePickerDialog.show();
-            }
-        });
 
 
         s_Sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -188,27 +176,44 @@ public class JoinAddActivity extends AppCompatActivity{
     }
 
 
-    private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
-            // TODO Auto-generated method stub
-
-            String msg = String.format("%d / %d / %d", year,monthOfYear+1, dayOfMonth);
-            tvBirth.setText(msg);
-
-        }
-    };
-
 
 
     public void onClickCommit(View view) {
         String name = join_name_EditText.getText().toString();
-        String birth = tvBirth.getText().toString();
+        String _year = year_EditText.getText().toString();
+
+        // 월 입력시 앞에 0이 붙어있으면 0을 제거
+        String _month = month_EditText.getText().toString();
+        char _monthChk = _month.charAt(0);
+        if(String.valueOf(_monthChk).equals("0")) {
+            _monthChk = _month.charAt(1);
+            _month = String.valueOf(_monthChk);
+        }
+
+        // 일 입력시 앞에 0이 붙어있으면 0을 제거
+        String _day = day_EditText.getText().toString();
+        char _dayChk = _day.charAt(0);
+        Log.i("일자 첫글짜", String.valueOf(_dayChk));
+        if(String.valueOf(_dayChk).equals("0")) {
+            _dayChk = _day.charAt(1);
+            _day = String.valueOf(_dayChk);
+        }
+
+        String birth = "";
+        Calendar c = Calendar.getInstance();
+        String currentYear = String.valueOf(c.get(Calendar.YEAR));
+
+        if(Integer.parseInt(_year) > 1900 && Integer.parseInt(_year) <= Integer.parseInt(currentYear) && Integer.parseInt(_month) >= 1 && Integer.parseInt(_month) <= 12 && Integer.parseInt(_day) >= 1 && Integer.parseInt(_day) <= 31 && _month.length()<=2) {
+            year = _year;
+            month = _month;
+            day = _day;
+            birth = year + " / " + month + " / " + day ;
+        }else {
+            //유효하지 않은 년도라 알림
+        }
+        Log.i("생일", birth);
         String height = join_layout_height_editText.getText().toString();
         String weight = join_layout_weight_editText.getText().toString();
-
         String sex = s_Sex.getSelectedItem().toString();
         String posi = s_Position.getSelectedItem().toString();
 
@@ -219,7 +224,7 @@ public class JoinAddActivity extends AppCompatActivity{
             Snackbar.make(view, "성별이 입력되지 않았습니다.", Snackbar.LENGTH_LONG)
                     .show();
         } else if (birth.equals(null)||birth.equals("")) {
-            Snackbar.make(view, "생일이 입력되지 않았습니다.", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "생일을 정확히 입력해 주세요.", Snackbar.LENGTH_LONG)
                     .show();
         } else if (posi.equals(null)||posi.equals("")) {
             Snackbar.make(view, "포지션이 입력되지 않았습니다.", Snackbar.LENGTH_LONG)
@@ -257,11 +262,6 @@ public class JoinAddActivity extends AppCompatActivity{
         //jt.run();
 
     }
-
-    public void onClickBack(View view) {
-
-    }
-
 
 
     private String JoinByHttp(String _id, String _pw, String _user_type, String _name, String _sex,String _birth, String _posi, String _weight, String _height) {

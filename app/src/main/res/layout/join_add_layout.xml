@@ -156,26 +156,69 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:weightSum="1">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="생일"
                     android:id="@+id/textView"
-                    android:layout_weight="3"
                     android:gravity="center_vertical"
                     android:textSize="18sp"
-                    android:layout_marginLeft="10dp" />
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="0.34" />
+
+                <EditText
+                    android:layout_width="47dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+                    android:maxLength="4"
+                    android:ems="10"
+                    android:id="@+id/Year_EditText"
+                    android:hint="YYYY"
+                    android:layout_weight="0.06" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="2016 / 01 / 01"
-                    android:id="@+id/join_layout_birth_tv"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical" />
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="/"
+                    android:id="@+id/textView39"
+                    android:gravity="center_vertical"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="0.06" />
+
+                <EditText
+                    android:layout_width="44dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+                    android:maxLength="2"
+                    android:ems="10"
+                    android:id="@+id/Month_EditText"
+                    android:hint="MM" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="/"
+                    android:id="@+id/textView43"
+                    android:gravity="center_vertical"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="0.06" />
+
+                <EditText
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+                    android:maxLength="2"
+                    android:ems="10"
+                    android:id="@+id/Day_EditText"
+                    android:hint="DD" />
 
             </LinearLayout>
         </RadioGroup>
@@ -196,13 +239,6 @@
             android:text="회원 가입"
             android:id="@+id/join_add_layout_submit_Button"
             android:onClick="onClickCommit"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="뒤로가기"
-            android:id="@+id/join_add_layout_back_Button"
-            android:onClick="onClickBack"/>
 
     </LinearLayout>
 
