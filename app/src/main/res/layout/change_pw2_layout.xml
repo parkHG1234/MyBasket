@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/join_pw_layout_pw1_EditText"
+            android:id="@+id/changePw_layout_pw1_EditText"
             android:layout_gravity="center_horizontal"
             android:hint="비밀번호"/>
 
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/join_pw_layout_pw2_EditText"
+            android:id="@+id/changePw_layout_pw2_EditText"
             android:layout_gravity="center_horizontal"
             android:hint="비밀번호 확인"/>
 
@@ -70,8 +70,8 @@
     <Button
         android:layout_width="362dp"
         android:layout_height="wrap_content"
-        android:text="다음"
-        android:id="@+id/join_pw_layout_next_Button"
+        android:text="확인"
+        android:id="@+id/changePw_layout_Confirm_Button"
         android:layout_gravity="center_horizontal"
-        android:onClick="onClickNext1"/>
+        android:onClick="onClickChangeConfirm"/>
 </LinearLayout>

@@ -1,9 +1,14 @@
 package com.mysports.basketbook;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -27,6 +32,7 @@ import java.util.List;
  */
 
 public class ChangePw2Activity extends AppCompatActivity{
+    EditText ChangePw1_EditText, ChangePw2_EditText;
     String Id, Pw1, Pw2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +41,53 @@ public class ChangePw2Activity extends AppCompatActivity{
 
         Intent intent = getIntent();
         Id = intent.getStringExtra("Id");
+
+        ChangePw1_EditText = (EditText) findViewById(R.id.changePw_layout_pw1_EditText);
+        ChangePw2_EditText = (EditText) findViewById(R.id.changePw_layout_pw2_EditText);
     }
 
-    private String SendByHttp(String id) {
+    public void onClickChangeConfirm(View view) {
+        Pw1 = ChangePw1_EditText.getText().toString();
+        Pw2 = ChangePw2_EditText.getText().toString();
+        if(Pw1.equals(Pw2)) {
+            if(Pw1.length() < 3) {
+                Snackbar.make(view, "비밀번호는 4자 이상이어야 합니다.", Snackbar.LENGTH_LONG)
+                        .show();
+            }else {
+                String result = SendByHttp(Id, Pw1);
+                String[][] parsedData = jsonParserList(result);
+                if(parsedData!=null && parsedData[0][0].equals("succed")) {
+                    AlertDialog dlg = new AlertDialog.Builder(this).setTitle("비밀번호 변경")
+                            .setMessage("비밀번호가 변경되었습니다.")
+                            .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    finish();
+                                }
+                            }).show();
+                }else {
+                    AlertDialog dlg = new AlertDialog.Builder(this).setTitle("오류")
+                            .setMessage("에러가 발생하였습니다. 다시한번 시도해 주세요.")
+                            .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {}
+                            }).show();
+                }
+            }
+        }else {
+            Snackbar.make(view, "비밀번호가 일치하지 않습니다.", Snackbar.LENGTH_LONG)
+                    .show();
+        }
+    }
+    private String SendByHttp(String id, String pw) {
         try {
             HttpClient httpClient = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/pp/CheckJoinedId.jsp";
+            String postURL = "http://210.122.7.195:8080/pp/ChangePassword.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("id", id));
+            params.add(new BasicNameValuePair("_id", id));
+            params.add(new BasicNameValuePair("_pw", pw));
 
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(entity);
@@ -73,7 +116,7 @@ public class ChangePw2Activity extends AppCompatActivity{
 
             //String[] jsonName = {"login_check","usercode","password","name","sex","email","univ","club" };
 
-            String[] jsonName = {"CheckId"};
+            String[] jsonName = {"msg1"};
             String[][] parseredData = new String[jarr.length()][jsonName.length];
             for(int i = 0; i<jarr.length();i++){
                 json = jarr.getJSONObject(i);

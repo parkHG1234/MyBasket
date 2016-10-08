@@ -58,6 +58,7 @@ public class ChangePw1Activity extends Activity {
 
         if(parsedData != null && parsedData[0][0].equals("isOk")) {
             Intent intent1 = new Intent(ChangePw1Activity.this, ChangePw2Activity.class);
+            intent1.putExtra("Id", Id);
             startActivity(intent1);
             finish();
         }else {
