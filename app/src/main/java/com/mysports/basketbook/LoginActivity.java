@@ -2,9 +2,11 @@ package com.mysports.basketbook;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.Snackbar;
@@ -37,6 +39,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by ldong on 2016-06-30.
@@ -60,9 +63,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
         GlobalApplication.setCurrentActivity(this);
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
 
         SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
 
@@ -120,10 +120,6 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void login_Button (View view) {
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
         String _id = id_EditText.getText().toString();
         String _pw = pw_EditText.getText().toString();
         if(_id.equals("")) {
@@ -133,100 +129,103 @@ public class LoginActivity extends AppCompatActivity {
             Snackbar.make(view, "비밀번호를 입력해 주세요.", Snackbar.LENGTH_LONG)
                     .show();
         }else {
-            String result = SendByHttp(_id, _pw);
-            Log.i("JSON을 분석한 데이터1111 :", result);
-            parsedData = jsonParserList(result);
+            //String result = SendByHttp(_id, _pw);
+            //parsedData = jsonParserList(result);
+            loginHttp login = new loginHttp();
+            try {
+                String result = login.execute(_id, _pw).get();
+                parsedData = jsonParserList(result);
+                if(parsedData != null && parsedData[0][0].equals("succed"))
+                {
+                    if(autoLoginChkbox.isChecked()){
+                        SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
+                        //preference 이름을 autoLogin
+                        SharedPreferences.Editor editor = preferences.edit();
 
+                        editor.putString("id", _id);
+                        editor.putString("pw", _pw);
+                        editor.putString("auto", "true");
+                        editor.commit();
+                        Snackbar.make(view, preferences.getString("auto",""), Snackbar.LENGTH_LONG)
+                                .show();
+                    }else {
+                    }
+                    //메인엑티비티에다 데이터를보내
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("LoginCheck",parsedData[0][0]);
+                    intent.putExtra("Id",parsedData[0][1]);
 
-            if(parsedData != null && parsedData[0][0].equals("succed"))
-            {
-                if(autoLoginChkbox.isChecked()){
-                    SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
-                    //preference 이름을 autoLogin
-                    SharedPreferences.Editor editor = preferences.edit();
+                    startActivity(intent);
 
-
-                    editor.putString("id", _id);
-                    editor.putString("pw", _pw);
-                    editor.putString("auto", "true");
-                    editor.commit();
-                    Snackbar.make(view, preferences.getString("auto",""), Snackbar.LENGTH_LONG)
-                            .show();
-
-
-                }else {
+                    super.finish();
                 }
-                //메인엑티비티에다 데이터를보내
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("LoginCheck",parsedData[0][0]);
-                intent.putExtra("Id",parsedData[0][1]);
+                else if(parsedData != null && parsedData[0][0].equals("failed")){
+                    dlg = new AlertDialog.Builder(this).setTitle("바스켓북")
+                            ////나중에 아이콘모양 넣기 .setIcon(R.drawable.icon)~~
+                            .setMessage("아이뒤 패스워드를 확인해주세요.")
+                            .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+                }
+                else{
+                    dlg = new AlertDialog.Builder(this).setTitle("바스켓북")
+                            ////나중에 아이콘모양 넣기 .setIcon(R.drawable.icon)~~
+                            .setMessage("서버와의 접속에 실패하였습니다.")
+                            .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
 
-                startActivity(intent);
 
-                super.finish();
-            }
-            else if(parsedData != null && parsedData[0][0].equals("failed")){
-                dlg = new AlertDialog.Builder(this).setTitle("바스켓북")
-                        ////나중에 아이콘모양 넣기 .setIcon(R.drawable.icon)~~
-                        .setMessage("아이뒤 패스워드를 확인해주세요.")
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        }).show();
-            }
-            else{
-                dlg = new AlertDialog.Builder(this).setTitle("바스켓북")
-                        ////나중에 아이콘모양 넣기 .setIcon(R.drawable.icon)~~
-                        .setMessage("서버와의 접속에 실패하였습니다.")
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        }).show();
-            }
+
         }
 
 
     }
-    /*
-        public class loginHttp extends AsyncTask<String, Void, Void> {
+
+        public class loginHttp extends AsyncTask<String, Void, String> {
+            ProgressDialog asyncDialog = new ProgressDialog(LoginActivity.this);
+
             @Override
-            protected Void doInBackground(String. .. params) {
-                try {
-                    String url = "http://ldong.cafe24.com:8080/login_test.jsp";
-                    URL obj = new URL(url);
-                    HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
-                    conn.setReadTimeout(10000);
-                    conn.setConnectTimeout(15000);
-                    conn.setRequestMethod("GET");
-                    conn.setDoOutput(true);
-                    conn.setDoInput(true);
-                    conn.setRequestProperty("Content-Type","application/json");
-                    byte[] outputInBytes = params[0].getBytes("UTF-8");
-                    OutputStream os = conn.getOutputStream();
-                    os.write( outputInBytes );
-                    os.close();
-                    int retCode = conn.getResponseCode();
-                    InputStream is = conn.getInputStream();
-                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                    String line;
-                    StringBuffer response = new StringBuffer();
-                    while((line = br.readLine()) != null) {
-                        response.append(line);
-                        response.append('\r');
-                    }
-                    br.close();
-                    String res = response.toString();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return null;
+            protected void onPreExecute() {
+                asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                asyncDialog.setMessage("로그인중입니다..");
+
+                // show dialog
+                asyncDialog.show();
+                super.onPreExecute();
             }
-        }SendByHttp
-    */
+            @Override
+            protected String doInBackground(String... params) {
+                for(int i=1; i<5; i++){
+                    try{
+                        Thread.sleep(500);
+
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                String result = SendByHttp(params[0], params[1]);
+                return result;
+            }
+            @Override
+            protected void onPostExecute(String result) {
+                asyncDialog.dismiss();
+                super.onPostExecute(result);
+            }
+        }
+
     private String SendByHttp(String _id, String _password) {
         if (_id == null)
         {
