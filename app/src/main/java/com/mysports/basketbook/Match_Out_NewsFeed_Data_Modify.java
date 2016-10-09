@@ -5,6 +5,7 @@ package com.mysports.basketbook;
  */
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,11 +18,13 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -62,6 +65,8 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class Match_Out_NewsFeed_Data_Modify extends Activity {
 
     View view;
+
+    LinearLayout Layout_Match_Out_NewsFeed_Writing_root;
     EditText NewsFeed_Writing_TextEditText;
     ImageView NewsFeed_Camera_Image;
     Button NewsFeed_Writing_Button;
@@ -96,6 +101,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
             StrictMode.setThreadPolicy(policy);
         }
 
+        Layout_Match_Out_NewsFeed_Writing_root = (LinearLayout)findViewById(R.id.Layout_Match_Out_NewsFeed_Writing_root);
         NewsFeed_Writing_TextView_Name = (TextView) findViewById(R.id.NewsFeed_Writing_TextView_Name);
         NewsFeed_Writing_TextVIew_Court = (TextView) findViewById(R.id.NewsFeed_Writing_TextVIew_Court);
         NewsFeed_Camera_Image = (ImageView) findViewById(R.id.NewsFeed_Camera_Image);
@@ -117,6 +123,15 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
 
         NewsFeed_Writing_Button.setTextColor(Color.BLACK);
         NewsFeed_Writing_Button.setEnabled(true);
+
+
+        Layout_Match_Out_NewsFeed_Writing_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(NewsFeed_Writing_TextEditText.getWindowToken(), 0);
+            }
+        });
 
         try {
             if (DataIntent.getExtras().getString("Image").equals("")) {
@@ -1164,6 +1179,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                         params.add(new BasicNameValuePair("NewsFeed_Num", (DataIntent.getExtras().getString("Num"))));
                         params.add(new BasicNameValuePair("NewsFeed_Do", Do));
                         params.add(new BasicNameValuePair("NewsFeed_Si", Si));
+                        params.add(new BasicNameValuePair("NewsFeed_Name", DataIntent.getExtras().getString("Name")));
                         params.add(new BasicNameValuePair("NewsFeed_Court", Court));
                         params.add(new BasicNameValuePair("NewsFeed_Data", NewsFeed_Writing_TextEditText.getText().toString()));
                         params.add(new BasicNameValuePair("NewsFeed_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));

@@ -44,7 +44,6 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.melnykov.fab.FloatingActionButton;
-import com.mysports.basketbook.R;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -81,17 +80,19 @@ public class MainActivity extends AppCompatActivity {
     static String realTime = "";
     static int MaxNum_out;
     static int in_MinNum;
-    static String Token="";
+    static String Token = "";
     View rootView;
-    static String Alarm="";
+    static String Alarm = "";
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TabLayout tabLayout;
     static String[][] parsedData_BasicSetting;
     static ImageView Profile_ImageVIew_Profile;
     static ListView NewsFeed_List;
     static ListView Match_In_CustomList;
-    static LinearLayout Match_Layout_Tab;static LinearLayout Match_Layout_Out_Address;static LinearLayout Match_Layout_In_Address;
-    static String out_in_choice="out";
+    static LinearLayout Match_Layout_Tab;
+    static LinearLayout Match_Layout_Out_Address;
+    static LinearLayout Match_Layout_In_Address;
+    static String out_in_choice = "out";
     ///////탭 아이콘 불러오기/////////////////
     private int[] tabIcons_match = {
             R.drawable.basketball_clicked,
@@ -149,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             }
+
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 setupTabIcons();
@@ -157,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
-                if(out_in_choice.equals("out")){
+                if (out_in_choice.equals("out")) {
                     NewsFeed_List.setSelectionFromTop(0, 0);
                     new Handler().postDelayed(new Runnable() {// 1 초 후에 실행
                         @Override
@@ -166,8 +168,7 @@ public class MainActivity extends AppCompatActivity {
                             Match_Layout_Out_Address.setVisibility(View.VISIBLE);
                         }
                     }, 500);
-                }
-                else if(out_in_choice.equals("in")){
+                } else if (out_in_choice.equals("in")) {
                     Match_In_CustomList.setSelectionFromTop(0, 0);
                     new Handler().postDelayed(new Runnable() {// 1 초 후에 실행
                         @Override
@@ -188,9 +189,9 @@ public class MainActivity extends AppCompatActivity {
 
         //gcm 데이터 등록
         Token = FirebaseInstanceId.getInstance().getToken();
-        Log.i("Id",Id);
+        Log.i("Id", Id);
         Log.i("token",Token);
-        String result="";
+        String result = "";
         try {
             HttpClient client = new DefaultHttpClient();
             String postURL = "http://210.122.7.195:8080/Web_basket/Gcm_IdAdd_Alarm.jsp";
@@ -198,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("Id", Id));
-            params.add(new BasicNameValuePair("Token", Token));
+            //  params.add(new BasicNameValuePair("Token", Token));
 
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
@@ -210,13 +211,14 @@ public class MainActivity extends AppCompatActivity {
             while ((line = bufreader.readLine()) != null) {
                 result += line;
             }
-            parsedData_BasicSetting=jsonParserList_BasicSetting(result);
-            Log.i("결과",result);
+            parsedData_BasicSetting = jsonParserList_BasicSetting(result);
+            Log.i("결과", result);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.i("실패","실패");
+            Log.i("실패", "실패");
         }
     }
+
     public String[][] jsonParserList_BasicSetting(String pRecvServerPage) {
         Log.i("서버에서 받은 전체 내용", pRecvServerPage);
         try {
@@ -237,6 +239,7 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -246,24 +249,26 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-             switch(keyCode) {
-                   case KeyEvent.KEYCODE_BACK:
-                         new AlertDialog.Builder(this)
-                                        .setTitle("바스켓북")
-                                        .setMessage("어플리케이션을 종료 하시겠습니까?")
-                                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
-                                              public void onClick(DialogInterface dialog, int whichButton) {
-                                                    finish();
-                                                  }
-                                            })
-                                        .setNegativeButton("아니오", null).show();
-                                       return false;
-                     default:
-                           return false;
-                 }
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                new AlertDialog.Builder(this)
+                        .setTitle("바스켓북")
+                        .setMessage("어플리케이션을 종료 하시겠습니까?")
+                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("아니오", null).show();
+                return false;
+            default:
+                return false;
+        }
     }
+
     public static class PlaceholderFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
@@ -302,6 +307,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
         tabLayout.getTabAt(3).setIcon(tabIcons[3]);
     }
+
     private void setupTabIcons_match() {
         tabLayout.getTabAt(0).setIcon(tabIcons_match[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons_match[1]);
@@ -365,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
         Spinner spinner_Address_Do, spinner_Address_si;
         Button NewsFeed_Select_Button;
 
-        String address1="서울", address2="전 체";
+        String address1 = "서울", address2 = "전 체";
         ImageView NewsFeed_Writing;
 
         Match_Out_NewsFeed_Data_Adapter dataadapter;
@@ -373,16 +379,15 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView NewsFeed_Emblem;
         TextView NewsFeed_Court, NewsFeed_Data;
-        String Choice_Tab="out";
-        boolean VisibleFlag = false;
-        int cnt_out,cnt_in, pos;
+        String Choice_Tab = "out";
+        int cnt_out, cnt_in, pos;
         static int Position = 0;
         private int MonthGap[] = {-30, -30, -27, -30, -29, -30, -29, -30, -30, -29, -30, -29};
 
 
-        JSONObject json_out,json_in;
+        JSONObject json_out, json_in;
         JSONArray jArr_out, jArr_in;
-        String[] jsonName = {"NewsFeed_Num", "NewsFeed_User", "NewsFeed_Do", "NewsFeed_Si", "NewsFeed_Court", "NewsFeed_Data", "NewsFeed_Month", "NewsFeed_Day", "NewsFeed_Hour", "NewsFeed_Minute", "NewsFeed_Image", "Name", "Birth", "Sex", "Position", "Team", "Profile", "Height", "Weight", "Phone","Comment_Count"};
+        String[] jsonName = {"NewsFeed_Num", "NewsFeed_User", "NewsFeed_Do", "NewsFeed_Si", "NewsFeed_Name", "NewsFeed_Court", "NewsFeed_Data", "NewsFeed_Month", "NewsFeed_Day", "NewsFeed_Hour", "NewsFeed_Minute", "NewsFeed_Image", "Name", "Birth", "Sex", "Position", "Team", "Profile", "Height", "Weight", "Phone", "Comment_Count"};
         ProgressBar NewsFeed_ProgressBar;
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Button Match_Button_Out, Match_Button_In, Match_In_Button_Search;
@@ -394,13 +399,14 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adspin1, adspin2;
         String[][] parsedData_out, parsedData_TeamCheck;
         String[][] parsedData_in;
-        String choice_do="서울", choice_se="전 체";
-        int in_minScheduleId=10000000;
-        int out_minScheduleId=10000000;
+        String choice_do = "서울", choice_se = "전 체";
+        int in_minScheduleId = 10000000;
+        int out_minScheduleId = 10000000;
         boolean lastitemVisibleFlag_out = false;        //화면에 리스트의 마지막 아이템이 보여지는지 체크
         boolean firstitemVIsibleFlag_out = false;
         boolean lastitemVisibleFlag_in = false;        //화면에 리스트의 마지막 아이템이 보여지는지 체크
         boolean firstitemVIsibleFlag_in = false;
+
         public SectionsFragment1() {
         }
 
@@ -409,9 +415,9 @@ public class MainActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
 
             final View rootView = inflater.inflate(R.layout.layout_match, container, false);
-            Match_Layout_Tab = (LinearLayout)rootView.findViewById(R.id.Match_Layout_Tab);
-            Match_Layout_Out_Address=(LinearLayout)rootView.findViewById(R.id.Match_Layout_Out_Address);
-            Match_Layout_In_Address =(LinearLayout)rootView.findViewById(R.id.Match_Layout_In_Address);
+            Match_Layout_Tab = (LinearLayout) rootView.findViewById(R.id.Match_Layout_Tab);
+            Match_Layout_Out_Address = (LinearLayout) rootView.findViewById(R.id.Match_Layout_Out_Address);
+            Match_Layout_In_Address = (LinearLayout) rootView.findViewById(R.id.Match_Layout_In_Address);
             Match_In_CustomList = (ListView) rootView.findViewById(R.id.Match_In_CustomList);
             Match_Button_Out = (Button) rootView.findViewById(R.id.Match_Button_Out);
             Match_Layout_Out = (LinearLayout) rootView.findViewById(R.id.Match_Layout_Out);
@@ -719,7 +725,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent DataIntent = new Intent(getContext(), Match_Out_NewsFeed_Writing.class);
-                    DataIntent.putExtra("Id",Id);
+                    DataIntent.putExtra("Id", Id);
                     startActivity(DataIntent);
                 }
             });
@@ -759,8 +765,8 @@ public class MainActivity extends AppCompatActivity {
                     out_in_choice = "out";
                     Match_Layout_Out.setVisibility(View.VISIBLE);
                     Match_Layout_In.setVisibility(View.GONE);
-                    Choice_Tab="out";
-                    out_minScheduleId=10000;
+                    Choice_Tab = "out";
+                    out_minScheduleId = 10000;
                     try {
                         HttpClient client = new DefaultHttpClient();
                         String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_download.jsp";
@@ -796,14 +802,15 @@ public class MainActivity extends AppCompatActivity {
                 public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                     //현재 화면에 보이는 첫번째 리스트 아이템의 번호(firstVisibleItem) + 현재 화면에 보이는 리스트 아이템의 갯수(visibleItemCount)가 리스트 전체의 갯수(totalItemCount) -1 보다 크거나 같을때
                     lastitemVisibleFlag_out = (totalItemCount > 0) && (firstVisibleItem + visibleItemCount >= totalItemCount);
-                    firstitemVIsibleFlag_out = (totalItemCount > 0) && (firstVisibleItem==0);
+                    firstitemVIsibleFlag_out = (totalItemCount > 0) && (firstVisibleItem == 0);
                 }
+
                 @Override
                 public void onScrollStateChanged(AbsListView view, int scrollState) {
                     //OnScrollListener.SCROLL_STATE_IDLE은 스크롤이 이동하다가 멈추었을때 발생되는 스크롤 상태입니다.
                     //즉 스크롤이 바닦에 닿아 멈춘 상태에 처리를 하겠다는 뜻
-                    if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastitemVisibleFlag_out) {
-                        String result="";
+                    if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastitemVisibleFlag_out) {
+                        String result = "";
                         try {
                             HttpClient client = new DefaultHttpClient();
                             String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_download_scroll.jsp";
@@ -822,18 +829,18 @@ public class MainActivity extends AppCompatActivity {
                             }
                             parsedData_out = jsonParserList(result);
                             for (int a = 0; a < parsedData_out.length; a++) {
-                                arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData_out[a][0], parsedData_out[a][1], parsedData_out[a][2], parsedData_out[a][3], parsedData_out[a][4], parsedData_out[a][5], parsedData_out[a][6], parsedData_out[a][7], parsedData_out[a][8], parsedData_out[a][9], parsedData_out[a][10], parsedData_out[a][11], parsedData_out[a][12], parsedData_out[a][13], parsedData_out[a][14], parsedData_out[a][15], parsedData_out[a][16], parsedData_out[a][17], parsedData_out[a][18], parsedData_out[a][19], parsedData_out[a][20]));
+                                arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData_out[a][0], parsedData_out[a][1], parsedData_out[a][2], parsedData_out[a][3], parsedData_out[a][4], parsedData_out[a][5], parsedData_out[a][6], parsedData_out[a][7], parsedData_out[a][8], parsedData_out[a][9], parsedData_out[a][10], parsedData_out[a][11], parsedData_out[a][12], parsedData_out[a][13], parsedData_out[a][14], parsedData_out[a][15], parsedData_out[a][16], parsedData_out[a][17], parsedData_out[a][18], parsedData_out[a][19], parsedData_out[a][20], parsedData_out[a][21]));
                             }
                             dataadapter.notifyDataSetChanged();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
-                    if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && firstitemVIsibleFlag_out) {
+                    if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && firstitemVIsibleFlag_out) {
                         Match_Layout_Tab.setVisibility(View.VISIBLE);
                         Match_Layout_Out_Address.setVisibility(View.VISIBLE);
                     }
-                    if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING){
+                    if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
                         Match_Layout_Tab.setVisibility(View.GONE);
                         Match_Layout_Out_Address.setVisibility(View.GONE);
                     }
@@ -847,11 +854,11 @@ public class MainActivity extends AppCompatActivity {
             Match_Button_In.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    in_minScheduleId=10000;
+                    in_minScheduleId = 10000;
                     Match_Layout_Out.setVisibility(View.GONE);
                     Match_Layout_In.setVisibility(View.VISIBLE);
-                    out_in_choice="in";
-                    Choice_Tab="in";
+                    out_in_choice = "in";
+                    Choice_Tab = "in";
 
                     adspin1 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do, R.layout.zfile_spinner_test);
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -891,8 +898,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            }
-                            else if (adspin1.getItem(i).equals("광주")) {
+                            } else if (adspin1.getItem(i).equals("광주")) {
                                 choice_do = "광주";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_gwangju, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -907,8 +913,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            }
-                            else if (adspin1.getItem(i).equals("대구")) {
+                            } else if (adspin1.getItem(i).equals("대구")) {
                                 choice_do = "대구";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_DaeGu, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -923,8 +928,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            }
-                            else if (adspin1.getItem(i).equals("울산")) {
+                            } else if (adspin1.getItem(i).equals("울산")) {
                                 choice_do = "울산";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Ulsan, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -939,8 +943,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            }
-                            else if (adspin1.getItem(i).equals("대전")) {
+                            } else if (adspin1.getItem(i).equals("대전")) {
                                 choice_do = "대전";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_DaeJeon, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -955,8 +958,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            }
-                            else if (adspin1.getItem(i).equals("부산")) {
+                            } else if (adspin1.getItem(i).equals("부산")) {
                                 choice_do = "부산";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Busan, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -971,8 +973,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            }
-                            else if (adspin1.getItem(i).equals("강원도")) {
+                            } else if (adspin1.getItem(i).equals("강원도")) {
                                 choice_do = "강원도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Gangwondo, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -987,8 +988,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            }
-                            else if (adspin1.getItem(i).equals("경기도")) {
+                            } else if (adspin1.getItem(i).equals("경기도")) {
                                 choice_do = "경기도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Gyeonggido, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1003,8 +1003,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            }
-                            else if (adspin1.getItem(i).equals("충청남도")) {
+                            } else if (adspin1.getItem(i).equals("충청남도")) {
                                 choice_do = "충청남도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Chungcheongnamdo, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1019,8 +1018,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            }
-                            else if (adspin1.getItem(i).equals("충청북도")) {
+                            } else if (adspin1.getItem(i).equals("충청북도")) {
                                 choice_do = "충청북도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Chungcheongbukdo, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1035,8 +1033,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            }
-                            else if (adspin1.getItem(i).equals("전라북도")) {
+                            } else if (adspin1.getItem(i).equals("전라북도")) {
                                 choice_do = "전라북도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Jeolabukdo, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1051,8 +1048,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            }
-                            else if (adspin1.getItem(i).equals("전라남도")) {
+                            } else if (adspin1.getItem(i).equals("전라남도")) {
                                 choice_do = "전라남도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Jeolanamdo, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1067,8 +1063,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            }
-                            else if (adspin1.getItem(i).equals("경상북도")) {
+                            } else if (adspin1.getItem(i).equals("경상북도")) {
                                 choice_do = "경상북도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Gyeongsangbukdo, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1083,8 +1078,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            }
-                            else if (adspin1.getItem(i).equals("경상남도")) {
+                            } else if (adspin1.getItem(i).equals("경상남도")) {
                                 choice_do = "경상남도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Gyeongsangnamdo, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1099,8 +1093,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onNothingSelected(AdapterView<?> adapterView) {
                                     }
                                 });
-                            }
-                            else if (adspin1.getItem(i).equals("제주도")) {
+                            } else if (adspin1.getItem(i).equals("제주도")) {
                                 choice_do = "제주도";
                                 adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Jejudo, R.layout.zfile_spinner_test);
                                 adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1230,13 +1223,14 @@ public class MainActivity extends AppCompatActivity {
                         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                             //현재 화면에 보이는 첫번째 리스트 아이템의 번호(firstVisibleItem) + 현재 화면에 보이는 리스트 아이템의 갯수(visibleItemCount)가 리스트 전체의 갯수(totalItemCount) -1 보다 크거나 같을때
                             lastitemVisibleFlag_in = (totalItemCount > 0) && (firstVisibleItem + visibleItemCount >= totalItemCount);
-                            firstitemVIsibleFlag_in = (totalItemCount > 0) && (firstVisibleItem==0);
+                            firstitemVIsibleFlag_in = (totalItemCount > 0) && (firstVisibleItem == 0);
                         }
+
                         @Override
                         public void onScrollStateChanged(AbsListView view, int scrollState) {
                             //OnScrollListener.SCROLL_STATE_IDLE은 스크롤이 이동하다가 멈추었을때 발생되는 스크롤 상태입니다.
                             //즉 스크롤이 바닦에 닿아 멈춘 상태에 처리를 하겠다는 뜻
-                            if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastitemVisibleFlag_in) {
+                            if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastitemVisibleFlag_in) {
                                 try {
                                     HttpClient client = new DefaultHttpClient();
                                     String postURL = "http://210.122.7.195:8080/Web_basket/Match_InList_Scroll.jsp";
@@ -1259,19 +1253,19 @@ public class MainActivity extends AppCompatActivity {
                                         result += line;
                                     }
                                     parsedData_in = inList_jsonParserList(result);
-                                    for (int i = 0; i <parsedData_in.length ; i++) {
-                                        match_In_CustomList_MyData.add(new Match_In_CustomList_MyData(parsedData_in[i][0], parsedData_in[i][1], parsedData_in[i][2], parsedData_in[i][3], parsedData_in[i][4], parsedData_in[i][5],parsedData_in[i][6],parsedData_in[i][7],parsedData_in[i][8],parsedData_in[i][9],parsedData_in[i][10],parsedData_in[i][11],parsedData_in[i][12],Id,parsedData_in[i][13]));
+                                    for (int i = 0; i < parsedData_in.length; i++) {
+                                        match_In_CustomList_MyData.add(new Match_In_CustomList_MyData(parsedData_in[i][0], parsedData_in[i][1], parsedData_in[i][2], parsedData_in[i][3], parsedData_in[i][4], parsedData_in[i][5], parsedData_in[i][6], parsedData_in[i][7], parsedData_in[i][8], parsedData_in[i][9], parsedData_in[i][10], parsedData_in[i][11], parsedData_in[i][12], Id, parsedData_in[i][13]));
                                     }
                                     match_In_CustomList_MyAdapter.notifyDataSetChanged();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
-                            if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && firstitemVIsibleFlag_in) {
+                            if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && firstitemVIsibleFlag_in) {
                                 Match_Layout_Tab.setVisibility(View.VISIBLE);
                                 Match_Layout_In_Address.setVisibility(View.VISIBLE);
                             }
-                            if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING){
+                            if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
                                 Match_Layout_Tab.setVisibility(View.GONE);
                                 Match_Layout_In_Address.setVisibility(View.GONE);
                             }
@@ -1285,10 +1279,11 @@ public class MainActivity extends AppCompatActivity {
 
             return rootView;
         }
+
         private void inList_setData() {
             match_In_CustomList_MyData = new ArrayList<Match_In_CustomList_MyData>();
-            for (int i = 0; i <parsedData_in.length ; i++) {
-                match_In_CustomList_MyData.add(new Match_In_CustomList_MyData(parsedData_in[i][0], parsedData_in[i][1], parsedData_in[i][2], parsedData_in[i][3], parsedData_in[i][4], parsedData_in[i][5],parsedData_in[i][6],parsedData_in[i][7],parsedData_in[i][8],parsedData_in[i][9],parsedData_in[i][10],parsedData_in[i][11],parsedData_in[i][12],Id,parsedData_in[i][13]));
+            for (int i = 0; i < parsedData_in.length; i++) {
+                match_In_CustomList_MyData.add(new Match_In_CustomList_MyData(parsedData_in[i][0], parsedData_in[i][1], parsedData_in[i][2], parsedData_in[i][3], parsedData_in[i][4], parsedData_in[i][5], parsedData_in[i][6], parsedData_in[i][7], parsedData_in[i][8], parsedData_in[i][9], parsedData_in[i][10], parsedData_in[i][11], parsedData_in[i][12], Id, parsedData_in[i][13]));
             }
         }
 
@@ -1296,7 +1291,7 @@ public class MainActivity extends AppCompatActivity {
         private void setData() {
             arrData = new ArrayList<Match_Out_NewsFeed_Data_Setting>();
             for (int a = 0; a < parsedData_out.length; a++) {
-                arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData_out[a][0], parsedData_out[a][1], parsedData_out[a][2], parsedData_out[a][3], parsedData_out[a][4], parsedData_out[a][5], parsedData_out[a][6], parsedData_out[a][7], parsedData_out[a][8], parsedData_out[a][9], parsedData_out[a][10], parsedData_out[a][11], parsedData_out[a][12], parsedData_out[a][13], parsedData_out[a][14], parsedData_out[a][15], parsedData_out[a][16], parsedData_out[a][17], parsedData_out[a][18], parsedData_out[a][19], parsedData_out[a][20]));
+                arrData.add(new Match_Out_NewsFeed_Data_Setting(parsedData_out[a][0], parsedData_out[a][1], parsedData_out[a][2], parsedData_out[a][3], parsedData_out[a][4], parsedData_out[a][5], parsedData_out[a][6], parsedData_out[a][7], parsedData_out[a][8], parsedData_out[a][9], parsedData_out[a][10], parsedData_out[a][11], parsedData_out[a][12], parsedData_out[a][13], parsedData_out[a][14], parsedData_out[a][15], parsedData_out[a][16], parsedData_out[a][17], parsedData_out[a][18], parsedData_out[a][19], parsedData_out[a][20], parsedData_out[a][21]));
 
             }
         }
@@ -1318,21 +1313,20 @@ public class MainActivity extends AppCompatActivity {
                     if (out_minScheduleId > Integer.parseInt(parsedData_out[i][0])) {
                         out_minScheduleId = Integer.parseInt(parsedData_out[i][0]);
                     }
-                    Log.i("minScheduleId",Integer.toString(out_minScheduleId));
                 }
                 return parsedData_out;
-            }
-            catch (JSONException e) {
+            } catch (JSONException e) {
                 return null;
             }
         }
+
         /////매칭 탭 - in : 받아온 json 파싱합니다.//////////////////////////////////////////////////////////
         public String[][] inList_jsonParserList(String pRecvServerPage) {
             Log.i("서버에서 받은 전체 내용", pRecvServerPage);
             try {
                 json_in = new JSONObject(pRecvServerPage);
                 jArr_in = json_in.getJSONArray("List");
-                String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6","msg7", "msg8", "msg9", "msg10","msg11","msg12","msg13","msg14"};
+                String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6", "msg7", "msg8", "msg9", "msg10", "msg11", "msg12", "msg13", "msg14"};
                 parsedData_in = new String[jArr_in.length()][jsonName.length];
                 for (int i = 0; i < jArr_in.length(); i++) {
                     json_in = jArr_in.getJSONObject(i);
@@ -1342,7 +1336,7 @@ public class MainActivity extends AppCompatActivity {
                     if (in_minScheduleId > Integer.parseInt(parsedData_in[i][4])) {
                         in_minScheduleId = Integer.parseInt(parsedData_in[i][4]);
                     }
-                    Log.i("minScheduleId",Integer.toString(in_minScheduleId));
+                    Log.i("minScheduleId", Integer.toString(in_minScheduleId));
                 }
                 return parsedData_in;
             } catch (JSONException e) {
@@ -1350,6 +1344,7 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         }
+
         public String GetTime(int position) {
             String Time;
             Integer Month, Day, Hour, Minute;
@@ -1423,6 +1418,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     public static class SectionsFragment2 extends Fragment {
         Spinner League_League_Spinner_Do, League_League_Spinner_Se;
         ArrayAdapter<CharSequence> adspin1, adspin2;
@@ -1664,7 +1660,7 @@ public class MainActivity extends AppCompatActivity {
         Button Profile_Button_TeamMake, Profile_Button_TeamManager, Profile_Button_TeamSearch, Profile_Button_Logout;
         Button Profile_Button_Password;
         FloatingActionButton Profile_Button_setting;
-        String[][] parsedData, parsedData_overLap, parsedData_TeamCheck,parsedData_Alarm;
+        String[][] parsedData, parsedData_overLap, parsedData_TeamCheck, parsedData_Alarm;
         String ProfileUrl;
         Bitmap bmImg;
         String Profile;
@@ -1687,9 +1683,9 @@ public class MainActivity extends AppCompatActivity {
             Profile_Button_TeamMake = (Button) rootView.findViewById(R.id.Profile_Button_TeamMake);
             Profile_Button_TeamManager = (Button) rootView.findViewById(R.id.Profile_Button_TeamManager);
             Profile_Button_TeamSearch = (Button) rootView.findViewById(R.id.Profile_Button_TeamSearch);
-            Profile_Button_Password = (Button)rootView.findViewById(R.id.Profile_Button_Password);
+            Profile_Button_Password = (Button) rootView.findViewById(R.id.Profile_Button_Password);
             Profile_Button_Logout = (Button) rootView.findViewById(R.id.Profile_Button_Logout);
-            Profile_Button_setting=(FloatingActionButton)rootView.findViewById(R.id.Profile_Button_setting);
+            Profile_Button_setting = (FloatingActionButton) rootView.findViewById(R.id.Profile_Button_setting);
             Profile_Button_setting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1767,7 +1763,7 @@ public class MainActivity extends AppCompatActivity {
                             while ((line = bufreader.readLine()) != null) {
                                 result += line;
                             }
-                            Profile="exist";
+                            Profile = "exist";
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -1822,10 +1818,10 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                     Profile_ImageVIew_Profile.setImageResource(R.drawable.profile_basic_image);
                                     ad.dismiss();
-                                    Profile=".";
+                                    Profile = ".";
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    Snackbar.make(view,"다시 시도해 주시기 바랍니다.",Snackbar.LENGTH_SHORT).show();
+                                    Snackbar.make(view, "다시 시도해 주시기 바랍니다.", Snackbar.LENGTH_SHORT).show();
                                 }
 
                             }
@@ -1863,10 +1859,10 @@ public class MainActivity extends AppCompatActivity {
                                     //결과값을 받아오는 액티비티를 실행한다.
                                     startActivityForResult(intent, REQ_SELECT);
                                     ad.dismiss();
-                                    Profile="exist";
+                                    Profile = "exist";
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    Snackbar.make(view,"다시 시도해 주시기 바랍니다.",Snackbar.LENGTH_SHORT).show();
+                                    Snackbar.make(view, "다시 시도해 주시기 바랍니다.", Snackbar.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -1978,6 +1974,7 @@ public class MainActivity extends AppCompatActivity {
 
             return rootView;
         }
+
         private void onClickLogout() {
             UserManagement.requestLogout(new LogoutResponseCallback() {
                 @Override
@@ -2085,6 +2082,7 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         }
+
         public String[][] jsonParserList_Alarm(String pRecvServerPage) {
             Log.i("서버에서 받은 전체 내용", pRecvServerPage);
             try {
@@ -2146,36 +2144,36 @@ public class MainActivity extends AppCompatActivity {
                 //화면에 출력해본다.
                 //Profile_ImageVIew_Profile.setImageBitmap(selPhoto);
                 Log.e("선택 된 이미지 ", "selPhoto : " + selPhoto);
+
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                //선택한 이미지의 uri를 읽어온다.
+                Uri selPhotoUri = intent.getData();
+                Log.e("전송", "시~~작 ~~~~~!");
+                //업로드할 서버의 url 주소
+                String urlString = "";
+                urlString = "http://210.122.7.195:8080/Web_basket/Upload_Profile.jsp";
+                //절대경로를 획득한다!!! 중요~
+                Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null, null, null, null);
+                c.moveToNext();
+                //업로드할 파일의 절대경로 얻어오기("_data") 로 해도 된다.
+                String absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+                Log.e("###파일의 절대 경로###", absolutePath);
+                //파일 업로드 시작!
+                HttpFileUpload(urlString, "", absolutePath);
+                String En_Profile = URLEncoder.encode(Id, "utf-8");
+                Glide.with(MainActivity.this).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(MainActivity.this).getBitmapPool()))
+                        .into(Profile_ImageVIew_Profile);
+
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-//선택한 이미지의 uri를 읽어온다.
-        Uri selPhotoUri = intent.getData();
-        Log.e("전송", "시~~작 ~~~~~!");
-//업로드할 서버의 url 주소
-        String urlString="";
-        urlString = "http://210.122.7.195:8080/Web_basket/Upload_Profile.jsp";
-        //절대경로를 획득한다!!! 중요~
-        Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null, null, null,null);
-        c.moveToNext();
-        //업로드할 파일의 절대경로 얻어오기("_data") 로 해도 된다.
-        String absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
-        Log.e("###파일의 절대 경로###", absolutePath);
-        //파일 업로드 시작!
-        HttpFileUpload(urlString ,"", absolutePath);
-        try {
-            String En_Profile = URLEncoder.encode(Id, "utf-8");
-            Glide.with(MainActivity.this).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(MainActivity.this).getBitmapPool()))
-                    .into(Profile_ImageVIew_Profile);
-
-        } catch (UnsupportedEncodingException e) {
+        } catch (NullPointerException e) {
 
         }
+
     }
 
     String lineEnd = "\r\n";
@@ -2184,13 +2182,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void HttpFileUpload(String urlString, String params, String fileName) {
         // fileName=TeamName;
-        try{
+        try {
             //선택한 파일의 절대 경로를 이용해서 파일 입력 스트림 객체를 얻어온다.
             FileInputStream mFileInputStream = new FileInputStream(fileName);
             //파일을 업로드할 서버의 url 주소를이용해서 URL 객체 생성하기.
             URL connectUrl = new URL(urlString);
             //Connection 객체 얻어오기.
-            HttpURLConnection conn = (HttpURLConnection)connectUrl.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) connectUrl.openConnection();
             conn.setDoInput(true);//입력할수 있도록
             conn.setDoOutput(true); //출력할수 있도록
             conn.setUseCaches(false);  //캐쉬 사용하지 않음
@@ -2206,7 +2204,7 @@ public class MainActivity extends AppCompatActivity {
             //전송할 데이터의 시작임을 알린다.
             //String En_TeamName = URLEncoder.encode(TeamName, "utf-8");
             dos.writeBytes(twoHyphens + boundary + lineEnd);
-            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + URLEncoder.encode(Id, "utf-8")+".jpg"+"\"" + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + URLEncoder.encode(Id, "utf-8") + ".jpg" + "\"" + lineEnd);
             dos.writeBytes(lineEnd);
             //한번에 읽어들일수있는 스트림의 크기를 얻어온다.
             int bytesAvailable = mFileInputStream.available();
@@ -2214,10 +2212,10 @@ public class MainActivity extends AppCompatActivity {
             byte[] buffer = new byte[bytesAvailable];
             int bytesRead = 0;
             // read image
-            while (bytesRead!=-1) {
+            while (bytesRead != -1) {
                 //파일에서 바이트단위로 읽어온다.
                 bytesRead = mFileInputStream.read(buffer);
-                if(bytesRead==-1)break; //더이상 읽을 데이터가 없다면 빠저나온다.
+                if (bytesRead == -1) break; //더이상 읽을 데이터가 없다면 빠저나온다.
                 Log.d("Test", "image byte is " + bytesRead);
                 //읽은만큼 출력한다.
                 dos.write(buffer, 0, bytesRead);
@@ -2235,11 +2233,11 @@ public class MainActivity extends AppCompatActivity {
             int ch;
             //입력 스트림 객체를 얻어온다.
             InputStream is = conn.getInputStream();
-            StringBuffer b =new StringBuffer();
-            while( ( ch = is.read() ) != -1 ){
-                b.append( (char)ch );
+            StringBuffer b = new StringBuffer();
+            while ((ch = is.read()) != -1) {
+                b.append((char) ch);
             }
-            String s=b.toString();
+            String s = b.toString();
             Log.e("Test", "result = " + s);
 
         } catch (Exception e) {

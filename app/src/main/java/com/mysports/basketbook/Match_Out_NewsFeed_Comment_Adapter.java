@@ -12,9 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -47,6 +50,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
 
     private Context context;
+    LinearLayout Layout_Match_Out_NewsFeed_Comment_data_root;
     View view;
     private ArrayList<Match_Out_NewsFeed_Comment_Setting> arrComment;
     private LayoutInflater inflater;
@@ -56,12 +60,10 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
     TextView NewSpeed_Comment_List_Time;
     TextView NewSpeed_Comment_List_Data;
     ImageButton NewsFeed_CommentList_Setting_Button;
-    ImageView NewSpeed_Comment_ImageView;
     static String ID,ProfileImage;
-
     Match_Out_NewsFeed_Comment_Adapter CommentAdapter;
     String[][] parsedData;
-    String[] jsonName = {"Comment_Num", "NewsFeed_Num", "Comment_User", "Comment_Data", "Comment_Month", "Comment_Day", "Comment_Hour", "Comment_Minute", "Name", "Birth", "Sex", "Position", "Team", "Profile", "Height", "Weight", "Phone"};
+    String[] jsonName = {"Comment_Num", "NewsFeed_Num", "Comment_Name", "Comment_User", "Comment_Data", "Comment_Month", "Comment_Day", "Comment_Hour", "Comment_Minute", "Name", "Birth", "Sex", "Position", "Team", "Profile", "Height", "Weight", "Phone"};
 
     public Match_Out_NewsFeed_Comment_Adapter(Context c, ArrayList<Match_Out_NewsFeed_Comment_Setting> arr, String ID) {
         this.context = c;
@@ -69,8 +71,6 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
         inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.ID = ID;
     }
-
-
 
     public void listview(ListView listView) {
         this.NewSpeed_Comment_List = listView;
@@ -89,7 +89,7 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
         return position;
     }
 
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.layout_match_out_newsfeed_comment_data, parent, false);
         }
@@ -102,12 +102,20 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
             Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + ProfileImage + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
                     .into(NewSpeed_Comment_List_Emblem);
         }
+        Layout_Match_Out_NewsFeed_Comment_data_root = (LinearLayout)convertView.findViewById(R.id.Layout_Match_Out_NewsFeed_Comment_data_root);
+        Layout_Match_Out_NewsFeed_Comment_data_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            }
+        });
 
         NewSpeed_Comment_List_Time = (TextView) convertView.findViewById(R.id.NewsFeed_CommentList_Time);
         NewSpeed_Comment_List_Time.setText(GetTime(position));
 
         NewsFeed_CommentList_User = (TextView) convertView.findViewById(R.id.NewsFeed_CommentList_User);
-        NewsFeed_CommentList_User.setText(arrComment.get(position).getcomment_user());
+        NewsFeed_CommentList_User.setText(arrComment.get(position).getcomment_name());
 
 
         NewSpeed_Comment_List_Data = (TextView) convertView.findViewById(R.id.NewsFeed_CommentList_Data);
@@ -158,7 +166,7 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
                                         }
                                         parsedData = jsonParserList(result);
                                         setData();
-                                        CommentAdapter = new Match_Out_NewsFeed_Comment_Adapter(context, arrComment,ID);
+                                        CommentAdapter = new Match_Out_NewsFeed_Comment_Adapter(context,arrComment,ID);
                                         NewSpeed_Comment_List.setAdapter(CommentAdapter);
 
                                     }
@@ -176,21 +184,6 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
                 alertDialog.show();
             }
         });
-
-//        NewSpeed_Comment_ImageView = (ImageView)convertView.findViewById(R.id.NewSpeed_Comment_ImageView);
-//        try {
-//            if (Image.equals(".")) {
-//                NewSpeed_Comment_ImageView.setVisibility(View.GONE);
-//            } else {
-//                NewSpeed_Comment_ImageView.setVisibility(View.VISIBLE);
-//                String En_Profile = URLEncoder.encode((Image), "utf-8");
-//                Glide.with(convertView.getContext()).load("http://210.122.7.195:8080/gg/imgs1/" + Image + ".jpg").into(NewSpeed_Comment_ImageView);
-//            }
-//        } catch (UnsupportedEncodingException e) {
-//        }
-
-
-
 
 
         return convertView;
@@ -247,7 +240,7 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
         arrComment = new ArrayList<Match_Out_NewsFeed_Comment_Setting>();
         for (int a = 0; a < parsedData.length; a++) {
             arrComment.add(new Match_Out_NewsFeed_Comment_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7],
-                    parsedData[a][8], parsedData[a][9], parsedData[a][10], parsedData[a][11], parsedData[a][12], parsedData[a][13], parsedData[a][14], parsedData[a][15], parsedData[a][16]));
+                    parsedData[a][8], parsedData[a][9], parsedData[a][10], parsedData[a][11], parsedData[a][12], parsedData[a][13], parsedData[a][14], parsedData[a][15], parsedData[a][16], parsedData[a][17]));
         }
     }
 

@@ -12,6 +12,7 @@ public class Match_Out_NewsFeed_Comment_Setting extends Activity {
 
     private String comment_num;
     private String newsfeed_num;
+    private String comment_name;
     private String comment_user;
     private String data;
     private String month;
@@ -31,9 +32,10 @@ public class Match_Out_NewsFeed_Comment_Setting extends Activity {
     private String Weight;
     private String Phone;
 
-    public Match_Out_NewsFeed_Comment_Setting(String comment_num, String newsfeed_num,String comment_user, String data, String month, String day, String hour, String minute, String Name, String Birth, String Sex, String Position, String Team, String Profile, String Height, String Weight, String Phone) {
+    public Match_Out_NewsFeed_Comment_Setting(String comment_num, String newsfeed_num, String comment_name, String comment_user, String data, String month, String day, String hour, String minute, String Name, String Birth, String Sex, String Position, String Team, String Profile, String Height, String Weight, String Phone) {
         this.comment_num = comment_num;
         this.newsfeed_num = newsfeed_num;
+        this.comment_name = comment_name;
         this.comment_user = comment_user;
         this.data = data;
         this.month = month;
@@ -60,6 +62,8 @@ public class Match_Out_NewsFeed_Comment_Setting extends Activity {
     public String getnewsfeed_num() {
         return newsfeed_num;
     }
+
+    public String getcomment_name() { return comment_name; }
 
     public String getcomment_user() { return comment_user;}
 

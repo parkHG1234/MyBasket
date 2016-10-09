@@ -6,6 +6,8 @@ package com.mysports.basketbook;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -43,6 +46,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
     private Context context;
     private ArrayList<Match_Out_NewsFeed_Data_Setting> arrData;
+
     private LayoutInflater inflater;
 
     private int MonthGap[] = {-30, -30, -27, -30, -29, -30, -29, -30, -30, -29, -30, -29};
@@ -54,6 +58,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
 
     public Match_Out_NewsFeed_Data_Adapter(Context c, ArrayList<Match_Out_NewsFeed_Data_Setting> arr, String ID, int MaxNum) {
         this.context = c;
+        this.arrData  = new ArrayList<Match_Out_NewsFeed_Data_Setting>();
         this.arrData = arr;
         inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.MaxNum = MaxNum;
@@ -157,21 +162,23 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
         });
 
         TextView NewsFeed_CustomList_User = (TextView) convertView.findViewById(R.id.NewsFeed_CustomList_User);
-        NewsFeed_CustomList_User.setText(arrData.get(position).getInformation_Name());
+        NewsFeed_CustomList_User.setText(arrData.get(position).getNewsFeedName());
         NewsFeed_CustomList_User.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
                 CommentIntent.putExtra("Num", arrData.get(position).getnum());
                 CommentIntent.putExtra("Court", arrData.get(position).getcourt());
+                CommentIntent.putExtra("Name", arrData.get(position).getNewsFeedName());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", UserID);
+                CommentIntent.putExtra("Id", arrData.get(position).getuser());
                 CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
                 CommentIntent.putExtra("Image", arrData.get(position).getImage());
-                context.startActivity(CommentIntent);
+               context.startActivity(CommentIntent);
             }
         });
+
 
         TextView NewsFeed_CustomList_Court = (TextView) convertView.findViewById(R.id.NewsFeed_CustomList_Court);
         NewsFeed_CustomList_Court.setText(arrData.get(position).getcourt());
@@ -182,9 +189,10 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
                 CommentIntent.putExtra("Num", arrData.get(position).getnum());
                 CommentIntent.putExtra("Court", arrData.get(position).getcourt());
+                CommentIntent.putExtra("Name", arrData.get(position).getNewsFeedName());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", UserID);
+                CommentIntent.putExtra("Id", arrData.get(position).getuser());
                 CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
                 CommentIntent.putExtra("Image", arrData.get(position).getImage());
                 context.startActivity(CommentIntent);
@@ -200,12 +208,13 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
                 CommentIntent.putExtra("Num", arrData.get(position).getnum());
                 CommentIntent.putExtra("Court", arrData.get(position).getcourt());
+                CommentIntent.putExtra("Name", arrData.get(position).getNewsFeedName());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", UserID);
+                CommentIntent.putExtra("Id", arrData.get(position).getuser());
                 CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
                 CommentIntent.putExtra("Image", arrData.get(position).getImage());
-                context.startActivity(CommentIntent);
+              context.startActivity(CommentIntent);
             }
         });
         TextView NewsFeed_CustomList_Data = (TextView) convertView.findViewById(R.id.NewsFeed_CustomList_Data);
@@ -217,12 +226,13 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
                 CommentIntent.putExtra("Num", arrData.get(position).getnum());
                 CommentIntent.putExtra("Court", arrData.get(position).getcourt());
+                CommentIntent.putExtra("Name", arrData.get(position).getNewsFeedName());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", UserID);
+                CommentIntent.putExtra("Id", arrData.get(position).getuser());
                 CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
                 CommentIntent.putExtra("Image", arrData.get(position).getImage());
-                context.startActivity(CommentIntent);
+                 context.startActivity(CommentIntent);
             }
         });
 
@@ -260,6 +270,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                     DataIntent.putExtra("User", arrData.get(position).getuser());
                     DataIntent.putExtra("Do", arrData.get(position).getDo());
                     DataIntent.putExtra("Si", arrData.get(position).getSi());
+                    DataIntent.putExtra("Name", arrData.get(position).getNewsFeedName());
                     DataIntent.putExtra("court", arrData.get(position).getcourt());
                     DataIntent.putExtra("data", arrData.get(position).getdata());
                     DataIntent.putExtra("month", arrData.get(position).getMonth());
@@ -317,12 +328,13 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
                 CommentIntent.putExtra("Num", arrData.get(position).getnum());
                 CommentIntent.putExtra("Court", arrData.get(position).getcourt());
+                CommentIntent.putExtra("Name", arrData.get(position).getNewsFeedName());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", UserID);
+                CommentIntent.putExtra("Id", arrData.get(position).getuser());
                 CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
                 CommentIntent.putExtra("Image", arrData.get(position).getImage());
-                context.startActivity(CommentIntent);
+               context.startActivity(CommentIntent);
             }
         });
 

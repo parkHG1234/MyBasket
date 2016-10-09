@@ -6,6 +6,7 @@ package com.mysports.basketbook;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,9 +16,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -57,9 +60,10 @@ public class Setting extends Activity {
     String Id;
     String Alarm;
     String Token;
-    String msg = "2016 / 01 / 01";
+    String msg;
 
     View view;
+    LinearLayout layout_setting_root;
     ImageView Setting_ImageView;
     Button Setting_Button_notice;
     Button Setting_Button_recommend;
@@ -68,21 +72,24 @@ public class Setting extends Activity {
     Switch Setting_Switch_Alarm;
     String Setting_Choice = "close";
     Button Setting_Button_DropOut;
-    TextView Layout_Setting_TextView_Dropout;
 
     int year, month, day;
     ExpandableListView notice_ListView;
     MaterialEditText recommend_EditText;
     Button recommend_Button;
     boolean flag = true;
+    EditText Year_EditText;
+    EditText Month_EditText;
+    EditText Day_EditText;
 
     private ArrayList<String> mGroupList = null;
     private ArrayList<ArrayList<String>> mChildList = null;
     private ArrayList<String> mChildListContent = null;
+
     Setting_Notice_Adapter noticeAdapter;
     ArrayList<Setting_Notice_Setting> arrData;
     String[][] parsedData, parsedData_Alarm, parsedData_BasicSetting, parsedData_dropout;
-
+    String duty;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +98,7 @@ public class Setting extends Activity {
         Id = intent1.getStringExtra("Id");
         Token = intent1.getStringExtra("Token");
 
+        layout_setting_root = (LinearLayout)findViewById(R.id.layout_setting_root);
         Setting_ImageView = (ImageView) findViewById(R.id.Setting_ImageView);
         Setting_Button_notice = (Button) findViewById(R.id.Setting_Button_notice);
         notice_ListView = (ExpandableListView) findViewById(R.id.notice_ListView);
@@ -108,6 +116,8 @@ public class Setting extends Activity {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
+
+
 
 
         String result = "";
@@ -150,6 +160,18 @@ public class Setting extends Activity {
         });
 
 
+
+        layout_setting_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(recommend_EditText.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(Year_EditText.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(Month_EditText.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(Day_EditText.getWindowToken(), 0);
+
+            }
+        });
         Setting_Button_notice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -310,8 +332,10 @@ public class Setting extends Activity {
         });
 
         final View layout = inflater.inflate(R.layout.layout_setting_dropout_dialog, (ViewGroup) findViewById(R.id.Layout_Setting_Dropout_Root));
-        Layout_Setting_TextView_Dropout = (TextView) layout.findViewById(R.id.Layout_Setting_TextView_Dropout);
 
+        Year_EditText = (EditText)layout.findViewById(R.id.Year_EditText);
+        Month_EditText = (EditText)layout.findViewById(R.id.Month_EditText);
+        Day_EditText = (EditText)layout.findViewById(R.id.Day_EditText);
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("회원탈퇴")        // 제목 설정
                 .setMessage("탈퇴하시겠습니까?")        // 메세지 설정
@@ -329,12 +353,10 @@ public class Setting extends Activity {
                             post.setEntity(ent);
                             client.execute(post);
 
-
                             Toast.makeText(getApplicationContext(),"회원탈퇴되었습니다.",Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
 
                         }
-
                         moveTaskToBack(true);
                         finish();
                         android.os.Process.killProcess(android.os.Process.myPid());
@@ -363,13 +385,15 @@ public class Setting extends Activity {
                 .setPositiveButton("완료", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.i("aaaaaaaaa",parsedData_dropout[0][0]);
-                        Log.i("aaaaaaaaa",msg);
-                        if (msg.equals(parsedData_dropout[0][0])) {
+                        msg = Year_EditText.getText() + " / " + Month_EditText.getText() + " / " + Day_EditText.getText();
+                        if (msg.equals(parsedData_dropout[0][0])&&duty.equals("팀대표")) {
                             dialog.show();
-                        } else {
-
+                        } else if(msg.equals(parsedData_dropout[0][0])&&(!(duty.equals("팀대표")))){
+                            Snackbar.make(v, "팀대표위임후다시시도해주세요.", Snackbar.LENGTH_SHORT).show();
+                        } else if((!(msg.equals(parsedData_dropout[0][0])))&&duty.equals("팀대표")){
                             Snackbar.make(v, "생년월일을확인해주세요.", Snackbar.LENGTH_SHORT).show();
+                        }else if((!(msg.equals(parsedData_dropout[0][0])))&&(!(duty.equals("팀대표")))){
+                            Snackbar.make(v, "정보확인후다시시도해주세요.", Snackbar.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -400,28 +424,7 @@ public class Setting extends Activity {
                 DropOutDialog.show();
             }
         });
-
-
-        Layout_Setting_TextView_Dropout.setOnClickListener(new View.OnClickListener() {
-                                                               @Override
-                                                               public void onClick(View v) {
-                                                                   new DatePickerDialog(Setting.this, dateSetListener, year, month, day).show();
-                                                               }
-                                                           }
-        );
     }
-
-    private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
-            // TODO Auto-generated method stub
-            msg = String.format("%d / %d / %d", year, monthOfYear + 1, dayOfMonth);
-            Layout_Setting_TextView_Dropout.setText(msg);
-        }
-    };
-
 
     private void setData() {
         arrData = new ArrayList<Setting_Notice_Setting>();
@@ -457,7 +460,7 @@ public class Setting extends Activity {
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
 
-            String[] jsonName = {"Birth"};
+            String[] jsonName = {"Birth","duty"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for (int i = 0; i < jArr.length(); i++) {
                 json = jArr.getJSONObject(i);
@@ -465,6 +468,7 @@ public class Setting extends Activity {
                     parseredData[i][j] = json.getString(jsonName[j]);
                 }
             }
+            duty=parseredData[0][1];
             return parseredData;
         } catch (JSONException e) {
             e.printStackTrace();

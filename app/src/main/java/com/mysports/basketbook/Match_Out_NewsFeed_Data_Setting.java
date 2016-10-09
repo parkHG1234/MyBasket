@@ -4,6 +4,8 @@ package com.mysports.basketbook;
  * Created by 박효근 on 2016-07-22.
  */
 
+import java.io.Serializable;
+
 /**
  * Created by 박지훈 on 2016-06-24.
  */
@@ -12,6 +14,7 @@ public class Match_Out_NewsFeed_Data_Setting {
     private String user;
     private String Do;
     private String Si;
+    private String NewsFeedName;
     private String court;
     private String data;
     private String month;
@@ -34,11 +37,12 @@ public class Match_Out_NewsFeed_Data_Setting {
 
 
 
-    public Match_Out_NewsFeed_Data_Setting(String num, String user, String Do, String Si, String court, String data, String month, String day, String hour, String minute, String Image, String Name, String Birth, String Sex, String Position, String Team, String Profile, String Height, String Weight, String Phone, String Comment_Count) {
+    public Match_Out_NewsFeed_Data_Setting(String num, String user, String Do, String Si, String NewsFeedName, String court, String data, String month, String day, String hour, String minute, String Image, String Name, String Birth, String Sex, String Position, String Team, String Profile, String Height, String Weight, String Phone, String Comment_Count) {
         this.num = num;
         this.user = user;
         this.Do = Do;
         this.Si = Si;
+        this.NewsFeedName =NewsFeedName;
         this.court = court;
         this.data = data;
         this.month = month;
@@ -73,6 +77,8 @@ public class Match_Out_NewsFeed_Data_Setting {
     public String getSi() {
         return Si;
     }
+
+    public String getNewsFeedName() { return NewsFeedName; }
 
     public String getcourt() {
         return court;

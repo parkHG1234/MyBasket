@@ -2,6 +2,7 @@ package com.mysports.basketbook;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +10,9 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -33,6 +36,8 @@ import java.util.List;
  */
 
 public class ChangePw1Activity extends Activity {
+
+    LinearLayout change_pw1_layout_root;
     String Id, Pw;
     EditText Change_Pw_EditText;
     @Override
@@ -46,8 +51,18 @@ public class ChangePw1Activity extends Activity {
         Intent intent = getIntent();
         Id = intent.getStringExtra("Id");
         Log.i("id", Id);
+        change_pw1_layout_root = (LinearLayout)findViewById(R.id.change_pw1_layout_root);
         Change_Pw_EditText = (EditText) findViewById(R.id.Change_pw_layout_pw_EditText);
 
+
+        change_pw1_layout_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(Change_Pw_EditText.getWindowToken(), 0);
+
+            }
+        });
     }
 
     public void onClickConfirm(View view) {

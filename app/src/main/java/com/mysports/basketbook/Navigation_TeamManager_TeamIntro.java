@@ -2,6 +2,7 @@ package com.mysports.basketbook;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -16,9 +17,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -59,6 +62,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
 
+    LinearLayout layout_teammanager_teamintro_root;
     ImageView TeamManager_TeamIntro_ImageView_Emblem,TeamManager_TeamIntro_ImageView_Image1,TeamManager_TeamIntro_ImageView_Image2,TeamManager_TeamIntro_ImageView_Image3;
     EditText TeamManager_TeamIntro_EditText_HomeCourt, TeamManager_TeamIntro_EditText_Time,TeamManager_TeamIntro_EditText_TeamIntro;
     Button TeamManager_TeamIntro_Button_Save,TeamManager_TeamIntro_Button_Cancel;
@@ -95,6 +99,7 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         this.activity = this;
+        layout_teammanager_teamintro_root = (LinearLayout)findViewById(R.id.layout_teammanager_teamintro_root);
         TeamManager_TeamIntro_ImageView_Emblem = (ImageView)findViewById(R.id.TeamManager_TeamIntro_ImageView_Emblem);
         TeamManager_TeamIntro_ImageView_Image1 = (ImageView)findViewById(R.id.TeamManager_TeamIntro_ImageView_Image1);
         TeamManager_TeamIntro_ImageView_Image2 = (ImageView)findViewById(R.id.TeamManager_TeamIntro_ImageView_Image2);
@@ -107,6 +112,16 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
         TeamManager_TeamIntro_Button_UniformTop = (Button) findViewById(R.id.TeamManager_TeamIntro_Button_UniformTop);
         TeamManager_TeamIntro_Button_Save = (Button)findViewById(R.id.TeamManager_TeamIntro_Button_Save);
         TeamManager_TeamIntro_Button_Cancel = (Button)findViewById(R.id.TeamManager_TeamIntro_Button_Cancel);
+
+        layout_teammanager_teamintro_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(TeamManager_TeamIntro_EditText_HomeCourt.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(TeamManager_TeamIntro_EditText_Time.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(TeamManager_TeamIntro_EditText_TeamIntro.getWindowToken(), 0);
+            }
+        });
 
         mSelectedColor = ContextCompat.getColor(this, R.color.flamingo);
         int[] mColors = getResources().getIntArray(R.array.default_rainbow);

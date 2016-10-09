@@ -1,11 +1,14 @@
 package com.mysports.basketbook;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.mysports.basketbook.R;
 
@@ -30,6 +33,7 @@ import java.util.List;
  * Created by ldong on 2016-08-11.
  */
 public class JoinPhoneActivity extends Activity {
+    LinearLayout join_phone_layout_root;
     EditText join_phone_EditText;
 
     @Override
@@ -39,8 +43,17 @@ public class JoinPhoneActivity extends Activity {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
+        join_phone_layout_root = (LinearLayout)findViewById(R.id.join_phone_layout_root);
         join_phone_EditText = (EditText) findViewById(R.id.join_phone_layout_phone_EditText);
+
+        join_phone_layout_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(join_phone_EditText.getWindowToken(), 0);
+
+            }
+        });
     }
 
     public void onClickNext(View view) {

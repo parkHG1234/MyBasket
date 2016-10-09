@@ -4,6 +4,7 @@ package com.mysports.basketbook;
  * Created by 박효근 on 2016-07-22.
  */
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,11 +19,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -64,6 +67,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
 
 
+    LinearLayout Layout_Match_Out_NewsFeed_Writing_root;
     ArrayList arr;
     EditText NewsFeed_Writing_TextEditText;
     Button NewsFeed_Writing_Button_Write, NewsFeed_Writing_cancelButton;
@@ -92,6 +96,7 @@ public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+        Layout_Match_Out_NewsFeed_Writing_root = (LinearLayout)findViewById(R.id.Layout_Match_Out_NewsFeed_Writing_root);
         NewsFeed_Writing_cancelButton = (Button) findViewById(R.id.NewsFeed_Writing_cancelButton);
         NewsFeed_Writing_Button_Write = (Button) findViewById(R.id.NewsFeed_Writing_Button);
         NewsFeed_Writing_CameraButton = (Button) findViewById(R.id.NewsFeed_Writing_CameraButton);
@@ -156,6 +161,14 @@ public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
 
         }
         NewsFeed_Writing_TextView_Name.setText(Name);
+
+        Layout_Match_Out_NewsFeed_Writing_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(NewsFeed_Writing_TextEditText.getWindowToken(), 0);
+            }
+        });
 
         final MaterialDialog TeamPlayerDialog = new MaterialDialog(Match_Out_NewsFeed_Writing.this);
         TeamPlayerDialog
@@ -1176,6 +1189,7 @@ public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
                         params.add(new BasicNameValuePair("NewsFeed_Do", Do));
                         params.add(new BasicNameValuePair("NewsFeed_Si", Si));
                         params.add(new BasicNameValuePair("NewsFeed_Court", Court));
+                        params.add(new BasicNameValuePair("NewsFeed_Name", Name));
                         params.add(new BasicNameValuePair("NewsFeed_User", Id));
                         params.add(new BasicNameValuePair("NewsFeed_Data", NewsFeed_Writing_TextEditText.getText().toString()));
                         params.add(new BasicNameValuePair("NewsFeed_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));

@@ -2,6 +2,7 @@ package com.mysports.basketbook;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -47,6 +50,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class JoinAddActivity extends AppCompatActivity{
 
     static String id, pw, user_type;
+    LinearLayout join_add_layout_root;
     RadioGroup join_sex_Radio, join_posi_Radio;
     EditText join_name_EditText,join_layout_weight_editText,join_layout_height_editText;
     EditText year_EditText, month_EditText, day_EditText;
@@ -72,7 +76,7 @@ public class JoinAddActivity extends AppCompatActivity{
         final String birthTemp = "";
         String posiTemp = "";
 
-
+        join_add_layout_root = (LinearLayout)findViewById(R.id.join_add_layout_root);
         year_EditText = (EditText) findViewById(R.id.Year_EditText);
         month_EditText = (EditText) findViewById(R.id.Month_EditText);
         day_EditText = (EditText) findViewById(R.id.Day_EditText);
@@ -81,7 +85,19 @@ public class JoinAddActivity extends AppCompatActivity{
         s_Sex = (Spinner)findViewById(R.id.spinner_sex);
         s_Position = (Spinner)findViewById(R.id.spinner_position);
 
+        join_add_layout_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(year_EditText.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(month_EditText.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(day_EditText.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(join_name_EditText.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(join_layout_weight_editText.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(join_layout_height_editText.getWindowToken(), 0);
 
+            }
+        });
 
         s_Sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

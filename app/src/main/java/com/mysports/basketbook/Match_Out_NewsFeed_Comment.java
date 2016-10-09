@@ -4,6 +4,7 @@ package com.mysports.basketbook;
  * Created by 박효근 on 2016-07-22.
  */
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,10 +19,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -56,7 +59,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements AbsListView.OnScrollListener,NavigationView.OnNavigationItemSelectedListener {
 
-
+    LinearLayout Layout_Match_Out_NewsFeed_Comment_root;
 
     ImageView NewsFeed_Comment_Emblem;
     TextView NewsFeed_Comment_User;
@@ -74,7 +77,7 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
     String NewsFeed_Num;
     String[][] parsedData,parsedData_CourtInfo;
     String Comment_User,Comment_Emblem=null;
-    String[] jsonName = {"Comment_Num", "NewsFeed_Num", "Comment_User", "Comment_Data", "Comment_Month", "Comment_Day", "Comment_Hour", "Comment_Minute", "Name", "Birth", "Sex", "Position", "Team", "Profile", "Height", "Weight", "Phone"};
+    String[] jsonName = {"Comment_Num", "NewsFeed_Num", "Comment_Name", "Comment_User", "Comment_Data", "Comment_Month", "Comment_Day", "Comment_Hour", "Comment_Minute", "Name", "Birth", "Sex", "Position", "Team", "Profile", "Height", "Weight", "Phone"};
 
     Handler handler = new Handler();
 
@@ -96,7 +99,7 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
 
 
 
-
+        Layout_Match_Out_NewsFeed_Comment_root = (LinearLayout)findViewById(R.id.Layout_Match_Out_NewsFeed_Comment_root);
         NewsFeed_Comment_Emblem = (ImageView) findViewById(R.id.NewsFeed_Comment_Emblem);
         NewsFeed_Comment_User =  (TextView) findViewById(R.id.NewsFeed_Comment_User);
         NewsFeed_Comment_Court = (TextView) findViewById(R.id.NewsFeed_Comment_Court);
@@ -105,13 +108,13 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
         NewSpeed_Comment_List = (ListView) findViewById(R.id.NewSpeed_Comment_List);
         NewsFeed_Comment_EditText = (EditText) findViewById(R.id.NewsFeed_Comment_EditText);
         NewsFeed_Comment_Button = (Button) findViewById(R.id.NewsFeed_Comment_Button);
-       // NewsFeed_Comment_ProgressBar = (ProgressBar) findViewById(R.id.NewsFeed_Comment_ProgressBar);
+        // NewsFeed_Comment_ProgressBar = (ProgressBar) findViewById(R.id.NewsFeed_Comment_ProgressBar);
         NewSpeed_Comment_ImageView=(ImageView)findViewById(R.id.NewSpeed_Comment_ImageView);
 
         final Intent CommentIntent = getIntent();
         NewsFeed_Num = CommentIntent.getExtras().getString("Num");
         Comment_User = CommentIntent.getExtras().getString("Id");
-        NewsFeed_Comment_User.setText(CommentIntent.getExtras().getString("Id"));
+         NewsFeed_Comment_User.setText(CommentIntent.getExtras().getString("Id"));
         NewsFeed_Comment_Court.setText(CommentIntent.getExtras().getString("Court"));
         NewsFeed_Comment_Data.setText(CommentIntent.getExtras().getString("Data"));
         NewsFeed_Comment_Time.setText(CommentIntent.getExtras().getString("Time"));
@@ -123,41 +126,40 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
                     .into(NewsFeed_Comment_Emblem);
         }
         String result_CourtInfo="";
-        Log.i("test",CommentIntent.getExtras().getString("Court"));
-            try {
-                        HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/Web_basket/CourtInfo.jsp";
-                        HttpPost post = new HttpPost(postURL);
+        try {
+            HttpClient client = new DefaultHttpClient();
+            String postURL = "http://210.122.7.195:8080/Web_basket/CourtInfo.jsp";
+            HttpPost post = new HttpPost(postURL);
 
-                        List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("CourtName", CommentIntent.getExtras().getString("Court")));
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("CourtName", CommentIntent.getExtras().getString("Court")));
 
-                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                        post.setEntity(ent);
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
 
-                        HttpResponse response = client.execute(post);
-                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+            HttpResponse response = client.execute(post);
+            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
 
-                        String line = null;
-                        while ((line = bufreader.readLine()) != null) {
-                                result_CourtInfo += line;
-                            }
-            } catch (Exception e) {
-                e.printStackTrace();
+            String line = null;
+            while ((line = bufreader.readLine()) != null) {
+                result_CourtInfo += line;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-            parsedData_CourtInfo = jsonParserList_CourtInfo(result_CourtInfo);
-            String CourtName =parsedData_CourtInfo[0][0];
-            String CourtAddress =parsedData_CourtInfo[0][1];
-            String CourtCount =parsedData_CourtInfo[0][2];
-            String CourtFloor =parsedData_CourtInfo[0][3];
-            String CourtMapX =parsedData_CourtInfo[0][4];
-            String CourtMapy =parsedData_CourtInfo[0][5];
-            String Image1 =parsedData_CourtInfo[0][6];
-            String Image2 =parsedData_CourtInfo[0][7];
-            String Image3 =parsedData_CourtInfo[0][8];
-            String Image4 =parsedData_CourtInfo[0][9];
-            String Image5 = parsedData_CourtInfo[0][10];
+        parsedData_CourtInfo = jsonParserList_CourtInfo(result_CourtInfo);
+        String CourtName =parsedData_CourtInfo[0][0];
+        String CourtAddress =parsedData_CourtInfo[0][1];
+        String CourtCount =parsedData_CourtInfo[0][2];
+        String CourtFloor =parsedData_CourtInfo[0][3];
+        String CourtMapX =parsedData_CourtInfo[0][4];
+        String CourtMapy =parsedData_CourtInfo[0][5];
+        String Image1 =parsedData_CourtInfo[0][6];
+        String Image2 =parsedData_CourtInfo[0][7];
+        String Image3 =parsedData_CourtInfo[0][8];
+        String Image4 =parsedData_CourtInfo[0][9];
+        String Image5 = parsedData_CourtInfo[0][10];
         //툴바 셋팅
         toolbar.setTitle(CourtName);
         setSupportActionBar(toolbar);
@@ -197,25 +199,36 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
             CourtInfo_Nav_Img5.setVisibility(View.GONE);
         }
         //URI 한글 인코딩
-            try{
-                    String En_Image1 = URLEncoder.encode(Image1, "utf-8");
-                    String En_Image2 = URLEncoder.encode(Image2, "utf-8");
-                    String En_Image3 = URLEncoder.encode(Image3, "utf-8");
-                    String En_Image4 = URLEncoder.encode(Image4, "utf-8");
-                    String En_Image5 = URLEncoder.encode(Image5, "utf-8");
-                    Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image1+".jpg")
-                                .into(CourtInfo_Nav_Img1);
-                    Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image2+".jpg")
-                                .into(CourtInfo_Nav_Img2);
-                    Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image3+".jpg")
-                                .into(CourtInfo_Nav_Img3);
-                    Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image4+".jpg")
-                                .into(CourtInfo_Nav_Img4);
-                    Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image5+".jpg")
-                                .into(CourtInfo_Nav_Img5);
-            }catch (UnsupportedEncodingException e){
+        try{
+            String En_Image1 = URLEncoder.encode(Image1, "utf-8");
+            String En_Image2 = URLEncoder.encode(Image2, "utf-8");
+            String En_Image3 = URLEncoder.encode(Image3, "utf-8");
+            String En_Image4 = URLEncoder.encode(Image4, "utf-8");
+            String En_Image5 = URLEncoder.encode(Image5, "utf-8");
+            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image1+".jpg")
+                    .into(CourtInfo_Nav_Img1);
+            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image2+".jpg")
+                    .into(CourtInfo_Nav_Img2);
+            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image3+".jpg")
+                    .into(CourtInfo_Nav_Img3);
+            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image4+".jpg")
+                    .into(CourtInfo_Nav_Img4);
+            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image5+".jpg")
+                    .into(CourtInfo_Nav_Img5);
+        }catch (UnsupportedEncodingException e){
 
+        }
+
+        Layout_Match_Out_NewsFeed_Comment_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(NewsFeed_Comment_EditText.getWindowToken(), 0);
             }
+        });
+
+
         //////////댓글 데이터를 가져옵니다.
         String result = "";
         try {
@@ -249,46 +262,47 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
             public void onClick(View view) {
                 String result = "";
                 if(!(NewsFeed_Comment_EditText.getText().equals("null"))){
-                try {
-                    HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/Web_basket/test123123.jsp";
-                    HttpPost post = new HttpPost(postURL);
-                    List<NameValuePair> params = new ArrayList<NameValuePair>();
-                    params.add(new BasicNameValuePair("NewsFeed_Num", NewsFeed_Num));
-                    params.add(new BasicNameValuePair("Comment_User",Comment_User ));
-                    params.add(new BasicNameValuePair("Comment_Data", NewsFeed_Comment_EditText.getText().toString()));
-                    params.add(new BasicNameValuePair("Comment_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));
-                    params.add(new BasicNameValuePair("Comment_Day", new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis()))));
-                    params.add(new BasicNameValuePair("Comment_Hour", new SimpleDateFormat("kk").format(new java.sql.Date(System.currentTimeMillis()))));
-                    params.add(new BasicNameValuePair("Comment_Minute", new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis()))));
-                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                    post.setEntity(ent);
-                    HttpResponse response = client.execute(post);
-                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                    try {
+                        HttpClient client = new DefaultHttpClient();
+                        String postURL = "http://210.122.7.195:8080/gg/newsfeed_comment_upload.jsp";
+                        HttpPost post = new HttpPost(postURL);
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("NewsFeed_Num", NewsFeed_Num));
+                        params.add(new BasicNameValuePair("Comment_User",CommentIntent.getExtras().getString("Id") ));
+                        params.add(new BasicNameValuePair("Comment_Name",CommentIntent.getExtras().getString("Name")));
+                        params.add(new BasicNameValuePair("Comment_Data", NewsFeed_Comment_EditText.getText().toString()));
+                        params.add(new BasicNameValuePair("Comment_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));
+                        params.add(new BasicNameValuePair("Comment_Day", new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis()))));
+                        params.add(new BasicNameValuePair("Comment_Hour", new SimpleDateFormat("kk").format(new java.sql.Date(System.currentTimeMillis()))));
+                        params.add(new BasicNameValuePair("Comment_Minute", new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis()))));
+                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                        post.setEntity(ent);
+                        HttpResponse response = client.execute(post);
+                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
 
-                    client = new DefaultHttpClient();
-                    postURL = "http://210.122.7.195:8080/gg/newsfeed_comment_download.jsp";
-                    post = new HttpPost(postURL);
-                    params.add(new BasicNameValuePair("NewsFeed_Num", NewsFeed_Num));
-                    ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                    post.setEntity(ent);
-                    response = client.execute(post);
-                    bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                        client = new DefaultHttpClient();
+                        postURL = "http://210.122.7.195:8080/gg/newsfeed_comment_download.jsp";
+                        post = new HttpPost(postURL);
+                        params.add(new BasicNameValuePair("NewsFeed_Num", NewsFeed_Num));
+                        ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                        post.setEntity(ent);
+                        response = client.execute(post);
+                        bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
 
-                    String line = null;
-                    while ((line = bufreader.readLine()) != null) {
-                        result += line;
-                    }
-                    parsedData = jsonParserList(result);
-                    setData();
-                    CommentAdapter = new Match_Out_NewsFeed_Comment_Adapter(Match_Out_NewsFeed_Comment.this, arrComment,Comment_User);
+                        String line = null;
+                        while ((line = bufreader.readLine()) != null) {
+                            result += line;
+                        }
+                        parsedData = jsonParserList(result);
+                        setData();
+                        CommentAdapter = new Match_Out_NewsFeed_Comment_Adapter(Match_Out_NewsFeed_Comment.this, arrComment,Comment_User);
 
-                    CommentAdapter.listview(NewSpeed_Comment_List);
-                    NewSpeed_Comment_List.setAdapter(CommentAdapter);
-                    NewsFeed_Comment_EditText.setText("");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }}
+                        CommentAdapter.listview(NewSpeed_Comment_List);
+                        NewSpeed_Comment_List.setAdapter(CommentAdapter);
+                        NewsFeed_Comment_EditText.setText("");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }}
             }
         });
 
@@ -304,7 +318,7 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
         arrComment = new ArrayList<Match_Out_NewsFeed_Comment_Setting>();
         for (int a = 0; a < cnt; a++) {
             arrComment.add(new Match_Out_NewsFeed_Comment_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2], parsedData[a][3], parsedData[a][4], parsedData[a][5], parsedData[a][6], parsedData[a][7],
-                    parsedData[a][8], parsedData[a][9], parsedData[a][10], parsedData[a][11], parsedData[a][12], parsedData[a][13], parsedData[a][14], parsedData[a][15], parsedData[a][16]));
+                    parsedData[a][8], parsedData[a][9], parsedData[a][10], parsedData[a][11], parsedData[a][12], parsedData[a][13], parsedData[a][14], parsedData[a][15], parsedData[a][16],parsedData[a][17]));
         }
     }
     public String[][] jsonParserList(String pRecvServerPage) {
@@ -322,7 +336,7 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
             for (int i = 0; i < cnt; i++) {
                 json = jArr.getJSONObject(i);
                 for (int j = 0; j < jsonName.length; j++) {
-                    parsedData[i][j] = json.getString(jsonName[j]);
+                    parsedData[i][j] = json.optString(jsonName[j]);
                 }
             }
             return parsedData;
@@ -362,7 +376,7 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
                 for (int i = 0; i < cnt; i++) {
                     json = jArr.getJSONObject(i);
                     for (int j = 0; j < jsonName.length; j++) {
-                        parsedData[i][j] = json.getString(jsonName[j]);
+                        parsedData[i][j] = json.optString(jsonName[j]);
                     }
                 }
             } catch (JSONException e) {
@@ -386,7 +400,7 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-                getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
     @SuppressWarnings("StatementWithEmptyBody")
@@ -402,7 +416,7 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
         } else if (id == R.id.nav_share) {
         } else if (id == R.id.nav_send) {
         }
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

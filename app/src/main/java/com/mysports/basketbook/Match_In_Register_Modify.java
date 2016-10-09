@@ -1,14 +1,17 @@
 package com.mysports.basketbook;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.dd.CircularProgressButton;
 import com.mysports.basketbook.R;
@@ -62,6 +65,7 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
     private String Phone="";
     private String BookTimeEnd="";
 
+    private LinearLayout layout_match_in_modify_root;
     private MaterialEditText Match_In_Modify_EditText_Title;
     private MaterialEditText Match_In_Modify_EditText_Consideration;
     private Button Match_In_Modify_Button_TeamName;
@@ -84,6 +88,7 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
         setContentView(R.layout.layout_match_in_modify);
 
 
+        layout_match_in_modify_root = (LinearLayout)findViewById(R.id.layout_match_in_modify_root);
         Match_In_Modify_EditText_Title = (MaterialEditText)findViewById(R.id.Match_In_Modify_EditText_Title);
         Match_In_Modify_EditText_Consideration = (MaterialEditText)findViewById(R.id.Match_In_Modify_EditText_Consideration);
         Match_In_Modify_EditText_AddressFocus =(MaterialEditText)findViewById(R.id.Match_In_Modify_EditText_AddressFocus);
@@ -182,6 +187,18 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
         if(HeatingAndCooling.equals("true")){
             Match_In_Modify_CheckBox_HeatingAndCooling.setChecked(true);
         }
+
+        layout_match_in_modify_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(Match_In_Modify_EditText_Title.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(Match_In_Modify_EditText_Consideration.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(Match_In_Modify_EditText_AddressFocus.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(Match_In_Modify_EditText_Phone.getWindowToken(), 0);
+            }
+        });
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //운동일정 버튼 클릭 이벤트 -> Calender 다이얼로그 창 띄움
         Match_In_Modify_Button_Schedule_Date.setOnClickListener(new View.OnClickListener() {

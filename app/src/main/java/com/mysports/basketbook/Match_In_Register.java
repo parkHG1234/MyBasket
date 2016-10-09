@@ -1,14 +1,17 @@
 package com.mysports.basketbook;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.dd.CircularProgressButton;
 import com.mysports.basketbook.R;
@@ -40,6 +43,7 @@ import java.util.List;
  * Created by 박효근 on 2016-07-04.
  */
 public class Match_In_Register extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener{
+
     private String Id="";
     private String[][] parsedData;
     private String Title="";
@@ -59,6 +63,7 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
     private String Phone="";
     private String AddressFocus="";
 
+    private LinearLayout layout_match_in_register_root;
     private MaterialEditText Match_In_Register_EditText_Title;
     private MaterialEditText Match_In_Register_EditText_Consideration;
     private MaterialEditText Match_In_Register_EditText_AddressFocus;
@@ -81,7 +86,7 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_match_in_register);
 
-
+        layout_match_in_register_root = (LinearLayout)findViewById(R.id.layout_match_in_register_root);
         Match_In_Register_EditText_Title = (MaterialEditText)findViewById(R.id.Match_In_Register_EditText_Title);
         Match_In_Register_EditText_Consideration = (MaterialEditText)findViewById(R.id.Match_In_Register_EditText_Consideration);
         Match_In_Register_Button_TeamName = (Button)findViewById(R.id.Match_In_Register_Button_TeamName);
@@ -148,6 +153,19 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
         Match_In_Register_Button_Schedule_TimeEnd.setText(EndTime);
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //운동일정 버튼 클릭 이벤트 -> Calender 다이얼로그 창 띄움
+
+        layout_match_in_register_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(Match_In_Register_EditText_Phone.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(Match_In_Register_EditText_Title.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(Match_In_Register_EditText_Consideration.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(Match_In_Register_EditText_AddressFocus.getWindowToken(), 0);
+
+            }
+        });
+
         Match_In_Register_Button_Schedule_Date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

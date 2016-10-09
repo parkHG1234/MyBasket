@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.NotActiveException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

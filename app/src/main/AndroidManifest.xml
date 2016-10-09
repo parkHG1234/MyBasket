@@ -17,6 +17,7 @@
         <activity android:name="com.mysports.basketbook.Terms"></activity>
         <activity android:name="com.mysports.basketbook.ChangePw1Activity"></activity>
         <activity android:name="com.mysports.basketbook.ChangePw2Activity"></activity>
+
         <activity
             android:name="com.mysports.basketbook.LoginActivity">
             <intent-filter>

@@ -3,6 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/Layout_Match_Out_NewsFeed_Comment_root"
     android:orientation="vertical">
     <LinearLayout
         android:orientation="vertical"

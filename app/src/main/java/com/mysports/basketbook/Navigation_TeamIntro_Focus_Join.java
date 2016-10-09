@@ -1,6 +1,7 @@
 package com.mysports.basketbook;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,9 +11,11 @@ import android.os.StrictMode;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mysports.basketbook.R;
@@ -44,6 +47,7 @@ import java.util.List;
  * Created by park on 2016-06-22.
  */
 public class Navigation_TeamIntro_Focus_Join extends Activity{
+    LinearLayout layout_navigation_teamintro_focus_join_root;
     View view;
     ImageView TeamIntro_Foucs_Join_ImageView_Emblem;
     TextView TeamIntro_Foucs_Join_TextView_TeamName;
@@ -58,7 +62,7 @@ public class Navigation_TeamIntro_Focus_Join extends Activity{
         setContentView(R.layout.layout_navigation_teamintro_focus_join);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
+        layout_navigation_teamintro_focus_join_root = (LinearLayout)findViewById(R.id.layout_navigation_teamintro_focus_join_root);
         TeamIntro_Foucs_Join_ImageView_Emblem = (ImageView)findViewById(R.id.TeamIntro_Foucs_Join_ImageView_Emblem);
         TeamIntro_Foucs_Join_TextView_TeamName = (TextView)findViewById(R.id.TeamIntro_Foucs_Join_TextView_TeamName);
         TeamIntro_Foucs_Join_EditText_Introduce = (EditText)findViewById(R.id.TeamIntro_Foucs_Join_EditText_Introduce);
@@ -68,6 +72,15 @@ public class Navigation_TeamIntro_Focus_Join extends Activity{
         TeamName = intent1.getStringExtra("TeamName");
         Emblem = intent1.getStringExtra("Emblem");
         Id = intent1.getStringExtra("Id");
+
+        layout_navigation_teamintro_focus_join_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(TeamIntro_Foucs_Join_EditText_Introduce.getWindowToken(), 0);
+
+            }
+        });
 
         TeamIntro_Foucs_Join_TextView_TeamName.setText(TeamName);
         try{

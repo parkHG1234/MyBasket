@@ -4,6 +4,7 @@
     xmlns:custom="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/Layout_Match_Out_NewsFeed_Writing_root"
     android:orientation="vertical"
     android:padding="5dp">
 

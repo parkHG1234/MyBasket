@@ -1,5 +1,6 @@
 package com.mysports.basketbook;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -7,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -40,6 +42,7 @@ import java.util.List;
  * Created by park on 2016-04-04.
  */
 public class Navigation_TeamManager_TeamMake1 extends AppCompatActivity {
+    LinearLayout layout_teammanager_teammake1_root;
     LinearLayout TeamManager_TeamMake_Layout_Maker;
     LinearLayout TeamManager_TeamMake_Layout_OverLap;
     String Str_TeamManager_TeamMake_EditText_TeamName="";
@@ -64,6 +67,7 @@ public class Navigation_TeamManager_TeamMake1 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_teammanager_teammake1);
+        layout_teammanager_teammake1_root = (LinearLayout)findViewById(R.id.layout_teammanager_teammake1_root);
         TeamManager_TeamMake_EditText_TeamName = (MaterialEditText)findViewById(R.id.TeamManager_TeamMake_EditText_TeamName);
         TeamManager_TeamMake_EditText_HomeCourt = (MaterialEditText)findViewById(R.id.TeamManager_TeamMake_EditText_HomeCourt);
         TeamManager_TeamMake_EditText_Time = (MaterialEditText)findViewById(R.id.TeamManager_TeamMake_EditText_Time);
@@ -75,6 +79,18 @@ public class Navigation_TeamManager_TeamMake1 extends AppCompatActivity {
         TeamManager_TeamMake_Layout_OverLap = (LinearLayout)findViewById(R.id.TeamManager_TeamMake_Layout_OverLap);
         Button TeamManager_TeamMake1_Button_Next = (Button)findViewById(R.id.TeamManager_TeamMake_Button_Next);
 
+
+        layout_teammanager_teammake1_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(TeamManager_TeamMake_EditText_TeamName.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(TeamManager_TeamMake_EditText_HomeCourt.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(TeamManager_TeamMake_EditText_Time.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(TeamManager_TeamMake_EditText_TeamIntro.getWindowToken(), 0);
+
+            }
+        });
 
         mSelectedColor = ContextCompat.getColor(this, R.color.flamingo);
         int[] mColors = getResources().getIntArray(R.array.default_rainbow);

@@ -3,6 +3,7 @@ package com.mysports.basketbook;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,9 +14,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kakao.auth.ISessionCallback;
@@ -45,12 +48,14 @@ import java.util.concurrent.ExecutionException;
  * Created by ldong on 2016-06-30.
  */
 public class LoginActivity extends AppCompatActivity {
+    LinearLayout login_layout_root;
     EditText id_EditText, pw_EditText;
     Button login_Button;
     TextView join_Button;
     String[][] parsedData;
     AlertDialog dlg;
     CheckBox autoLoginChkbox;
+
 
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
@@ -66,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
 
+        login_layout_root = (LinearLayout)findViewById(R.id.login_layout_root);
         id_EditText = (EditText) findViewById(R.id.id_Layout_EditText);
         pw_EditText = (EditText) findViewById(R.id.pw_Layout_EditText);
         login_Button = (Button) findViewById(R.id.login_button);
@@ -93,6 +99,16 @@ public class LoginActivity extends AppCompatActivity {
         callback = new SessionCallback();                  // 이 두개의 함수 중요함
         Session.getCurrentSession().addCallback(callback);
         Session.getCurrentSession().checkAndImplicitOpen();
+
+        login_layout_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(id_EditText.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(pw_EditText.getWindowToken(), 0);
+            }
+        });
+
 
         if(autoLoginChkbox.isChecked()){
 
@@ -325,4 +341,5 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
 }
