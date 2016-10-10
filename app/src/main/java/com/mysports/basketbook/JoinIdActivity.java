@@ -1,6 +1,7 @@
 package com.mysports.basketbook;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -65,10 +66,12 @@ public class JoinIdActivity extends Activity {
         StrictMode.setThreadPolicy(policy);
 
         String id = join_id_EditText.getText().toString();
+
         String result = SendByHttp(id);
         Log.i("JSON을 분석한 데이터2222 :", result);
         String[][] parsedData = jsonParserList(result);
         if(parsedData != null && parsedData[0][0].equals("noDuplicate")) {
+
             if(id.length() < 5) {
                 Snackbar.make(view, "아이디는 5자 이상이어야  합니다.", Snackbar.LENGTH_LONG)
                         .show();
@@ -92,6 +95,9 @@ public class JoinIdActivity extends Activity {
 
 
     private String SendByHttp(String id) {
+        ProgressDialog asyncDialog = new ProgressDialog(JoinIdActivity.this);
+        asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        asyncDialog.show();
         try {
             HttpClient httpClient = new DefaultHttpClient();
             String postURL = "http://210.122.7.195:8080/pp/CheckJoinedId.jsp";
@@ -112,6 +118,7 @@ public class JoinIdActivity extends Activity {
             while ((line = bufreader.readLine()) != null) {
                 result += line;
             }
+            asyncDialog.dismiss();
             return result;
         }catch (Exception e) {
             e.printStackTrace();
