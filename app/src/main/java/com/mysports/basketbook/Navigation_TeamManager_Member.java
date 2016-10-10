@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
@@ -49,7 +50,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
     SwipeMenuListView TeamManager_Member_ListView_JoinerList,TeamManager_Member_ListView_TeamPlayerList;
     static String Id, Team, MyDuty;
     String[][] parsedData_TeamPlayer,parsedData_Joiner, parsedData_TeamPlayer_Delete,parsedData_Duty,parsedData_Duty_Modified,parsedData_Duty_Entrust;
-   String[][] parsedData_Joiner_Allow,parsedData_Joiner_Refuse;
+    String[][] parsedData_Joiner_Allow,parsedData_Joiner_Refuse;
 
     //팀원 리스트 선언
     Navigation_TeamManager_Member_Customlist_TeamPlayer_MyAdapter navigation_TeamManager_Member_Customlist_TeamPlayer_MyAdapter;
@@ -109,7 +110,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //가입신청자 받아오기
-      result="";
+        result="";
         try {
             HttpClient client = new DefaultHttpClient();
             String postURL = "http://210.122.7.195:8080/Web_basket/NaviTeamManager_Joiner.jsp";
@@ -168,8 +169,9 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                 SwipeMenuItem duty = new SwipeMenuItem(
                         getApplicationContext());
                 // set item background
-                duty.setBackground(new ColorDrawable(Color.GRAY));
-                duty.setTitle("권한");
+                //duty.setBackground(new ColorDrawable(Color.rgb(16,37,63)));
+                duty.setIcon(R.drawable.authority);
+                //duty.setTitle("권한");
                 // set item width
                 duty.setWidth(180);
                 menu.addMenuItem(duty);
@@ -177,12 +179,11 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                 SwipeMenuItem deleteItem = new SwipeMenuItem(
                         getApplicationContext());
                 // set item background
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
-                        0x3F, 0x25)));
+                deleteItem.setIcon(R.drawable.teamplayer_delete);
                 // set item width
                 deleteItem.setWidth(180);
                 // set a icon
-                //deleteItem.setIcon(R.drawable.delete1);
+
                 // add to menu
                 menu.addMenuItem(deleteItem);
             }
@@ -258,69 +259,70 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
 
                         final MaterialDialog DutyDialog = new MaterialDialog(Navigation_TeamManager_Member.this);
                         DutyDialog
-                                        .setTitle("권한 설정")
-                                        .setView(layout)
-                                        .setNegativeButton("변경", new View.OnClickListener() {
-                                        @Override
-                                          public void onClick(View view) {
-                                            String Member = "0";
-                                            String Schedule = "0";
-                                            String TeamIntro = "0";
-                                            String Notice = "0";
-                                            if(Layout_CustomDialog_Duty_CheckBox_Member.isChecked()){
-                                                Member = "1";
-                                            }
-                                            if(Layout_CustomDialog_Duty_CheckBox_Schedule.isChecked()){
-                                                Schedule = "1";
-                                            }
-                                            if(Layout_CustomDialog_Duty_CheckBox_TeamIntro.isChecked()){
-                                                TeamIntro = "1";
-                                            }
-                                            if(Layout_CustomDialog_Duty_CheckBox_Notice.isChecked()){
-                                                Notice = "1";
-                                            }
-                                            String result="";
-                                            try {
-                                                HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/Web_basket/TeamManager_ModifyDuty_Modified.jsp";
-                                                HttpPost post = new HttpPost(postURL);
+                                .setTitle("권한 설정")
+                                .setView(layout)
+                                .setNegativeButton("변경", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        String Member = "0";
+                                        String Schedule = "0";
+                                        String TeamIntro = "0";
+                                        String Notice = "0";
+                                        if(Layout_CustomDialog_Duty_CheckBox_Member.isChecked()){
+                                            Member = "1";
+                                        }
+                                        if(Layout_CustomDialog_Duty_CheckBox_Schedule.isChecked()){
+                                            Schedule = "1";
+                                        }
+                                        if(Layout_CustomDialog_Duty_CheckBox_TeamIntro.isChecked()){
+                                            TeamIntro = "1";
+                                        }
+                                        if(Layout_CustomDialog_Duty_CheckBox_Notice.isChecked()){
+                                            Notice = "1";
+                                        }
+                                        String result="";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamManager_ModifyDuty_Modified.jsp";
+                                            HttpPost post = new HttpPost(postURL);
 
-                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                                params.add(new BasicNameValuePair("Id", navigation_TeamManager_Member_Customlist_TeamPlayer_MyData.get(position).getId()));
-                                                params.add(new BasicNameValuePair("authority_member", Member));
-                                                params.add(new BasicNameValuePair("authority_schedule", Schedule));
-                                                params.add(new BasicNameValuePair("authority_teamIntro", TeamIntro));
-                                                params.add(new BasicNameValuePair("authority_notice", Notice));
-                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                                post.setEntity(ent);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("Id", navigation_TeamManager_Member_Customlist_TeamPlayer_MyData.get(position).getId()));
+                                            params.add(new BasicNameValuePair("authority_member", Member));
+                                            params.add(new BasicNameValuePair("authority_schedule", Schedule));
+                                            params.add(new BasicNameValuePair("authority_teamIntro", TeamIntro));
+                                            params.add(new BasicNameValuePair("authority_notice", Notice));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
 
-                                                HttpResponse response = client.execute(post);
-                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
 
-                                                String line = null;
-                                                while ((line = bufreader.readLine()) != null) {
-                                                    result += line;
-                                                }
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
                                             }
-                                            parsedData_Duty_Modified = jsonParserList_Duty_Modified(result);
-                                            if(parsedData_Duty_Modified[0][0].equals("succed")){
-                                                DutyDialog.dismiss();
-                                                Snackbar.make(view,"대표가 위임되었습니다.",Snackbar.LENGTH_SHORT).show();
-                                            }
-                                            else{
-                                                Snackbar.make(view,"잠시 후 다시 시도해주시기 바랍니다.",Snackbar.LENGTH_SHORT).show();
-                                            }
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        parsedData_Duty_Modified = jsonParserList_Duty_Modified(result);
+                                        if(parsedData_Duty_Modified[0][0].equals("succed")){
+                                            Toast.makeText(Navigation_TeamManager_Member.this,"권한이 부여되었습니다.",Snackbar.LENGTH_SHORT).show();
+                                            DutyDialog.dismiss();
 
-                                      }
-                                      })
-                                        .setPositiveButton("취소", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                DutyDialog.dismiss();
-                                            }
-                                        });
+                                        }
+                                        else{
+                                            Snackbar.make(view,"잠시 후 다시 시도해주시기 바랍니다.",Snackbar.LENGTH_SHORT).show();
+                                        }
+
+                                    }
+                                })
+                                .setPositiveButton("취소", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        DutyDialog.dismiss();
+                                    }
+                                });
                         Layout_CustomDialog_Duty_Button_Entrust.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -349,6 +351,8 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                                 parsedData_Duty_Entrust = jsonParserList_Duty_Modified(result);
                                 if(parsedData_Duty_Entrust[0][0].equals("succed")){
                                     DutyDialog.dismiss();
+                                    Toast.makeText(Navigation_TeamManager_Member.this,"대표가 위임되었습니다.",Snackbar.LENGTH_SHORT).show();
+                                    finish();
                                 }
                                 else{
                                     Snackbar.make(view,"잠시 후 다시 시도해주시기 바랍니다.",Snackbar.LENGTH_SHORT).show();
@@ -404,13 +408,13 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                                     }
                                 })
                                 .setPositiveButton("Cancel", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                TeamPlayerDialog.dismiss();
-                                            }
-                                        });
+                                    @Override
+                                    public void onClick(View v) {
+                                        TeamPlayerDialog.dismiss();
+                                    }
+                                });
 
-                                TeamPlayerDialog.show();
+                        TeamPlayerDialog.show();
 
                         break;
                 }
