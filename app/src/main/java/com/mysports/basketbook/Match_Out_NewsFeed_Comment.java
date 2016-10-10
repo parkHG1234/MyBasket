@@ -119,8 +119,8 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
         NewsFeed_Comment_Data.setText(CommentIntent.getExtras().getString("Data"));
         NewsFeed_Comment_Time.setText(CommentIntent.getExtras().getString("Time"));
         Comment_Emblem=CommentIntent.getExtras().getString("profile");
-        if (Comment_Emblem.equals("")) {
-            Glide.with(getApplicationContext()).load(R.drawable.basic_image).into(NewsFeed_Comment_Emblem);
+        if (Comment_Emblem.equals(".")) {
+            Glide.with(getApplicationContext()).load(R.drawable.profile_basic_image).into(NewsFeed_Comment_Emblem);
         } else {
             Glide.with(getApplicationContext()).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + Comment_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(getApplicationContext()).getBitmapPool()))
                     .into(NewsFeed_Comment_Emblem);
@@ -306,13 +306,13 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
             }
         });
 
-        if (En_Profile.equals("")) {
-            NewSpeed_Comment_ImageView.setVisibility(View.GONE);
-        } else {
-            NewSpeed_Comment_ImageView.setVisibility(View.GONE);
-            Glide.with(getApplicationContext()).load("http://210.122.7.195:8080/gg/imgs1/" + En_Profile + ".jpg").into(NewSpeed_Comment_ImageView);
-            Log.i("data_adapter",En_Profile);
-        }
+//        if (En_Profile.equals("")) {
+//            NewSpeed_Comment_ImageView.setVisibility(View.GONE);
+//        } else {
+//            NewSpeed_Comment_ImageView.setVisibility(View.GONE);
+//            Glide.with(getApplicationContext()).load("http://210.122.7.195:8080/gg/imgs1/" + En_Profile + ".jpg").into(NewSpeed_Comment_ImageView);
+//            Log.i("data_adapter",En_Profile);
+//        }
     }
     private void setData() {
         arrComment = new ArrayList<Match_Out_NewsFeed_Comment_Setting>();
@@ -327,7 +327,7 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
             json = new JSONObject(pRecvServerPage);
             jArr = json.getJSONArray("List");
             if (jArr.length() >=9) {
-                cnt = 10;
+                cnt = 9;
             } else {
                 cnt = jArr.length();
                 VisibleFlag = false;

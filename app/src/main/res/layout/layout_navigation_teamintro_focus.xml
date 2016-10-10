@@ -234,7 +234,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:id="@+id/TeamIntro_ImageView_Image3"
-                        android:background="@drawable/basic_image"
+                        android:background="@drawable/profile_basic_image"
                         android:padding="2sp"
                         android:scaleType="centerCrop"
                         android:layout_height="300dp" />
@@ -242,7 +242,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:id="@+id/TeamIntro_ImageView_Image2"
-                        android:background="@drawable/basic_image"
+                        android:background="@drawable/profile_basic_image"
                         android:padding="2sp"
                         android:scaleType="centerCrop"
                         android:layout_height="300dp" />
@@ -250,7 +250,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:id="@+id/TeamIntro_ImageView_Image1"
-                        android:background="@drawable/basic_image"
+                        android:background="@drawable/profile_basic_image"
                         android:padding="2sp"
                         android:scaleType="fitXY"
                         android:layout_height="300dp" />

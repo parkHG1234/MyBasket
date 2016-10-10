@@ -261,7 +261,7 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
                     Layout_CustomDialog_Album_BasicImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            TeamManager_TeamIntro_ImageView_Emblem.setImageResource(R.drawable.basic_image);
+                            TeamManager_TeamIntro_ImageView_Emblem.setImageResource(R.drawable.profile_basic_image);
                             Emblem = "";
                             ad.dismiss();
                         }
@@ -322,7 +322,7 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
                     Layout_CustomDialog_Album_BasicImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            TeamManager_TeamIntro_ImageView_Image1.setImageResource(R.drawable.basic_image);
+                            TeamManager_TeamIntro_ImageView_Image1.setImageResource(R.drawable.profile_basic_image);
                             Image1 = ".";
                             ad.dismiss();
                         }
@@ -383,7 +383,7 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
                     Layout_CustomDialog_Album_BasicImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            TeamManager_TeamIntro_ImageView_Image2.setImageResource(R.drawable.basic_image);
+                            TeamManager_TeamIntro_ImageView_Image2.setImageResource(R.drawable.profile_basic_image);
                             Image2 = ".";
                             ad.dismiss();
                         }
@@ -445,7 +445,7 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
                     Layout_CustomDialog_Album_BasicImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            TeamManager_TeamIntro_ImageView_Image3.setImageResource(R.drawable.basic_image);
+                            TeamManager_TeamIntro_ImageView_Image3.setImageResource(R.drawable.profile_basic_image);
                             Image3 = "";
                             ad.dismiss();
                         }
