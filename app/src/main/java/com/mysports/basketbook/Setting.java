@@ -28,6 +28,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.mysports.basketbook.R;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -52,6 +54,8 @@ import java.util.List;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
+import static java.security.AccessController.getContext;
+
 /**
  * Created by 박지훈 on 2016-06-21.
  */
@@ -60,7 +64,6 @@ public class Setting extends Activity {
     String Id;
     String Alarm;
     String Token;
-    String msg;
 
     View view;
     LinearLayout layout_setting_root;
@@ -89,7 +92,7 @@ public class Setting extends Activity {
     Setting_Notice_Adapter noticeAdapter;
     ArrayList<Setting_Notice_Setting> arrData;
     String[][] parsedData, parsedData_Alarm, parsedData_BasicSetting, parsedData_dropout;
-    String duty;
+    String duty,Birth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -353,13 +356,12 @@ public class Setting extends Activity {
                             post.setEntity(ent);
                             client.execute(post);
 
+                            onClickLogout();
                             Toast.makeText(getApplicationContext(),"회원탈퇴되었습니다.",Toast.LENGTH_SHORT).show();
+
                         } catch (Exception e) {
 
                         }
-                        moveTaskToBack(true);
-                        finish();
-                        android.os.Process.killProcess(android.os.Process.myPid());
 
                     }
                 })
@@ -385,14 +387,18 @@ public class Setting extends Activity {
                 .setPositiveButton("완료", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        msg = Year_EditText.getText() + " / " + Month_EditText.getText() + " / " + Day_EditText.getText();
-                        if (msg.equals(parsedData_dropout[0][0])&&duty.equals("팀대표")) {
+
+
+
+                        Birth = Year_EditText.getText() + " / " + Month_EditText.getText() + " / " + Day_EditText.getText();
+
+                        if (Birth.equals(parsedData_dropout[0][0])&&!(duty.equals("팀대표"))) {
                             dialog.show();
-                        } else if(msg.equals(parsedData_dropout[0][0])&&(!(duty.equals("팀대표")))){
+                        } else if(Birth.equals(parsedData_dropout[0][0])&&duty.equals("팀대표")){
                             Snackbar.make(v, "팀대표위임후다시시도해주세요.", Snackbar.LENGTH_SHORT).show();
-                        } else if((!(msg.equals(parsedData_dropout[0][0])))&&duty.equals("팀대표")){
+                        } else if((!(Birth.equals(parsedData_dropout[0][0])))&&(!(duty.equals("팀대표")))){
                             Snackbar.make(v, "생년월일을확인해주세요.", Snackbar.LENGTH_SHORT).show();
-                        }else if((!(msg.equals(parsedData_dropout[0][0])))&&(!(duty.equals("팀대표")))){
+                        }else if((!(Birth.equals(parsedData_dropout[0][0])))&&duty.equals("팀대표")){
                             Snackbar.make(v, "정보확인후다시시도해주세요.", Snackbar.LENGTH_SHORT).show();
                         }
                     }
@@ -416,11 +422,12 @@ public class Setting extends Activity {
                         Dropout_result += line;
                     }
                     parsedData_dropout = jsonParserList_DropOut(Dropout_result);
-
+                    duty=parsedData_dropout[0][1];
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
                 DropOutDialog.show();
             }
         });
@@ -432,7 +439,21 @@ public class Setting extends Activity {
             arrData.add(new Setting_Notice_Setting(parsedData[a][0], parsedData[a][1], parsedData[a][2]));
         }
     }
+    private void onClickLogout() {
+        UserManagement.requestLogout(new LogoutResponseCallback() {
+            @Override
+            public void onCompleteLogout() {
+                redirectLoginActivity();
+            }
+        });
+    }
 
+    protected void redirectLoginActivity() {
+        final Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+        finish();
+    }
     public String[][] jsonParserList(String pRecvServerPage) {
         Log.i("서버에서 받은 전체 내용", pRecvServerPage);
         try {
@@ -468,7 +489,6 @@ public class Setting extends Activity {
                     parseredData[i][j] = json.getString(jsonName[j]);
                 }
             }
-            duty=parseredData[0][1];
             return parseredData;
         } catch (JSONException e) {
             e.printStackTrace();
