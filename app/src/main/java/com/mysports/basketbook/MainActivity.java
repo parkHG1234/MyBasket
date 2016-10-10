@@ -2,6 +2,7 @@ package com.mysports.basketbook;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +10,7 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -1147,35 +1149,13 @@ public class MainActivity extends AppCompatActivity {
                     Match_In_Button_Search.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            try {
-                                HttpClient client = new DefaultHttpClient();
-                                String postURL = "http://210.122.7.195:8080/Web_basket/Match_InList.jsp";
-                                HttpPost post = new HttpPost(postURL);
+                            in_minScheduleId=10000;
+                            Http_In_Search Http_In_Search = new Http_In_Search();
+                            Http_In_Search.execute(choice_do, choice_se);
 
-                                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                params.add(new BasicNameValuePair("do", choice_do));
-                                params.add(new BasicNameValuePair("se", choice_se));
-
-                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                post.setEntity(ent);
-
-                                HttpResponse response = client.execute(post);
-                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-
-                                String line = null;
-                                String result = "";
-                                while ((line = bufreader.readLine()) != null) {
-                                    result += line;
-                                }
-                                parsedData_in = inList_jsonParserList(result);
-                                inList_setData();
-                                match_In_CustomList_MyAdapter = new Match_In_CustomList_MyAdapter(rootView.getContext(), match_In_CustomList_MyData);
-                                Match_In_CustomList.setAdapter(match_In_CustomList_MyAdapter);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
                         }
                     });
+
                     /////////////////////////////////////////////////////////////////////////////////////////////////////
                     //플로팅버튼을 리스트에 뜨도록 매칭
                     Match_In_FloatingActionButton_fab.attachToListView(Match_In_CustomList);
@@ -1231,35 +1211,9 @@ public class MainActivity extends AppCompatActivity {
                             //OnScrollListener.SCROLL_STATE_IDLE은 스크롤이 이동하다가 멈추었을때 발생되는 스크롤 상태입니다.
                             //즉 스크롤이 바닦에 닿아 멈춘 상태에 처리를 하겠다는 뜻
                             if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastitemVisibleFlag_in) {
-                                try {
-                                    HttpClient client = new DefaultHttpClient();
-                                    String postURL = "http://210.122.7.195:8080/Web_basket/Match_InList_Scroll.jsp";
-                                    HttpPost post = new HttpPost(postURL);
+                                Http_In_Scroll Http_In_Scroll = new Http_In_Scroll();
+                                Http_In_Scroll.execute();
 
-                                    List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                    params.add(new BasicNameValuePair("do", choice_do));
-                                    params.add(new BasicNameValuePair("se", choice_se));
-                                    params.add(new BasicNameValuePair("minScheduleId", Integer.toString(in_minScheduleId)));
-
-                                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                    post.setEntity(ent);
-
-                                    HttpResponse response = client.execute(post);
-                                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-
-                                    String line = null;
-                                    String result = "";
-                                    while ((line = bufreader.readLine()) != null) {
-                                        result += line;
-                                    }
-                                    parsedData_in = inList_jsonParserList(result);
-                                    for (int i = 0; i < parsedData_in.length; i++) {
-                                        match_In_CustomList_MyData.add(new Match_In_CustomList_MyData(parsedData_in[i][0], parsedData_in[i][1], parsedData_in[i][2], parsedData_in[i][3], parsedData_in[i][4], parsedData_in[i][5], parsedData_in[i][6], parsedData_in[i][7], parsedData_in[i][8], parsedData_in[i][9], parsedData_in[i][10], parsedData_in[i][11], parsedData_in[i][12], Id, parsedData_in[i][13]));
-                                    }
-                                    match_In_CustomList_MyAdapter.notifyDataSetChanged();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
                             }
                             if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && firstitemVIsibleFlag_in) {
                                 Match_Layout_Tab.setVisibility(View.VISIBLE);
@@ -1295,7 +1249,108 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
+        public class Http_In_Search extends AsyncTask<String, Void, String> {
+            ProgressDialog asyncDialog = new ProgressDialog(getContext());
+            String[][] parsedData;
+            @Override
+            protected void onPreExecute() {
+                asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                asyncDialog.setMessage("잠시만 기다려주세요..");
+                // show dialog
+                asyncDialog.show();
+                super.onPreExecute();
+            }
+            @Override
+            protected String doInBackground(String... params) {
+                try {
+                    HttpClient client = new DefaultHttpClient();
+                    String postURL = "http://210.122.7.195:8080/Web_basket/Match_InList.jsp";
+                    HttpPost post = new HttpPost(postURL);
 
+                    List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+                    params1.add(new BasicNameValuePair("do", choice_do));
+                    params1.add(new BasicNameValuePair("se", choice_se));
+
+                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params1, HTTP.UTF_8);
+                    post.setEntity(ent);
+
+                    HttpResponse response = client.execute(post);
+                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                    String line = null;
+                    String result = "";
+                    while ((line = bufreader.readLine()) != null) {
+                        result += line;
+                    }
+                    parsedData_in = inList_jsonParserList(result);
+
+                    return "succed";
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return "failed";
+                }
+            }
+            @Override
+            protected void onPostExecute(String result) {
+                inList_setData();
+                match_In_CustomList_MyAdapter = new Match_In_CustomList_MyAdapter(getContext(), match_In_CustomList_MyData);
+                Match_In_CustomList.setAdapter(match_In_CustomList_MyAdapter);
+                asyncDialog.dismiss();
+                super.onPostExecute(result);
+            }
+        }
+        public class Http_In_Scroll extends AsyncTask<String, Void, String> {
+            ProgressDialog asyncDialog = new ProgressDialog(getContext());
+            String[][] parsedData;
+            @Override
+            protected void onPreExecute() {
+                asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                asyncDialog.setMessage("잠시만 기다려주세요..");
+                // show dialog
+                asyncDialog.show();
+                super.onPreExecute();
+            }
+            @Override
+            protected String doInBackground(String... params) {
+                try {
+                    HttpClient client = new DefaultHttpClient();
+                    String postURL = "http://210.122.7.195:8080/Web_basket/Match_InList_Scroll.jsp";
+                    HttpPost post = new HttpPost(postURL);
+
+                    List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+                    params1.add(new BasicNameValuePair("do", choice_do));
+                    params1.add(new BasicNameValuePair("se", choice_se));
+                    params1.add(new BasicNameValuePair("minScheduleId", Integer.toString(in_minScheduleId)));
+
+                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params1, HTTP.UTF_8);
+                    post.setEntity(ent);
+
+                    HttpResponse response = client.execute(post);
+                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                    String line = null;
+                    String result = "";
+                    while ((line = bufreader.readLine()) != null) {
+                        result += line;
+                    }
+                    parsedData_in = inList_jsonParserList(result);
+                    for (int i = 0; i < parsedData_in.length; i++) {
+                        match_In_CustomList_MyData.add(new Match_In_CustomList_MyData(parsedData_in[i][0], parsedData_in[i][1], parsedData_in[i][2], parsedData_in[i][3], parsedData_in[i][4], parsedData_in[i][5], parsedData_in[i][6], parsedData_in[i][7], parsedData_in[i][8], parsedData_in[i][9], parsedData_in[i][10], parsedData_in[i][11], parsedData_in[i][12], Id, parsedData_in[i][13]));
+                    }
+
+                    return "succed";
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return "failed";
+                }
+            }
+            @Override
+            protected void onPostExecute(String result) {
+                match_In_CustomList_MyAdapter.notifyDataSetChanged();
+                asyncDialog.dismiss();
+                super.onPostExecute(result);
+            }
+        }
         public String[][] jsonParserList(String pRecvServerPage) {
             Log.i("서버에서 받은 전체 내용", pRecvServerPage);
             try {

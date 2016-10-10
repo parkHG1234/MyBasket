@@ -2,17 +2,22 @@ package com.mysports.basketbook;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -35,16 +40,17 @@ import java.util.List;
  * Created by ldong on 2016-10-08.
  */
 
-public class ChangePw1Activity extends Activity {
+public class ChangePw1Activity extends AppCompatActivity {
 
     LinearLayout change_pw1_layout_root;
     String Id, Pw;
     EditText Change_Pw_EditText;
+    Activity ac;
+    View a;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.change_pw1_layout);
-
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -67,10 +73,13 @@ public class ChangePw1Activity extends Activity {
 
     public void onClickConfirm(View view) {
         Pw = Change_Pw_EditText.getText().toString();
+        a = view;
+        loginHttp loginHttp1 = new loginHttp();
+        loginHttp1.execute(Id, Pw);
 
-        String result = SendByHttp(Id, Pw);
-        String[][] parsedData = jsonParserList(result);
-
+       // String result = SendByHttp(Id, Pw);
+       // String[][] parsedData = jsonParserList(result);
+/*
         if(parsedData != null && parsedData[0][0].equals("isOk")) {
             Intent intent1 = new Intent(ChangePw1Activity.this, ChangePw2Activity.class);
             intent1.putExtra("Id", Id);
@@ -83,9 +92,44 @@ public class ChangePw1Activity extends Activity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {}
                     }).show();
-        }
+        }*/
     }
 
+
+    public class loginHttp extends AsyncTask<String, Void, String> {
+        ProgressDialog asyncDialog = new ProgressDialog(ChangePw1Activity.this);
+        String[][] parsedData;
+        @Override
+        protected void onPreExecute() {
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            asyncDialog.setMessage("로그인중입니다..");
+
+
+            // show dialog
+            asyncDialog.show();
+            super.onPreExecute();
+        }
+        @Override
+        protected String doInBackground(String... params) {
+
+            String result = SendByHttp(params[0], params[1]);
+            parsedData = jsonParserList(result);
+            return result;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            asyncDialog.dismiss();
+            if(parsedData != null && parsedData[0][0].equals("isOk")) {
+                Intent intent1 = new Intent(ChangePw1Activity.this, ChangePw2Activity.class);
+                intent1.putExtra("Id", Id);
+                startActivity(intent1);
+                finish();
+            }else {
+                Snackbar.make(a,"비밀번호가 일치하지 않습니다. 다시 한번 입력해주세요.",Snackbar.LENGTH_SHORT).show();
+            }
+            super.onPostExecute(result);
+        }
+    }
     private String SendByHttp(String id, String pw) {
         try {
             HttpClient httpClient = new DefaultHttpClient();

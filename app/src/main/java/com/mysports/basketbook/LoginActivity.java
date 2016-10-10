@@ -224,14 +224,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             @Override
             protected String doInBackground(String... params) {
-                for(int i=1; i<5; i++){
-                    try{
-                        Thread.sleep(500);
 
-                    }catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
                 String result = SendByHttp(params[0], params[1]);
                 return result;
             }
