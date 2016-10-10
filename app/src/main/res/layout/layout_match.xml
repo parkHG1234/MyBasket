@@ -18,21 +18,21 @@
             android:id="@+id/Match_Layout_Tab"
             android:layout_height="50dp">
 
-            <Button
+            <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="OUT"
                 android:id="@+id/Match_Button_Out"
                 android:layout_weight="1"
                 android:longClickable="true"
                 android:visibility="visible"
-                android:background="@drawable/outcourt"
+                android:src="@drawable/outcourt"
+                android:background="@color/White"
+                android:scaleType="fitCenter"
                 android:layout_marginRight="5dp" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="In"
                 android:id="@+id/Match_Button_In"
                 android:layout_weight="1"
                 android:background="@drawable/incourt"
@@ -74,7 +74,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:id="@+id/NewsFeed_Spinner_Si">
+                        android:id="@+id/NewsFeed_Spinner_Si"
+                        android:layout_marginRight="5dp">
                     </Spinner>
                     <Button
                         android:layout_width="match_parent"
@@ -144,11 +145,11 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/White"
                 android:layout_marginBottom="5dp"
-                android:id="@+id/Match_Layout_In_Address">
+                android:id="@+id/Match_Layout_In_Address"
+                android:layout_height="40dp">
 
                 <Spinner
                     android:layout_width="match_parent"

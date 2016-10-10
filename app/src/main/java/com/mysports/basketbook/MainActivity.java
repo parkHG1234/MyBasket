@@ -24,6 +24,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -34,6 +35,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -392,7 +394,8 @@ public class MainActivity extends AppCompatActivity {
         String[] jsonName = {"NewsFeed_Num", "NewsFeed_User", "NewsFeed_Do", "NewsFeed_Si", "NewsFeed_Name", "NewsFeed_Court", "NewsFeed_Data", "NewsFeed_Month", "NewsFeed_Day", "NewsFeed_Hour", "NewsFeed_Minute", "NewsFeed_Image", "Name", "Birth", "Sex", "Position", "Team", "Profile", "Height", "Weight", "Phone", "Comment_Count"};
         ProgressBar NewsFeed_ProgressBar;
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        Button Match_Button_Out, Match_Button_In, Match_In_Button_Search;
+        ImageButton Match_Button_Out;
+        Button  Match_Button_In, Match_In_Button_Search;
         FloatingActionButton Match_In_FloatingActionButton_fab;
         LinearLayout Match_Layout_Out, Match_Layout_In;
         Match_In_CustomList_MyAdapter match_In_CustomList_MyAdapter;
@@ -421,7 +424,7 @@ public class MainActivity extends AppCompatActivity {
             Match_Layout_Out_Address = (LinearLayout) rootView.findViewById(R.id.Match_Layout_Out_Address);
             Match_Layout_In_Address = (LinearLayout) rootView.findViewById(R.id.Match_Layout_In_Address);
             Match_In_CustomList = (ListView) rootView.findViewById(R.id.Match_In_CustomList);
-            Match_Button_Out = (Button) rootView.findViewById(R.id.Match_Button_Out);
+            Match_Button_Out = (ImageButton) rootView.findViewById(R.id.Match_Button_Out);
             Match_Layout_Out = (LinearLayout) rootView.findViewById(R.id.Match_Layout_Out);
             Match_Layout_In = (LinearLayout) rootView.findViewById(R.id.Match_Layout_In);
 
@@ -1493,7 +1496,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            final View rootView = inflater.inflate(R.layout.layout_league, container, false);
+            final View rootView = inflater.inflate(R.layout.layout_contest, container, false);
             League_League_Spinner_Do = (Spinner) rootView.findViewById(R.id.League_League_Spinner_Do);
             League_League_Spinner_Se = (Spinner) rootView.findViewById(R.id.League_League_Spinner_Se);
             League_League_Button_Search = (Button) rootView.findViewById(R.id.League_League_Button_Search);
@@ -1697,8 +1700,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static class SectionsFragment3 extends Fragment {
-
-
+        Button League_Button_1,League_Button_2;
+        LinearLayout League_Layout_1,League_Layout_2;
+        String TabChoice="1";
         public SectionsFragment3() {
         }
 
@@ -1706,6 +1710,27 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.layout_league, container, false);
+            League_Button_1 = (Button)rootView.findViewById(R.id.League_Button_1);
+            League_Button_2 = (Button)rootView.findViewById(R.id.League_Button_2);
+            League_Layout_1 = (LinearLayout)rootView.findViewById(R.id.League_Layout_1);
+            League_Layout_2 = (LinearLayout)rootView.findViewById(R.id.League_Layout_2);
+
+            League_Button_1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TabChoice = "1";
+                    League_Layout_1.setVisibility(View.VISIBLE);
+                    League_Layout_2.setVisibility(View.GONE);
+                }
+            });
+            League_Button_2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TabChoice = "2";
+                    League_Layout_1.setVisibility(View.GONE);
+                    League_Layout_2.setVisibility(View.VISIBLE);
+                }
+            });
             return rootView;
         }
     }
