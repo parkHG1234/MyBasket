@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:baselineAligned="false"
+    android:gravity="right"
+    android:background="@color/blue_light"
+    android:layout_height="120dp"
+    android:id="@+id/Leauge_MyRecord_BackLayout">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <Button
+            android:text="박효근팀"
+            android:id="@+id/Leauge_MyRecord_Button_HomeTeam"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="0.8"
+            android:minHeight="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginLeft="6dp"
+            android:clickable="false" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_width="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:text="65"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Leauge_MyRecord_TextView_HomeTeam_score"
+                    android:paddingTop="10dp"
+                    android:textStyle="normal|bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:gravity="center">
+
+                <TextView
+                    android:text="VS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView59"
+                    android:textSize="24sp"
+                    android:textAllCaps="false"
+                    android:textStyle="normal|bold|italic" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="bottom|right">
+
+                <TextView
+                    android:text="45"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Leauge_MyRecord_TextView_AwayTeam_score"
+                    android:paddingBottom="10dp"
+                    android:textStyle="normal|bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <Button
+            android:text="이동석팀"
+            android:id="@+id/Leauge_MyRecord_Button_AwayTeam"
+            android:layout_weight="0.8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="10dp"
+            android:clickable="false" />
+    </LinearLayout>
+
+    <TextView
+        android:text="2016 / 05 / 30  "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Leauge_MyRecord_TextView_Match_date"
+        android:layout_weight="0.1"
+        android:layout_marginBottom="3dp" />
+
+
+</LinearLayout>
