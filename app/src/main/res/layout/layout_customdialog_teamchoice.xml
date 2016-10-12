@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/Layout_CustomDialog_CourtChoice_Root">
+    android:id="@+id/Layout_CustomDialog_teamChoice_Root">
 
     <LinearLayout
         android:orientation="vertical"
@@ -18,20 +18,20 @@
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/Layout_CustomDialog_CourtChoice_Do"
+                android:id="@+id/Layout_CustomDialog_teamChoice_Do"
                 android:layout_weight="1" />
 
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/Layout_CustomDialog_CourtChoice_Se"
+                android:id="@+id/Layout_CustomDialog_teamChoice_Se"
                 android:layout_weight="1" />
         </LinearLayout>
 
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/Layout_CustomDialog_CourtChoice_Court"
+            android:id="@+id/Layout_CustomDialog_teamChoice_team"
             android:layout_weight="1" />
     </LinearLayout>
 </LinearLayout>

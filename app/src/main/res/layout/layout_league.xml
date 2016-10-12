@@ -45,7 +45,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:visibility="visible"
             android:layout_marginTop="5dp"
             android:id="@+id/League_Layout_View"
             android:background="@color/White">
@@ -54,7 +53,8 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/League_Layout_1">
+                android:id="@+id/League_Layout_1"
+                android:visibility="visible">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -126,7 +126,8 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/League_Layout_2">
+                android:id="@+id/League_Layout_2"
+                android:visibility="gone">
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -143,7 +144,7 @@
                             android:text="클린쳐"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:id="@+id/Contest_Button_MyTeam"
+                            android:id="@+id/League_Button_MyTeam"
                             android:layout_weight="1" />
 
                         <TextView
@@ -160,16 +161,35 @@
                             android:text="팀 찾기"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:id="@+id/Contest_Button_YourTeam"
+                            android:id="@+id/League_Button_YourTeam"
                             android:layout_weight="1" />
+
                     </LinearLayout>
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center">
+
                     <Button
-                        android:text="시합시작"
-                        android:layout_width="wrap_content"
+                        android:text="시합신청"
                         android:layout_height="40dp"
-                        android:id="@+id/Contest_Button_Start"
-                        android:layout_gravity="center_horizontal" />
+                        android:id="@+id/League_Button_Start"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:text="취  소"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:visibility="gone"
+                        android:id="@+id/League_Button_Cancel" />
 
                 </LinearLayout>
 
