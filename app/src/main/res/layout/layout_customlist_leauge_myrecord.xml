@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:baselineAligned="false"
-    android:gravity="right"
     android:background="@color/blue_light"
     android:layout_height="120dp"
     android:id="@+id/Leauge_MyRecord_BackLayout">
@@ -94,13 +93,33 @@
             android:clickable="false" />
     </LinearLayout>
 
-    <TextView
-        android:text="2016 / 05 / 30  "
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Leauge_MyRecord_TextView_Match_date"
-        android:layout_weight="0.1"
-        android:layout_marginBottom="3dp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="5">
+
+        <TextView
+            android:text="경기시간 : 94분"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView46"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="152dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.35"></LinearLayout>
+
+        <TextView
+            android:text="2016 / 05 / 30 "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Leauge_MyRecord_TextView_Match_date"
+            android:layout_weight="1"
+            android:layout_marginBottom="3dp" />
+    </LinearLayout>
 
 
 </LinearLayout>

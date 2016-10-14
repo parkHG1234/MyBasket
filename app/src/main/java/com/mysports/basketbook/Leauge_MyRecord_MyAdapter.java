@@ -50,6 +50,7 @@ public class Leauge_MyRecord_MyAdapter extends BaseAdapter {
             String HomeTeam_score = arrData.get(position).getHomeTeam_score();
             String AwayTeam_score = arrData.get(position).getAwayTeam_score();
             String Match_date = arrData.get(position).getMatch_date();
+            String Match_time = arrData.get(position).getMatch_time();
             String isWin = arrData.get(position).getIsWin();
 
             Button btn_HomeTeam_name = (Button)convertView.findViewById(R.id.Leauge_MyRecord_Button_HomeTeam);

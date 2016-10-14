@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/League_Layout_1"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -127,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/League_Layout_2"
-                android:visibility="gone">
+                android:visibility="visible">
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -198,7 +198,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:id="@+id/dongcu">
+                    android:id="@+id/Leauge_myrecord_layout">
+
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/Leauge_myrecord_listview">
+
+
+                    </ListView>
 
                 </LinearLayout>
 

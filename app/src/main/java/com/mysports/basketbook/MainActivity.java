@@ -1754,9 +1754,39 @@ public class MainActivity extends AppCompatActivity {
             League_Button_2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    ///////////////////////////////// 팀랭킹 보기
                     TabChoice = "2";
                     League_Layout_1.setVisibility(View.GONE);
                     League_Layout_2.setVisibility(View.VISIBLE);
+                    String result = "";
+                    try {
+                        HttpClient client = new DefaultHttpClient();
+                        String postURL = "http://210.122.7.195:8080/Web_basket/Profile.jsp";
+                        HttpPost post = new HttpPost(postURL);
+
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("Id", Id));
+
+                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                        post.setEntity(ent);
+
+                        HttpResponse response = client.execute(post);
+                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                        String line = null;
+                        while ((line = bufreader.readLine()) != null) {
+                            result += line;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    String[][] parsedList = jsonParserList_getTeamName(result);
+                    if(parsedList[0][0].equals("noTeam")) {
+                        //가입된 팀이 없다고 표시
+                    }else {
+
+                    }
+
                 }
             });
             League_Button_Start.setOnClickListener(new View.OnClickListener() {
@@ -1838,6 +1868,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+
+
+
             adspin1 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do, R.layout.zfile_spinner_test);
             adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             Layout_CustomDialog_teamChoice_Do.setAdapter(adspin1);
@@ -2754,6 +2787,29 @@ public class MainActivity extends AppCompatActivity {
             });
             return rootView;
         }
+
+        //나의 팀 정보 갖고 오기
+        public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
+            Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+            try {
+                JSONObject json = new JSONObject(pRecvServerPage);
+                JSONArray jArr = json.getJSONArray("List");
+
+                String[] jsonName = {"teamName"};
+                String[][] parseredData = new String[jArr.length()][jsonName.length];
+                for (int i = 0; i < jArr.length(); i++) {
+                    json = jArr.getJSONObject(i);
+                    for (int j = 0; j < jsonName.length; j++) {
+                        parseredData[i][j] = json.getString(jsonName[j]);
+                    }
+                }
+                return parseredData;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
         public String[][] jsonParserList_TeamSearch(String pRecvServerPage) {
             Log.i("서버에서 받은 전체 내용", pRecvServerPage);
             try {
@@ -3296,6 +3352,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+
 
     String lineEnd = "\r\n";
     String twoHyphens = "--";

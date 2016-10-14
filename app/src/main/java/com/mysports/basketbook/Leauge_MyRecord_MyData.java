@@ -10,6 +10,7 @@ public class Leauge_MyRecord_MyData {
     String HomeTeam_score;
     String AwayTeam_score;
     String Match_date;
+    String Match_time;
     String isWin;
 
     public void setHomeTeam_name(String homeTeam_name) {
@@ -30,6 +31,10 @@ public class Leauge_MyRecord_MyData {
 
     public void setMatch_date(String match_date) {
         Match_date = match_date;
+    }
+
+    public void setMatch_time(String match_time) {
+        Match_time = match_time;
     }
 
     public void setIsWin(String isWin) {
@@ -54,6 +59,10 @@ public class Leauge_MyRecord_MyData {
 
     public String getMatch_date() {
         return Match_date;
+    }
+
+    public String getMatch_time() {
+        return Match_time;
     }
 
     public String getIsWin() {
