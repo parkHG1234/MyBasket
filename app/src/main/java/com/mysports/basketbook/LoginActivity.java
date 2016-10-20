@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView join_Button;
     String[][] parsedData;
     AlertDialog dlg;
+    View myview;
     CheckBox autoLoginChkbox;
     String approach=".";
     String sendTeam=".";
@@ -143,6 +144,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.i("test123",approach);
         String _id = id_EditText.getText().toString();
         String _pw = pw_EditText.getText().toString();
+        myview = view;
         if(_id.equals("")) {
             Snackbar.make(view, "아이디를 입력해 주세요.", Snackbar.LENGTH_LONG)
                     .show();
@@ -184,7 +186,7 @@ public class LoginActivity extends AppCompatActivity {
                 else if(parsedData != null && parsedData[0][0].equals("failed")){
                     dlg = new AlertDialog.Builder(this).setTitle("바스켓북")
                             ////나중에 아이콘모양 넣기 .setIcon(R.drawable.icon)~~
-                            .setMessage("아이뒤 패스워드를 확인해주세요.")
+                            .setMessage("아이디 패스워드를 확인해주세요.")
                             .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -208,21 +210,15 @@ public class LoginActivity extends AppCompatActivity {
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-
-
-
         }
-
-
     }
-
         public class loginHttp extends AsyncTask<String, Void, String> {
             ProgressDialog asyncDialog = new ProgressDialog(LoginActivity.this);
 
             @Override
             protected void onPreExecute() {
                 asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                asyncDialog.setMessage("로그인중입니다..");
+                asyncDialog.setMessage("접속중입니다..");
 
                 // show dialog
                 asyncDialog.show();
@@ -340,5 +336,4 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
 }
