@@ -55,8 +55,8 @@ public class LoginActivity extends AppCompatActivity {
     String[][] parsedData;
     AlertDialog dlg;
     CheckBox autoLoginChkbox;
-
-
+    String approach=".";
+    String sendTeam=".";
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
 
@@ -68,7 +68,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
         GlobalApplication.setCurrentActivity(this);
-
+        Intent intent1 = getIntent();
+        if(intent1.hasExtra("approach")){
+            approach = intent1.getStringExtra("approach");
+            sendTeam = intent1.getStringExtra("sendTeam");
+        }
         SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
 
         login_layout_root = (LinearLayout)findViewById(R.id.login_layout_root);
@@ -136,6 +140,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void login_Button (View view) {
+        Log.i("test123",approach);
         String _id = id_EditText.getText().toString();
         String _pw = pw_EditText.getText().toString();
         if(_id.equals("")) {
@@ -170,7 +175,8 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.putExtra("LoginCheck",parsedData[0][0]);
                     intent.putExtra("Id",parsedData[0][1]);
-
+                    intent.putExtra("approach",approach);
+                    intent.putExtra("sendTeam",sendTeam);
                     startActivity(intent);
 
                     super.finish();

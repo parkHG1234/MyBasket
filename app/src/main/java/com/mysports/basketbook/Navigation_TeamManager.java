@@ -217,7 +217,7 @@ public class Navigation_TeamManager extends AppCompatActivity {
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
-                                        parsedData = jsonParserList(result);
+                                        parsedData = TeamCheck_jsonParserList(result);
                                         if(parsedData[0][0].equals("succed")){
                                             TeamPlayerDialog.dismiss();
                                         }

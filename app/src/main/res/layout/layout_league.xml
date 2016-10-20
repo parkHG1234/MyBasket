@@ -53,81 +53,8 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/League_Layout_1"
-                android:visibility="visible">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="10"
-                    android:id="@+id/Match_Layout_Out_Address"
-                    android:visibility="visible"
-                    android:background="@color/White"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp">
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:id="@+id/NewsFeed_Spinner_Do">
-                    </Spinner>
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:id="@+id/NewsFeed_Spinner_Si"
-                        android:layout_marginRight="5dp">
-                    </Spinner>
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/search"
-                        android:layout_weight="1.5"
-                        android:id="@+id/NewsFeed_Select_Button" />
-                </LinearLayout>
-
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <com.baoyz.swipemenulistview.SwipeMenuListView
-
-                        android:id="@+id/NewsFeed_List"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/White"
-                        android:layout_marginTop="5dp" />
-
-                    <com.melnykov.fab.FloatingActionButton
-                        android:id="@+id/NewsFeed_Writing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|right"
-                        android:layout_margin="16dp"
-                        android:src="@drawable/register"
-                        fab:fab_colorNormal="@color/White"
-                        fab:fab_colorPressed="@color/DarkGray"
-                        fab:fab_colorRipple="@color/White"
-                        />
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/League_Layout_2"
-                android:visibility="gone">
+                android:visibility="visible">
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -170,9 +97,9 @@
 
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_gravity="center">
+                    android:layout_gravity="center"
+                    android:layout_width="150dp">
 
                     <Button
                         android:text="시합신청"
@@ -202,6 +129,119 @@
 
                 </LinearLayout>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/League_Layout_1">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="9"
+                    android:visibility="visible"
+                    android:background="@color/White"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/League_Rank_Spinner_Do">
+                    </Spinner>
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/League_Rank_Spinner_Si"
+                        android:layout_marginRight="5dp">
+                    </Spinner>
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/search"
+                        android:layout_weight="1.5"
+                        android:id="@+id/League_Rank_Search_Button" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="9"
+                    android:id="@+id/league_Rank_mylayout"
+                    android:background="@color/White"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <TextView
+                        android:id="@+id/league_Rank_TextView_myrank"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_weight="3"
+                        android:gravity="center_vertical"
+                        android:textAlignment="center"
+                        android:textSize="18dp"/>
+
+                    <ImageView
+                        android:id="@+id/league_Rank_Image_myteam"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_weight="2.5"/>
+                    <TextView
+                        android:id="@+id/league_Rank_TextView_myteam"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1.8"
+                        android:gravity="center_vertical"
+                        android:textSize="18dp"/>
+
+                    <TextView
+                        android:id="@+id/league_Rank_TextView_myteampoint"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_weight="2.5"
+                        android:gravity="center_vertical"
+                        android:textAlignment="center"
+                        android:textSize="18dp" />
+
+
+                </LinearLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2">
+
+                    <com.baoyz.swipemenulistview.SwipeMenuListView
+                        android:id="@+id/League_Rank_List"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/White"
+                        android:layout_marginTop="5dp" />
+
+                    <com.melnykov.fab.FloatingActionButton
+                        android:id="@+id/League_Rank_Help"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:layout_margin="16dp"
+                        android:src="@drawable/help"
+                        fab:fab_colorNormal="@color/White"
+                        fab:fab_colorPressed="@color/DarkGray"
+                        fab:fab_colorRipple="@color/White" />
+
+                </FrameLayout>
             </LinearLayout>
 
 

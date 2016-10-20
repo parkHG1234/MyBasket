@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/White"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/league_TextView_rank"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:textAlignment="center"
+            android:textSize="18dp"/>
+
+        <ImageView
+            android:id="@+id/league_Image_team"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="2.5"/>
+        <TextView
+            android:id="@+id/league_TextView_team"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1.8"
+            android:gravity="center_vertical"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/league_TextView_teampoint"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="2.5"
+            android:gravity="center_vertical"
+            android:textAlignment="center"
+            android:textSize="18dp" />
+    </LinearLayout>
+</LinearLayout>
