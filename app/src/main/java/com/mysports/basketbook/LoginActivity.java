@@ -69,6 +69,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
         GlobalApplication.setCurrentActivity(this);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         Intent intent1 = getIntent();
         if(intent1.hasExtra("approach")){
             approach = intent1.getStringExtra("approach");
@@ -120,8 +124,10 @@ public class LoginActivity extends AppCompatActivity {
             //preference 이름을 autoLogin
             String autologID = preferences.getString("id", "");
             String autologPW = preferences.getString("pw", "");
+            Log.i("first auto", autologID);
             if(autologID.equals("")) {
             }else {
+                Log.i("log.i AUTOLOGID", autologID);
                 String result = SendByHttp(autologID, autologPW);
                 parsedData = jsonParserList(result);
                 if(parsedData != null && parsedData[0][0].equals("succed")) {
