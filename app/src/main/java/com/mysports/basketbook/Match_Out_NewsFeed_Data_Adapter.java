@@ -19,7 +19,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mysports.basketbook.R;
 
 import org.apache.http.HttpResponse;
@@ -119,8 +118,6 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 Glide.with(context).load(R.drawable.profile_basic_image).into(NewsFeed_CustomList_Emblem);
             } else {
                 Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
                         .into(NewsFeed_CustomList_Emblem);
             }
         } catch (UnsupportedEncodingException e) {
@@ -172,13 +169,13 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
                 CommentIntent.putExtra("Num", arrData.get(position).getnum());
                 CommentIntent.putExtra("Court", arrData.get(position).getcourt());
-                CommentIntent.putExtra("Name", arrData.get(position).getNewsFeedName());
+                CommentIntent.putExtra("Name", arrData.get(position).getInformation_Name());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", UserID);
+                CommentIntent.putExtra("Id", arrData.get(position).getuser());
                 CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
                 CommentIntent.putExtra("Image", arrData.get(position).getImage());
-               context.startActivity(CommentIntent);
+                context.startActivity(CommentIntent);
             }
         });
 
@@ -192,10 +189,10 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
                 CommentIntent.putExtra("Num", arrData.get(position).getnum());
                 CommentIntent.putExtra("Court", arrData.get(position).getcourt());
-                CommentIntent.putExtra("Name", arrData.get(position).getNewsFeedName());
+                CommentIntent.putExtra("Name", arrData.get(position).getInformation_Name());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", UserID);
+                CommentIntent.putExtra("Id", arrData.get(position).getuser());
                 CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
                 CommentIntent.putExtra("Image", arrData.get(position).getImage());
                 context.startActivity(CommentIntent);
@@ -211,13 +208,13 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
                 CommentIntent.putExtra("Num", arrData.get(position).getnum());
                 CommentIntent.putExtra("Court", arrData.get(position).getcourt());
-                CommentIntent.putExtra("Name", arrData.get(position).getNewsFeedName());
+                CommentIntent.putExtra("Name", arrData.get(position).getInformation_Name());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", UserID);
+                CommentIntent.putExtra("Id", arrData.get(position).getuser());
                 CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
                 CommentIntent.putExtra("Image", arrData.get(position).getImage());
-              context.startActivity(CommentIntent);
+                context.startActivity(CommentIntent);
             }
         });
         TextView NewsFeed_CustomList_Data = (TextView) convertView.findViewById(R.id.NewsFeed_CustomList_Data);
@@ -229,13 +226,13 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
                 CommentIntent.putExtra("Num", arrData.get(position).getnum());
                 CommentIntent.putExtra("Court", arrData.get(position).getcourt());
-                CommentIntent.putExtra("Name", arrData.get(position).getNewsFeedName());
+                CommentIntent.putExtra("Name", arrData.get(position).getInformation_Name());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", UserID);
+                CommentIntent.putExtra("Id", arrData.get(position).getuser());
                 CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
                 CommentIntent.putExtra("Image", arrData.get(position).getImage());
-                 context.startActivity(CommentIntent);
+                context.startActivity(CommentIntent);
             }
         });
 
@@ -331,13 +328,13 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 Intent CommentIntent = new Intent(context, Match_Out_NewsFeed_Comment.class);
                 CommentIntent.putExtra("Num", arrData.get(position).getnum());
                 CommentIntent.putExtra("Court", arrData.get(position).getcourt());
-                CommentIntent.putExtra("Name", arrData.get(position).getNewsFeedName());
+                CommentIntent.putExtra("Name", arrData.get(position).getInformation_Name());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", UserID);
+                CommentIntent.putExtra("Id", arrData.get(position).getuser());
                 CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
                 CommentIntent.putExtra("Image", arrData.get(position).getImage());
-               context.startActivity(CommentIntent);
+                context.startActivity(CommentIntent);
             }
         });
 

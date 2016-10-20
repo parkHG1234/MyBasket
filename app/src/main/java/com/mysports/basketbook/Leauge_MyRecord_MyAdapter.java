@@ -66,9 +66,9 @@ public class Leauge_MyRecord_MyAdapter extends BaseAdapter {
             tv_Match_date.setText(Match_date);
 
             if(isWin.equals("win")) {
-                convertView.setBackgroundColor(Color.BLUE);
+                convertView.setBackgroundColor(Color.WHITE);
             }else if(isWin.equals("lose")){
-                convertView.setBackgroundColor(Color.RED);
+                convertView.setBackgroundColor(Color.GRAY);
             }
         }
         return convertView;

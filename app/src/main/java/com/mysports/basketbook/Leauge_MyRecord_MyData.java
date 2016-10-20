@@ -13,6 +13,16 @@ public class Leauge_MyRecord_MyData {
     String Match_time;
     String isWin;
 
+    public Leauge_MyRecord_MyData(String isWin, String match_time, String match_date, String awayTeam_score, String homeTeam_score, String awayTeam_name, String homeTeam_name) {
+        this.isWin = isWin;
+        Match_time = match_time;
+        Match_date = match_date;
+        AwayTeam_score = awayTeam_score;
+        HomeTeam_score = homeTeam_score;
+        AwayTeam_name = awayTeam_name;
+        HomeTeam_name = homeTeam_name;
+    }
+
     public void setHomeTeam_name(String homeTeam_name) {
         HomeTeam_name = homeTeam_name;
     }
