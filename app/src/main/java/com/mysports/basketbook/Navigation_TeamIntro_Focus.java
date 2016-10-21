@@ -16,6 +16,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mysports.basketbook.R;
 
 import org.apache.http.HttpResponse;
@@ -135,7 +136,8 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
                 TeamIntro_ImageView_Image1.setVisibility(View.GONE);
             }
             else{
-                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image1 + ".jpg")
+                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image1 + ".jpg").diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into(TeamIntro_ImageView_Image1);
             }
             if(Image2.equals("."))
@@ -143,7 +145,8 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
                 TeamIntro_ImageView_Image2.setVisibility(View.GONE);
             }
             else{
-                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image2 + ".jpg")
+                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image2 + ".jpg").diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into(TeamIntro_ImageView_Image2);
             }
             if(Image3.equals("."))
@@ -151,7 +154,8 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
                 TeamIntro_ImageView_Image3.setVisibility(View.GONE);
             }
             else{
-                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image3 + ".jpg")
+                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image3 + ".jpg").diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into(TeamIntro_ImageView_Image3);
             }
             if(Emblem.equals("."))
@@ -160,7 +164,8 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
                         .into(TeamIntro_Foucs_ImageView_Emblem);
             }
             else{
-                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(Navigation_TeamIntro_Focus.this).getBitmapPool()))
+                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(Navigation_TeamIntro_Focus.this).getBitmapPool())).diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into(TeamIntro_Foucs_ImageView_Emblem);
             }
         }
@@ -226,10 +231,13 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    parsedData = jsonParserList(result_join);
+                    parsedData = jsonParserList_IdCheck(result_join);
                     if(parsedData[0][0].equals("succed")){
                         Snackbar.make(v, "가입 신청 완료", Snackbar.LENGTH_SHORT).show();
                         finish();
+                    }
+                    else if(parsedData[0][0].equals("overlap")){
+                        Snackbar.make(v, "해당 팀에 이미 신청중입니다", Snackbar.LENGTH_SHORT).show();
                     }
                 }
             }
