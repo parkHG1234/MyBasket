@@ -448,6 +448,33 @@ public class MainActivity extends AppCompatActivity {
                         .setNegativeButton("취소", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                String result_ScoreCheck_refuse = "";
+                                String Orderteam="";
+                                try {
+                                    if(HomeTeam.equals(MyTeam)){
+                                        Orderteam = AwayTeam;
+                                    }
+                                    if(AwayTeam.equals(MyTeam)){
+                                        Orderteam = HomeTeam;
+                                    }
+                                    HttpClient client = new DefaultHttpClient();
+                                    String postURL = "http://210.122.7.195:8080/Web_basket/GameScoreInfoRefuse.jsp";
+                                    HttpPost post = new HttpPost(postURL);
+                                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                    params.add(new BasicNameValuePair("Myteam", parsedData_Profile[0][6]));
+                                    params.add(new BasicNameValuePair("Orderteam", Orderteam));
+                                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                    post.setEntity(ent);
+                                    HttpResponse response = client.execute(post);
+                                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                    String line = null;
+                                    while ((line = bufreader.readLine()) != null) {
+                                        result_ScoreCheck_refuse += line;
+                                    }
+                                    parsedData_gameScoreInfo_succed = jsonParserList_BasicSetting(result_ScoreCheck_refuse);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                                 DropOutDialog.dismiss();
                             }
                         })
@@ -477,34 +504,11 @@ public class MainActivity extends AppCompatActivity {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
+                                DropOutDialog.dismiss();
                             }
                         }).show();
             }
         }
-        //game 푸시알림으로 접근하는 경우
-       /*
-
-        else if(approach.equals("ScoreSucced")) {
-            final MaterialDialog DropOutDialog = new MaterialDialog(MainActivity.this);
-            DropOutDialog
-                    .setTitle("시합완료")
-                    .setMessage("시합이 완료되었습니다.")
-                    .setNegativeButton("취소", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            DropOutDialog.dismiss();
-                        }
-                    })
-                    .setPositiveButton("확인", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            DropOutDialog.dismiss();
-                            mViewPager.setCurrentItem(2);
-                            League_Layout_1.setVisibility(View.GONE);
-                            League_Layout_2.setVisibility(View.VISIBLE);
-                        }
-                    }).show();
-        }*/
     }
 
     ///////game상태 접근법 파서
@@ -2150,7 +2154,7 @@ ListView Leauge_myRecord_ListView;
             League_Rank_Spinner_Do.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (adspin1.getItem(position).equals("서울")) {
+                    if (adspin1.getItem(position).toString().equals("서울")) {
                         choice_do = adspin1.getItem(position).toString();
                         adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -2166,9 +2170,9 @@ ListView Leauge_myRecord_ListView;
 
                             }
                         });
-                    } else if (adspin1.getItem(position).equals("인천")) {
+                    } else if (adspin1.getItem(position).toString().equals("인천")) {
                         choice_do = adspin1.getItem(position).toString();
-                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_incheon, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         League_Rank_Spinner_Si.setAdapter(adspin2);
                         League_Rank_Spinner_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2182,9 +2186,9 @@ ListView Leauge_myRecord_ListView;
 
                             }
                         });
-                    } else if (adspin1.getItem(position).equals("광주")) {
+                    } else if (adspin1.getItem(position).toString().equals("광주")) {
                         choice_do = adspin1.getItem(position).toString();
-                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_gwangju, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         League_Rank_Spinner_Si.setAdapter(adspin2);
                         League_Rank_Spinner_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2198,9 +2202,9 @@ ListView Leauge_myRecord_ListView;
 
                             }
                         });
-                    } else if (adspin1.getItem(position).equals("대구")) {
+                    } else if (adspin1.getItem(position).toString().equals("대구")) {
                         choice_do = adspin1.getItem(position).toString();
-                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_DaeGu, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         League_Rank_Spinner_Si.setAdapter(adspin2);
                         League_Rank_Spinner_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2214,9 +2218,9 @@ ListView Leauge_myRecord_ListView;
 
                             }
                         });
-                    } else if (adspin1.getItem(position).equals("울산")) {
+                    } else if (adspin1.getItem(position).toString().equals("울산")) {
                         choice_do = adspin1.getItem(position).toString();
-                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Ulsan, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         League_Rank_Spinner_Si.setAdapter(adspin2);
                         League_Rank_Spinner_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2230,9 +2234,9 @@ ListView Leauge_myRecord_ListView;
 
                             }
                         });
-                    } else if (adspin1.getItem(position).equals("대전")) {
+                    } else if (adspin1.getItem(position).toString().equals("대전")) {
                         choice_do = adspin1.getItem(position).toString();
-                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_DaeJeon, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         League_Rank_Spinner_Si.setAdapter(adspin2);
                         League_Rank_Spinner_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2246,9 +2250,9 @@ ListView Leauge_myRecord_ListView;
 
                             }
                         });
-                    } else if (adspin1.getItem(position).equals("부산")) {
+                    } else if (adspin1.getItem(position).toString().equals("부산")) {
                         choice_do = adspin1.getItem(position).toString();
-                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Busan, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         League_Rank_Spinner_Si.setAdapter(adspin2);
                         League_Rank_Spinner_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2262,9 +2266,9 @@ ListView Leauge_myRecord_ListView;
 
                             }
                         });
-                    } else if (adspin1.getItem(position).equals("강원도")) {
+                    } else if (adspin1.getItem(position).toString().equals("강원도")) {
                         choice_do = adspin1.getItem(position).toString();
-                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gangwondo, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         League_Rank_Spinner_Si.setAdapter(adspin2);
                         League_Rank_Spinner_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2278,9 +2282,9 @@ ListView Leauge_myRecord_ListView;
 
                             }
                         });
-                    } else if (adspin1.getItem(position).equals("경기도")) {
+                    } else if (adspin1.getItem(position).toString().equals("경기도")) {
                         choice_do = adspin1.getItem(position).toString();
-                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeonggido, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         League_Rank_Spinner_Si.setAdapter(adspin2);
                         League_Rank_Spinner_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2294,9 +2298,9 @@ ListView Leauge_myRecord_ListView;
 
                             }
                         });
-                    } else if (adspin1.getItem(position).equals("충청북도")) {
+                    } else if (adspin1.getItem(position).toString().equals("충청북도")) {
                         choice_do = adspin1.getItem(position).toString();
-                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Chungcheongbukdo, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         League_Rank_Spinner_Si.setAdapter(adspin2);
                         League_Rank_Spinner_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2310,9 +2314,9 @@ ListView Leauge_myRecord_ListView;
 
                             }
                         });
-                    } else if (adspin1.getItem(position).equals("충청남도")) {
+                    } else if (adspin1.getItem(position).toString().equals("충청남도")) {
                         choice_do = adspin1.getItem(position).toString();
-                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Chungcheongnamdo, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         League_Rank_Spinner_Si.setAdapter(adspin2);
                         League_Rank_Spinner_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2326,9 +2330,9 @@ ListView Leauge_myRecord_ListView;
 
                             }
                         });
-                    } else if (adspin1.getItem(position).equals("전라북도")) {
+                    } else if (adspin1.getItem(position).toString().equals("전라북도")) {
                         choice_do = adspin1.getItem(position).toString();
-                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jeolabukdo, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         League_Rank_Spinner_Si.setAdapter(adspin2);
                         League_Rank_Spinner_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2342,9 +2346,9 @@ ListView Leauge_myRecord_ListView;
 
                             }
                         });
-                    } else if (adspin1.getItem(position).equals("전라남도")) {
+                    } else if (adspin1.getItem(position).toString().equals("전라남도")) {
                         choice_do = adspin1.getItem(position).toString();
-                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jeolanamdo, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         League_Rank_Spinner_Si.setAdapter(adspin2);
                         League_Rank_Spinner_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2358,9 +2362,9 @@ ListView Leauge_myRecord_ListView;
 
                             }
                         });
-                    } else if (adspin1.getItem(position).equals("경상북도")) {
+                    } else if (adspin1.getItem(position).toString().equals("경상북도")) {
                         choice_do = adspin1.getItem(position).toString();
-                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeongsangbukdo, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         League_Rank_Spinner_Si.setAdapter(adspin2);
                         League_Rank_Spinner_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2374,9 +2378,9 @@ ListView Leauge_myRecord_ListView;
 
                             }
                         });
-                    } else if (adspin1.getItem(position).equals("경상남도")) {
+                    } else if (adspin1.getItem(position).toString().equals("경상남도")) {
                         choice_do = adspin1.getItem(position).toString();
-                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeongsangnamdo, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         League_Rank_Spinner_Si.setAdapter(adspin2);
                         League_Rank_Spinner_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2390,9 +2394,9 @@ ListView Leauge_myRecord_ListView;
 
                             }
                         });
-                    } else if (adspin1.getItem(position).equals("제주도")) {
+                    } else if (adspin1.getItem(position).toString().equals("제주도")) {
                         choice_do = adspin1.getItem(position).toString();
-                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                        adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jejudo, R.layout.zfile_spinner_test);
                         adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         League_Rank_Spinner_Si.setAdapter(adspin2);
                         League_Rank_Spinner_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2423,6 +2427,8 @@ ListView Leauge_myRecord_ListView;
                 HttpPost post = new HttpPost(postURL);
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("ID", Id));
+                params.add(new BasicNameValuePair("Rank_Do", choice_do));
+                params.add(new BasicNameValuePair("Rank_Si", choice_si));
                 UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                 post.setEntity(ent);
                 HttpResponse response = client.execute(post);
@@ -2471,14 +2477,13 @@ ListView Leauge_myRecord_ListView;
             } catch (UnsupportedEncodingException e) {
 
             }
-
             if (myteamData[0][0].equals(".")) {
                 league_Rank_TextView_myrank.setText("");
                 league_Rank_TextView_myteam.setText("팀가입후이용해주세요.");
                 league_Rank_TextView_myteam.setGravity(2);
                 league_Rank_TextView_myteampoint.setText("");
                 League_Button_2.setEnabled(false);
-            } else if (!(myteamData[0][2].equals(choice_do))) {
+            } else if (!(myteamData[0][2].equals(choice_do))&&myteamData[0][3].equals(choice_si)){
                 league_Rank_TextView_myrank.setText("-");
                 league_Rank_TextView_myteampoint.setText("-");
             } else {
@@ -2583,10 +2588,12 @@ ListView Leauge_myRecord_ListView;
 
                     String result = "";
                     try {
+                        result = "";
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/gg/team_information_download.jsp";
+                        String postURL = "http://210.122.7.195:8080/gg/myteam_information_download.jsp";
                         HttpPost post = new HttpPost(postURL);
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("ID", Id));
                         params.add(new BasicNameValuePair("Rank_Do", choice_do));
                         params.add(new BasicNameValuePair("Rank_Si", choice_si));
                         UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
@@ -2597,11 +2604,30 @@ ListView Leauge_myRecord_ListView;
                         while ((line = bufreader.readLine()) != null) {
                             result += line;
                         }
+                        myteamData = rank_jsonParserList(result);
+
+                        result = "";
+
+                        client = new DefaultHttpClient();
+                        postURL = "http://210.122.7.195:8080/gg/team_information_download.jsp";
+                        post = new HttpPost(postURL);
+                        params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("Rank_Do", choice_do));
+                        params.add(new BasicNameValuePair("Rank_Si", choice_si));
+                        ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                        post.setEntity(ent);
+                        response = client.execute(post);
+                        bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                        line = null;
+                        while ((line = bufreader.readLine()) != null) {
+                            result += line;
+                        }
                         help_parsedData = rank_jsonParserList(result);
                         setData();
                         dataadapter = new League_Rank_Customlist_Adapter(getContext(), arrData);
                         dataadapter.listview(League_Rank_List);
                         League_Rank_List.setAdapter(dataadapter);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -2616,12 +2642,17 @@ ListView Leauge_myRecord_ListView;
                     } else if (!(myteamData[0][2].equals(choice_do))) {
                         league_Rank_TextView_myrank.setText("-");
                         league_Rank_TextView_myteampoint.setText("-");
-                    } else {
+                    }else if(!(myteamData[0][3].equals(choice_si))){
+                        league_Rank_TextView_myrank.setText("-");
+                        league_Rank_TextView_myteampoint.setText("-");
+                    }
+                    else {
                         league_Rank_TextView_myrank.setText(myteamData[0][0]);
                         league_Rank_TextView_myteam.setText(myteamData[0][1]);
                         league_Rank_TextView_myteampoint.setText(myteamData[0][5]);
                     }
                 }
+
             });
             /////////////////////내 팀 게임탭/////////////////////////////////////////////////////////////////////
             final Spinner Layout_CustomDialog_teamChoice_Do = (Spinner) layout.findViewById(R.id.Layout_CustomDialog_teamChoice_Do);
@@ -3019,6 +3050,7 @@ ListView Leauge_myRecord_ListView;
                     }
                 }
             });
+            ///게임 탭 액션
             final Button Layout_CustomDialog_GameAdd_Button_HomeTeam = (Button) layout_GameAdd.findViewById(R.id.Layout_CustomDialog_GameAdd_Button_HomeTeam);
             final EditText Layout_CustomDialog_GameAdd_EditText_HomeTeam = (EditText) layout_GameAdd.findViewById(R.id.Layout_CustomDialog_GameAdd_EditText_HomeTeam);
             final Button Layout_CustomDialog_GameAdd_Button_AwayTeam = (Button) layout_GameAdd.findViewById(R.id.Layout_CustomDialog_GameAdd_Button_AwayTeam);
@@ -3297,7 +3329,9 @@ ListView Leauge_myRecord_ListView;
             League_Button_Cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    timer.cancel();
+                    if(!yourTeamStatus.equals("ScoreCheck")){
+                        timer.cancel();
+                    }
                     new Handler().postDelayed(new Runnable() {// 1 초 후에 실행
                         @Override
                         public void run() {

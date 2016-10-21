@@ -605,40 +605,44 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
 
                 Log.e("선택 된 이미지 ", "selPhoto : " + selPhoto);
 
+
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+//선택한 이미지의 uri를 읽어온다.
+                Uri selPhotoUri = intent.getData();
+                Log.e("전송", "시~~작 ~~~~~!");
+//업로드할 서버의 url 주소
+                String urlString="";
+                if(choice.equals("emblem")) {
+                    urlString = "http://210.122.7.195:8080/Web_basket/Upload_Emblem.jsp";
+                }
+                else if(choice.equals("image1")) {
+                    urlString = "http://210.122.7.195:8080/Web_basket/Upload_image1.jsp";
+                }
+                else if(choice.equals("image2")) {
+                    urlString = "http://210.122.7.195:8080/Web_basket/Upload_image2.jsp";
+                }
+                else if(choice.equals("image3")) {
+                    urlString = "http://210.122.7.195:8080/Web_basket/Upload_image3.jsp";
+                }
+                //절대경로를 획득한다!!! 중요~
+                Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null, null, null,null);
+                c.moveToNext();
+                //업로드할 파일의 절대경로 얻어오기("_data") 로 해도 된다.
+                String absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+                Log.e("###파일의 절대 경로###", absolutePath);
+                //파일 업로드 시작!
+                HttpFileUpload(urlString ,"", absolutePath);
+
+
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-//선택한 이미지의 uri를 읽어온다.
-        Uri selPhotoUri = intent.getData();
-        Log.e("전송", "시~~작 ~~~~~!");
-//업로드할 서버의 url 주소
-        String urlString="";
-        if(choice.equals("emblem")) {
-            urlString = "http://210.122.7.195:8080/Web_basket/Upload_Emblem.jsp";
-        }
-        else if(choice.equals("image1")) {
-            urlString = "http://210.122.7.195:8080/Web_basket/Upload_image1.jsp";
-        }
-        else if(choice.equals("image2")) {
-            urlString = "http://210.122.7.195:8080/Web_basket/Upload_image2.jsp";
-        }
-        else if(choice.equals("image3")) {
-            urlString = "http://210.122.7.195:8080/Web_basket/Upload_image3.jsp";
-        }
-        //절대경로를 획득한다!!! 중요~
-        Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null, null, null,null);
-        c.moveToNext();
-        //업로드할 파일의 절대경로 얻어오기("_data") 로 해도 된다.
-        String absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
-        Log.e("###파일의 절대 경로###", absolutePath);
-        //파일 업로드 시작!
-        HttpFileUpload(urlString ,"", absolutePath);
+        }catch(NullPointerException e){
 
+        }
 
     }
 

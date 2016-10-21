@@ -30,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mysports.basketbook.R;
 
 import org.apache.http.HttpResponse;
@@ -204,15 +205,20 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
             String En_Image3 = URLEncoder.encode(Image3, "utf-8");
             String En_Image4 = URLEncoder.encode(Image4, "utf-8");
             String En_Image5 = URLEncoder.encode(Image5, "utf-8");
-            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image1+".jpg")
+            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image1+".jpg") .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(CourtInfo_Nav_Img1);
-            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image2+".jpg")
+            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image2+".jpg") .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(CourtInfo_Nav_Img2);
-            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image3+".jpg")
+            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image3+".jpg") .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(CourtInfo_Nav_Img3);
-            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image4+".jpg")
+            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image4+".jpg") .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(CourtInfo_Nav_Img4);
-            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image5+".jpg")
+            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image5+".jpg") .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(CourtInfo_Nav_Img5);
         }catch (UnsupportedEncodingException e){
 

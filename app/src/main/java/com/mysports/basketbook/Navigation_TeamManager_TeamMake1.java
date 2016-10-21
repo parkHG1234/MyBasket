@@ -47,7 +47,7 @@ public class Navigation_TeamManager_TeamMake1 extends AppCompatActivity {
     LinearLayout TeamManager_TeamMake_Layout_OverLap;
     String Str_TeamManager_TeamMake_EditText_TeamName="";
     String Str_TeamManager_TeamMake_EditText_TeamAddress_do="";
-    String Str_TeamManager_TeamMake_EditText_TeamAddress_se="";
+    String Str_TeamManager_TeamMake_EditText_TeamAddress_se="전 체";
     String Str_TeamManager_TeamMake_EditText_HomeCourt;
     String Str_TeamManager_TeamMake_EditText_Time;
     String Str_TeamManager_TeamMake_EditText_TeamIntro;
@@ -427,7 +427,11 @@ public class Navigation_TeamManager_TeamMake1 extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     parsedData_TeamName = jsonParserList(result);
-                    if(parsedData_TeamName[0][0].equals("succed")){
+                    if(Str_TeamManager_TeamMake_EditText_TeamAddress_se.equals("전 체")) {
+                        Snackbar.make(view, "지역을 선택해주세요.", Snackbar.LENGTH_SHORT).show();
+                    }
+                    else{
+                        if(parsedData_TeamName[0][0].equals("succed")){
                           /*  Intent intent1 = new Intent(getApplicationContext(), Navigation_TeamManager_TeamMake2.class);
                             intent1.putExtra("Id", Id);
                             intent1.putExtra("TeamName", Str_TeamManager_TeamMake_EditText_TeamName);
@@ -438,55 +442,56 @@ public class Navigation_TeamManager_TeamMake1 extends AppCompatActivity {
                             intent1.putExtra("TeamIntro", Str_TeamManager_TeamMake_EditText_TeamIntro);
                             startActivity(intent1);
                             finish();*/
-                        String TeamName =  Str_TeamManager_TeamMake_EditText_TeamName;
-                        String TeamAddress_do = Str_TeamManager_TeamMake_EditText_TeamAddress_do;
-                        String TeamAddress_se = Str_TeamManager_TeamMake_EditText_TeamAddress_se;
-                        String HomeCourt = Str_TeamManager_TeamMake_EditText_HomeCourt;
-                        String Time = Str_TeamManager_TeamMake_EditText_Time;
-                        String TeamIntro = Str_TeamManager_TeamMake_EditText_TeamIntro;
-                        try {
-                            HttpClient client = new DefaultHttpClient();
-                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamMake.jsp";
-                            HttpPost post = new HttpPost(postURL);
+                            String TeamName =  Str_TeamManager_TeamMake_EditText_TeamName;
+                            String TeamAddress_do = Str_TeamManager_TeamMake_EditText_TeamAddress_do;
+                            String TeamAddress_se = Str_TeamManager_TeamMake_EditText_TeamAddress_se;
+                            String HomeCourt = Str_TeamManager_TeamMake_EditText_HomeCourt;
+                            String Time = Str_TeamManager_TeamMake_EditText_Time;
+                            String TeamIntro = Str_TeamManager_TeamMake_EditText_TeamIntro;
+                            try {
+                                HttpClient client = new DefaultHttpClient();
+                                String postURL = "http://210.122.7.195:8080/Web_basket/TeamMake.jsp";
+                                HttpPost post = new HttpPost(postURL);
 
-                            List<NameValuePair> params = new ArrayList<NameValuePair>();
-                            params.add(new BasicNameValuePair("Id", Id));
-                            params.add(new BasicNameValuePair("TeamName", TeamName));
-                            params.add(new BasicNameValuePair("TeamAddress_do", TeamAddress_do));
-                            params.add(new BasicNameValuePair("TeamAddress_se", TeamAddress_se));
-                            params.add(new BasicNameValuePair("HomeCourt", HomeCourt));
-                            params.add(new BasicNameValuePair("Time", Time));
-                            params.add(new BasicNameValuePair("TeamIntro", TeamIntro));
-                            params.add(new BasicNameValuePair("UniformTop", UniformTop));
-                            params.add(new BasicNameValuePair("UniformBottom", "no"));
+                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                params.add(new BasicNameValuePair("Id", Id));
+                                params.add(new BasicNameValuePair("TeamName", TeamName));
+                                params.add(new BasicNameValuePair("TeamAddress_do", TeamAddress_do));
+                                params.add(new BasicNameValuePair("TeamAddress_se", TeamAddress_se));
+                                params.add(new BasicNameValuePair("HomeCourt", HomeCourt));
+                                params.add(new BasicNameValuePair("Time", Time));
+                                params.add(new BasicNameValuePair("TeamIntro", TeamIntro));
+                                params.add(new BasicNameValuePair("UniformTop", UniformTop));
+                                params.add(new BasicNameValuePair("UniformBottom", "no"));
 
-                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                            post.setEntity(ent);
+                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                post.setEntity(ent);
 
-                            HttpResponse response = client.execute(post);
-                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                HttpResponse response = client.execute(post);
+                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
 
-                            String line = null;
-                            String result1 = "";
-                            while ((line = bufreader.readLine()) != null) {
-                                result1 += line;
+                                String line = null;
+                                String result1 = "";
+                                while ((line = bufreader.readLine()) != null) {
+                                    result1 += line;
+                                }
+                                String[][] parsedData = jsonParserList(result1);
+                                if (parsedData[0][0].equals("succed")) {
+                                    Intent intent2 = new Intent(getApplicationContext(),Navigation_TeamManager_TeamMake3.class);
+                                    startActivity(intent2);
+                                    finish();
+                                } else {
+
+                                    Snackbar.make(view,"팀명을 입력해주세요.",Snackbar.LENGTH_SHORT).show();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Snackbar.make(view,"잠시 후 다시 시도해주세요.",Snackbar.LENGTH_SHORT).show();
                             }
-                            String[][] parsedData = jsonParserList(result1);
-                            if (parsedData[0][0].equals("succed")) {
-                                Intent intent2 = new Intent(getApplicationContext(),Navigation_TeamManager_TeamMake3.class);
-                                startActivity(intent2);
-                                finish();
-                            } else {
-
-                                Snackbar.make(view,"팀명을 입력해주세요.",Snackbar.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Snackbar.make(view,"잠시 후 다시 시도해주세요.",Snackbar.LENGTH_SHORT).show();
                         }
-                    }
-                    else{
-                        Snackbar.make(view,"중복된 팀 이름입니다.",Snackbar.LENGTH_SHORT).show();
+                        else{
+                            Snackbar.make(view,"중복된 팀 이름입니다.",Snackbar.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }

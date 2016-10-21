@@ -202,11 +202,35 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
                 if(parsedData[0][0].equals("overLap")){
                     Snackbar.make(v,"이미 다른 팀에 가입 중 이십니다.", Snackbar.LENGTH_SHORT).show();
                 }else{
-                    Intent intent = new Intent(Navigation_TeamIntro_Focus.this, Navigation_TeamIntro_Focus_Join.class);
-                    intent.putExtra("TeamName",  TeamName);
-                    intent.putExtra("Emblem",  Emblem);
-                    intent.putExtra("Id", Id);
-                    startActivity(intent);
+                    String result_join="";
+                    try {
+                        HttpClient client = new DefaultHttpClient();
+                        String postURL = "http://210.122.7.195:8080/Web_basket/Navi_TeamIntro_Focus_Join.jsp";
+                        HttpPost post = new HttpPost(postURL);
+
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("Id", Id));
+                        params.add(new BasicNameValuePair("TeamName", TeamName));
+                        params.add(new BasicNameValuePair("Introduce_msg", "test"));
+
+                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                        post.setEntity(ent);
+
+                        HttpResponse response = client.execute(post);
+                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                        String line = null;
+                        while ((line = bufreader.readLine()) != null) {
+                            result_join += line;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    parsedData = jsonParserList(result_join);
+                    if(parsedData[0][0].equals("succed")){
+                        Snackbar.make(v, "가입 신청 완료", Snackbar.LENGTH_SHORT).show();
+                        finish();
+                    }
                 }
             }
         });
