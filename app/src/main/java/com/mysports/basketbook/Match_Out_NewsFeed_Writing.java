@@ -4,11 +4,13 @@ package com.mysports.basketbook;
  * Created by 박효근 on 2016-07-22.
  */
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.Snackbar;
@@ -81,7 +83,7 @@ public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
     static int spinnum1, spinnum2;
     String[][] parsedData, parsedData_MyInfo;
     static String Do, Si, Court, ImageURL = null, ImageFile = null;
-    static String Id = "", Name, Profile;
+    static String Id = "", Name, Profile, Message;
     String str;
     private static boolean flag = false;
     View view;
@@ -1184,39 +1186,8 @@ public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (enabled){
-                    try {
-                        HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_upload.jsp";
-                        HttpPost post = new HttpPost(postURL);
-                        List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("NewsFeed_Do", Do));
-                        params.add(new BasicNameValuePair("NewsFeed_Si", Si));
-                        params.add(new BasicNameValuePair("NewsFeed_Court", Court));
-                        params.add(new BasicNameValuePair("NewsFeed_Name", Name));
-                        params.add(new BasicNameValuePair("NewsFeed_User", Id));
-                        params.add(new BasicNameValuePair("NewsFeed_Data", NewsFeed_Writing_TextEditText.getText().toString()));
-                        params.add(new BasicNameValuePair("NewsFeed_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));
-                        params.add(new BasicNameValuePair("NewsFeed_Day", new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis()))));
-                        params.add(new BasicNameValuePair("NewsFeed_Hour", new SimpleDateFormat("kk").format(new java.sql.Date(System.currentTimeMillis()))));
-                        params.add(new BasicNameValuePair("NewsFeed_Minute", new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis()))));
-
-                        if (flag) {
-                            params.add(new BasicNameValuePair("NewsFeed_Image", ImageFile));
-                            String urlString = "http://210.122.7.195:8080/gg/newsfeed_Image_upload.jsp";
-                            //파일 업로드 시작!
-                            HttpFileUpload(urlString, "", ImageURL);
-                        } else {
-                            params.add(new BasicNameValuePair("NewsFeed_Image", ""));
-                        }
-                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                        post.setEntity(ent);
-                        HttpResponse response = client.execute(post);
-
-                        flag = false;
-                        finish();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    Http_Out_NewsFeed_Writing Http_Out_NewsFeed_Writing = new Http_Out_NewsFeed_Writing();
+                    Http_Out_NewsFeed_Writing.execute();
 
                 } else {
                     Snackbar.make(view, "코트를 선택해주세요.", Snackbar.LENGTH_SHORT).show();
@@ -1235,7 +1206,64 @@ public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
             }
         });
     }
+    public class Http_Out_NewsFeed_Writing extends AsyncTask<String, Void, String> {
+        ProgressDialog asyncDialog = new ProgressDialog(Match_Out_NewsFeed_Writing.this);
+        String[][] parsedData;
 
+        @Override
+        protected void onPreExecute() {
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            asyncDialog.setMessage("잠시만 기다려주세요..");
+            // show dialog
+            asyncDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                HttpClient client = new DefaultHttpClient();
+                String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_upload.jsp";
+                HttpPost post = new HttpPost(postURL);
+                List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+                params1.add(new BasicNameValuePair("NewsFeed_Do", Do));
+                params1.add(new BasicNameValuePair("NewsFeed_Si", Si));
+                params1.add(new BasicNameValuePair("NewsFeed_Court", Court));
+                params1.add(new BasicNameValuePair("NewsFeed_Name", Name));
+                params1.add(new BasicNameValuePair("NewsFeed_User", Id));
+                params1.add(new BasicNameValuePair("NewsFeed_Data", str));
+                params1.add(new BasicNameValuePair("NewsFeed_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));
+                params1.add(new BasicNameValuePair("NewsFeed_Day", new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis()))));
+                params1.add(new BasicNameValuePair("NewsFeed_Hour", new SimpleDateFormat("kk").format(new java.sql.Date(System.currentTimeMillis()))));
+                params1.add(new BasicNameValuePair("NewsFeed_Minute", new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis()))));
+
+                if (flag) {
+                    params1.add(new BasicNameValuePair("NewsFeed_Image", ImageFile));
+                    String urlString = "http://210.122.7.195:8080/gg/newsfeed_Image_upload.jsp";
+                    //파일 업로드 시작!
+                    HttpFileUpload(urlString, "", ImageURL);
+                } else {
+                    params1.add(new BasicNameValuePair("NewsFeed_Image", ""));
+                }
+                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params1, HTTP.UTF_8);
+                post.setEntity(ent);
+                HttpResponse response = client.execute(post);
+
+                flag = false;
+                finish();
+                return "succed";
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "failed";
+            }
+        }
+        @Override
+        protected void onPostExecute(String result) {
+
+            asyncDialog.dismiss();
+            super.onPostExecute(result);
+        }
+    }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         this.dataIntent = data;
         if (resultCode == RESULT_OK) {

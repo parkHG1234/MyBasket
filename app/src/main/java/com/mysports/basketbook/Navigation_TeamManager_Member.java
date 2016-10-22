@@ -502,6 +502,36 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                         }
                         break;
                     case 1:
+                        String result_refuse="";
+                        try {
+                            HttpClient client = new DefaultHttpClient();
+                            String postURL = "http://210.122.7.195:8080/Web_basket/NaviTeamManager_Joiner_Refuse.jsp";
+                            HttpPost post = new HttpPost(postURL);
+
+                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                            params.add(new BasicNameValuePair("Id", navigation_TeamManager_Member_CustomListJoiner_MyData.get(position).getId()));
+                            params.add(new BasicNameValuePair("TeamName", Team));
+
+                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                            post.setEntity(ent);
+
+                            HttpResponse response = client.execute(post);
+                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                            String line = null;
+                            while ((line = bufreader.readLine()) != null) {
+                                result_refuse += line;
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        parsedData_Joiner_Refuse = jsonParserList_Joiner_Refuse(result_refuse);
+                        if(parsedData_Joiner_Refuse[0][0].equals("succed")){
+                            navigation_TeamManager_Member_CustomListJoiner_MyData.remove(position);
+                            navigation_TeamManager_Member_Customlist_TeamPlayer_MyData.contains(position);
+                            TeamManager_Member_ListView_JoinerList.deferNotifyDataSetChanged();
+                        }
                         break;
                 }
                 // false : close the menu; true : not close the menu

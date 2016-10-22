@@ -58,7 +58,7 @@ public class Navigation_TeamManager_TeamMake1 extends AppCompatActivity {
     EditText TeamManager_TeamMake_EditText_TeamIntro;
     Spinner TeamManager_TeamMake_Spinner_Address_Do;
     Spinner TeamManager_TeamMake_Spinner_Address_Se;
-    static String UniformTop = "";
+    static String UniformTop = "-10395295";
     private int mSelectedColor;
     ColorPickerDialog dialog;
     static String Id="";

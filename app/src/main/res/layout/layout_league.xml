@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/League_Layout_2"
-                android:visibility="visible">
+                android:visibility="gone">
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
