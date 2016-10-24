@@ -12,8 +12,11 @@ public class Leauge_MyRecord_MyData {
     String Match_date;
     String Match_time;
     String isWin;
+    String homeEmblem;
+    String awayEmblem;
 
-    public Leauge_MyRecord_MyData(String isWin, String match_time, String match_date, String awayTeam_score, String homeTeam_score, String awayTeam_name, String homeTeam_name) {
+
+    public Leauge_MyRecord_MyData(String isWin, String match_time, String match_date, String awayTeam_score, String homeTeam_score, String awayTeam_name, String homeTeam_name, String homeEmblem, String awayEmblem) {
         this.isWin = isWin;
         Match_time = match_time;
         Match_date = match_date;
@@ -21,6 +24,16 @@ public class Leauge_MyRecord_MyData {
         HomeTeam_score = homeTeam_score;
         AwayTeam_name = awayTeam_name;
         HomeTeam_name = homeTeam_name;
+        this.homeEmblem = homeEmblem;
+        this.awayEmblem = awayEmblem;
+    }
+
+    public String gethomeEmblem() {
+        return homeEmblem;
+    }
+
+    public String getawayEmblem()  {
+        return awayEmblem;
     }
 
     public void setHomeTeam_name(String homeTeam_name) {

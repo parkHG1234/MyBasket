@@ -2,12 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     xmlns:fab="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/layout_match_Root"
         android:background="@color/Gray">
 
         <LinearLayout
@@ -188,4 +190,15 @@
             </FrameLayout>
         </LinearLayout>
     </LinearLayout>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="업데이트중입니다"
+        android:id="@+id/update_textview"
+        android:visibility="gone"
+        android:textSize="50dp"/>
+
 </LinearLayout>

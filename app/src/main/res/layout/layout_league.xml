@@ -2,13 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     xmlns:fab="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/Gray">
+        android:background="@color/Gray"
+        android:id="@+id/layout_league_Root">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -25,7 +27,7 @@
                 android:layout_weight="1"
                 android:longClickable="true"
                 android:visibility="visible"
-               android:text="리그기록"
+                android:text="리그기록"
                 android:background="@color/White"
                 android:scaleType="fitCenter"
                 android:layout_marginRight="5dp" />
@@ -256,4 +258,13 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="업데이트중입니다"
+        android:id="@+id/update_textview"
+        android:visibility="gone"
+        android:textSize="50dp"/>
+
 </LinearLayout>
