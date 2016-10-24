@@ -200,32 +200,40 @@ public class JoinAddActivity extends AppCompatActivity{
 
         // 월 입력시 앞에 0이 붙어있으면 0을 제거
         String _month = month_EditText.getText().toString();
-        char _monthChk = _month.charAt(0);
-        if(String.valueOf(_monthChk).equals("0")) {
-            _monthChk = _month.charAt(1);
-            _month = String.valueOf(_monthChk);
+        if(_month.length()>1) {
+            char _monthChk = _month.charAt(0);
+            if(String.valueOf(_monthChk).equals("0")) {
+                _monthChk = _month.charAt(1);
+                _month = String.valueOf(_monthChk);
+            }
         }
+
 
         // 일 입력시 앞에 0이 붙어있으면 0을 제거
         String _day = day_EditText.getText().toString();
-        char _dayChk = _day.charAt(0);
-        Log.i("일자 첫글짜", String.valueOf(_dayChk));
-        if(String.valueOf(_dayChk).equals("0")) {
-            _dayChk = _day.charAt(1);
-            _day = String.valueOf(_dayChk);
+        if(_day.length()>1) {
+            char _dayChk = _day.charAt(0);
+            Log.i("일자 첫글짜", String.valueOf(_dayChk));
+            if(String.valueOf(_dayChk).equals("0")) {
+                _dayChk = _day.charAt(1);
+                _day = String.valueOf(_dayChk);
+            }
+
         }
 
         String birth = "";
         Calendar c = Calendar.getInstance();
         String currentYear = String.valueOf(c.get(Calendar.YEAR));
 
-        if(Integer.parseInt(_year) > 1900 && Integer.parseInt(_year) <= Integer.parseInt(currentYear) && Integer.parseInt(_month) >= 1 && Integer.parseInt(_month) <= 12 && Integer.parseInt(_day) >= 1 && Integer.parseInt(_day) <= 31 && _month.length()<=2) {
-            year = _year;
-            month = _month;
-            day = _day;
-            birth = year + " / " + month + " / " + day ;
+        if(_year.equals("") && _month.equals("") && _day.equals("")) {
+
         }else {
-            //유효하지 않은 년도라 알림
+            if(Integer.parseInt(_year) > 1900 && Integer.parseInt(_year) <= Integer.parseInt(currentYear) && Integer.parseInt(_month) >= 1 && Integer.parseInt(_month) <= 12 && Integer.parseInt(_day) >= 1 && Integer.parseInt(_day) <= 31 && _month.length()<=2) {
+                year = _year;
+                month = _month;
+                day = _day;
+                birth = year + " / " + month + " / " + day ;
+            }
         }
         Log.i("생일", birth);
         String height = join_layout_height_editText.getText().toString();
