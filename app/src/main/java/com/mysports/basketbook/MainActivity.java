@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     static String[][] parsedData_gameScoreInfo_succed;
     static String[][] parsedData_Profile;
     static int allowtime = 0;
-    static String HomeTeam, AwayTeam;
+    static String HomeTeam, AwayTeam, Authority;
     ////
     static ImageView Profile_ImageVIew_Profile;
     static ListView NewsFeed_List;
@@ -292,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("MyTeam", MyTeam));
-
+            params.add(new BasicNameValuePair("MyId", Id));
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
 
@@ -309,6 +309,7 @@ public class MainActivity extends AppCompatActivity {
         }
         HomeTeam = parsedData_gameStatus[0][1];
         AwayTeam = parsedData_gameStatus[0][2];
+        Authority = parsedData_gameStatus[0][6];
         //시합 신청한 팀으로 접근하는 경우
         if (HomeTeam.equals(MyTeam)) {
             if (parsedData_gameStatus[0][0].equals("NotGame")) {
@@ -330,75 +331,77 @@ public class MainActivity extends AppCompatActivity {
         //시합 신청받은 팀으로 접근하는 경우
         else {
             if (parsedData_gameStatus[0][0].equals(".")) {
-                final MaterialDialog DropOutDialog = new MaterialDialog(MainActivity.this);
-                DropOutDialog
-                        .setTitle("시합신청")
-                        .setMessage(HomeTeam + "팀에서 시합신청하였습니다.")
-                        .setNegativeButton("취소", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String result = "";
-                                try {
-                                    HttpClient client = new DefaultHttpClient();
-                                    String postURL = "http://210.122.7.195:8080/Web_basket/GameRefuse.jsp";
-                                    HttpPost post = new HttpPost(postURL);
-                                    List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                    params.add(new BasicNameValuePair("SendTeam", HomeTeam));
-                                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                    post.setEntity(ent);
-                                    HttpResponse response = client.execute(post);
-                                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                                    String line = null;
-                                    while ((line = bufreader.readLine()) != null) {
-                                        result += line;
+                if(parsedData_gameStatus[0][6].equals("1")){
+                    final MaterialDialog DropOutDialog = new MaterialDialog(MainActivity.this);
+                    DropOutDialog
+                            .setTitle("시합신청")
+                            .setMessage(HomeTeam + "팀에서 시합신청하였습니다.")
+                            .setNegativeButton("취소", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String result = "";
+                                    try {
+                                        HttpClient client = new DefaultHttpClient();
+                                        String postURL = "http://210.122.7.195:8080/Web_basket/GameRefuse.jsp";
+                                        HttpPost post = new HttpPost(postURL);
+                                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                        params.add(new BasicNameValuePair("SendTeam", HomeTeam));
+                                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                        post.setEntity(ent);
+                                        HttpResponse response = client.execute(post);
+                                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                        String line = null;
+                                        while ((line = bufreader.readLine()) != null) {
+                                            result += line;
+                                        }
+                                        parsedData_gameRefuse = jsonParserList_gameDelete(result);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
                                     }
-                                    parsedData_gameRefuse = jsonParserList_gameDelete(result);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                if (parsedData_gameRefuse[0][0].equals("succed")) {
-                                    yourTeamStatus = "reset";
-                                    DropOutDialog.dismiss();
-                                } else {
-                                }
-
-                            }
-                        })
-                        .setPositiveButton("수락", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String result = "";
-                                try {
-                                    HttpClient client = new DefaultHttpClient();
-                                    String postURL = "http://210.122.7.195:8080/Web_basket/GameSucced.jsp";
-                                    HttpPost post = new HttpPost(postURL);
-                                    List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                    params.add(new BasicNameValuePair("SendTeam", HomeTeam));
-                                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                    post.setEntity(ent);
-                                    HttpResponse response = client.execute(post);
-                                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                                    String line = null;
-                                    while ((line = bufreader.readLine()) != null) {
-                                        result += line;
+                                    if (parsedData_gameRefuse[0][0].equals("succed")) {
+                                        yourTeamStatus = "reset";
+                                        DropOutDialog.dismiss();
+                                    } else {
                                     }
-                                    parsedData_gameRefuse = jsonParserList_gameDelete(result);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                if (parsedData_gameRefuse[0][0].equals("succed")) {
-                                    yourTeamStatus = "allow_away";
-                                    DropOutDialog.dismiss();
-                                    mViewPager.setCurrentItem(2);
-                                    League_Layout_1.setVisibility(View.GONE);
-                                    League_Layout_2.setVisibility(View.VISIBLE);
-                                } else {
 
                                 }
-                                DropOutDialog.dismiss();
-                            }
-                        });
-                DropOutDialog.show();
+                            })
+                            .setPositiveButton("수락", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String result = "";
+                                    try {
+                                        HttpClient client = new DefaultHttpClient();
+                                        String postURL = "http://210.122.7.195:8080/Web_basket/GameSucced.jsp";
+                                        HttpPost post = new HttpPost(postURL);
+                                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                        params.add(new BasicNameValuePair("SendTeam", HomeTeam));
+                                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                        post.setEntity(ent);
+                                        HttpResponse response = client.execute(post);
+                                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                        String line = null;
+                                        while ((line = bufreader.readLine()) != null) {
+                                            result += line;
+                                        }
+                                        parsedData_gameRefuse = jsonParserList_gameDelete(result);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    if (parsedData_gameRefuse[0][0].equals("succed")) {
+                                        yourTeamStatus = "allow_away";
+                                        DropOutDialog.dismiss();
+                                        mViewPager.setCurrentItem(2);
+                                        League_Layout_1.setVisibility(View.GONE);
+                                        League_Layout_2.setVisibility(View.VISIBLE);
+                                    } else {
+
+                                    }
+                                    DropOutDialog.dismiss();
+                                }
+                            });
+                    DropOutDialog.show();
+                }
             }
             else if (parsedData_gameStatus[0][0].equals("allow")) {
                 yourTeamStatus = "allow_away";
@@ -408,110 +411,111 @@ public class MainActivity extends AppCompatActivity {
             }
         }
        if (parsedData_gameStatus[0][0].equals("ScoreCheck")) {
-            String result_ScoreCheck = "";
-            try {
-                HttpClient client = new DefaultHttpClient();
-                String postURL = "http://210.122.7.195:8080/Web_basket/GameScoreInfo.jsp";
-                HttpPost post = new HttpPost(postURL);
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("SendTeam", parsedData_Profile[0][6]));
-                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                post.setEntity(ent);
-                HttpResponse response = client.execute(post);
-                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                String line = null;
-                while ((line = bufreader.readLine()) != null) {
-                    result_ScoreCheck += line;
-                }
-                parsedData_gameScoreInfo = jsonParserList_gameScoreInfo(result_ScoreCheck);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-           if(parsedData_gameScoreInfo[0][4].equals(MyTeam)){
-               yourTeamStatus = "ScoreCheck";
-           }
-           else{
-               final String HomeTeam = parsedData_gameScoreInfo[0][0];
-               final String AwayTeam = parsedData_gameScoreInfo[0][1];
-               final String HomeScore = parsedData_gameScoreInfo[0][2];
-               final String AwayScore = parsedData_gameScoreInfo[0][3];
+           if(parsedData_gameStatus[0][6].equals("1")) {
+               String result_ScoreCheck = "";
+               try {
+                   HttpClient client = new DefaultHttpClient();
+                   String postURL = "http://210.122.7.195:8080/Web_basket/GameScoreInfo.jsp";
+                   HttpPost post = new HttpPost(postURL);
+                   List<NameValuePair> params = new ArrayList<NameValuePair>();
+                   params.add(new BasicNameValuePair("SendTeam", parsedData_Profile[0][6]));
+                   UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                   post.setEntity(ent);
+                   HttpResponse response = client.execute(post);
+                   BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                   String line = null;
+                   while ((line = bufreader.readLine()) != null) {
+                       result_ScoreCheck += line;
+                   }
+                   parsedData_gameScoreInfo = jsonParserList_gameScoreInfo(result_ScoreCheck);
+               } catch (Exception e) {
+                   e.printStackTrace();
+               }
+               if (parsedData_gameScoreInfo[0][4].equals(MyTeam)) {
+                   yourTeamStatus = "ScoreCheck";
+               } else {
+                   final String HomeTeam = parsedData_gameScoreInfo[0][0];
+                   final String AwayTeam = parsedData_gameScoreInfo[0][1];
+                   final String HomeScore = parsedData_gameScoreInfo[0][2];
+                   final String AwayScore = parsedData_gameScoreInfo[0][3];
 
-               final Button Layout_CustomDialog_GameScoreInfo_Button_HomeTeam = (Button)layout_GameScoreInfo.findViewById(R.id.Layout_CustomDialog_GameScoreInfo_Button_HomeTeam);
-               final TextView Layout_CustomDialog_GameScoreInfo_TextView_HomeTeam = (TextView)layout_GameScoreInfo.findViewById(R.id.Layout_CustomDialog_GameScoreInfo_TextView_HomeTeam);
-               final Button Layout_CustomDialog_GameScoreInfo_Button_AwayTeam = (Button)layout_GameScoreInfo.findViewById(R.id.Layout_CustomDialog_GameScoreInfo_Button_AwayTeam);
-               final TextView Layout_CustomDialog_GameScoreInfo_TextView_AwayTeam = (TextView)layout_GameScoreInfo.findViewById(R.id.Layout_CustomDialog_GameScoreInfo_TextView_AwayTeam);
+                   final Button Layout_CustomDialog_GameScoreInfo_Button_HomeTeam = (Button) layout_GameScoreInfo.findViewById(R.id.Layout_CustomDialog_GameScoreInfo_Button_HomeTeam);
+                   final TextView Layout_CustomDialog_GameScoreInfo_TextView_HomeTeam = (TextView) layout_GameScoreInfo.findViewById(R.id.Layout_CustomDialog_GameScoreInfo_TextView_HomeTeam);
+                   final Button Layout_CustomDialog_GameScoreInfo_Button_AwayTeam = (Button) layout_GameScoreInfo.findViewById(R.id.Layout_CustomDialog_GameScoreInfo_Button_AwayTeam);
+                   final TextView Layout_CustomDialog_GameScoreInfo_TextView_AwayTeam = (TextView) layout_GameScoreInfo.findViewById(R.id.Layout_CustomDialog_GameScoreInfo_TextView_AwayTeam);
 
-               Layout_CustomDialog_GameScoreInfo_Button_HomeTeam.setText(HomeTeam);
-               Layout_CustomDialog_GameScoreInfo_TextView_HomeTeam.setText(HomeScore);
-               Layout_CustomDialog_GameScoreInfo_Button_AwayTeam.setText(AwayTeam);
-               Layout_CustomDialog_GameScoreInfo_TextView_AwayTeam.setText(AwayScore);
+                   Layout_CustomDialog_GameScoreInfo_Button_HomeTeam.setText(HomeTeam);
+                   Layout_CustomDialog_GameScoreInfo_TextView_HomeTeam.setText(HomeScore);
+                   Layout_CustomDialog_GameScoreInfo_Button_AwayTeam.setText(AwayTeam);
+                   Layout_CustomDialog_GameScoreInfo_TextView_AwayTeam.setText(AwayScore);
 
-               final MaterialDialog DropOutDialog = new MaterialDialog(MainActivity.this);
-               DropOutDialog
-                       .setTitle("시합점수 확인")
-                       .setView(layout_GameScoreInfo)
-                       .setNegativeButton("취소", new View.OnClickListener() {
-                           @Override
-                           public void onClick(View v) {
-                               String result_ScoreCheck_refuse = "";
-                               String Orderteam="";
-                               try {
-                                   if(HomeTeam.equals(MyTeam)){
-                                       Orderteam = AwayTeam;
+                   final MaterialDialog DropOutDialog = new MaterialDialog(MainActivity.this);
+                   DropOutDialog
+                           .setTitle("시합점수 확인")
+                           .setView(layout_GameScoreInfo)
+                           .setNegativeButton("취소", new View.OnClickListener() {
+                               @Override
+                               public void onClick(View v) {
+                                   String result_ScoreCheck_refuse = "";
+                                   String Orderteam = "";
+                                   try {
+                                       if (HomeTeam.equals(MyTeam)) {
+                                           Orderteam = AwayTeam;
+                                       }
+                                       if (AwayTeam.equals(MyTeam)) {
+                                           Orderteam = HomeTeam;
+                                       }
+                                       HttpClient client = new DefaultHttpClient();
+                                       String postURL = "http://210.122.7.195:8080/Web_basket/GameScoreInfoRefuse.jsp";
+                                       HttpPost post = new HttpPost(postURL);
+                                       List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                       params.add(new BasicNameValuePair("Myteam", parsedData_Profile[0][6]));
+                                       params.add(new BasicNameValuePair("Orderteam", Orderteam));
+                                       UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                       post.setEntity(ent);
+                                       HttpResponse response = client.execute(post);
+                                       BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                       String line = null;
+                                       while ((line = bufreader.readLine()) != null) {
+                                           result_ScoreCheck_refuse += line;
+                                       }
+                                       parsedData_gameScoreInfo_succed = jsonParserList_BasicSetting(result_ScoreCheck_refuse);
+                                   } catch (Exception e) {
+                                       e.printStackTrace();
                                    }
-                                   if(AwayTeam.equals(MyTeam)){
-                                       Orderteam = HomeTeam;
-                                   }
-                                   HttpClient client = new DefaultHttpClient();
-                                   String postURL = "http://210.122.7.195:8080/Web_basket/GameScoreInfoRefuse.jsp";
-                                   HttpPost post = new HttpPost(postURL);
-                                   List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                   params.add(new BasicNameValuePair("Myteam", parsedData_Profile[0][6]));
-                                   params.add(new BasicNameValuePair("Orderteam", Orderteam));
-                                   UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                   post.setEntity(ent);
-                                   HttpResponse response = client.execute(post);
-                                   BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                                   String line = null;
-                                   while ((line = bufreader.readLine()) != null) {
-                                       result_ScoreCheck_refuse += line;
-                                   }
-                                   parsedData_gameScoreInfo_succed = jsonParserList_BasicSetting(result_ScoreCheck_refuse);
-                               } catch (Exception e) {
-                                   e.printStackTrace();
+                                   DropOutDialog.dismiss();
                                }
-                               DropOutDialog.dismiss();
-                           }
-                       })
-                       .setPositiveButton("확인", new View.OnClickListener() {
-                           @Override
-                           public void onClick(View view) {
-                               String result_ScoreCheck_agree = "";
-                               try {
-                                   HttpClient client = new DefaultHttpClient();
-                                   String postURL = "http://210.122.7.195:8080/Web_basket/GameScoreInfoAgree.jsp";
-                                   HttpPost post = new HttpPost(postURL);
-                                   List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                   params.add(new BasicNameValuePair("hometeamName", HomeTeam));
-                                   params.add(new BasicNameValuePair("awayteamName", AwayTeam));
-                                   params.add(new BasicNameValuePair("hometeamScore", HomeScore));
-                                   params.add(new BasicNameValuePair("awayteamScore", AwayScore));
-                                   params.add(new BasicNameValuePair("myteam", parsedData_Profile[0][6]));
-                                   UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                   post.setEntity(ent);
-                                   HttpResponse response = client.execute(post);
-                                   BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                                   String line = null;
-                                   while ((line = bufreader.readLine()) != null) {
-                                       result_ScoreCheck_agree += line;
+                           })
+                           .setPositiveButton("확인", new View.OnClickListener() {
+                               @Override
+                               public void onClick(View view) {
+                                   String result_ScoreCheck_agree = "";
+                                   try {
+                                       HttpClient client = new DefaultHttpClient();
+                                       String postURL = "http://210.122.7.195:8080/Web_basket/GameScoreInfoAgree.jsp";
+                                       HttpPost post = new HttpPost(postURL);
+                                       List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                       params.add(new BasicNameValuePair("hometeamName", HomeTeam));
+                                       params.add(new BasicNameValuePair("awayteamName", AwayTeam));
+                                       params.add(new BasicNameValuePair("hometeamScore", HomeScore));
+                                       params.add(new BasicNameValuePair("awayteamScore", AwayScore));
+                                       params.add(new BasicNameValuePair("myteam", parsedData_Profile[0][6]));
+                                       UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                       post.setEntity(ent);
+                                       HttpResponse response = client.execute(post);
+                                       BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                       String line = null;
+                                       while ((line = bufreader.readLine()) != null) {
+                                           result_ScoreCheck_agree += line;
+                                       }
+                                       parsedData_gameScoreInfo_succed = jsonParserList_BasicSetting(result_ScoreCheck_agree);
+                                   } catch (Exception e) {
+                                       e.printStackTrace();
                                    }
-                                   parsedData_gameScoreInfo_succed = jsonParserList_BasicSetting(result_ScoreCheck_agree);
-                               } catch (Exception e) {
-                                   e.printStackTrace();
+                                   DropOutDialog.dismiss();
                                }
-                               DropOutDialog.dismiss();
-                           }
-                       }).show();
+                           }).show();
+               }
            }
         }
     }
@@ -524,7 +528,7 @@ public class MainActivity extends AppCompatActivity {
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
 
-            String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6"};
+            String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6","msg7"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for (int i = 0; i < jArr.length(); i++) {
                 json = jArr.getJSONObject(i);
@@ -3536,6 +3540,7 @@ ListView Leauge_myRecord_ListView;
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
                                             params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            params.add(new BasicNameValuePair("MyTeam", Team1));
                                             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                                             post.setEntity(ent);
                                             HttpResponse response = client.execute(post);

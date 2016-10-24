@@ -226,6 +226,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                         final CheckBox Layout_CustomDialog_Duty_CheckBox_Schedule = (CheckBox) layout.findViewById(R.id.Layout_CustomDialog_Duty_CheckBox_Schedule);
                         final CheckBox Layout_CustomDialog_Duty_CheckBox_TeamIntro = (CheckBox) layout.findViewById(R.id.Layout_CustomDialog_Duty_CheckBox_TeamIntro);
                         final CheckBox Layout_CustomDialog_Duty_CheckBox_Notice = (CheckBox) layout.findViewById(R.id.Layout_CustomDialog_Duty_CheckBox_Notice);
+                        final CheckBox Layout_CustomDialog_Duty_CheckBox_Game = (CheckBox) layout.findViewById(R.id.Layout_CustomDialog_Duty_CheckBox_Game);
                         final Button Layout_CustomDialog_Duty_Button_Entrust = (Button)layout.findViewById(R.id.Layout_CustomDialog_Duty_Button_Entrust);
                         //
                         Layout_CustomDialog_Duty_Button_Duty.setHint(parsedData_Duty[0][2]);
@@ -239,6 +240,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                             Layout_CustomDialog_Duty_CheckBox_Schedule.setClickable(false);
                             Layout_CustomDialog_Duty_CheckBox_TeamIntro.setClickable(false);
                             Layout_CustomDialog_Duty_CheckBox_Notice.setClickable(false);
+                            Layout_CustomDialog_Duty_CheckBox_Game.setClickable(false);
                         }
                         if(parsedData_Duty[0][3].equals("1"))
                         {
@@ -256,7 +258,10 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                         {
                             Layout_CustomDialog_Duty_CheckBox_Notice.setChecked(true);
                         }
-
+                        if(parsedData_Duty[0][7].equals("1"))
+                        {
+                            Layout_CustomDialog_Duty_CheckBox_Game.setChecked(true);
+                        }
                         final MaterialDialog DutyDialog = new MaterialDialog(Navigation_TeamManager_Member.this);
                         DutyDialog
                                 .setTitle("권한 설정")
@@ -268,6 +273,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                                         String Schedule = "0";
                                         String TeamIntro = "0";
                                         String Notice = "0";
+                                        String Game = "0";
                                         if(Layout_CustomDialog_Duty_CheckBox_Member.isChecked()){
                                             Member = "1";
                                         }
@@ -279,6 +285,9 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                                         }
                                         if(Layout_CustomDialog_Duty_CheckBox_Notice.isChecked()){
                                             Notice = "1";
+                                        }
+                                        if(Layout_CustomDialog_Duty_CheckBox_Game.isChecked()){
+                                            Game = "1";
                                         }
                                         String result="";
                                         try {
@@ -292,6 +301,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                                             params.add(new BasicNameValuePair("authority_schedule", Schedule));
                                             params.add(new BasicNameValuePair("authority_teamIntro", TeamIntro));
                                             params.add(new BasicNameValuePair("authority_notice", Notice));
+                                            params.add(new BasicNameValuePair("authority_game", Game));
                                             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                                             post.setEntity(ent);
 
@@ -605,7 +615,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
 
-            String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6","msg7"};
+            String[] jsonName = {"msg1","msg2","msg3","msg4","msg5","msg6","msg7","msg8"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for(int i = 0; i<jArr.length();i++){
                 json = jArr.getJSONObject(i);
