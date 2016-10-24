@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/0922.iml" filepath="$PROJECT_DIR$/0922.iml" />
-      <module fileurl="file://$PROJECT_DIR$/10-21.iml" filepath="$PROJECT_DIR$/10-21.iml" />
-      <module fileurl="file://$PROJECT_DIR$/10-9.iml" filepath="$PROJECT_DIR$/10-9.iml" />
-      <module fileurl="file://$PROJECT_DIR$/10044.iml" filepath="$PROJECT_DIR$/10044.iml" />
-      <module fileurl="file://$PROJECT_DIR$/1010.iml" filepath="$PROJECT_DIR$/1010.iml" />
-      <module fileurl="file://$PROJECT_DIR$/BasketBook.iml" filepath="$PROJECT_DIR$/BasketBook.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Mybasket.iml" filepath="$PROJECT_DIR$/Mybasket.iml" />
+      <module fileurl="file://$PROJECT_DIR$/10-20.iml" filepath="$PROJECT_DIR$/10-20.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
