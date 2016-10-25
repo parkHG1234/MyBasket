@@ -2305,6 +2305,7 @@ ListView Leauge_myRecord_ListView;
             //////////내 팀 기록 선언
         //////////////////////////////////////////////
         //화면 visible
+
             if(Boolean.parseBoolean(fragment3)){
                 update_textview.setVisibility(View.GONE);
                 layout_league_Root.setVisibility(View.VISIBLE);
@@ -3153,46 +3154,24 @@ ListView Leauge_myRecord_ListView;
             League_Button_2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Snackbar.make(view,"점검 중입니다.",Snackbar.LENGTH_SHORT).show();
+                    String a="점검 중";
+                    if(a.equals("점검중입니다.")){
                     TabChoice = "2";
                     League_Layout_1.setVisibility(View.GONE);
                     League_Layout_2.setVisibility(View.VISIBLE);
 
                     ////////////내 팀 기록 //////////////////////////////////////////////////////////
-                    String result = "";
-                    try {
-                        HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/pp/getMyTeamName.jsp";
-                        HttpPost post = new HttpPost(postURL);
 
-                        List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("Id", Id));
 
-                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                        post.setEntity(ent);
-
-                        HttpResponse response = client.execute(post);
-                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-
-                        String line = null;
-                        while ((line = bufreader.readLine()) != null) {
-                            result += line;
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    Log.i("서버에서 받아온 팀 이름", result);
-                    String[][] getTeamParsedData = jsonParserList_getTeamName(result);
-                    if(getTeamParsedData != null) {
-                        String myTeamName = getTeamParsedData[0][0];
-                        result = "";
+                        String result = "";
                         try {
                             HttpClient client = new DefaultHttpClient();
-                            String postURL = "http://210.122.7.195:8080/pp/Leuage_myrecord.jsp";
+                            String postURL = "http://210.122.7.195:8080/pp/getMyTeamName.jsp";
                             HttpPost post = new HttpPost(postURL);
 
                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                             params.add(new BasicNameValuePair("Id", Id));
-                            params.add(new BasicNameValuePair("TeamName",myTeamName));
 
                             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                             post.setEntity(ent);
@@ -3207,29 +3186,57 @@ ListView Leauge_myRecord_ListView;
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        String[][] MyRecordParsedList = jsonParserList_getMyRecord(result);
+                        Log.i("서버에서 받아온 팀 이름", result);
+                        String[][] getTeamParsedData = jsonParserList_getTeamName(result);
+                        if(getTeamParsedData != null) {
+                            String myTeamName = getTeamParsedData[0][0];
+                            result = "";
+                            try {
+                                HttpClient client = new DefaultHttpClient();
+                                String postURL = "http://210.122.7.195:8080/pp/Leuage_myrecord.jsp";
+                                HttpPost post = new HttpPost(postURL);
 
-                        ArrayList<com.mysports.basketbook.Leauge_MyRecord_MyData> Leauge_Myrecord_MyData;
-                        Leauge_Myrecord_MyData = new ArrayList<Leauge_MyRecord_MyData>();
-                        String isWin;
-                        if(MyRecordParsedList != null) {
-                            for (int i = 0; i < MyRecordParsedList.length; i++) {
-                                if(MyRecordParsedList[i][6].equals(getTeamParsedData[0][0])) {
-                                    isWin = "win";
-                                } else {
-                                    isWin = "lose";
+                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                params.add(new BasicNameValuePair("Id", Id));
+                                params.add(new BasicNameValuePair("TeamName",myTeamName));
+
+                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                post.setEntity(ent);
+
+                                HttpResponse response = client.execute(post);
+                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                                String line = null;
+                                while ((line = bufreader.readLine()) != null) {
+                                    result += line;
                                 }
-                                Leauge_Myrecord_MyData.add(new Leauge_MyRecord_MyData(isWin,MyRecordParsedList[i][5],MyRecordParsedList[i][4],MyRecordParsedList[i][3],MyRecordParsedList[i][2],MyRecordParsedList[i][1],MyRecordParsedList[i][0], MyRecordParsedList[i][7], MyRecordParsedList[i][8]));
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                            Leauge_myRecord_ListView = (ListView)rootView.findViewById(R.id.Leauge_myrecord_listview);
-                            Leauge_MyRecord_MyAdapter Adapter =new Leauge_MyRecord_MyAdapter(rootView.getContext(), Leauge_Myrecord_MyData);
-                            Leauge_myRecord_ListView.setAdapter(Adapter);
+                            String[][] MyRecordParsedList = jsonParserList_getMyRecord(result);
+
+                            ArrayList<com.mysports.basketbook.Leauge_MyRecord_MyData> Leauge_Myrecord_MyData;
+                            Leauge_Myrecord_MyData = new ArrayList<Leauge_MyRecord_MyData>();
+                            String isWin;
+                            if(MyRecordParsedList != null) {
+                                for (int i = 0; i < MyRecordParsedList.length; i++) {
+                                    if(MyRecordParsedList[i][6].equals(getTeamParsedData[0][0])) {
+                                        isWin = "win";
+                                    } else {
+                                        isWin = "lose";
+                                    }
+                                    Leauge_Myrecord_MyData.add(new Leauge_MyRecord_MyData(isWin,MyRecordParsedList[i][5],MyRecordParsedList[i][4],MyRecordParsedList[i][3],MyRecordParsedList[i][2],MyRecordParsedList[i][1],MyRecordParsedList[i][0], MyRecordParsedList[i][7], MyRecordParsedList[i][8]));
+                                }
+                                Leauge_myRecord_ListView = (ListView)rootView.findViewById(R.id.Leauge_myrecord_listview);
+                                Leauge_MyRecord_MyAdapter Adapter =new Leauge_MyRecord_MyAdapter(rootView.getContext(), Leauge_Myrecord_MyData);
+                                Leauge_myRecord_ListView.setAdapter(Adapter);
+                            }else {
+                                //정보 없다 표시
+                            }
                         }else {
-                            //정보 없다 표시
+
+
                         }
-                    }else {
-
-
                     }
                 }
             });

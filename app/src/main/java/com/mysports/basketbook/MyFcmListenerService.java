@@ -23,8 +23,8 @@ import java.net.URLDecoder;
 public class MyFcmListenerService extends FirebaseMessagingService {
 
     private static final String TAG = "FirebaseMsgService";
-    String Approach;
-    String NewsFeed_Num;
+    String Approach=".";
+    String NewsFeed_Num=".";
     String body;
     // [START receive_message]
     @Override
