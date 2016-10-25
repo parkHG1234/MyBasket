@@ -288,7 +288,7 @@ public class Match_In_Register extends AppCompatActivity implements TimePickerDi
     }
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        BookDay = year+ " - " + monthOfYear + " - "+dayOfMonth;
+        BookDay = year+ " - " + (monthOfYear+1) + " - "+dayOfMonth;
         Match_In_Register_Button_Schedule_Date.setText(BookDay);
     }
 

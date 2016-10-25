@@ -258,6 +258,7 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
                 HeatingAndCooling = String.valueOf(Match_In_Modify_CheckBox_HeatingAndCooling.isChecked());
                 AddressFocus = Match_In_Modify_EditText_AddressFocus.getText().toString();
                 Phone = Match_In_Modify_EditText_Phone.getText().toString();
+                EndTime = Match_In_Modify_Button_Schedule_TimeEnd.getText().toString();
                 Match_In_Modify_Button_Modify.setProgress(25);
                 String result="";
                 try {
@@ -324,7 +325,7 @@ public class Match_In_Register_Modify extends AppCompatActivity implements TimeP
     }
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        BookDay = year+ " - " + monthOfYear + " - "+dayOfMonth;
+        BookDay = year+ " - " + (monthOfYear+1) + " - "+dayOfMonth;
         Match_In_Modify_Button_Schedule_Date.setText(BookDay);
     }
 
