@@ -89,6 +89,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 
 public class MainActivity extends AppCompatActivity {
     static String Id = "";
+    static String Profile;
     static String fragment1,fragment2,fragment3,fragment4;
     static String yourTeamStatus = "reset";
     static String Approach="";
@@ -226,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
         fragment2 = intent1.getStringExtra("fragment2");
         fragment3 = intent1.getStringExtra("fragment3");
         fragment4 = intent1.getStringExtra("fragment4");
-        if(intent1.hasExtra("approach")){
+        if(intent1.hasExtra("Approach")){
             Approach = intent1.getStringExtra("Approach");
             NewsFeed_Num = intent1.getStringExtra("NewsFeed_Num");
         }
@@ -287,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
         }
         parsedData_Profile = jsonParserList_UserInfo(result_profile);
         MyTeam = parsedData_Profile[0][6];
+        Profile = parsedData_Profile[0][7];
         /////////////////////////////////////////
         //일반 접근인 경우
         ///일반적 접근일 경우 처리
@@ -526,7 +528,7 @@ public class MainActivity extends AppCompatActivity {
            }
         }
         if(Approach.equals("comment")) {
-
+            Log.i("test","ssss");
             try {
                 HttpClient client = new DefaultHttpClient();
                 String postURL = "http://210.122.7.195:8080/pp/Comment_Direct.jsp";
@@ -558,6 +560,16 @@ public class MainActivity extends AppCompatActivity {
             String NewsFeed_Hour = parsedData_CommentDirect[0][8];
             String NewsFeed_Minute = parsedData_CommentDirect[0][9];
             String NewsFeed_Image = parsedData_CommentDirect[0][10];
+            Intent CommentIntent = new Intent(MainActivity.this, Match_Out_NewsFeed_Comment.class);
+            CommentIntent.putExtra("Num", NewsFeed_Num);
+            CommentIntent.putExtra("Court", NewsFeed_Court);
+            CommentIntent.putExtra("Name", NewsFeed_Name);
+            CommentIntent.putExtra("Data", NewsFeed_Data);
+            CommentIntent.putExtra("Time", NewsFeed_Month + "월 " + NewsFeed_Day + "일 " + NewsFeed_Hour + "시 " + NewsFeed_Minute + "분 ");
+            CommentIntent.putExtra("Id", Id);
+            CommentIntent.putExtra("profile", Profile);
+            CommentIntent.putExtra("Image", NewsFeed_Image);
+            startActivity(CommentIntent);
         }
     }
 
@@ -4698,7 +4710,7 @@ public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
         String[][] parsedData_overLap, parsedData_TeamCheck, parsedData_Alarm;
         String ProfileUrl;
         Bitmap bmImg;
-        String Profile;
+
         final int REQ_SELECT = 0;
 
         public SectionsFragment4() {

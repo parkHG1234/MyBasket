@@ -35,6 +35,8 @@ import java.util.List;
  */
 
 public class start extends AppCompatActivity {
+    static String Approach=".";
+    static String NewsFeed_Num=".";
     int threadtime = 0;
     JSONObject json_out;
     JSONArray jArr_out;
@@ -49,7 +51,11 @@ public class start extends AppCompatActivity {
         setContentView(R.layout.layout_start);
         AnimationSet set = new AnimationSet(true);
         set.setInterpolator(new AccelerateInterpolator());
-
+        Intent intent1 = getIntent();
+        if(intent1.hasExtra("Approach")){
+            Approach = intent1.getStringExtra("Approach");
+            NewsFeed_Num = intent1.getStringExtra("NewsFeed_Num");
+        }
         ImageView imgLava = (ImageView) findViewById(R.id.imgLava);
         final TextView TextView_VersionCheck = (TextView) findViewById(R.id.TextView_VersionCheck);
         Animation ani = new RotateAnimation(0, 360, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
@@ -121,6 +127,8 @@ public class start extends AppCompatActivity {
                                         LoginIntent.putExtra("fragment2", parsedData[0][2]);
                                         LoginIntent.putExtra("fragment3", parsedData[0][3]);
                                         LoginIntent.putExtra("fragment4", parsedData[0][4]);
+                                        LoginIntent.putExtra("Approach", Approach);
+                                        LoginIntent.putExtra("NewsFeed_Num", NewsFeed_Num);
                                         startActivity(LoginIntent);
                                     }
                                 }

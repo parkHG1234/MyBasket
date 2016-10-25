@@ -44,7 +44,8 @@ public class MyFcmListenerService extends FirebaseMessagingService {
         }
     }
     private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Log.i("test_gcm",Approach);
+        Intent intent = new Intent(this, start.class);
         intent.putExtra("Approach",Approach);
         intent.putExtra("NewsFeed_Num",NewsFeed_Num);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -53,7 +54,7 @@ public class MyFcmListenerService extends FirebaseMessagingService {
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.main_icon)
                 .setContentTitle("바스켓북")
                 .setContentText(messageBody)
                 .setAutoCancel(true)

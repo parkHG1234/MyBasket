@@ -75,11 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        Intent intent1 = getIntent();
-        if(intent1.hasExtra("approach")){
-            Approach = intent1.getStringExtra("approach");
-            NewsFeed_Num = intent1.getStringExtra("NewsFeed_Num");
-        }
+
         SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
 
         login_layout_root = (LinearLayout)findViewById(R.id.login_layout_root);
@@ -111,7 +107,10 @@ public class LoginActivity extends AppCompatActivity {
         fragment2=StartIntent.getExtras().getString("fragment2");
         fragment3=StartIntent.getExtras().getString("fragment3");
         fragment4=StartIntent.getExtras().getString("fragment4");
-
+        if(StartIntent.hasExtra("Approach")){
+            Approach = StartIntent.getStringExtra("Approach");
+            NewsFeed_Num = StartIntent.getStringExtra("NewsFeed_Num");
+        }
 
         autoLoginChkbox.setChecked(false);
         String autoChkbox = preferences.getString("auto","");  //로그아웃시 autologinChkbox ""로 변경 or preference 삭제
@@ -134,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         if(autoLoginChkbox.isChecked()){
-
+            Log.i("test123",Approach);
             //preference 이름을 autoLogin
             String autologID = preferences.getString("id", "");
             String autologPW = preferences.getString("pw", "");
@@ -227,6 +226,7 @@ public class LoginActivity extends AppCompatActivity {
                             .show();
                 }else {
                 }
+                Log.i("test",Approach);
                 //메인엑티비티에다 데이터를보내
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.putExtra("LoginCheck",parsedData[0][0]);
