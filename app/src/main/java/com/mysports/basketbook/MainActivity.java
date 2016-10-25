@@ -526,10 +526,10 @@ public class MainActivity extends AppCompatActivity {
            }
         }
         if(Approach.equals("comment")) {
-/*
+
             try {
                 HttpClient client = new DefaultHttpClient();
-                String postURL = "http://210.122.7.195:8080/Web_basket/Comment_Direct.jsp";
+                String postURL = "http://210.122.7.195:8080/pp/Comment_Direct.jsp";
                 HttpPost post = new HttpPost(postURL);
                 List<NameValuePair> params1 = new ArrayList<NameValuePair>();
                 params1.add(new BasicNameValuePair("NewsFeed_Num", NewsFeed_Num));
@@ -546,8 +546,18 @@ public class MainActivity extends AppCompatActivity {
                 }
                 parsedData_CommentDirect = jsonParserList_CommentDirect(result_comment);
             } catch (IOException e) {
-
-            }*/
+            }
+            String NewsFeed_Do = parsedData_CommentDirect[0][0];
+            String NewsFeed_Si = parsedData_CommentDirect[0][1];
+            String NewsFeed_Court = parsedData_CommentDirect[0][2];
+            String NewsFeed_Name = parsedData_CommentDirect[0][3];
+            String NewsFeed_User = parsedData_CommentDirect[0][4];
+            String NewsFeed_Data = parsedData_CommentDirect[0][5];
+            String NewsFeed_Month = parsedData_CommentDirect[0][6];
+            String NewsFeed_Day = parsedData_CommentDirect[0][7];
+            String NewsFeed_Hour = parsedData_CommentDirect[0][8];
+            String NewsFeed_Minute = parsedData_CommentDirect[0][9];
+            String NewsFeed_Image = parsedData_CommentDirect[0][10];
         }
     }
 
@@ -665,7 +675,7 @@ public class MainActivity extends AppCompatActivity {
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
 
-            String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6","msg7"};
+            String[] jsonName = {"Do", "Si", "Court", "Name", "User", "Data","Month","Day","Hour","Minute","Image"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for (int i = 0; i < jArr.length(); i++) {
                 json = jArr.getJSONObject(i);

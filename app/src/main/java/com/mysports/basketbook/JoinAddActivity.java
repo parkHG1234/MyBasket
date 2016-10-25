@@ -225,7 +225,7 @@ public class JoinAddActivity extends AppCompatActivity{
         Calendar c = Calendar.getInstance();
         String currentYear = String.valueOf(c.get(Calendar.YEAR));
 
-        if(_year.equals("") && _month.equals("") && _day.equals("")) {
+        if(_year.equals("") || _month.equals("") || _day.equals("")) {
 
         }else {
             if(Integer.parseInt(_year) > 1900 && Integer.parseInt(_year) <= Integer.parseInt(currentYear) && Integer.parseInt(_month) >= 1 && Integer.parseInt(_month) <= 12 && Integer.parseInt(_day) >= 1 && Integer.parseInt(_day) <= 31 && _month.length()<=2) {
@@ -235,7 +235,6 @@ public class JoinAddActivity extends AppCompatActivity{
                 birth = year + " / " + month + " / " + day ;
             }
         }
-        Log.i("생일", birth);
         String height = join_layout_height_editText.getText().toString();
         String weight = join_layout_weight_editText.getText().toString();
         String sex = s_Sex.getSelectedItem().toString();
@@ -303,7 +302,7 @@ public class JoinAddActivity extends AppCompatActivity{
             params.add(new BasicNameValuePair("_birth", _birth));
             params.add(new BasicNameValuePair("_posi", _posi));
             params.add(new BasicNameValuePair("_weight", _weight));
-            params.add(new BasicNameValuePair("_height", _height));;
+            params.add(new BasicNameValuePair("_height", _height));
 
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
