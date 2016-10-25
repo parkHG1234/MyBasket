@@ -1186,8 +1186,39 @@ public class Match_Out_NewsFeed_Writing extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (enabled){
-                    Http_Out_NewsFeed_Writing Http_Out_NewsFeed_Writing = new Http_Out_NewsFeed_Writing();
-                    Http_Out_NewsFeed_Writing.execute();
+                    try {
+                        HttpClient client = new DefaultHttpClient();
+                        String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_upload.jsp";
+                        HttpPost post = new HttpPost(postURL);
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                        params.add(new BasicNameValuePair("NewsFeed_Do", Do));
+                        params.add(new BasicNameValuePair("NewsFeed_Si", Si));
+                        params.add(new BasicNameValuePair("NewsFeed_Court", Court));
+                        params.add(new BasicNameValuePair("NewsFeed_Name", Name));
+                        params.add(new BasicNameValuePair("NewsFeed_User", Id));
+                        params.add(new BasicNameValuePair("NewsFeed_Data", NewsFeed_Writing_TextEditText.getText().toString()));
+                        params.add(new BasicNameValuePair("NewsFeed_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));
+                        params.add(new BasicNameValuePair("NewsFeed_Day", new SimpleDateFormat("dd").format(new java.sql.Date(System.currentTimeMillis()))));
+                        params.add(new BasicNameValuePair("NewsFeed_Hour", new SimpleDateFormat("kk").format(new java.sql.Date(System.currentTimeMillis()))));
+                        params.add(new BasicNameValuePair("NewsFeed_Minute", new SimpleDateFormat("mm").format(new java.sql.Date(System.currentTimeMillis()))));
+
+                        if (flag) {
+                            params.add(new BasicNameValuePair("NewsFeed_Image", ImageFile));
+                            String urlString = "http://210.122.7.195:8080/gg/newsfeed_Image_upload.jsp";
+                            //파일 업로드 시작!
+                            HttpFileUpload(urlString, "", ImageURL);
+                        } else {
+                            params.add(new BasicNameValuePair("NewsFeed_Image", ""));
+                        }
+                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                        post.setEntity(ent);
+                        HttpResponse response = client.execute(post);
+
+                        flag = false;
+                        finish();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                 } else {
                     Snackbar.make(view, "코트를 선택해주세요.", Snackbar.LENGTH_SHORT).show();

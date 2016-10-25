@@ -172,7 +172,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 CommentIntent.putExtra("Name", arrData.get(position).getInformation_Name());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", arrData.get(position).getuser());
+                CommentIntent.putExtra("Id", UserID);
                 CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
                 CommentIntent.putExtra("Image", arrData.get(position).getImage());
                 context.startActivity(CommentIntent);
@@ -192,7 +192,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 CommentIntent.putExtra("Name", arrData.get(position).getInformation_Name());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", arrData.get(position).getuser());
+                CommentIntent.putExtra("Id", UserID);
                 CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
                 CommentIntent.putExtra("Image", arrData.get(position).getImage());
                 context.startActivity(CommentIntent);
@@ -211,7 +211,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 CommentIntent.putExtra("Name", arrData.get(position).getInformation_Name());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", arrData.get(position).getuser());
+                CommentIntent.putExtra("Id", UserID);
                 CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
                 CommentIntent.putExtra("Image", arrData.get(position).getImage());
                 context.startActivity(CommentIntent);
@@ -229,7 +229,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 CommentIntent.putExtra("Name", arrData.get(position).getInformation_Name());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", arrData.get(position).getuser());
+                CommentIntent.putExtra("Id", UserID);
                 CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
                 CommentIntent.putExtra("Image", arrData.get(position).getImage());
                 context.startActivity(CommentIntent);
@@ -331,7 +331,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 CommentIntent.putExtra("Name", arrData.get(position).getInformation_Name());
                 CommentIntent.putExtra("Data", arrData.get(position).getdata());
                 CommentIntent.putExtra("Time", GetTime(position));
-                CommentIntent.putExtra("Id", arrData.get(position).getuser());
+                CommentIntent.putExtra("Id", UserID);
                 CommentIntent.putExtra("profile", arrData.get(position).getInformation_Profile());
                 CommentIntent.putExtra("Image", arrData.get(position).getImage());
                 context.startActivity(CommentIntent);

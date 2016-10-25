@@ -261,7 +261,6 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         NewsFeed_Comment_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -269,11 +268,10 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
                 if(!(NewsFeed_Comment_EditText.getText().equals("null"))){
                     try {
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/gg/newsfeed_comment_upload.jsp";
-                        HttpPost post = new HttpPost(postURL);
+                        String postURL = "http://210.122.7.195:8080/gg/newsfeed_comment_upload.jsp";HttpPost post = new HttpPost(postURL);
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                         params.add(new BasicNameValuePair("NewsFeed_Num", NewsFeed_Num));
-                        params.add(new BasicNameValuePair("Comment_User",CommentIntent.getExtras().getString("Id") ));
+                        params.add(new BasicNameValuePair("Comment_User",Comment_User ));
                         params.add(new BasicNameValuePair("Comment_Name",CommentIntent.getExtras().getString("Name")));
                         params.add(new BasicNameValuePair("Comment_Data", NewsFeed_Comment_EditText.getText().toString()));
                         params.add(new BasicNameValuePair("Comment_Month", new SimpleDateFormat("MM").format(new java.sql.Date(System.currentTimeMillis()))));
