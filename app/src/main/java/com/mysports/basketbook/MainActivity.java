@@ -4953,11 +4953,17 @@ public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
         }
 
         protected void redirectLoginActivity() {
+            Log.i("fragment1",fragment1);
             final Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.putExtra("fragment1",fragment1);
+            intent.putExtra("fragment2",fragment2);
+            intent.putExtra("fragment3",fragment3);
+            intent.putExtra("fragment4",fragment4);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivity(intent);
-            getActivity().finish();
-        }
+
+        startActivity(intent);
+        getActivity().finish();
+    }
 
         //date 입력받아 나이 구하는 함수
         public String ChangeAge(String Age) {

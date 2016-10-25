@@ -107,12 +107,11 @@ public class LoginActivity extends AppCompatActivity {
 
 
         final Intent StartIntent = getIntent();
-        if(StartIntent.hasExtra("fragment1")){
-            fragment1=StartIntent.getExtras().getString("fragment1");
-            fragment2=StartIntent.getExtras().getString("fragment2");
-            fragment3=StartIntent.getExtras().getString("fragment3");
-            fragment4=StartIntent.getExtras().getString("fragment4");
-        }
+        fragment1=StartIntent.getExtras().getString("fragment1");
+        fragment2=StartIntent.getExtras().getString("fragment2");
+        fragment3=StartIntent.getExtras().getString("fragment3");
+        fragment4=StartIntent.getExtras().getString("fragment4");
+
 
         autoLoginChkbox.setChecked(false);
         String autoChkbox = preferences.getString("auto","");  //로그아웃시 autologinChkbox ""로 변경 or preference 삭제
