@@ -9,7 +9,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/White">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -255,7 +256,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/TeamManager_TeamIntro_ImageView_Image1"
-                            android:src="@drawable/profile_basic_image"
+                            android:src="@drawable/group_picture"
                             android:padding="2sp"
                             android:scaleType="fitXY"
                             android:layout_weight="1" />
@@ -264,18 +265,18 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/TeamManager_TeamIntro_ImageView_Image2"
-                            android:background="@drawable/profile_basic_image"
+                            android:src="@drawable/group_picture"
                             android:padding="2sp"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitXY"
                             android:layout_weight="1" />
 
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/TeamManager_TeamIntro_ImageView_Image3"
-                            android:background="@drawable/profile_basic_image"
+                            android:src="@drawable/group_picture"
                             android:padding="2sp"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitXY"
                             android:layout_weight="1" />
 
                     </LinearLayout>
