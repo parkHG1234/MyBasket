@@ -56,8 +56,8 @@ public class LoginActivity extends AppCompatActivity {
     AlertDialog dlg;
     View myview;
     CheckBox autoLoginChkbox;
-    String approach=".";
-    String sendTeam=".";
+    String Approach=".";
+    String NewsFeed_Num=".";
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     String version,fragment1,fragment2,fragment3,fragment4;
@@ -77,8 +77,8 @@ public class LoginActivity extends AppCompatActivity {
 
         Intent intent1 = getIntent();
         if(intent1.hasExtra("approach")){
-            approach = intent1.getStringExtra("approach");
-            sendTeam = intent1.getStringExtra("sendTeam");
+            Approach = intent1.getStringExtra("approach");
+            NewsFeed_Num = intent1.getStringExtra("NewsFeed_Num");
         }
         SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
 
@@ -148,8 +148,8 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.putExtra("LoginCheck",parsedData[0][0]);
                     intent.putExtra("Id",parsedData[0][1]);
-                    intent.putExtra("approach",approach);
-                    intent.putExtra("sendTeam",sendTeam);
+                    intent.putExtra("Approach",Approach);
+                    intent.putExtra("NewsFeed_Num",NewsFeed_Num);
                     intent.putExtra("fragment1",fragment1);
                     intent.putExtra("fragment2",fragment2);
                     intent.putExtra("fragment3",fragment3);
@@ -174,7 +174,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void login_Button (View view) {
-        Log.i("test123",approach);
+        Log.i("test123",Approach);
         _id = id_EditText.getText().toString();
         _pw = pw_EditText.getText().toString();
         myview = view;
@@ -231,8 +231,8 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.putExtra("LoginCheck",parsedData[0][0]);
                 intent.putExtra("Id",parsedData[0][1]);
-                intent.putExtra("approach",approach);
-                intent.putExtra("sendTeam",sendTeam);
+                intent.putExtra("Approach",Approach);
+                intent.putExtra("NewsFeed_Num",NewsFeed_Num);
                 intent.putExtra("fragment1",fragment1);
                 intent.putExtra("fragment2",fragment2);
                 intent.putExtra("fragment3",fragment3);

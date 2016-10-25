@@ -91,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
     static String Id = "";
     static String fragment1,fragment2,fragment3,fragment4;
     static String yourTeamStatus = "reset";
-
+    static String Approach="";
+    static String NewsFeed_Num="";
     static String realTime = "";
     static String Team1 = "";
     static int MaxNum_out;
@@ -110,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
     static String[][] parsedData_gameScoreInfo;
     static String[][] parsedData_gameScoreInfo_succed;
     static String[][] parsedData_Profile;
+    static String[][] parsedData_CommentDirect;
     static int allowtime = 0;
     static String HomeTeam, AwayTeam, Authority;
     ////
@@ -224,10 +226,10 @@ public class MainActivity extends AppCompatActivity {
         fragment2 = intent1.getStringExtra("fragment2");
         fragment3 = intent1.getStringExtra("fragment3");
         fragment4 = intent1.getStringExtra("fragment4");
-      /*  if(intent1.hasExtra("approach")){
-            approach = intent1.getStringExtra("approach");
-            approach_sendTeam = intent1.getStringExtra("sendTeam");
-        }*/
+        if(intent1.hasExtra("approach")){
+            Approach = intent1.getStringExtra("Approach");
+            NewsFeed_Num = intent1.getStringExtra("NewsFeed_Num");
+        }
         realTime = new SimpleDateFormat("HHmm").format(new java.sql.Date(System.currentTimeMillis()));
 
         //gcm 데이터 등록
@@ -523,6 +525,30 @@ public class MainActivity extends AppCompatActivity {
                }
            }
         }
+        if(Approach.equals("comment")) {
+/*
+            try {
+                HttpClient client = new DefaultHttpClient();
+                String postURL = "http://210.122.7.195:8080/Web_basket/Comment_Direct.jsp";
+                HttpPost post = new HttpPost(postURL);
+                List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+                params1.add(new BasicNameValuePair("NewsFeed_Num", NewsFeed_Num));
+
+                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params1, HTTP.UTF_8);
+                post.setEntity(ent);
+                HttpResponse response = client.execute(post);
+                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                String line = null;
+                String result_comment = "";
+                while ((line = bufreader.readLine()) != null) {
+                    result_comment += line;
+                }
+                parsedData_CommentDirect = jsonParserList_CommentDirect(result_comment);
+            } catch (IOException e) {
+
+            }*/
+        }
     }
 
     ///////game상태 접근법 파서
@@ -632,7 +658,27 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+    /////댓글 푸시알림으로 접근한 경우, 데이터를 파싱합니다.//////////////////////////////////////////////////////////
+    public String[][] jsonParserList_CommentDirect(String pRecvServerPage) {
+        Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+        try {
+            JSONObject json = new JSONObject(pRecvServerPage);
+            JSONArray jArr = json.getJSONArray("List");
 
+            String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6","msg7"};
+            String[][] parseredData = new String[jArr.length()][jsonName.length];
+            for (int i = 0; i < jArr.length(); i++) {
+                json = jArr.getJSONObject(i);
+                for (int j = 0; j < jsonName.length; j++) {
+                    parseredData[i][j] = json.getString(jsonName[j]);
+                }
+            }
+            return parseredData;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

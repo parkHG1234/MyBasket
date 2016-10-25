@@ -23,8 +23,8 @@ import java.net.URLDecoder;
 public class MyFcmListenerService extends FirebaseMessagingService {
 
     private static final String TAG = "FirebaseMsgService";
-    String approach;
-    String sendTeam;
+    String Approach;
+    String NewsFeed_Num;
     String body;
     // [START receive_message]
     @Override
@@ -35,9 +35,9 @@ public class MyFcmListenerService extends FirebaseMessagingService {
             //추가한것
             String str = message;
             String[] data = str.split(" / ");
-            approach = data[0];
-            sendTeam = data[1];
-            Log.i("approach",approach);
+            Approach = data[0];
+            NewsFeed_Num = data[1];
+            Log.i("approach",Approach);
             body = data[2];
             sendNotification(body);
         } catch (UnsupportedEncodingException e) {
@@ -45,8 +45,8 @@ public class MyFcmListenerService extends FirebaseMessagingService {
     }
     private void sendNotification(String messageBody) {
         Intent intent = new Intent(this, LoginActivity.class);
-        intent.putExtra("approach",approach);
-        intent.putExtra("sendTeam",sendTeam);
+        intent.putExtra("Approach",Approach);
+        intent.putExtra("NewsFeed_Num",NewsFeed_Num);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
