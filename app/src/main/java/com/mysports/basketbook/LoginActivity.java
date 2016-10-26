@@ -347,6 +347,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void redirectSignupActivity() {       //세션 연결 성공 시 SignupActivity로 넘김
         final Intent intent = new Intent(this, KakaoSignupActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.putExtra("Approach",Approach);
+        intent.putExtra("NewsFeed_Num",NewsFeed_Num);
+        intent.putExtra("fragment1",fragment1);
+        intent.putExtra("fragment2",fragment2);
+        intent.putExtra("fragment3",fragment3);
+        intent.putExtra("fragment4",fragment4);
         startActivity(intent);
         finish();
     }

@@ -36,7 +36,9 @@ import java.util.List;
 
 public class KakaoSignupActivity extends Activity{
     long id;
-
+    String version,fragment1,fragment2,fragment3,fragment4;
+    String Approach=".";
+    String NewsFeed_Num=".";
     /**
      * Main으로 넘길지 가입 페이지를 그릴지 판단하기 위해 me를 호출한다.
      * @param savedInstanceState 기존 session 정보가 저장된 객체
@@ -94,10 +96,27 @@ public class KakaoSignupActivity extends Activity{
         String result = SendByHttp(id);
         String[][] parsedData = jsonParserList(result);
         final AlertDialog dlg;
+
+        final Intent StartIntent = getIntent();
+        fragment1=StartIntent.getExtras().getString("fragment1");
+        fragment2=StartIntent.getExtras().getString("fragment2");
+        fragment3=StartIntent.getExtras().getString("fragment3");
+        fragment4=StartIntent.getExtras().getString("fragment4");
+        if(StartIntent.hasExtra("Approach")){
+            Approach = StartIntent.getStringExtra("Approach");
+            NewsFeed_Num = StartIntent.getStringExtra("NewsFeed_Num");
+        }
         if(parsedData != null && parsedData[0][0].equals("Duplicate")){
             Intent intent = new Intent(this, MainActivity.class);
             Log.i("kakaoid", id);
             intent.putExtra("Id", id);
+            intent.putExtra("fragment1",fragment1);
+            intent.putExtra("fragment2",fragment2);
+            intent.putExtra("fragment3",fragment3);
+            intent.putExtra("fragment4",fragment4);
+            intent.putExtra("Approach",Approach);
+            intent.putExtra("NewsFeed_Num",NewsFeed_Num);
+
             startActivity(intent);
             finish();
         }else if(parsedData != null && parsedData[0][0].equals("noDuplicate")) {
@@ -132,7 +151,7 @@ public class KakaoSignupActivity extends Activity{
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("Id", id));
+            params.add(new BasicNameValuePair("id", id));
 
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);

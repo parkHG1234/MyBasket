@@ -50,8 +50,8 @@ public class JoinPwActivity extends Activity {
         String pw1 = join_pw1_EditText.getText().toString();
         String pw2 = join_pw2_EditText.getText().toString();
         if(pw1.equals(pw2)) {
-            if(pw1.length() < 3) {
-                Snackbar.make(view, "비밀번호는 4자 이상이어야 합니다.", Snackbar.LENGTH_LONG)
+            if(pw1.length() < 5) {
+                Snackbar.make(view, "비밀번호는 5자 이상이어야 합니다.", Snackbar.LENGTH_LONG)
                         .show();
             }else{
                 Intent intent = new Intent(JoinPwActivity.this, JoinAddActivity.class);

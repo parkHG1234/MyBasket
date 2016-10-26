@@ -267,6 +267,7 @@ public class JoinAddActivity extends AppCompatActivity{
                         .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                android.os.Process.killProcess(android.os.Process.myPid());
                                 finish();
                             }
                         }).show();

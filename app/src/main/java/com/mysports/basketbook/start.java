@@ -1,11 +1,13 @@
 package com.mysports.basketbook;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -29,6 +31,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by 박지훈 on 2016-10-24.
@@ -95,7 +99,25 @@ public class start extends AppCompatActivity {
                         public void run() {
                             threadtime += 500;
                             TextView_VersionCheck.setText(TextView_VersionCheck.getText() + ".");
-                            finish();
+                            final MaterialDialog DropOutDialog = new MaterialDialog(start.this);
+                            DropOutDialog
+                                    .setTitle("바스켓북")
+                                    .setMessage("업데이트 후 이용해주시기 바랍니다.")
+                                    .setNegativeButton("취소", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            finish();
+                                        }
+                                    })
+                                    .setPositiveButton("업데이트", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            String url ="https://play.google.com/store/apps/details?id=com.mysports.basketbook";
+                                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                            startActivity(intent);
+                                        }
+                                    });
+                            DropOutDialog.show();
                            // Intent marketLaunch = new Intent(Intent.ACTION_VIEW);
                             //marketLaunch.setData(Uri.parse("market://search?q=네이트온"));
                             //startActivity(marketLaunch);

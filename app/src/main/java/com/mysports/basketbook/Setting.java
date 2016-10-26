@@ -406,7 +406,7 @@ public class Setting extends Activity {
         Setting_Button_DropOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Dropout_result = "";
+                /*String Dropout_result = "";
                 try {
                     HttpClient client = new DefaultHttpClient();
                     String postURL = "http://210.122.7.195:8080/gg/dropout_confirm.jsp";
@@ -428,7 +428,8 @@ public class Setting extends Activity {
                     e.printStackTrace();
                 }
 
-                DropOutDialog.show();
+                DropOutDialog.show();*/
+                Snackbar.make(v,"점검 중입니다.",Snackbar.LENGTH_SHORT).show();
             }
         });
     }

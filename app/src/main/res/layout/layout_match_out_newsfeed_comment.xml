@@ -12,7 +12,8 @@
         android:paddingTop="5dp"
         android:paddingLeft="3dp"
         android:paddingRight="3dp"
-        android:layout_weight="2.3">
+        android:layout_weight="2.3"
+        android:background="@color/White">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -91,14 +92,16 @@
         android:id="@+id/NewSpeed_Comment_List"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.8" />
+        android:layout_weight="0.8"
+        android:background="@color/White"/>
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_weight="2.7">
+        android:layout_weight="2.7"
+        android:background="@color/White">
 
         <EditText
             android:id="@+id/NewsFeed_Comment_EditText"

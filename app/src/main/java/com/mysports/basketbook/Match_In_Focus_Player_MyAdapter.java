@@ -64,7 +64,7 @@ public class Match_In_Focus_Player_MyAdapter extends BaseAdapter{
         Log.i("tttt",arrData.get(position).getProfile());
         try{
             String En_Profile = URLEncoder.encode(arrData.get(position).getProfile(), "utf-8");
-            if(arrData.get(position).getProfile().equals("")) {
+            if(arrData.get(position).getProfile().equals(".")) {
                 Glide.with(context).load(R.drawable.profile_basic_image).bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
                         .into(Match_In_Focus_Player_CustomList_ProfileImage);
             }
@@ -88,7 +88,7 @@ public class Match_In_Focus_Player_MyAdapter extends BaseAdapter{
         final Button Layout_CustomDialog_TeamPlayer_Sex = (Button)layout.findViewById(R.id.Layout_CustomDialog_TeamPlayer_Sex);
         try{
             String En_Profile = URLEncoder.encode(arrData.get(position).getProfile(), "utf-8");
-            if(arrData.get(position).getProfile().equals(""))
+            if(arrData.get(position).getProfile().equals("."))
             {
                 Glide.with(context).load(R.drawable.profile_basic_image).into(Layout_CustomDialog_TeamPlayer_Profile);
             }

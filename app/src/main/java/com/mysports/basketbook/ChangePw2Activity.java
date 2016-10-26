@@ -65,8 +65,8 @@ public class ChangePw2Activity extends AppCompatActivity{
         Pw1 = ChangePw1_EditText.getText().toString();
         Pw2 = ChangePw2_EditText.getText().toString();
         if(Pw1.equals(Pw2)) {
-            if(Pw1.length() < 3) {
-                Snackbar.make(view, "비밀번호는 4자 이상이어야 합니다.", Snackbar.LENGTH_LONG)
+            if(Pw1.length() < 5) {
+                Snackbar.make(view, "비밀번호는 5자 이상이어야 합니다.", Snackbar.LENGTH_LONG)
                         .show();
             }else {
                 String result = SendByHttp(Id, Pw1);
