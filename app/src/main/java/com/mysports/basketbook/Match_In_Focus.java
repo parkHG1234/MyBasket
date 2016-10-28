@@ -139,7 +139,7 @@ public class Match_In_Focus extends AppCompatActivity {
         String result="";
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/Web_basket/Match_In_Focus.jsp";
+            String postURL = "http://210.122.7.193:8080/Web_basket/Match_In_Focus.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -220,7 +220,7 @@ public class Match_In_Focus extends AppCompatActivity {
         String result_Player="";
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/Web_basket/Match_In_Focus_Player.jsp";
+            String postURL = "http://210.122.7.193:8080/Web_basket/Match_In_Focus_Player.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -270,21 +270,21 @@ public class Match_In_Focus extends AppCompatActivity {
                 Match_In_Focus_ImageVIew_TeamImageView1.setVisibility(View.GONE);
             }
             else{
-                Glide.with(Match_In_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image1 + ".jpg").diskCacheStrategy(DiskCacheStrategy.NONE)
+                Glide.with(Match_In_Focus.this).load("http://210.122.7.193:8080/Web_basket/imgs/Team/" + En_Image1 + ".jpg").diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true).into(Match_In_Focus_ImageVIew_TeamImageView1);
             }
             if (Image2.equals(".")) {
                 Match_In_Focus_ImageVIew_TeamImageView2.setVisibility(View.GONE);
             }
             else{
-                Glide.with(Match_In_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image2 + ".jpg").diskCacheStrategy(DiskCacheStrategy.NONE)
+                Glide.with(Match_In_Focus.this).load("http://210.122.7.193:8080/Web_basket/imgs/Team/" + En_Image2 + ".jpg").diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true).into(Match_In_Focus_ImageVIew_TeamImageView2);
             }
             if (Image3.equals(".")) {
                 Match_In_Focus_ImageVIew_TeamImageView3.setVisibility(View.GONE);
             }
             else{
-                Glide.with(Match_In_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image3 + ".jpg").diskCacheStrategy(DiskCacheStrategy.NONE)
+                Glide.with(Match_In_Focus.this).load("http://210.122.7.193:8080/Web_basket/imgs/Team/" + En_Image3 + ".jpg").diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true).into(Match_In_Focus_ImageVIew_TeamImageView3);
             }
         } catch (UnsupportedEncodingException e){

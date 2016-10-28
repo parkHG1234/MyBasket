@@ -4,7 +4,13 @@ package com.mysports.basketbook;
  * Created by 박효근 on 2016-07-22.
  */
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,15 +117,49 @@ public class League_Rank_Customlist_Adapter extends BaseAdapter {
             if (arrData.get(position).getEmblem().equals(".")) {
                 Glide.with(context).load(R.drawable.profile_basic_image).into(league_Image_team);
             } else {
-                Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
+                Glide.with(context).load("http://210.122.7.193:8080/Web_basket/imgs/Emblem/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
                         .into(league_Image_team);
             }
         } catch (UnsupportedEncodingException e) {
         }
+        league_TextView_team.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent _intent = new intent();
+                _intent.execute(Integer.toString(position));
 
+            }
+        });
 
         return convertView;
     }
+    public class intent extends AsyncTask<String, Void, String> {
+        ProgressDialog asyncDialog = new ProgressDialog(context);
 
+        @Override
+        protected void onPreExecute() {
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            asyncDialog.setMessage("연결중입니다..");
+
+            // show dialog
+            asyncDialog.show();
+            super.onPreExecute();
+        }
+        @Override
+        protected String doInBackground(String... params) {
+            int position = Integer.parseInt(params[0]);
+            Intent intent = new Intent(context, Navigation_TeamIntro_Focus.class);
+            intent.putExtra("TeamName",  arrData.get(position).getTeamName());
+            intent.putExtra("Id", arrData.get(position).getId());
+            context.startActivity(intent);
+            return "test";
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            asyncDialog.dismiss();
+
+            super.onPostExecute(result);
+        }
+    }
 
 }

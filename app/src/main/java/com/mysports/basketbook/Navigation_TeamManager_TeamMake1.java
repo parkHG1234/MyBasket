@@ -407,7 +407,7 @@ public class Navigation_TeamManager_TeamMake1 extends AppCompatActivity {
                     String result="";
                     try {
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/Web_basket/Navi_Teamanager_TeamMake.jsp";
+                        String postURL = "http://210.122.7.193:8080/Web_basket/Navi_Teamanager_TeamMake.jsp";
                         HttpPost post = new HttpPost(postURL);
 
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -450,7 +450,7 @@ public class Navigation_TeamManager_TeamMake1 extends AppCompatActivity {
                             String TeamIntro = Str_TeamManager_TeamMake_EditText_TeamIntro;
                             try {
                                 HttpClient client = new DefaultHttpClient();
-                                String postURL = "http://210.122.7.195:8080/Web_basket/TeamMake.jsp";
+                                String postURL = "http://210.122.7.193:8080/Web_basket/TeamMake.jsp";
                                 HttpPost post = new HttpPost(postURL);
 
                                 List<NameValuePair> params = new ArrayList<NameValuePair>();

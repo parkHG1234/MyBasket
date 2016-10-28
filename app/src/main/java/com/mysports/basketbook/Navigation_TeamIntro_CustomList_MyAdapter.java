@@ -59,7 +59,7 @@ public class Navigation_TeamIntro_CustomList_MyAdapter extends BaseAdapter {
             }
             else
             {
-                    Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(convertView.getContext()).getBitmapPool()))
+                    Glide.with(context).load("http://210.122.7.193:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(convertView.getContext()).getBitmapPool()))
                             .into(Navi_TeamIntro_CustomList_Emblem);
             }
         }catch (UnsupportedEncodingException e){

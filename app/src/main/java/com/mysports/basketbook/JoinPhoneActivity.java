@@ -74,7 +74,7 @@ public class JoinPhoneActivity extends Activity {
     private String SendByHttp(String phone) {
         try {
             HttpClient httpClient = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/pp/CheckJoinedPhone.jsp";
+            String postURL = "http://210.122.7.193:8080/pp/CheckJoinedPhone.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();

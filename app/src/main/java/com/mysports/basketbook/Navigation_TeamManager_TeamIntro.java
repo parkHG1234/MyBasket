@@ -148,7 +148,7 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
         String result="";
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/Web_basket/NaviTeamInfo.jsp";
+            String postURL = "http://210.122.7.193:8080/Web_basket/NaviTeamInfo.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -194,15 +194,15 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
             String En_Image3 = URLEncoder.encode(Image3, "utf-8");
             String En_Emblem = URLEncoder.encode(Emblem, "utf-8");
             if(!Image1.equals(".")) {
-                Glide.with(Navigation_TeamManager_TeamIntro.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image1 + ".jpg")
+                Glide.with(Navigation_TeamManager_TeamIntro.this).load("http://210.122.7.193:8080/Web_basket/imgs/Team/" + En_Image1 + ".jpg")
                         .into(TeamManager_TeamIntro_ImageView_Image1);
             }
             if(!Image2.equals(".")) {
-                Glide.with(Navigation_TeamManager_TeamIntro.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image2 + ".jpg")
+                Glide.with(Navigation_TeamManager_TeamIntro.this).load("http://210.122.7.193:8080/Web_basket/imgs/Team/" + En_Image2 + ".jpg")
                         .into(TeamManager_TeamIntro_ImageView_Image2);
             }
             if(!Image3.equals(".")) {
-                Glide.with(Navigation_TeamManager_TeamIntro.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image3 + ".jpg")
+                Glide.with(Navigation_TeamManager_TeamIntro.this).load("http://210.122.7.193:8080/Web_basket/imgs/Team/" + En_Image3 + ".jpg")
                         .into(TeamManager_TeamIntro_ImageView_Image3);
             }
             if(Emblem.equals(".")) {
@@ -210,7 +210,7 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
                         .into(TeamManager_TeamIntro_ImageView_Emblem);
             }
             else{
-                Glide.with(Navigation_TeamManager_TeamIntro.this).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(Navigation_TeamManager_TeamIntro.this).getBitmapPool()))
+                Glide.with(Navigation_TeamManager_TeamIntro.this).load("http://210.122.7.193:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(Navigation_TeamManager_TeamIntro.this).getBitmapPool()))
                         .into(TeamManager_TeamIntro_ImageView_Emblem);
             }
             TeamManager_TeamIntro_ImageView_Image1.setOnClickListener(new View.OnClickListener() {
@@ -235,7 +235,7 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
                     //무언가 보여달라는 암시적 인텐트 객체 생성하기.
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     //인텐트에 요청을 덛붙인다.
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    intent.setAction(Intent.ACTION_PICK);
                     //모든 이미지
                     intent.setType("image/*");
                     //결과값을 받아오는 액티비티를 실행한다.
@@ -274,7 +274,7 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
                             //무언가 보여달라는 암시적 인텐트 객체 생성하기.
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                             //인텐트에 요청을 덛붙인다.
-                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            intent.setAction(Intent.ACTION_PICK);
                             //모든 이미지
                             intent.setType("image/*");
                             //결과값을 받아오는 액티비티를 실행한다.
@@ -296,7 +296,7 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
                     //무언가 보여달라는 암시적 인텐트 객체 생성하기.
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     //인텐트에 요청을 덛붙인다.
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    intent.setAction(Intent.ACTION_PICK);
                     //모든 이미지
                     intent.setType("image/*");
                     //결과값을 받아오는 액티비티를 실행한다.
@@ -335,7 +335,7 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
                             //무언가 보여달라는 암시적 인텐트 객체 생성하기.
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                             //인텐트에 요청을 덛붙인다.
-                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            intent.setAction(Intent.ACTION_PICK);
                             //모든 이미지
                             intent.setType("image/*");
                             //결과값을 받아오는 액티비티를 실행한다.
@@ -357,7 +357,7 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
                     //무언가 보여달라는 암시적 인텐트 객체 생성하기.
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     //인텐트에 요청을 덛붙인다.
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    intent.setAction(Intent.ACTION_PICK);
                     //모든 이미지
                     intent.setType("image/*");
                     //결과값을 받아오는 액티비티를 실행한다.
@@ -396,7 +396,7 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
                             //무언가 보여달라는 암시적 인텐트 객체 생성하기.
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                             //인텐트에 요청을 덛붙인다.
-                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            intent.setAction(Intent.ACTION_PICK);
                             //모든 이미지
                             intent.setType("image/*");
                             //결과값을 받아오는 액티비티를 실행한다.
@@ -418,7 +418,7 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
                     //무언가 보여달라는 암시적 인텐트 객체 생성하기.
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     //인텐트에 요청을 덛붙인다.
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    intent.setAction(Intent.ACTION_PICK);
                     //모든 이미지
                     intent.setType("image/*");
                     //결과값을 받아오는 액티비티를 실행한다.
@@ -458,7 +458,7 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
                             //무언가 보여달라는 암시적 인텐트 객체 생성하기.
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                             //인텐트에 요청을 덛붙인다.
-                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            intent.setAction(Intent.ACTION_PICK);
                             //모든 이미지
                             intent.setType("image/*");
                             //결과값을 받아오는 액티비티를 실행한다.
@@ -490,7 +490,7 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
                 String result="";
                 try {
                     HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/Web_basket/Navi_TeamManager_TeamIntro_Update.jsp";
+                    String postURL = "http://210.122.7.193:8080/Web_basket/Navi_TeamManager_TeamIntro_Update.jsp";
                     HttpPost post = new HttpPost(postURL);
 
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -614,16 +614,16 @@ public class Navigation_TeamManager_TeamIntro extends AppCompatActivity {
 //업로드할 서버의 url 주소
                 String urlString="";
                 if(choice.equals("emblem")) {
-                    urlString = "http://210.122.7.195:8080/Web_basket/Upload_Emblem.jsp";
+                    urlString = "http://210.122.7.193:8080/Web_basket/Upload_Emblem.jsp";
                 }
                 else if(choice.equals("image1")) {
-                    urlString = "http://210.122.7.195:8080/Web_basket/Upload_image1.jsp";
+                    urlString = "http://210.122.7.193:8080/Web_basket/Upload_image1.jsp";
                 }
                 else if(choice.equals("image2")) {
-                    urlString = "http://210.122.7.195:8080/Web_basket/Upload_image2.jsp";
+                    urlString = "http://210.122.7.193:8080/Web_basket/Upload_image2.jsp";
                 }
                 else if(choice.equals("image3")) {
-                    urlString = "http://210.122.7.195:8080/Web_basket/Upload_image3.jsp";
+                    urlString = "http://210.122.7.193:8080/Web_basket/Upload_image3.jsp";
                 }
                 //절대경로를 획득한다!!! 중요~
                 Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null, null, null,null);

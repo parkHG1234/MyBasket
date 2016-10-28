@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
         String result = "";
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/Web_basket/Gcm_IdAdd_Alarm.jsp";
+            String postURL = "http://210.122.7.193:8080/Web_basket/Gcm_IdAdd_Alarm.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
         String result_profile = "";
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/Web_basket/Profile.jsp";
+            String postURL = "http://210.122.7.193:8080/Web_basket/Profile.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -296,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
         String result_GameStatus = "";
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/Web_basket/GameStatus.jsp";
+            String postURL = "http://210.122.7.193:8080/Web_basket/GameStatus.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -351,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
                                     String result = "";
                                     try {
                                         HttpClient client = new DefaultHttpClient();
-                                        String postURL = "http://210.122.7.195:8080/Web_basket/GameRefuse.jsp";
+                                        String postURL = "http://210.122.7.193:8080/Web_basket/GameRefuse.jsp";
                                         HttpPost post = new HttpPost(postURL);
                                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                                         params.add(new BasicNameValuePair("SendTeam", HomeTeam));
@@ -381,7 +381,7 @@ public class MainActivity extends AppCompatActivity {
                                     String result = "";
                                     try {
                                         HttpClient client = new DefaultHttpClient();
-                                        String postURL = "http://210.122.7.195:8080/Web_basket/GameSucced.jsp";
+                                        String postURL = "http://210.122.7.193:8080/Web_basket/GameSucced.jsp";
                                         HttpPost post = new HttpPost(postURL);
                                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                                         params.add(new BasicNameValuePair("SendTeam", HomeTeam));
@@ -424,7 +424,7 @@ public class MainActivity extends AppCompatActivity {
                String result_ScoreCheck = "";
                try {
                    HttpClient client = new DefaultHttpClient();
-                   String postURL = "http://210.122.7.195:8080/Web_basket/GameScoreInfo.jsp";
+                   String postURL = "http://210.122.7.193:8080/Web_basket/GameScoreInfo.jsp";
                    HttpPost post = new HttpPost(postURL);
                    List<NameValuePair> params = new ArrayList<NameValuePair>();
                    params.add(new BasicNameValuePair("SendTeam", parsedData_Profile[0][6]));
@@ -475,7 +475,7 @@ public class MainActivity extends AppCompatActivity {
                                            Orderteam = HomeTeam;
                                        }
                                        HttpClient client = new DefaultHttpClient();
-                                       String postURL = "http://210.122.7.195:8080/Web_basket/GameScoreInfoRefuse.jsp";
+                                       String postURL = "http://210.122.7.193:8080/Web_basket/GameScoreInfoRefuse.jsp";
                                        HttpPost post = new HttpPost(postURL);
                                        List<NameValuePair> params = new ArrayList<NameValuePair>();
                                        params.add(new BasicNameValuePair("Myteam", parsedData_Profile[0][6]));
@@ -501,7 +501,7 @@ public class MainActivity extends AppCompatActivity {
                                    String result_ScoreCheck_agree = "";
                                    try {
                                        HttpClient client = new DefaultHttpClient();
-                                       String postURL = "http://210.122.7.195:8080/Web_basket/GameScoreInfoAgree.jsp";
+                                       String postURL = "http://210.122.7.193:8080/Web_basket/GameScoreInfoAgree.jsp";
                                        HttpPost post = new HttpPost(postURL);
                                        List<NameValuePair> params = new ArrayList<NameValuePair>();
                                        params.add(new BasicNameValuePair("hometeamName", HomeTeam));
@@ -531,7 +531,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("test","ssss");
             try {
                 HttpClient client = new DefaultHttpClient();
-                String postURL = "http://210.122.7.195:8080/pp/Comment_Direct.jsp";
+                String postURL = "http://210.122.7.193:8080/pp/Comment_Direct.jsp";
                 HttpPost post = new HttpPost(postURL);
                 List<NameValuePair> params1 = new ArrayList<NameValuePair>();
                 params1.add(new BasicNameValuePair("NewsFeed_Num", NewsFeed_Num));
@@ -1184,7 +1184,7 @@ public class MainActivity extends AppCompatActivity {
             String result = "";
             try {
                 HttpClient client = new DefaultHttpClient();
-                String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_download.jsp";
+                String postURL = "http://210.122.7.193:8080/gg/newsfeed_data_download.jsp";
                 HttpPost post = new HttpPost(postURL);
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) "서울"));
@@ -1221,7 +1221,7 @@ public class MainActivity extends AppCompatActivity {
                     out_minScheduleId = 10000;
                     try {
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_download.jsp";
+                        String postURL = "http://210.122.7.193:8080/gg/newsfeed_data_download.jsp";
                         HttpPost post = new HttpPost(postURL);
                         List<NameValuePair> params1 = new ArrayList<NameValuePair>();
                         params1.add(new BasicNameValuePair("NewsFeed_Do", (String) "서울"));
@@ -1546,7 +1546,7 @@ public class MainActivity extends AppCompatActivity {
                     ///처음에 서울 전체 리스트 불러옵니다.////////////////////////////////////////////////////////
                     try {
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/Web_basket/Match_InList.jsp";
+                        String postURL = "http://210.122.7.193:8080/Web_basket/Match_InList.jsp";
                         HttpPost post = new HttpPost(postURL);
 
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -1592,7 +1592,7 @@ public class MainActivity extends AppCompatActivity {
                             String TeamCheck_result = "";
                             try {
                                 HttpClient client = new DefaultHttpClient();
-                                String postURL = "http://210.122.7.195:8080/Web_basket/TeamCheck.jsp";
+                                String postURL = "http://210.122.7.193:8080/Web_basket/TeamCheck.jsp";
                                 HttpPost post = new HttpPost(postURL);
 
                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -1693,7 +1693,7 @@ public class MainActivity extends AppCompatActivity {
                 String result = "";
                 try {
                     HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_download.jsp";
+                    String postURL = "http://210.122.7.193:8080/gg/newsfeed_data_download.jsp";
                     HttpPost post = new HttpPost(postURL);
                     List<NameValuePair> params1 = new ArrayList<NameValuePair>();
                     params1.add(new BasicNameValuePair("NewsFeed_Do", address1));
@@ -1742,7 +1742,7 @@ public class MainActivity extends AppCompatActivity {
                 String result = "";
                 try {
                     HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_download_scroll.jsp";
+                    String postURL = "http://210.122.7.193:8080/gg/newsfeed_data_download_scroll.jsp";
                     HttpPost post = new HttpPost(postURL);
                     List<NameValuePair> params2 = new ArrayList<NameValuePair>();
                     params2.add(new BasicNameValuePair("NewsFeed_Do", (String) address1));
@@ -1790,7 +1790,7 @@ public class MainActivity extends AppCompatActivity {
             protected String doInBackground(String... params) {
                 try {
                     HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/Web_basket/Match_InList.jsp";
+                    String postURL = "http://210.122.7.193:8080/Web_basket/Match_InList.jsp";
                     HttpPost post = new HttpPost(postURL);
 
                     List<NameValuePair> params1 = new ArrayList<NameValuePair>();
@@ -1844,7 +1844,7 @@ public class MainActivity extends AppCompatActivity {
             protected String doInBackground(String... params) {
                 try {
                     HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/Web_basket/Match_InList_Scroll.jsp";
+                    String postURL = "http://210.122.7.193:8080/Web_basket/Match_InList_Scroll.jsp";
                     HttpPost post = new HttpPost(postURL);
 
                     List<NameValuePair> params1 = new ArrayList<NameValuePair>();
@@ -2007,19 +2007,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static class SectionsFragment2 extends Fragment {
-        Spinner League_League_Spinner_Do, League_League_Spinner_Se;
-        ArrayAdapter<CharSequence> adspin1, adspin2;
-        Button League_League_Button_Search;
-        String choice_do, choice_se;
-        String[][] league_parsedData, contest_parsedData;
-        League_Contest_CustomList_MyAdapter League_Contest_CustomList_MyAdapter;
-        ArrayList<League_Contest_CustomList_MyData> League_Contest_CustomList_MyData;
 
-        com.mysports.basketbook.League_League_CustomList_MyAdapter League_League_CustomList_MyAdapter;
-        ArrayList<com.mysports.basketbook.League_League_CustomList_MyData> League_League_CustomList_MyData;
-        ListView League_League_ListView_League, League_Contest_ListView_Contest;
-        LinearLayout layout_contest_Root;
-        TextView update_textview;
         public SectionsFragment2() {
         }
 
@@ -2027,215 +2015,10 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             final View rootView = inflater.inflate(R.layout.layout_contest, container, false);
-            League_League_Spinner_Do = (Spinner) rootView.findViewById(R.id.League_League_Spinner_Do);
-            League_League_Spinner_Se = (Spinner) rootView.findViewById(R.id.League_League_Spinner_Se);
-            League_League_Button_Search = (Button) rootView.findViewById(R.id.League_League_Button_Search);
-            League_League_ListView_League = (ListView) rootView.findViewById(R.id.League_League_ListView_League);
-            League_Contest_ListView_Contest = (ListView) rootView.findViewById(R.id.League_Contest_ListView_Contest);
 
-            layout_contest_Root = (LinearLayout)rootView.findViewById(R.id.layout_contest_Root);
-            update_textview =(TextView) rootView.findViewById(R.id.update_textview);
-            if(Boolean.parseBoolean(fragment2)){
-                update_textview.setVisibility(View.GONE);
-                layout_contest_Root.setVisibility(View.VISIBLE);
-            }else{
-                update_textview.setVisibility(View.VISIBLE);
-                layout_contest_Root.setVisibility(View.GONE);
-            }
-            adspin1 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do, R.layout.zfile_spinner_test);
-            adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            League_League_Spinner_Do.setAdapter(adspin1);
-            League_League_Spinner_Do.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                    if (adspin1.getItem(i).equals("서울")) {
-                        choice_do = "서울";
-                        //두번째 스피너 이벤트
-                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
-                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        League_League_Spinner_Se.setAdapter(adspin2);
-                        League_League_Spinner_Se.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                choice_se = adspin2.getItem(i).toString();
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> adapterView) {
-                            }
-                        });
-                    } else if (adspin1.getItem(i).equals("경기도")) {
-                        choice_do = "경기도";
-                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Gyeonggido, R.layout.zfile_spinner_test);
-                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        League_League_Spinner_Se.setAdapter(adspin2);
-                        League_League_Spinner_Se.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                choice_se = adspin2.getItem(i).toString();
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> adapterView) {
-                            }
-                        });
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-
-                }
-            });
-            //리그 데이터를 가져옵니다.
-            try {
-                HttpClient client = new DefaultHttpClient();
-                String postURL = "http://210.122.7.195:8080/Web_basket/League_League.jsp";
-                HttpPost post = new HttpPost(postURL);
-
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("do", "서울"));
-                params.add(new BasicNameValuePair("se", "전 체"));
-
-                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                post.setEntity(ent);
-
-                HttpResponse response = client.execute(post);
-                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-
-                String line = null;
-                String result = "";
-                while ((line = bufreader.readLine()) != null) {
-                    result += line;
-                }
-                league_parsedData = league_jsonParserList(result);
-                league_setData();
-                League_League_CustomList_MyAdapter = new League_League_CustomList_MyAdapter(rootView.getContext(), League_League_CustomList_MyData);
-                League_League_ListView_League.setAdapter(League_League_CustomList_MyAdapter);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            //대회데이터를 가져옵니다.
-            try {
-                HttpClient client = new DefaultHttpClient();
-                String postURL = "http://210.122.7.195:8080/Web_basket/League_Contest.jsp";
-                HttpPost post = new HttpPost(postURL);
-
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-
-                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                post.setEntity(ent);
-
-                HttpResponse response = client.execute(post);
-                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-
-                String line = null;
-                String result = "";
-                while ((line = bufreader.readLine()) != null) {
-                    result += line;
-                }
-                contest_parsedData = contest_jsonParserList(result);
-                contest_setData();
-                League_Contest_CustomList_MyAdapter = new League_Contest_CustomList_MyAdapter(rootView.getContext(), League_Contest_CustomList_MyData);
-                League_Contest_ListView_Contest.setAdapter(League_Contest_CustomList_MyAdapter);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            League_League_Button_Search.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try {
-                        HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/Web_basket/League_League.jsp";
-                        HttpPost post = new HttpPost(postURL);
-
-                        List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("do", choice_do));
-                        params.add(new BasicNameValuePair("se", choice_se));
-
-                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                        post.setEntity(ent);
-
-                        HttpResponse response = client.execute(post);
-                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-
-                        String line = null;
-                        String result = "";
-                        while ((line = bufreader.readLine()) != null) {
-                            result += line;
-                        }
-                        league_parsedData = league_jsonParserList(result);
-                        league_setData();
-                        League_League_CustomList_MyAdapter = new League_League_CustomList_MyAdapter(rootView.getContext(), League_League_CustomList_MyData);
-                        League_League_ListView_League.setAdapter(League_League_CustomList_MyAdapter);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
             return rootView;
         }
 
-        private void contest_setData() {
-            League_Contest_CustomList_MyData = new ArrayList<League_Contest_CustomList_MyData>();
-            for (int i = 0; i < contest_parsedData.length; i++) {
-                League_Contest_CustomList_MyData.add(new League_Contest_CustomList_MyData(contest_parsedData[i][0], contest_parsedData[i][1], contest_parsedData[i][2], contest_parsedData[i][3]));
-            }
-        }
-
-        private void league_setData() {
-            League_League_CustomList_MyData = new ArrayList<com.mysports.basketbook.League_League_CustomList_MyData>();
-            for (int i = 0; i < league_parsedData.length; i++) {
-                int Rate = i + 1;
-                League_League_CustomList_MyData.add(new League_League_CustomList_MyData(Rate, league_parsedData[i][0], league_parsedData[i][1]));
-            }
-        }
-
-        /////대회 탭  받아온 json 파싱합니다.//////////////////////////////////////////////////////////
-        public String[][] contest_jsonParserList(String pRecvServerPage) {
-            Log.i("서버에서 받은 전체 내용", pRecvServerPage);
-            try {
-                JSONObject json = new JSONObject(pRecvServerPage);
-                JSONArray jArr = json.getJSONArray("List");
-
-                String[] jsonName = {"msg1", "msg2", "msg3", "msg4"};
-                String[][] parseredData = new String[jArr.length()][jsonName.length];
-                for (int i = 0; i < jArr.length(); i++) {
-                    json = jArr.getJSONObject(i);
-                    for (int j = 0; j < jsonName.length; j++) {
-                        parseredData[i][j] = json.getString(jsonName[j]);
-                    }
-                }
-                return parseredData;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        /////리그  받아온 json 파싱합니다.//////////////////////////////////////////////////////////
-        public String[][] league_jsonParserList(String pRecvServerPage) {
-            Log.i("서버에서 받은 전체 내용", pRecvServerPage);
-            try {
-                JSONObject json = new JSONObject(pRecvServerPage);
-                JSONArray jArr = json.getJSONArray("List");
-
-                String[] jsonName = {"msg1", "msg2"};
-                String[][] parseredData = new String[jArr.length()][jsonName.length];
-                for (int i = 0; i < jArr.length(); i++) {
-                    json = jArr.getJSONObject(i);
-                    for (int j = 0; j < jsonName.length; j++) {
-                        parseredData[i][j] = json.getString(jsonName[j]);
-                    }
-                }
-                return parseredData;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
     }
 
     public static class SectionsFragment3 extends Fragment {
@@ -2589,7 +2372,7 @@ ListView Leauge_myRecord_ListView;
             try {
                 result = "";
                 HttpClient client = new DefaultHttpClient();
-                String postURL = "http://210.122.7.195:8080/gg/myteam_information_download.jsp";
+                String postURL = "http://210.122.7.193:8080/gg/myteam_information_download.jsp";
                 HttpPost post = new HttpPost(postURL);
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("ID", Id));
@@ -2608,7 +2391,7 @@ ListView Leauge_myRecord_ListView;
                 result = "";
 
                 client = new DefaultHttpClient();
-                postURL = "http://210.122.7.195:8080/gg/team_information_download.jsp";
+                postURL = "http://210.122.7.193:8080/gg/team_information_download.jsp";
                 post = new HttpPost(postURL);
                 params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("Rank_Do", choice_do));
@@ -2637,7 +2420,7 @@ ListView Leauge_myRecord_ListView;
                 if (myteamData[0][4].equals(".")) {
                     Glide.with(rootView.getContext()).load(R.drawable.profile_basic_image).into(league_Rank_Image_myteam);
                 } else {
-                    Glide.with(rootView.getContext()).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(rootView.getContext()).getBitmapPool()))
+                    Glide.with(rootView.getContext()).load("http://210.122.7.193:8080/Web_basket/imgs/Emblem/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(rootView.getContext()).getBitmapPool()))
                             .into(league_Rank_Image_myteam);
                 }
             } catch (UnsupportedEncodingException e) {
@@ -2683,7 +2466,7 @@ ListView Leauge_myRecord_ListView;
                     String result = "";
                     try {
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/gg/help_download.jsp";
+                        String postURL = "http://210.122.7.193:8080/gg/help_download.jsp";
                         HttpPost post = new HttpPost(postURL);
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                         UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
@@ -2758,7 +2541,7 @@ ListView Leauge_myRecord_ListView;
                     try {
                         result = "";
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/gg/myteam_information_download.jsp";
+                        String postURL = "http://210.122.7.193:8080/gg/myteam_information_download.jsp";
                         HttpPost post = new HttpPost(postURL);
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                         params.add(new BasicNameValuePair("ID", Id));
@@ -2777,7 +2560,7 @@ ListView Leauge_myRecord_ListView;
                         result = "";
 
                         client = new DefaultHttpClient();
-                        postURL = "http://210.122.7.195:8080/gg/team_information_download.jsp";
+                        postURL = "http://210.122.7.193:8080/gg/team_information_download.jsp";
                         post = new HttpPost(postURL);
                         params = new ArrayList<NameValuePair>();
                         params.add(new BasicNameValuePair("Rank_Do", choice_do));
@@ -2805,7 +2588,7 @@ ListView Leauge_myRecord_ListView;
                         if (myteamData[0][4].equals(".")) {
                             Glide.with(rootView.getContext()).load(R.drawable.profile_basic_image).into(league_Rank_Image_myteam);
                         } else {
-                            Glide.with(rootView.getContext()).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(rootView.getContext()).getBitmapPool()))
+                            Glide.with(rootView.getContext()).load("http://210.122.7.193:8080/Web_basket/imgs/Emblem/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(rootView.getContext()).getBitmapPool()))
                                     .into(league_Rank_Image_myteam);
                         }
                     } catch (UnsupportedEncodingException e) {
@@ -2860,7 +2643,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/GameStatusCheck.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/GameStatusCheck.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("SendTeam", Team));
@@ -2915,7 +2698,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/GameStatusCheck.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/GameStatusCheck.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("SendTeam", Team1));
@@ -2948,7 +2731,7 @@ ListView Leauge_myRecord_ListView;
                                                             String result = "";
                                                             try {
                                                                 HttpClient client = new DefaultHttpClient();
-                                                                String postURL = "http://210.122.7.195:8080/Web_basket/Gameing.jsp";
+                                                                String postURL = "http://210.122.7.193:8080/Web_basket/Gameing.jsp";
                                                                 HttpPost post = new HttpPost(postURL);
                                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                                 params.add(new BasicNameValuePair("SendTeam", Team1));
@@ -2988,7 +2771,7 @@ ListView Leauge_myRecord_ListView;
                                                             String result = "";
                                                             try {
                                                                 HttpClient client = new DefaultHttpClient();
-                                                                String postURL = "http://210.122.7.195:8080/Web_basket/GameDelete.jsp";
+                                                                String postURL = "http://210.122.7.193:8080/Web_basket/GameDelete.jsp";
                                                                 HttpPost post = new HttpPost(postURL);
                                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                                 params.add(new BasicNameValuePair("SendTeam", Team1));
@@ -3039,7 +2822,7 @@ ListView Leauge_myRecord_ListView;
                                 String result = "";
                                 try {
                                     HttpClient client = new DefaultHttpClient();
-                                    String postURL = "http://210.122.7.195:8080/Web_basket/GameDelete.jsp";
+                                    String postURL = "http://210.122.7.193:8080/Web_basket/GameDelete.jsp";
                                     HttpPost post = new HttpPost(postURL);
                                     List<NameValuePair> params = new ArrayList<NameValuePair>();
                                     params.add(new BasicNameValuePair("SendTeam", Team1));
@@ -3090,7 +2873,7 @@ ListView Leauge_myRecord_ListView;
                                     String result = "";
                                     try {
                                         HttpClient client = new DefaultHttpClient();
-                                        String postURL = "http://210.122.7.195:8080/Web_basket/Gameing.jsp";
+                                        String postURL = "http://210.122.7.193:8080/Web_basket/Gameing.jsp";
                                         HttpPost post = new HttpPost(postURL);
                                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                                         params.add(new BasicNameValuePair("SendTeam", Team1));
@@ -3154,9 +2937,9 @@ ListView Leauge_myRecord_ListView;
             League_Button_2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view,"점검 중입니다.",Snackbar.LENGTH_SHORT).show();
-                    String a="점검 중";
-                    if(a.equals("점검중입니다.")){
+                  //  Snackbar.make(view,"점검 중입니다.",Snackbar.LENGTH_SHORT).show();
+                    String a="테스트";
+                    if(a.equals("테스트")){
                     TabChoice = "2";
                     League_Layout_1.setVisibility(View.GONE);
                     League_Layout_2.setVisibility(View.VISIBLE);
@@ -3167,7 +2950,7 @@ ListView Leauge_myRecord_ListView;
                         String result = "";
                         try {
                             HttpClient client = new DefaultHttpClient();
-                            String postURL = "http://210.122.7.195:8080/pp/getMyTeamName.jsp";
+                            String postURL = "http://210.122.7.193:8080/pp/getMyTeamName.jsp";
                             HttpPost post = new HttpPost(postURL);
 
                             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -3193,7 +2976,7 @@ ListView Leauge_myRecord_ListView;
                             result = "";
                             try {
                                 HttpClient client = new DefaultHttpClient();
-                                String postURL = "http://210.122.7.195:8080/pp/Leuage_myrecord.jsp";
+                                String postURL = "http://210.122.7.193:8080/pp/Leuage_myrecord.jsp";
                                 HttpPost post = new HttpPost(postURL);
 
                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -3252,7 +3035,7 @@ ListView Leauge_myRecord_ListView;
                    /* String result = "";           //8명 이상일 경우 처리
                     try {
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/Web_basket/GameScoreCheck.jsp";
+                        String postURL = "http://210.122.7.193:8080/Web_basket/GameScoreCheck.jsp";
                         HttpPost post = new HttpPost(postURL);
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
 
@@ -3302,7 +3085,7 @@ ListView Leauge_myRecord_ListView;
                                                 String result = "";
                                                 try {
                                                     HttpClient client = new DefaultHttpClient();
-                                                    String postURL = "http://210.122.7.195:8080/Web_basket/GameScoreCheck.jsp";
+                                                    String postURL = "http://210.122.7.193:8080/Web_basket/GameScoreCheck.jsp";
                                                     HttpPost post = new HttpPost(postURL);
                                                     List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                     params.add(new BasicNameValuePair("SendTeam", Layout_CustomDialog_GameAdd_Button_HomeTeam.getText().toString()));
@@ -3339,7 +3122,7 @@ ListView Leauge_myRecord_ListView;
                                 String result = "";
                                 try {
                                     HttpClient client = new DefaultHttpClient();
-                                    String postURL = "http://210.122.7.195:8080/Web_basket/GameGenerate.jsp";
+                                    String postURL = "http://210.122.7.193:8080/Web_basket/GameGenerate.jsp";
                                     HttpPost post = new HttpPost(postURL);
                                     List<NameValuePair> params = new ArrayList<NameValuePair>();
                                     params.add(new BasicNameValuePair("SendTeam", Team1));
@@ -3372,7 +3155,7 @@ ListView Leauge_myRecord_ListView;
                                                         String result = "";
                                                         try {
                                                             HttpClient client = new DefaultHttpClient();
-                                                            String postURL = "http://210.122.7.195:8080/Web_basket/GameStatusCheck.jsp";
+                                                            String postURL = "http://210.122.7.193:8080/Web_basket/GameStatusCheck.jsp";
                                                             HttpPost post = new HttpPost(postURL);
                                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                             params.add(new BasicNameValuePair("SendTeam", Team1));
@@ -3405,7 +3188,7 @@ ListView Leauge_myRecord_ListView;
                                                                             String result = "";
                                                                             try {
                                                                                 HttpClient client = new DefaultHttpClient();
-                                                                                String postURL = "http://210.122.7.195:8080/Web_basket/Gameing.jsp";
+                                                                                String postURL = "http://210.122.7.193:8080/Web_basket/Gameing.jsp";
                                                                                 HttpPost post = new HttpPost(postURL);
                                                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                                                 params.add(new BasicNameValuePair("SendTeam", Team1));
@@ -3445,7 +3228,7 @@ ListView Leauge_myRecord_ListView;
                                                                             String result = "";
                                                                             try {
                                                                                 HttpClient client = new DefaultHttpClient();
-                                                                                String postURL = "http://210.122.7.195:8080/Web_basket/GameDelete.jsp";
+                                                                                String postURL = "http://210.122.7.193:8080/Web_basket/GameDelete.jsp";
                                                                                 HttpPost post = new HttpPost(postURL);
                                                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                                                 params.add(new BasicNameValuePair("SendTeam", Team1));
@@ -3496,7 +3279,7 @@ ListView Leauge_myRecord_ListView;
                                                 String result = "";
                                                 try {
                                                     HttpClient client = new DefaultHttpClient();
-                                                    String postURL = "http://210.122.7.195:8080/Web_basket/GameDelete.jsp";
+                                                    String postURL = "http://210.122.7.193:8080/Web_basket/GameDelete.jsp";
                                                     HttpPost post = new HttpPost(postURL);
                                                     List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                     params.add(new BasicNameValuePair("SendTeam", Team1));
@@ -3557,7 +3340,7 @@ ListView Leauge_myRecord_ListView;
                             String result = "";
                             try {
                                 HttpClient client = new DefaultHttpClient();
-                                String postURL = "http://210.122.7.195:8080/Web_basket/GameDelete.jsp";
+                                String postURL = "http://210.122.7.193:8080/Web_basket/GameDelete.jsp";
                                 HttpPost post = new HttpPost(postURL);
                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                 params.add(new BasicNameValuePair("SendTeam", Team1));
@@ -3656,7 +3439,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInformation.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
@@ -3714,7 +3497,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInformation.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
@@ -3770,7 +3553,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInformation.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
@@ -3826,7 +3609,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInformation.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
@@ -3882,7 +3665,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInformation.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
@@ -3938,7 +3721,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInformation.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
@@ -3994,7 +3777,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInformation.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
@@ -4050,7 +3833,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInformation.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
@@ -4106,7 +3889,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInformation.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
@@ -4162,7 +3945,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInformation.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
@@ -4218,7 +4001,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInformation.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
@@ -4274,7 +4057,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInformation.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
@@ -4330,7 +4113,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInformation.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
@@ -4386,7 +4169,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInformation.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
@@ -4442,7 +4225,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInformation.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
@@ -4498,7 +4281,7 @@ ListView Leauge_myRecord_ListView;
                                         String result = "";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInformation.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
                                             HttpPost post = new HttpPost(postURL);
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
@@ -4702,7 +4485,7 @@ public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
         private void setData() {
             arrData = new ArrayList<League_Rank_Customlist_Setting>();
             for (int a = 0; a < help_parsedData.length; a++) {
-                arrData.add(new League_Rank_Customlist_Setting(help_parsedData[a][0], help_parsedData[a][1], help_parsedData[a][2], help_parsedData[a][3], help_parsedData[a][4], help_parsedData[a][5]));
+                arrData.add(new League_Rank_Customlist_Setting(help_parsedData[a][0], help_parsedData[a][1], help_parsedData[a][2], help_parsedData[a][3], help_parsedData[a][4], help_parsedData[a][5],Id));
             }
         }
     }
@@ -4775,7 +4558,7 @@ public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
                 if (Profile.equals(".")) {
                     Glide.with(rootView.getContext()).load(R.drawable.profile_basic_image).into(Profile_ImageVIew_Profile);
                 } else {
-                    Glide.with(rootView.getContext()).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(rootView.getContext()).getBitmapPool()))
+                    Glide.with(rootView.getContext()).load("http://210.122.7.193:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(rootView.getContext()).getBitmapPool()))
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .skipMemoryCache(true)
                             .into(Profile_ImageVIew_Profile);
@@ -4790,7 +4573,7 @@ public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
                         String result = "";
                         try {
                             HttpClient client = new DefaultHttpClient();
-                            String postURL = "http://210.122.7.195:8080/Web_basket/Profile_Image.jsp";
+                            String postURL = "http://210.122.7.193:8080/Web_basket/Profile_Image.jsp";
                             HttpPost post = new HttpPost(postURL);
 
                             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -4815,7 +4598,7 @@ public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
                         //무언가 보여달라는 암시적 인텐트 객체 생성하기.
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                         //인텐트에 요청을 덛붙인다.
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        intent.setAction(Intent.ACTION_PICK);
                         //모든 이미지
                         intent.setType("image/*");
                         //결과값을 받아오는 액티비티를 실행한다.
@@ -4843,7 +4626,7 @@ public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
                                 String result = "";
                                 try {
                                     HttpClient client = new DefaultHttpClient();
-                                    String postURL = "http://210.122.7.195:8080/Web_basket/Profile_Image.jsp";
+                                    String postURL = "http://210.122.7.193:8080/Web_basket/Profile_Image.jsp";
                                     HttpPost post = new HttpPost(postURL);
 
                                     List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -4875,7 +4658,7 @@ public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
                                 String result = "";
                                 try {
                                     HttpClient client = new DefaultHttpClient();
-                                    String postURL = "http://210.122.7.195:8080/Web_basket/Profile_Image.jsp";
+                                    String postURL = "http://210.122.7.193:8080/Web_basket/Profile_Image.jsp";
                                     HttpPost post = new HttpPost(postURL);
 
                                     List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -4896,7 +4679,7 @@ public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
                                     //무언가 보여달라는 암시적 인텐트 객체 생성하기.
                                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                                     //인텐트에 요청을 덛붙인다.
-                                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                                    intent.setAction(Intent.ACTION_PICK);
                                     //모든 이미지
                                     intent.setType("image/*");
                                     //결과값을 받아오는 액티비티를 실행한다.
@@ -4919,7 +4702,7 @@ public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
                     String result = "";
                     try {
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/Web_basket/TeamMake_OverLap.jsp";
+                        String postURL = "http://210.122.7.193:8080/Web_basket/TeamMake_OverLap.jsp";
                         HttpPost post = new HttpPost(postURL);
 
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -4954,7 +4737,7 @@ public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
                     String TeamCheck_result = "";
                     try {
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/Web_basket/TeamCheck.jsp";
+                        String postURL = "http://210.122.7.193:8080/Web_basket/TeamCheck.jsp";
                         HttpPost post = new HttpPost(postURL);
 
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -5180,7 +4963,7 @@ public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
                 Log.e("전송", "시~~작 ~~~~~!");
                 //업로드할 서버의 url 주소
                 String urlString = "";
-                urlString = "http://210.122.7.195:8080/Web_basket/Upload_Profile.jsp";
+                urlString = "http://210.122.7.193:8080/Web_basket/Upload_Profile.jsp";
                 //절대경로를 획득한다!!! 중요~
                 Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()), null, null, null, null);
                 c.moveToNext();
@@ -5190,7 +4973,7 @@ public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
                 //파일 업로드 시작!
                 HttpFileUpload(urlString, "", absolutePath);
                 String En_Profile = URLEncoder.encode(Id, "utf-8");
-                Glide.with(MainActivity.this).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(MainActivity.this).getBitmapPool()))
+                Glide.with(MainActivity.this).load("http://210.122.7.193:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(MainActivity.this).getBitmapPool()))
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(Profile_ImageVIew_Profile);

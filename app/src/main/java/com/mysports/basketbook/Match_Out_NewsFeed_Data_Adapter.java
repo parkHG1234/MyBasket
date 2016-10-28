@@ -118,7 +118,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
             if (arrData.get(position).getInformation_Profile().equals(".")) {
                 Glide.with(context).load(R.drawable.profile_basic_image).into(NewsFeed_CustomList_Emblem);
             } else {
-                Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))   .diskCacheStrategy(DiskCacheStrategy.NONE)
+                Glide.with(context).load("http://210.122.7.193:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))   .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(NewsFeed_CustomList_Emblem);
             }
@@ -139,7 +139,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                     if (arrData.get(position).getInformation_Profile().equals("")) {
                         Glide.with(context).load(R.drawable.profile_basic_image).into(Layout_CustomDialog_TeamPlayer_Profile);
                     } else {
-                        Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
+                        Glide.with(context).load("http://210.122.7.193:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
                                 .into(Layout_CustomDialog_TeamPlayer_Profile);
                     }
                     Layout_CustomDialog_TeamPlayer_TeamNameAndDuty.setText(arrData.get(position).getInformation_Team());
@@ -293,7 +293,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
                 String result = "";
                 try {
                     HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_delete.jsp";
+                    String postURL = "http://210.122.7.193:8080/gg/newsfeed_data_delete.jsp";
                     HttpPost post = new HttpPost(postURL);
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
                     params.add(new BasicNameValuePair("NewsFeed_Num", arrData.get(position).getnum()));
@@ -347,7 +347,7 @@ public class Match_Out_NewsFeed_Data_Adapter extends BaseAdapter {
             } else {
                 NewSpeed_ImageView.setVisibility(View.VISIBLE);
                 En_Profile = URLEncoder.encode(String.valueOf(arrData.get(position).getImage()), "utf-8");
-                Glide.with(convertView.getContext()).load("http://210.122.7.195:8080/gg/imgs1/" + En_Profile + ".jpg").thumbnail(0.7f)
+                Glide.with(convertView.getContext()).load("http://210.122.7.193:8080/gg/imgs1/" + En_Profile + ".jpg").thumbnail(0.7f)
                         .into(NewSpeed_ImageView);
             }
         } catch (UnsupportedEncodingException e) {

@@ -14,15 +14,16 @@ public class League_Rank_Customlist_Setting {
     private String TeamAddress_si;
     private String Emblem;
     private String Point;
+    private String Id;
 
-
-    public League_Rank_Customlist_Setting(String rank,String teamname, String TeamAddress_do, String TeamAddress_si, String Emblem, String Point) {
+    public League_Rank_Customlist_Setting(String rank,String teamname, String TeamAddress_do, String TeamAddress_si, String Emblem, String Point,String Id) {
         this.Rank=rank;
         this.TeamName = teamname;
         this.TeamAddress_do = TeamAddress_do;
         this.TeamAddress_si = TeamAddress_si;
         this.Emblem = Emblem;
         this.Point = Point;
+        this.Id = Id;
 
     }
 
@@ -44,5 +45,8 @@ public class League_Rank_Customlist_Setting {
     }
     public String getPoint() {
         return Point;
+    }
+    public String getId(){
+        return Id;
     }
 }

@@ -109,7 +109,7 @@ public class Navigation_TeamManager_TeamMake2 extends Activity implements
             public void onClick(View view) {
                 try {
                     HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/Web_basket/TeamMake.jsp";
+                    String postURL = "http://210.122.7.193:8080/Web_basket/TeamMake.jsp";
                     HttpPost post = new HttpPost(postURL);
 
                     List<NameValuePair> params = new ArrayList<NameValuePair>();

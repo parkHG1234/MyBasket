@@ -94,7 +94,7 @@ public class Match_In_CustomList_MyAdapter extends BaseAdapter {
                 Glide.with(context).load(R.drawable.emblem).bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
                         .into(Match_In_CustomList_Profile);
             } else {
-                Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
+                Glide.with(context).load("http://210.122.7.193:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
                         .into(Match_In_CustomList_Profile);
             }
         } catch (UnsupportedEncodingException e) {
@@ -157,7 +157,7 @@ public class Match_In_CustomList_MyAdapter extends BaseAdapter {
                 String result="";
                 try {
                     HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/Web_basket/Match_In_Delete.jsp";
+                    String postURL = "http://210.122.7.193:8080/Web_basket/Match_In_Delete.jsp";
                     HttpPost post = new HttpPost(postURL);
 
                     List<NameValuePair> params = new ArrayList<NameValuePair>();

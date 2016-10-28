@@ -87,7 +87,7 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
         String result="";
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/Web_basket/Navi_TeamIntro_Focus.jsp";
+            String postURL = "http://210.122.7.193:8080/Web_basket/Navi_TeamIntro_Focus.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -136,7 +136,7 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
                 TeamIntro_ImageView_Image1.setVisibility(View.GONE);
             }
             else{
-                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image1 + ".jpg").diskCacheStrategy(DiskCacheStrategy.NONE)
+                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.193:8080/Web_basket/imgs/Team/" + En_Image1 + ".jpg").diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(TeamIntro_ImageView_Image1);
             }
@@ -145,7 +145,7 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
                 TeamIntro_ImageView_Image2.setVisibility(View.GONE);
             }
             else{
-                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image2 + ".jpg").diskCacheStrategy(DiskCacheStrategy.NONE)
+                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.193:8080/Web_basket/imgs/Team/" + En_Image2 + ".jpg").diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(TeamIntro_ImageView_Image2);
             }
@@ -154,7 +154,7 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
                 TeamIntro_ImageView_Image3.setVisibility(View.GONE);
             }
             else{
-                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/" + En_Image3 + ".jpg").diskCacheStrategy(DiskCacheStrategy.NONE)
+                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.193:8080/Web_basket/imgs/Team/" + En_Image3 + ".jpg").diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(TeamIntro_ImageView_Image3);
             }
@@ -164,7 +164,7 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
                         .into(TeamIntro_Foucs_ImageView_Emblem);
             }
             else{
-                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(Navigation_TeamIntro_Focus.this).getBitmapPool())).diskCacheStrategy(DiskCacheStrategy.NONE)
+                Glide.with(Navigation_TeamIntro_Focus.this).load("http://210.122.7.193:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(Navigation_TeamIntro_Focus.this).getBitmapPool())).diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(TeamIntro_Foucs_ImageView_Emblem);
             }
@@ -184,7 +184,7 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
                 String result="";
                 try {
                     HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/Web_basket/Navi_TeamIntro_Focus_OverLap.jsp";
+                    String postURL = "http://210.122.7.193:8080/Web_basket/Navi_TeamIntro_Focus_OverLap.jsp";
                     HttpPost post = new HttpPost(postURL);
 
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -210,7 +210,7 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
                     String result_join="";
                     try {
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/Web_basket/Navi_TeamIntro_Focus_Join.jsp";
+                        String postURL = "http://210.122.7.193:8080/Web_basket/Navi_TeamIntro_Focus_Join.jsp";
                         HttpPost post = new HttpPost(postURL);
 
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -245,7 +245,7 @@ public class Navigation_TeamIntro_Focus extends AppCompatActivity {
         String result_Player="";
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/Web_basket/NaviTeamInfo_Player.jsp";
+            String postURL = "http://210.122.7.193:8080/Web_basket/NaviTeamInfo_Player.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();

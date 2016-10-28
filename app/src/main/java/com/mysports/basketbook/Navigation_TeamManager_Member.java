@@ -81,7 +81,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
         String result="";
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/Web_basket/NaviTeamManager_TeamPlayer.jsp";
+            String postURL = "http://210.122.7.193:8080/Web_basket/NaviTeamManager_TeamPlayer.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -113,7 +113,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
         result="";
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/Web_basket/NaviTeamManager_Joiner.jsp";
+            String postURL = "http://210.122.7.193:8080/Web_basket/NaviTeamManager_Joiner.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -199,7 +199,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                         String result="";
                         try {
                             HttpClient client = new DefaultHttpClient();
-                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamManager_ModifyDuty.jsp";
+                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamManager_ModifyDuty.jsp";
                             HttpPost post = new HttpPost(postURL);
 
                             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -292,7 +292,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                                         String result="";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamManager_ModifyDuty_Modified.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamManager_ModifyDuty_Modified.jsp";
                                             HttpPost post = new HttpPost(postURL);
 
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -339,7 +339,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                                 String result="";
                                 try {
                                     HttpClient client = new DefaultHttpClient();
-                                    String postURL = "http://210.122.7.195:8080/Web_basket/TeamManager_ModifyDuty_Entrust.jsp";
+                                    String postURL = "http://210.122.7.193:8080/Web_basket/TeamManager_ModifyDuty_Entrust.jsp";
                                     HttpPost post = new HttpPost(postURL);
 
                                     List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -386,7 +386,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                                         String TeamPlayer_Delete_result="";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamPlayer_Delete.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamPlayer_Delete.jsp";
                                             HttpPost post = new HttpPost(postURL);
 
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -483,7 +483,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                         String result="";
                         try {
                             HttpClient client = new DefaultHttpClient();
-                            String postURL = "http://210.122.7.195:8080/Web_basket/NaviTeamManager_Joiner_Allow.jsp";
+                            String postURL = "http://210.122.7.193:8080/Web_basket/NaviTeamManager_Joiner_Allow.jsp";
                             HttpPost post = new HttpPost(postURL);
 
                             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -515,7 +515,7 @@ public class Navigation_TeamManager_Member extends AppCompatActivity{
                         String result_refuse="";
                         try {
                             HttpClient client = new DefaultHttpClient();
-                            String postURL = "http://210.122.7.195:8080/Web_basket/NaviTeamManager_Joiner_Refuse.jsp";
+                            String postURL = "http://210.122.7.193:8080/Web_basket/NaviTeamManager_Joiner_Refuse.jsp";
                             HttpPost post = new HttpPost(postURL);
 
                             List<NameValuePair> params = new ArrayList<NameValuePair>();

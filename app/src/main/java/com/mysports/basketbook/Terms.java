@@ -24,6 +24,6 @@ public class Terms extends Activity{
         WebSettings webSettings = WebView01.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        WebView01.loadUrl("http://210.122.7.195:8080/pp/term.jsp");
+        WebView01.loadUrl("http://210.122.7.193:8080/pp/term.jsp");
     }
 }

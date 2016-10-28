@@ -99,7 +99,7 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
         if (ProfileImage.equals(".")) {
             Glide.with(context).load(R.drawable.profile_basic_image).into(NewSpeed_Comment_List_Emblem);
         } else {
-            Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + ProfileImage + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
+            Glide.with(context).load("http://210.122.7.193:8080/Web_basket/imgs/Profile/" + ProfileImage + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
                     .into(NewSpeed_Comment_List_Emblem);
         }
         Layout_Match_Out_NewsFeed_Comment_data_root = (LinearLayout)convertView.findViewById(R.id.Layout_Match_Out_NewsFeed_Comment_data_root);
@@ -143,7 +143,7 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
                                 try {
                                     if(ID.equals(arrComment.get(position).getcomment_user())) {
                                         HttpClient client = new DefaultHttpClient();
-                                        String postURL = "http://210.122.7.195:8080/gg/newsfeed_comment_delete.jsp";
+                                        String postURL = "http://210.122.7.193:8080/gg/newsfeed_comment_delete.jsp";
                                         HttpPost post = new HttpPost(postURL);
                                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                                         params.add(new BasicNameValuePair("Comment_Num", arrComment.get(position).getcomment_num()));
@@ -151,7 +151,7 @@ public class Match_Out_NewsFeed_Comment_Adapter extends BaseAdapter {
                                         UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                                         post.setEntity(ent);
                                         HttpResponse response = client.execute(post);
-                                        postURL = "http://210.122.7.195:8080/gg/newsfeed_comment_download.jsp";
+                                        postURL = "http://210.122.7.193:8080/gg/newsfeed_comment_download.jsp";
                                         post = new HttpPost(postURL);
                                         params = new ArrayList<NameValuePair>();
                                         params.add(new BasicNameValuePair("NewsFeed_Num", arrComment.get(position).getnewsfeed_num()));

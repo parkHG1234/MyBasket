@@ -72,7 +72,7 @@ public class start extends AppCompatActivity {
         String result = "";
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/gg/versioncheck_download.jsp";
+            String postURL = "http://210.122.7.193:8080/gg/versioncheck_download.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);

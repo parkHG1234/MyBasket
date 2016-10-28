@@ -291,7 +291,7 @@ public class JoinAddActivity extends AppCompatActivity{
     private String JoinByHttp(String _id, String _pw, String _user_type, String _name, String _sex,String _birth, String _posi, String _weight, String _height) {
         try {
             HttpClient client = new DefaultHttpClient();
-            String url = "http://210.122.7.195:8080/pp/Join.jsp";
+            String url = "http://210.122.7.193:8080/pp/Join.jsp";
             HttpPost post = new HttpPost(url);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();

@@ -147,7 +147,7 @@ public class KakaoSignupActivity extends Activity{
     private String SendByHttp(String id) {
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/pp/CheckJoinedId.jsp";
+            String postURL = "http://210.122.7.193:8080/pp/CheckJoinedId.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();

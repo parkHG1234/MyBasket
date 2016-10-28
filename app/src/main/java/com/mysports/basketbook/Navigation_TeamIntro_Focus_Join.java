@@ -87,7 +87,7 @@ public class Navigation_TeamIntro_Focus_Join extends Activity{
             String En_Emblem = URLEncoder.encode(Emblem, "utf-8");
             if(!Emblem.equals(""))
             {
-                ImageUrl4 = "http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg";
+                ImageUrl4 = "http://210.122.7.193:8080/Web_basket/imgs/Emblem/" + En_Emblem + ".jpg";
                 back4 task4 = new back4();
                 task4.execute(ImageUrl4);
             }
@@ -104,7 +104,7 @@ public class Navigation_TeamIntro_Focus_Join extends Activity{
                 String result="";
                 try {
                     HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/Web_basket/Navi_TeamIntro_Focus_Join.jsp";
+                    String postURL = "http://210.122.7.193:8080/Web_basket/Navi_TeamIntro_Focus_Join.jsp";
                     HttpPost post = new HttpPost(postURL);
 
                     List<NameValuePair> params = new ArrayList<NameValuePair>();

@@ -69,7 +69,7 @@ public class TeamInfo extends Activity {
         String result="";
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/Web_basket/TeamInfo.jsp";
+            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInfo.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -115,13 +115,13 @@ public class TeamInfo extends Activity {
             String Image1Url = "";
             back1 task1 = new back1();
             task1.execute(Image1Url);
-            Glide.with(TeamInfo.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/"+En_Image1+".jpg")
+            Glide.with(TeamInfo.this).load("http://210.122.7.193:8080/Web_basket/imgs/Team/"+En_Image1+".jpg")
                     .into(TeamInfo_ImageView_Image1);
-            Glide.with(TeamInfo.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/"+En_Image2+".jpg")
+            Glide.with(TeamInfo.this).load("http://210.122.7.193:8080/Web_basket/imgs/Team/"+En_Image2+".jpg")
                     .into(TeamInfo_ImageView_Image2);
-            Glide.with(TeamInfo.this).load("http://210.122.7.195:8080/Web_basket/imgs/Team/"+En_Image3+".jpg")
+            Glide.with(TeamInfo.this).load("http://210.122.7.193:8080/Web_basket/imgs/Team/"+En_Image3+".jpg")
                     .into(TeamInfo_ImageView_Image3);
-            Glide.with(TeamInfo.this).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/"+En_Emblem+".jpg")
+            Glide.with(TeamInfo.this).load("http://210.122.7.193:8080/Web_basket/imgs/Emblem/"+En_Emblem+".jpg")
                     .into(TeamInfo_ImageView_Emblem);
         }catch (UnsupportedEncodingException e){
 

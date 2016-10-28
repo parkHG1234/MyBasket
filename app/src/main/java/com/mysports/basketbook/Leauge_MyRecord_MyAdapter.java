@@ -86,13 +86,13 @@ public class Leauge_MyRecord_MyAdapter extends BaseAdapter {
                 if (homeEmblem.equals(".")) {
                     Glide.with(convertView.getContext()).load(R.drawable.profile_basic_image).into(Leauge_MyRecord_Image_HomeTeam);
                 } else {
-                    Glide.with(convertView.getContext()).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Profile_home + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(convertView.getContext()).getBitmapPool()))
+                    Glide.with(convertView.getContext()).load("http://210.122.7.193:8080/Web_basket/imgs/Emblem/" + En_Profile_home + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(convertView.getContext()).getBitmapPool()))
                             .into(Leauge_MyRecord_Image_HomeTeam);
                 }
                 if (awayEmblem.equals(".")) {
                     Glide.with(convertView.getContext()).load(R.drawable.profile_basic_image).into(Leauge_MyRecord_Image_AwayTeam);
                 } else {
-                    Glide.with(convertView.getContext()).load("http://210.122.7.195:8080/Web_basket/imgs/Emblem/" + En_Profile_away + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(convertView.getContext()).getBitmapPool()))
+                    Glide.with(convertView.getContext()).load("http://210.122.7.193:8080/Web_basket/imgs/Emblem/" + En_Profile_away + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(convertView.getContext()).getBitmapPool()))
                             .into(Leauge_MyRecord_Image_AwayTeam);
                 }
 

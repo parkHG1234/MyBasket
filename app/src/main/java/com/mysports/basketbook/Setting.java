@@ -126,7 +126,7 @@ public class Setting extends Activity {
         String result = "";
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/Web_basket/Gcm_IdAdd_Alarm.jsp";
+            String postURL = "http://210.122.7.193:8080/Web_basket/Gcm_IdAdd_Alarm.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -186,7 +186,7 @@ public class Setting extends Activity {
 
                     try {
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/gg/notice_download.jsp";
+                        String postURL = "http://210.122.7.193:8080/gg/notice_download.jsp";
                         HttpPost post = new HttpPost(postURL);
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                         UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
@@ -240,7 +240,7 @@ public class Setting extends Activity {
 
                 try {
                     HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/gg/recommend_upload.jsp";
+                    String postURL = "http://210.122.7.193:8080/gg/recommend_upload.jsp";
                     HttpPost post = new HttpPost(postURL);
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
                     params.add(new BasicNameValuePair("recommend", String.valueOf(recommend_EditText.getText())));
@@ -277,7 +277,7 @@ public class Setting extends Activity {
                     String Alarm_off_result = "";
                     try {
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/Web_basket/Alarm.jsp";
+                        String postURL = "http://210.122.7.193:8080/Web_basket/Alarm.jsp";
                         HttpPost post = new HttpPost(postURL);
 
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -306,7 +306,7 @@ public class Setting extends Activity {
                     String Alarm_on_result = "";
                     try {
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/Web_basket/Alarm.jsp";
+                        String postURL = "http://210.122.7.193:8080/Web_basket/Alarm.jsp";
                         HttpPost post = new HttpPost(postURL);
 
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -348,7 +348,7 @@ public class Setting extends Activity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         try {
                             HttpClient client = new DefaultHttpClient();
-                            String postURL = "http://210.122.7.195:8080/gg/user_dropout.jsp";
+                            String postURL = "http://210.122.7.193:8080/gg/user_dropout.jsp";
                             HttpPost post = new HttpPost(postURL);
                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                             params.add(new BasicNameValuePair("Dropout_Id", Id));
@@ -409,7 +409,7 @@ public class Setting extends Activity {
                 /*String Dropout_result = "";
                 try {
                     HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/gg/dropout_confirm.jsp";
+                    String postURL = "http://210.122.7.193:8080/gg/dropout_confirm.jsp";
                     HttpPost post = new HttpPost(postURL);
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
                     params.add(new BasicNameValuePair("Dropout_Id", Id));

@@ -141,8 +141,8 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                 flag = true;
                 ImageFile = DataIntent.getExtras().getString("Image");
                 String En_Profile = URLEncoder.encode(DataIntent.getExtras().getString("Image"), "utf-8");
-                Glide.with(getApplicationContext()).load("http://210.122.7.195:8080/gg/imgs1/" + DataIntent.getExtras().getString("Image") + ".jpg").into(NewsFeed_Camera_Image);
-                ImageURL = String.valueOf("http://210.122.7.195:8080/gg/imgs1/" + DataIntent.getExtras().getString("Image") + ".jpg");
+                Glide.with(getApplicationContext()).load("http://210.122.7.193:8080/gg/imgs1/" + DataIntent.getExtras().getString("Image") + ".jpg").into(NewsFeed_Camera_Image);
+                ImageURL = String.valueOf("http://210.122.7.193:8080/gg/imgs1/" + DataIntent.getExtras().getString("Image") + ".jpg");
             }
         } catch (UnsupportedEncodingException e) {
         }
@@ -244,7 +244,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                             String result = "";
                                             try {
                                                 HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                String postURL = "http://210.122.7.193:8080/gg/CourtInformation.jsp";
                                                 HttpPost post = new HttpPost(postURL);
                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
@@ -300,7 +300,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                             String result = "";
                                             try {
                                                 HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                String postURL = "http://210.122.7.193:8080/gg/CourtInformation.jsp";
                                                 HttpPost post = new HttpPost(postURL);
                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
@@ -356,7 +356,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                             String result = "";
                                             try {
                                                 HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                String postURL = "http://210.122.7.193:8080/gg/CourtInformation.jsp";
                                                 HttpPost post = new HttpPost(postURL);
                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
@@ -412,7 +412,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                             String result = "";
                                             try {
                                                 HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                String postURL = "http://210.122.7.193:8080/gg/CourtInformation.jsp";
                                                 HttpPost post = new HttpPost(postURL);
                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
@@ -468,7 +468,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                             String result = "";
                                             try {
                                                 HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                String postURL = "http://210.122.7.193:8080/gg/CourtInformation.jsp";
                                                 HttpPost post = new HttpPost(postURL);
                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
@@ -524,7 +524,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                             String result = "";
                                             try {
                                                 HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                String postURL = "http://210.122.7.193:8080/gg/CourtInformation.jsp";
                                                 HttpPost post = new HttpPost(postURL);
                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
@@ -580,7 +580,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                             String result = "";
                                             try {
                                                 HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                String postURL = "http://210.122.7.193:8080/gg/CourtInformation.jsp";
                                                 HttpPost post = new HttpPost(postURL);
                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
@@ -636,7 +636,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                             String result = "";
                                             try {
                                                 HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                String postURL = "http://210.122.7.193:8080/gg/CourtInformation.jsp";
                                                 HttpPost post = new HttpPost(postURL);
                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
@@ -692,7 +692,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                             String result = "";
                                             try {
                                                 HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                String postURL = "http://210.122.7.193:8080/gg/CourtInformation.jsp";
                                                 HttpPost post = new HttpPost(postURL);
                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
@@ -748,7 +748,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                             String result = "";
                                             try {
                                                 HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                String postURL = "http://210.122.7.193:8080/gg/CourtInformation.jsp";
                                                 HttpPost post = new HttpPost(postURL);
                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
@@ -804,7 +804,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                             String result = "";
                                             try {
                                                 HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                String postURL = "http://210.122.7.193:8080/gg/CourtInformation.jsp";
                                                 HttpPost post = new HttpPost(postURL);
                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
@@ -860,7 +860,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                             String result = "";
                                             try {
                                                 HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                String postURL = "http://210.122.7.193:8080/gg/CourtInformation.jsp";
                                                 HttpPost post = new HttpPost(postURL);
                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
@@ -916,7 +916,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                             String result = "";
                                             try {
                                                 HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                String postURL = "http://210.122.7.193:8080/gg/CourtInformation.jsp";
                                                 HttpPost post = new HttpPost(postURL);
                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
@@ -972,7 +972,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                             String result = "";
                                             try {
                                                 HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                String postURL = "http://210.122.7.193:8080/gg/CourtInformation.jsp";
                                                 HttpPost post = new HttpPost(postURL);
                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
@@ -1028,7 +1028,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                             String result = "";
                                             try {
                                                 HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                String postURL = "http://210.122.7.193:8080/gg/CourtInformation.jsp";
                                                 HttpPost post = new HttpPost(postURL);
                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
@@ -1084,7 +1084,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                                             String result = "";
                                             try {
                                                 HttpClient client = new DefaultHttpClient();
-                                                String postURL = "http://210.122.7.195:8080/gg/CourtInformation.jsp";
+                                                String postURL = "http://210.122.7.193:8080/gg/CourtInformation.jsp";
                                                 HttpPost post = new HttpPost(postURL);
                                                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                                                 params.add(new BasicNameValuePair("NewsFeed_Do", (String) adspin1.getItem(spinnum1)));
@@ -1173,7 +1173,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
                 if (enabled) {
                     try {
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/gg/newsfeed_data_modify.jsp";
+                        String postURL = "http://210.122.7.193:8080/gg/newsfeed_data_modify.jsp";
                         HttpPost post = new HttpPost(postURL);
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                         params.add(new BasicNameValuePair("NewsFeed_Num", (DataIntent.getExtras().getString("Num"))));
@@ -1192,7 +1192,7 @@ public class Match_Out_NewsFeed_Data_Modify extends Activity {
 
                         if (flag) {
                             params.add(new BasicNameValuePair("NewsFeed_Image", ImageFile));
-                            String urlString = "http://210.122.7.195:8080/gg/newsfeed_Image_upload.jsp";
+                            String urlString = "http://210.122.7.193:8080/gg/newsfeed_Image_upload.jsp";
                             //파일 업로드 시작!
                             HttpFileUpload(urlString, "", ImageURL);
                         } else {

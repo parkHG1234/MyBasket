@@ -22,7 +22,7 @@ public class Profile_Focus extends AppCompatActivity {
 //                Glide.with(Profile_Focus.this).load(R.drawable.profile_basic_image).into(Profile_Focus_ImageVIew);
 //            }
 //            else{
-//                Glide.with(Profile_Focus.this).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg")
+//                Glide.with(Profile_Focus.this).load("http://210.122.7.193:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg")
 //                        .into(Profile_Focus_ImageVIew);
 //
 //            }

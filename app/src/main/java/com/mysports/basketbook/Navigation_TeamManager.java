@@ -58,7 +58,7 @@ public class Navigation_TeamManager extends AppCompatActivity {
         String TeamCheck_result="";
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/Web_basket/TeamCheck.jsp";
+            String postURL = "http://210.122.7.193:8080/Web_basket/TeamCheck.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -89,7 +89,7 @@ public class Navigation_TeamManager extends AppCompatActivity {
             String result="";
             try {
                 HttpClient client = new DefaultHttpClient();
-                String postURL = "http://210.122.7.195:8080/Web_basket/TeamManager.jsp";
+                String postURL = "http://210.122.7.193:8080/Web_basket/TeamManager.jsp";
                 HttpPost post = new HttpPost(postURL);
 
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -197,7 +197,7 @@ public class Navigation_TeamManager extends AppCompatActivity {
                                         String result="";
                                         try {
                                             HttpClient client = new DefaultHttpClient();
-                                            String postURL = "http://210.122.7.195:8080/Web_basket/TeamManager_WithDraw.jsp";
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamManager_WithDraw.jsp";
                                             HttpPost post = new HttpPost(postURL);
 
                                             List<NameValuePair> params = new ArrayList<NameValuePair>();

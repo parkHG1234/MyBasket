@@ -122,13 +122,13 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
         if (Comment_Emblem.equals(".")) {
             Glide.with(getApplicationContext()).load(R.drawable.profile_basic_image).into(NewsFeed_Comment_Emblem);
         } else {
-            Glide.with(getApplicationContext()).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + Comment_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(getApplicationContext()).getBitmapPool()))
+            Glide.with(getApplicationContext()).load("http://210.122.7.193:8080/Web_basket/imgs/Profile/" + Comment_Emblem + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(getApplicationContext()).getBitmapPool()))
                     .into(NewsFeed_Comment_Emblem);
         }
         String result_CourtInfo="";
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/Web_basket/CourtInfo.jsp";
+            String postURL = "http://210.122.7.193:8080/Web_basket/CourtInfo.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -205,19 +205,19 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
             String En_Image3 = URLEncoder.encode(Image3, "utf-8");
             String En_Image4 = URLEncoder.encode(Image4, "utf-8");
             String En_Image5 = URLEncoder.encode(Image5, "utf-8");
-            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image1+".jpg") .diskCacheStrategy(DiskCacheStrategy.NONE)
+            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.193:8080/gg/imgs1/"+En_Image1+".jpg") .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(CourtInfo_Nav_Img1);
-            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image2+".jpg") .diskCacheStrategy(DiskCacheStrategy.NONE)
+            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.193:8080/gg/imgs1/"+En_Image2+".jpg") .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(CourtInfo_Nav_Img2);
-            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image3+".jpg") .diskCacheStrategy(DiskCacheStrategy.NONE)
+            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.193:8080/gg/imgs1/"+En_Image3+".jpg") .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(CourtInfo_Nav_Img3);
-            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image4+".jpg") .diskCacheStrategy(DiskCacheStrategy.NONE)
+            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.193:8080/gg/imgs1/"+En_Image4+".jpg") .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(CourtInfo_Nav_Img4);
-            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.195:8080/gg/imgs1/"+En_Image5+".jpg") .diskCacheStrategy(DiskCacheStrategy.NONE)
+            Glide.with(Match_Out_NewsFeed_Comment.this).load("http://210.122.7.193:8080/gg/imgs1/"+En_Image5+".jpg") .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(CourtInfo_Nav_Img5);
         }catch (UnsupportedEncodingException e){
@@ -239,7 +239,7 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
         try {
             En_Profile = URLEncoder.encode(CommentIntent.getExtras().getString("Image"), "utf-8");
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.195:8080/gg/newsfeed_comment_download.jsp";
+            String postURL = "http://210.122.7.193:8080/gg/newsfeed_comment_download.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("NewsFeed_Num", NewsFeed_Num));
@@ -268,7 +268,7 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
                 if(!(NewsFeed_Comment_EditText.getText().equals("null"))){
                     try {
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.195:8080/gg/newsfeed_comment_upload.jsp";HttpPost post = new HttpPost(postURL);
+                        String postURL = "http://210.122.7.193:8080/gg/newsfeed_comment_upload.jsp";HttpPost post = new HttpPost(postURL);
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                         params.add(new BasicNameValuePair("NewsFeed_Num", NewsFeed_Num));
                         params.add(new BasicNameValuePair("Comment_User",Comment_User ));
@@ -284,7 +284,7 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
                         BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
 
                         client = new DefaultHttpClient();
-                        postURL = "http://210.122.7.195:8080/gg/newsfeed_comment_download.jsp";
+                        postURL = "http://210.122.7.193:8080/gg/newsfeed_comment_download.jsp";
                         post = new HttpPost(postURL);
                         params.add(new BasicNameValuePair("NewsFeed_Num", NewsFeed_Num));
                         ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
@@ -313,7 +313,7 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
 //            NewSpeed_Comment_ImageView.setVisibility(View.GONE);
 //        } else {
 //            NewSpeed_Comment_ImageView.setVisibility(View.GONE);
-//            Glide.with(getApplicationContext()).load("http://210.122.7.195:8080/gg/imgs1/" + En_Profile + ".jpg").into(NewSpeed_Comment_ImageView);
+//            Glide.with(getApplicationContext()).load("http://210.122.7.193:8080/gg/imgs1/" + En_Profile + ".jpg").into(NewSpeed_Comment_ImageView);
 //            Log.i("data_adapter",En_Profile);
 //        }
     }

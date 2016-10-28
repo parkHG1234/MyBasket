@@ -45,7 +45,7 @@ package com.mysports.basketbook;//package com.mysports.playbasket;
 ////갤러리 호출
 //                                Uri uri = Uri.parse("content://media/external/images/media");
 //                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//                                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                                intent.setAction(Intent.ACTION_PICK);
 //                                intent.setType("image/*");
 //                                startActivityForResult(intent, REQ_SELECT);
 //                            } else if (item == 1) {

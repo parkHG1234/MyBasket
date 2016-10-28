@@ -69,7 +69,7 @@ public class Match_In_Focus_Player_MyAdapter extends BaseAdapter{
                         .into(Match_In_Focus_Player_CustomList_ProfileImage);
             }
             else{
-                Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
+                Glide.with(context).load("http://210.122.7.193:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(Match_In_Focus_Player_CustomList_ProfileImage);
@@ -94,7 +94,7 @@ public class Match_In_Focus_Player_MyAdapter extends BaseAdapter{
             }
             else
             {
-                Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
+                Glide.with(context).load("http://210.122.7.193:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
                         .into(Layout_CustomDialog_TeamPlayer_Profile);
             }
         }

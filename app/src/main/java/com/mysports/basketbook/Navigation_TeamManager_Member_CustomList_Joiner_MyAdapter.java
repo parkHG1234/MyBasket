@@ -68,7 +68,7 @@ public class Navigation_TeamManager_Member_CustomList_Joiner_MyAdapter extends B
             }
             else
             {
-                Glide.with(context).load("http://210.122.7.195:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
+                Glide.with(context).load("http://210.122.7.193:8080/Web_basket/imgs/Profile/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(JoinerProfile);
@@ -86,7 +86,7 @@ public class Navigation_TeamManager_Member_CustomList_Joiner_MyAdapter extends B
                 String result="";
                 try {
                     HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/Web_basket/NaviTeamManager_Joiner_Allow.jsp";
+                    String postURL = "http://210.122.7.193:8080/Web_basket/NaviTeamManager_Joiner_Allow.jsp";
                     HttpPost post = new HttpPost(postURL);
 
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -120,7 +120,7 @@ public class Navigation_TeamManager_Member_CustomList_Joiner_MyAdapter extends B
                 String result="";
                 try {
                     HttpClient client = new DefaultHttpClient();
-                    String postURL = "http://210.122.7.195:8080/Web_basket/NaviTeamManager_Joiner_Refuse.jsp";
+                    String postURL = "http://210.122.7.193:8080/Web_basket/NaviTeamManager_Joiner_Refuse.jsp";
                     HttpPost post = new HttpPost(postURL);
 
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
