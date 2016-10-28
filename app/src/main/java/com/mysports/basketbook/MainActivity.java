@@ -77,6 +77,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
     static String yourTeamStatus = "reset";
     static String Approach="";
     static String NewsFeed_Num="";
+    static String now_Date="";
     static String realTime = "";
     static String Team1 = "";
     static int MaxNum_out;
@@ -106,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     //게임 관련 선언
     static LinearLayout League_Layout_1, League_Layout_2;
+    static String[][] recommendparsedData;
     static String[][] parsedData_BasicSetting;
     static String[][] parsedData_gameStatus;
     static String[][] parsedData_gameRefuse;
@@ -153,6 +156,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);*/
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+// 현재 날짜
+        Calendar cal = Calendar.getInstance();
+        DateFormat formatter1 = DateFormat.getDateInstance(DateFormat.DEFAULT);
+        formatter1.setTimeZone(cal.getTimeZone());
+        now_Date = formatter1.format(cal.getTime());
+        ////////////////
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -264,6 +273,63 @@ public class MainActivity extends AppCompatActivity {
             Log.i("실패", "실패");
         }
         ///////////////////////////////////////////////////////////////////
+
+        ////////////////////////////////건의사항 체크소스/////////////////////////////////////////////////
+
+        result = "";
+        try {
+            HttpClient client = new DefaultHttpClient();
+            String postURL = "http://210.122.7.193:8080/gg/recommend_download.jsp";
+            HttpPost post = new HttpPost(postURL);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("User_Id", Id));
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+            String line = null;
+            while ((line = bufreader.readLine()) != null) {
+                result += line;
+            }
+            recommendparsedData = recommend_jsonParserList(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            if (!(recommendparsedData[0][0].equals(null))) {
+                final MaterialDialog recommendDialog = new MaterialDialog(MainActivity.this);
+                recommendDialog
+                        .setTitle("건의사항답변")
+                        .setMessage(recommendparsedData[0][0])
+                        .setPositiveButton("확인", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                recommendDialog.dismiss();
+                                try {
+                                    HttpClient client = new DefaultHttpClient();
+                                    String postURL = "http://210.122.7.193:8080/gg/recommend_delete.jsp";
+                                    HttpPost post = new HttpPost(postURL);
+                                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                    params.add(new BasicNameValuePair("User_Id", Id));
+                                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                    post.setEntity(ent);
+                                    HttpResponse response = null;
+                                    response = client.execute(post);
+                                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                recommendDialog.show();
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////
+
         String result_profile = "";
         try {
             HttpClient client = new DefaultHttpClient();
@@ -509,6 +575,7 @@ public class MainActivity extends AppCompatActivity {
                                        params.add(new BasicNameValuePair("hometeamScore", HomeScore));
                                        params.add(new BasicNameValuePair("awayteamScore", AwayScore));
                                        params.add(new BasicNameValuePair("myteam", parsedData_Profile[0][6]));
+                                       params.add(new BasicNameValuePair("Date", now_Date));
                                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                                        post.setEntity(ent);
                                        HttpResponse response = client.execute(post);
@@ -528,7 +595,7 @@ public class MainActivity extends AppCompatActivity {
            }
         }
         if(Approach.equals("comment")) {
-            Log.i("test","ssss");
+            Log.i("test",NewsFeed_Num);
             try {
                 HttpClient client = new DefaultHttpClient();
                 String postURL = "http://210.122.7.193:8080/pp/Comment_Direct.jsp";
@@ -572,7 +639,27 @@ public class MainActivity extends AppCompatActivity {
             startActivity(CommentIntent);
         }
     }
+////건의사항 체크 파서리스트
+public String[][] recommend_jsonParserList(String pRecvServerPage) {
+    Log.i("recommend에서 받은 전체 내용", pRecvServerPage);
+    try {
+        JSONObject json = new JSONObject(pRecvServerPage);
+        JSONArray jArr = json.getJSONArray("List");
 
+        String[] jsonName = {"recommend_answer"};
+        json = new JSONObject(pRecvServerPage);
+        recommendparsedData = new String[jArr.length()][jsonName.length];
+        for (int i = 0; i < jArr.length(); i++) {
+            json = jArr.getJSONObject(i);
+            for (int j = 0; j < jsonName.length; j++) {
+                recommendparsedData[i][j] = json.getString(jsonName[j]);
+            }
+        }
+        return recommendparsedData;
+    } catch (JSONException e) {
+        return null;
+    }
+}
     ///////game상태 접근법 파서
     /////프로필 탭 사용자정보를 파싱합니다.//////////////////////////////////////////////////////////
     public String[][] jsonParserList_GameStatus(String pRecvServerPage) {
@@ -2046,7 +2133,7 @@ public class MainActivity extends AppCompatActivity {
         String Do, Si, Team;
         int spinnum1, spinnum2, spinnum3;
         ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
-        String[][] parsedData, parsedData_gameGenerate, parsedData_gameDelete, parsedData_gameStatus, parsedData_gameScoreAdd;
+        String[][] parsedData, parsedData_gameGenerate, parsedData_gameDelete, parsedData_gameStatus, parsedData_gameScoreAdd,parsedData_TeamPersonCount;
         ArrayList arr;
         static TimerTask myTask;
         static Timer timer;
@@ -2796,6 +2883,7 @@ ListView Leauge_myRecord_ListView;
                                                                         League_Button_YourTeam.setText("팀 찾기");
                                                                         League_Button_YourTeam.setEnabled(true);
                                                                         League_Button_Start.setText("시합신청");
+                                                                        League_Button_Start.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                                                                     }
                                                                 });
                                                             }
@@ -2847,6 +2935,7 @@ ListView Leauge_myRecord_ListView;
                                             League_Button_YourTeam.setText("팀 찾기");
                                             League_Button_YourTeam.setEnabled(true);
                                             League_Button_Start.setText("시합신청");
+                                            League_Button_Start.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                                         }
                                     });
                                 }
@@ -2937,8 +3026,8 @@ ListView Leauge_myRecord_ListView;
             League_Button_2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                  //  Snackbar.make(view,"점검 중입니다.",Snackbar.LENGTH_SHORT).show();
-                    String a="테스트";
+                    Snackbar.make(view,"점검 중입니다.",Snackbar.LENGTH_SHORT).show();
+                    String a="점거중";
                     if(a.equals("테스트")){
                     TabChoice = "2";
                     League_Layout_1.setVisibility(View.GONE);
@@ -3032,10 +3121,10 @@ ListView Leauge_myRecord_ListView;
             League_Button_Start.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   /* String result = "";           //8명 이상일 경우 처리
+                   String result_personCount = "";           //8명 이하일 경우 처리
                     try {
                         HttpClient client = new DefaultHttpClient();
-                        String postURL = "http://210.122.7.193:8080/Web_basket/GameScoreCheck.jsp";
+                        String postURL = "http://210.122.7.193:8080/Web_basket/TeamPersonCount.jsp";
                         HttpPost post = new HttpPost(postURL);
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
 
@@ -3046,285 +3135,289 @@ ListView Leauge_myRecord_ListView;
                         BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
                         String line = null;
                         while ((line = bufreader.readLine()) != null) {
-                            result += line;
+                            result_personCount += line;
                         }
-                        parsedData_gameScoreAdd = jsonParserList_gameGenerate(result);
+                        parsedData_TeamPersonCount = jsonParserList_gameGenerate(result_personCount);
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }*/
+                    }
                     //시합 완료 처리
-                  /*  if (parsedData_gameScoreAdd[0][0].equals("succed")) {
-                        League_Button_Start.setText("완료 대기중");
-                    }*/
-                    if(Authority.equals("1")){
-                        if (League_Button_YourTeam.getText().toString().equals("팀 찾기")) {
-                            Snackbar.make(view, "팀 찾기 후 이용해주시기 바랍니다.", Snackbar.LENGTH_SHORT).show();
-                        } else if (League_Button_Start.getText().toString().equals("시합 중")) {
-                            Layout_CustomDialog_GameAdd_Button_HomeTeam.setText(League_Button_MyTeam.getText().toString());
-                            Layout_CustomDialog_GameAdd_Button_AwayTeam.setText(League_Button_YourTeam.getText().toString());
-                            final MaterialDialog GameAddDialog = new MaterialDialog(rootView.getContext());
-                            GameAddDialog
-                                    .setTitle("시합 종료")
-                                    .setView(layout_GameAdd)
-                                    .setNegativeButton("취소", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            GameAddDialog.dismiss();
-                                        }
-                                    })
-                                    .setPositiveButton("확인", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            if (Layout_CustomDialog_GameAdd_EditText_HomeTeam.equals("")) {
-                                                Snackbar.make(v, "점수를 입력해주세요.", Snackbar.LENGTH_SHORT);
-                                            } else if (Layout_CustomDialog_GameAdd_EditText_AwayTeam.equals("")) {
-                                                Snackbar.make(v, "점수를 입력해주세요.", Snackbar.LENGTH_SHORT);
-                                            } else {
-                                                String HomeScore = Layout_CustomDialog_GameAdd_EditText_HomeTeam.getText().toString();
-                                                String AwayScore = Layout_CustomDialog_GameAdd_EditText_AwayTeam.getText().toString();
-                                                String result = "";
-                                                try {
-                                                    HttpClient client = new DefaultHttpClient();
-                                                    String postURL = "http://210.122.7.193:8080/Web_basket/GameScoreCheck.jsp";
-                                                    HttpPost post = new HttpPost(postURL);
-                                                    List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                                    params.add(new BasicNameValuePair("SendTeam", Layout_CustomDialog_GameAdd_Button_HomeTeam.getText().toString()));
-                                                    params.add(new BasicNameValuePair("AwayTeam", Layout_CustomDialog_GameAdd_Button_AwayTeam.getText().toString()));
-                                                    params.add(new BasicNameValuePair("HomeScore", HomeScore));
-                                                    params.add(new BasicNameValuePair("AwayScore", AwayScore));
-                                                    params.add(new BasicNameValuePair("MyTeam", Team1));
-                                                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                                    post.setEntity(ent);
-                                                    HttpResponse response = client.execute(post);
-                                                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                                                    String line = null;
-                                                    while ((line = bufreader.readLine()) != null) {
-                                                        result += line;
-                                                    }
-                                                    parsedData_gameScoreAdd = jsonParserList_gameGenerate(result);
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                                //시합 완료 처리
-                                                if (parsedData_gameScoreAdd[0][0].equals("succed")) {
-                                                    League_Button_Start.setText("완료 대기중");
-                                                }
-                                            }
-                                            GameAddDialog.dismiss();
-                                        }
-                                    });
-                            GameAddDialog.show();
-                        }
-                        else {
-                            League_Button_Cancel.setVisibility(View.VISIBLE);
-                            League_Button_YourTeam.setEnabled(false);
-                            if (yourTeamStatus.equals("teamchoice")) {
-                                String result = "";
-                                try {
-                                    HttpClient client = new DefaultHttpClient();
-                                    String postURL = "http://210.122.7.193:8080/Web_basket/GameGenerate.jsp";
-                                    HttpPost post = new HttpPost(postURL);
-                                    List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                    params.add(new BasicNameValuePair("SendTeam", Team1));
-                                    params.add(new BasicNameValuePair("ReceiveTeam", Team));
-                                    params.add(new BasicNameValuePair("Time", realTime));
-                                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                    post.setEntity(ent);
-                                    HttpResponse response = client.execute(post);
-                                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                                    String line = null;
-                                    while ((line = bufreader.readLine()) != null) {
-                                        result += line;
-                                    }
-                                    parsedData_gameGenerate = jsonParserList_gameGenerate(result);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                ///게임생성.
-                                if (parsedData_gameGenerate[0][0].equals("succed")) {
-                                    myTask = new TimerTask() {
-                                        int i = 300;
-
-                                        public void run() {
-                                            getActivity().runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    // 해당 작업을 처리함
-                                                    League_Button_Start.setText("신청 중 " + i);
-                                                    if (i % 3 == 0) {
-                                                        String result = "";
-                                                        try {
-                                                            HttpClient client = new DefaultHttpClient();
-                                                            String postURL = "http://210.122.7.193:8080/Web_basket/GameStatusCheck.jsp";
-                                                            HttpPost post = new HttpPost(postURL);
-                                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                                            params.add(new BasicNameValuePair("SendTeam", Team1));
-                                                            params.add(new BasicNameValuePair("ReceiveTeam", Team));
-                                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                                            post.setEntity(ent);
-                                                            HttpResponse response = client.execute(post);
-                                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                                                            String line = null;
-                                                            while ((line = bufreader.readLine()) != null) {
-                                                                result += line;
-                                                            }
-                                                            parsedData_gameStatus = jsonParserList_gameGenerate(result);
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                        if (parsedData_gameStatus[0][0].equals(".")) {
-                                                            Log.i("bbbbb", "bbbbb");
-                                                        }
-                                                        ///시합 신청이 수락된 경우
-                                                        else if (parsedData_gameStatus[0][0].equals("allow")) {
-                                                            timer.cancel();
-                                                            final MaterialDialog DropOutDialog = new MaterialDialog(rootView.getContext());
-                                                            DropOutDialog
-                                                                    .setTitle("시합신청")
-                                                                    .setMessage(Team + "팀에서 시합신청을 수락하였습니다.")
-                                                                    .setNegativeButton("시합하기", new View.OnClickListener() {
-                                                                        @Override
-                                                                        public void onClick(View v) {
-                                                                            String result = "";
-                                                                            try {
-                                                                                HttpClient client = new DefaultHttpClient();
-                                                                                String postURL = "http://210.122.7.193:8080/Web_basket/Gameing.jsp";
-                                                                                HttpPost post = new HttpPost(postURL);
-                                                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                                                                params.add(new BasicNameValuePair("SendTeam", Team1));
-                                                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                                                                post.setEntity(ent);
-                                                                                HttpResponse response = client.execute(post);
-                                                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                                                                                String line = null;
-                                                                                while ((line = bufreader.readLine()) != null) {
-                                                                                    result += line;
-                                                                                }
-                                                                                parsedData_gameStatus = jsonParserList_gameGenerate(result);
-                                                                            } catch (Exception e) {
-
-                                                                                e.printStackTrace();
-                                                                            }
-                                                                            if (parsedData_gameStatus[0][0].equals("succed")) {
-                                                                                League_Button_Start.setText("시합 중");
-                                                                                League_Button_Start.setTextColor(Color.WHITE);
-                                                                                League_Button_Start.setBackgroundColor(Color.RED);
-                                                                                DropOutDialog.dismiss();
-                                                                            }
-                                                                        }
-                                                                    });
-                                                            DropOutDialog.show();
-                                                        }
-                                                        //시합 신청이 거절된 경우
-                                                        else if (parsedData_gameStatus[0][0].equals("refuse")) {
-                                                            timer.cancel();
-                                                            final MaterialDialog DropOutDialog = new MaterialDialog(rootView.getContext());
-                                                            DropOutDialog
-                                                                    .setTitle("시합신청")
-                                                                    .setMessage(Team + "팀에서 시합신청을 거절하였습니다.")
-                                                                    .setNegativeButton("확인", new View.OnClickListener() {
-                                                                        @Override
-                                                                        public void onClick(View v) {
-                                                                            String result = "";
-                                                                            try {
-                                                                                HttpClient client = new DefaultHttpClient();
-                                                                                String postURL = "http://210.122.7.193:8080/Web_basket/GameDelete.jsp";
-                                                                                HttpPost post = new HttpPost(postURL);
-                                                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                                                                params.add(new BasicNameValuePair("SendTeam", Team1));
-                                                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                                                                post.setEntity(ent);
-                                                                                HttpResponse response = client.execute(post);
-                                                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                                                                                String line = null;
-                                                                                while ((line = bufreader.readLine()) != null) {
-                                                                                    result += line;
-                                                                                }
-                                                                                parsedData_gameDelete = jsonParserList_gameDelete(result);
-                                                                            } catch (Exception e) {
-                                                                                e.printStackTrace();
-                                                                            }
-                                                                            if (parsedData_gameDelete[0][0].equals("succed")) {
-                                                                                getActivity().runOnUiThread(new Runnable() {
-                                                                                    @Override
-                                                                                    public void run() {
-                                                                                        yourTeamStatus = "reset";
-                                                                                        League_Button_Cancel.setVisibility(View.GONE);
-                                                                                        League_Button_YourTeam.setText("팀 찾기");
-                                                                                        League_Button_YourTeam.setEnabled(true);
-                                                                                        League_Button_Start.setText("시합신청");
-                                                                                    }
-                                                                                });
-                                                                            }
-                                                                            if (layout != null) {
-                                                                                ViewGroup parentViewGroup = (ViewGroup) layout.getParent();
-                                                                                if (null != parentViewGroup) {
-                                                                                    parentViewGroup.removeView(layout);
-                                                                                }
-                                                                            }
-                                                                            DropOutDialog.dismiss();
-                                                                        }
-                                                                    });
-                                                            DropOutDialog.show();
-                                                        }
-                                                    }
-                                                }
-                                            });
-
-                                            Log.d("myTask", Integer.toString(i));
-                                            i--;
-                                            //시간이 초과된 경우 game 내 데이터 삭제 및 초기화.
-                                            if (i == 1) {
-                                                timer.cancel();
-                                                String result = "";
-                                                try {
-                                                    HttpClient client = new DefaultHttpClient();
-                                                    String postURL = "http://210.122.7.193:8080/Web_basket/GameDelete.jsp";
-                                                    HttpPost post = new HttpPost(postURL);
-                                                    List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                                    params.add(new BasicNameValuePair("SendTeam", Team1));
-                                                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                                    post.setEntity(ent);
-                                                    HttpResponse response = client.execute(post);
-                                                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                                                    String line = null;
-                                                    while ((line = bufreader.readLine()) != null) {
-                                                        result += line;
-                                                    }
-                                                    parsedData_gameDelete = jsonParserList_gameDelete(result);
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                                if (parsedData_gameDelete[0][0].equals("succed")) {
-                                                    getActivity().runOnUiThread(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            yourTeamStatus = "reset";
-                                                            League_Button_Cancel.setVisibility(View.GONE);
-                                                            League_Button_YourTeam.setText("팀 찾기");
-                                                            League_Button_YourTeam.setEnabled(true);
-                                                            League_Button_Start.setText("시합신청");
-                                                        }
-                                                    });
-                                                }
-                                                if (layout != null) {
-                                                    ViewGroup parentViewGroup = (ViewGroup) layout.getParent();
-                                                    if (null != parentViewGroup) {
-                                                        parentViewGroup.removeView(layout);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    };
-                                }
-                            }
-                            timer = new Timer();
-                            //timer.schedule(myTask, 5000);  // 5초후 실행하고 종료
-                            timer.schedule(myTask, 500, 1000); // 5초후 첫실행, 3초마다 계속실행
-                        }
+                    if (parsedData_TeamPersonCount[0][0].equals("not enough")) {
+                        Snackbar.make(view,"팀원이 부족합니다.(8)",Snackbar.LENGTH_SHORT).show();
                     }
                     else{
-                        Snackbar.make(view,"게임 권한이 없습니다.",Snackbar.LENGTH_SHORT).show();
+                        if(Authority.equals("1")){
+                            if (League_Button_YourTeam.getText().toString().equals("팀 찾기")) {
+                                Snackbar.make(view, "팀 찾기 후 이용해주시기 바랍니다.", Snackbar.LENGTH_SHORT).show();
+                            } else if (League_Button_Start.getText().toString().equals("시합 중")) {
+                                Layout_CustomDialog_GameAdd_Button_HomeTeam.setText(League_Button_MyTeam.getText().toString());
+                                Layout_CustomDialog_GameAdd_Button_AwayTeam.setText(League_Button_YourTeam.getText().toString());
+                                final MaterialDialog GameAddDialog = new MaterialDialog(rootView.getContext());
+                                GameAddDialog
+                                        .setTitle("시합 종료")
+                                        .setView(layout_GameAdd)
+                                        .setNegativeButton("취소", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                GameAddDialog.dismiss();
+                                            }
+                                        })
+                                        .setPositiveButton("확인", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                if (Layout_CustomDialog_GameAdd_EditText_HomeTeam.equals("")) {
+                                                    Snackbar.make(v, "점수를 입력해주세요.", Snackbar.LENGTH_SHORT);
+                                                } else if (Layout_CustomDialog_GameAdd_EditText_AwayTeam.equals("")) {
+                                                    Snackbar.make(v, "점수를 입력해주세요.", Snackbar.LENGTH_SHORT);
+                                                } else {
+                                                    String HomeScore = Layout_CustomDialog_GameAdd_EditText_HomeTeam.getText().toString();
+                                                    String AwayScore = Layout_CustomDialog_GameAdd_EditText_AwayTeam.getText().toString();
+                                                    String result = "";
+                                                    try {
+                                                        HttpClient client = new DefaultHttpClient();
+                                                        String postURL = "http://210.122.7.193:8080/Web_basket/GameScoreCheck.jsp";
+                                                        HttpPost post = new HttpPost(postURL);
+                                                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                        params.add(new BasicNameValuePair("SendTeam", Layout_CustomDialog_GameAdd_Button_HomeTeam.getText().toString()));
+                                                        params.add(new BasicNameValuePair("AwayTeam", Layout_CustomDialog_GameAdd_Button_AwayTeam.getText().toString()));
+                                                        params.add(new BasicNameValuePair("HomeScore", HomeScore));
+                                                        params.add(new BasicNameValuePair("AwayScore", AwayScore));
+                                                        params.add(new BasicNameValuePair("MyTeam", Team1));
+                                                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                        post.setEntity(ent);
+                                                        HttpResponse response = client.execute(post);
+                                                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                        String line = null;
+                                                        while ((line = bufreader.readLine()) != null) {
+                                                            result += line;
+                                                        }
+                                                        parsedData_gameScoreAdd = jsonParserList_gameGenerate(result);
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    //시합 완료 처리
+                                                    if (parsedData_gameScoreAdd[0][0].equals("succed")) {
+                                                        League_Button_Start.setText("완료 대기중");
+                                                    }
+                                                }
+                                                GameAddDialog.dismiss();
+                                            }
+                                        });
+                                GameAddDialog.show();
+                            }
+                            else {
+                                League_Button_Cancel.setVisibility(View.VISIBLE);
+                                League_Button_YourTeam.setEnabled(false);
+                                if (yourTeamStatus.equals("teamchoice")) {
+                                    String result = "";
+                                    try {
+                                        HttpClient client = new DefaultHttpClient();
+                                        String postURL = "http://210.122.7.193:8080/Web_basket/GameGenerate.jsp";
+                                        HttpPost post = new HttpPost(postURL);
+                                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                        params.add(new BasicNameValuePair("SendTeam", Team1));
+                                        params.add(new BasicNameValuePair("ReceiveTeam", Team));
+                                        params.add(new BasicNameValuePair("Time", realTime));
+                                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                        post.setEntity(ent);
+                                        HttpResponse response = client.execute(post);
+                                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                        String line = null;
+                                        while ((line = bufreader.readLine()) != null) {
+                                            result += line;
+                                        }
+                                        parsedData_gameGenerate = jsonParserList_gameGenerate(result);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    ///게임생성.
+                                    if (parsedData_gameGenerate[0][0].equals("succed")) {
+                                        myTask = new TimerTask() {
+                                            int i = 300;
+
+                                            public void run() {
+                                                getActivity().runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        // 해당 작업을 처리함
+                                                        League_Button_Start.setText("신청 중 " + i);
+                                                        if (i % 3 == 0) {
+                                                            String result = "";
+                                                            try {
+                                                                HttpClient client = new DefaultHttpClient();
+                                                                String postURL = "http://210.122.7.193:8080/Web_basket/GameStatusCheck.jsp";
+                                                                HttpPost post = new HttpPost(postURL);
+                                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                                params.add(new BasicNameValuePair("SendTeam", Team1));
+                                                                params.add(new BasicNameValuePair("ReceiveTeam", Team));
+                                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                                post.setEntity(ent);
+                                                                HttpResponse response = client.execute(post);
+                                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                                String line = null;
+                                                                while ((line = bufreader.readLine()) != null) {
+                                                                    result += line;
+                                                                }
+                                                                parsedData_gameStatus = jsonParserList_gameGenerate(result);
+                                                            } catch (Exception e) {
+                                                                e.printStackTrace();
+                                                            }
+                                                            if (parsedData_gameStatus[0][0].equals(".")) {
+                                                                Log.i("bbbbb", "bbbbb");
+                                                            }
+                                                            ///시합 신청이 수락된 경우
+                                                            else if (parsedData_gameStatus[0][0].equals("allow")) {
+                                                                timer.cancel();
+                                                                final MaterialDialog DropOutDialog = new MaterialDialog(rootView.getContext());
+                                                                DropOutDialog
+                                                                        .setTitle("시합신청")
+                                                                        .setMessage(Team + "팀에서 시합신청을 수락하였습니다.")
+                                                                        .setNegativeButton("시합하기", new View.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(View v) {
+                                                                                String result = "";
+                                                                                try {
+                                                                                    HttpClient client = new DefaultHttpClient();
+                                                                                    String postURL = "http://210.122.7.193:8080/Web_basket/Gameing.jsp";
+                                                                                    HttpPost post = new HttpPost(postURL);
+                                                                                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                                                    params.add(new BasicNameValuePair("SendTeam", Team1));
+                                                                                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                                                    post.setEntity(ent);
+                                                                                    HttpResponse response = client.execute(post);
+                                                                                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                                                    String line = null;
+                                                                                    while ((line = bufreader.readLine()) != null) {
+                                                                                        result += line;
+                                                                                    }
+                                                                                    parsedData_gameStatus = jsonParserList_gameGenerate(result);
+                                                                                } catch (Exception e) {
+
+                                                                                    e.printStackTrace();
+                                                                                }
+                                                                                if (parsedData_gameStatus[0][0].equals("succed")) {
+                                                                                    League_Button_Start.setText("시합 중");
+                                                                                    League_Button_Start.setTextColor(Color.WHITE);
+                                                                                    League_Button_Start.setBackgroundColor(Color.RED);
+                                                                                    DropOutDialog.dismiss();
+                                                                                }
+                                                                            }
+                                                                        });
+                                                                DropOutDialog.show();
+                                                            }
+                                                            //시합 신청이 거절된 경우
+                                                            else if (parsedData_gameStatus[0][0].equals("refuse")) {
+                                                                timer.cancel();
+                                                                final MaterialDialog DropOutDialog = new MaterialDialog(rootView.getContext());
+                                                                DropOutDialog
+                                                                        .setTitle("시합신청")
+                                                                        .setMessage(Team + "팀에서 시합신청을 거절하였습니다.")
+                                                                        .setNegativeButton("확인", new View.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(View v) {
+                                                                                String result = "";
+                                                                                try {
+                                                                                    HttpClient client = new DefaultHttpClient();
+                                                                                    String postURL = "http://210.122.7.193:8080/Web_basket/GameDelete.jsp";
+                                                                                    HttpPost post = new HttpPost(postURL);
+                                                                                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                                                    params.add(new BasicNameValuePair("SendTeam", Team1));
+                                                                                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                                                    post.setEntity(ent);
+                                                                                    HttpResponse response = client.execute(post);
+                                                                                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                                                    String line = null;
+                                                                                    while ((line = bufreader.readLine()) != null) {
+                                                                                        result += line;
+                                                                                    }
+                                                                                    parsedData_gameDelete = jsonParserList_gameDelete(result);
+                                                                                } catch (Exception e) {
+                                                                                    e.printStackTrace();
+                                                                                }
+                                                                                if (parsedData_gameDelete[0][0].equals("succed")) {
+                                                                                    getActivity().runOnUiThread(new Runnable() {
+                                                                                        @Override
+                                                                                        public void run() {
+                                                                                            yourTeamStatus = "reset";
+                                                                                            League_Button_Cancel.setVisibility(View.GONE);
+                                                                                            League_Button_YourTeam.setText("팀 찾기");
+                                                                                            League_Button_YourTeam.setEnabled(true);
+                                                                                            League_Button_Start.setText("시합신청");
+                                                                                            League_Button_Start.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                                                                        }
+                                                                                    });
+                                                                                }
+                                                                                if (layout != null) {
+                                                                                    ViewGroup parentViewGroup = (ViewGroup) layout.getParent();
+                                                                                    if (null != parentViewGroup) {
+                                                                                        parentViewGroup.removeView(layout);
+                                                                                    }
+                                                                                }
+                                                                                DropOutDialog.dismiss();
+                                                                            }
+                                                                        });
+                                                                DropOutDialog.show();
+                                                            }
+                                                        }
+                                                    }
+                                                });
+
+                                                Log.d("myTask", Integer.toString(i));
+                                                i--;
+                                                //시간이 초과된 경우 game 내 데이터 삭제 및 초기화.
+                                                if (i == 1) {
+                                                    timer.cancel();
+                                                    String result = "";
+                                                    try {
+                                                        HttpClient client = new DefaultHttpClient();
+                                                        String postURL = "http://210.122.7.193:8080/Web_basket/GameDelete.jsp";
+                                                        HttpPost post = new HttpPost(postURL);
+                                                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                        params.add(new BasicNameValuePair("SendTeam", Team1));
+                                                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                        post.setEntity(ent);
+                                                        HttpResponse response = client.execute(post);
+                                                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                        String line = null;
+                                                        while ((line = bufreader.readLine()) != null) {
+                                                            result += line;
+                                                        }
+                                                        parsedData_gameDelete = jsonParserList_gameDelete(result);
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    if (parsedData_gameDelete[0][0].equals("succed")) {
+                                                        getActivity().runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                yourTeamStatus = "reset";
+                                                                League_Button_Cancel.setVisibility(View.GONE);
+                                                                League_Button_YourTeam.setText("팀 찾기");
+                                                                League_Button_YourTeam.setEnabled(true);
+                                                                League_Button_Start.setText("시합신청");
+                                                                League_Button_Start.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                                            }
+                                                        });
+                                                    }
+                                                    if (layout != null) {
+                                                        ViewGroup parentViewGroup = (ViewGroup) layout.getParent();
+                                                        if (null != parentViewGroup) {
+                                                            parentViewGroup.removeView(layout);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        };
+                                    }
+                                }
+                                timer = new Timer();
+                                //timer.schedule(myTask, 5000);  // 5초후 실행하고 종료
+                                timer.schedule(myTask, 500, 1000); // 5초후 첫실행, 3초마다 계속실행
+                            }
+                        }
+                        else{
+                            Snackbar.make(view,"게임 권한이 없습니다.",Snackbar.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });
@@ -3362,6 +3455,7 @@ ListView Leauge_myRecord_ListView;
                                 League_Button_YourTeam.setText("팀 찾기");
                                 League_Button_YourTeam.setEnabled(true);
                                 League_Button_Start.setText("시합신청");
+                                League_Button_Start.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                             }
                             if (layout != null) {
                                 ViewGroup parentViewGroup = (ViewGroup) layout.getParent();

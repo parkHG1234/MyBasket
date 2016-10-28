@@ -39,13 +39,14 @@ import me.drakeet.materialdialog.MaterialDialog;
  */
 
 public class start extends AppCompatActivity {
-    static String Approach=".";
-    static String NewsFeed_Num=".";
-    int threadtime = 0;
+    static String Approach = ".";
+    static String NewsFeed_Num = ".";
     JSONObject json_out;
     JSONArray jArr_out;
     String[][] parsedData;
+
     String version = "1.0.0";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -56,19 +57,13 @@ public class start extends AppCompatActivity {
         AnimationSet set = new AnimationSet(true);
         set.setInterpolator(new AccelerateInterpolator());
         Intent intent1 = getIntent();
-        if(intent1.hasExtra("Approach")){
+        if (intent1.hasExtra("Approach")) {
             Approach = intent1.getStringExtra("Approach");
             NewsFeed_Num = intent1.getStringExtra("NewsFeed_Num");
         }
-        ImageView imgLava = (ImageView) findViewById(R.id.imgLava);
-        final TextView TextView_VersionCheck = (TextView) findViewById(R.id.TextView_VersionCheck);
-        Animation ani = new RotateAnimation(0, 360, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-        ani.setRepeatCount(-1);
-        ani.setDuration(1000);
 
-        set.addAnimation(ani);
-        imgLava.setAnimation(set);
 
+        ////////////////////////////////버전체크소스/////////////////////////////////////////////////
         String result = "";
         try {
             HttpClient client = new DefaultHttpClient();
@@ -88,82 +83,56 @@ public class start extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(!(parsedData[0][0].equals(version))){
+
+        if (!(parsedData[0][0].equals(version))) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    threadtime += 500;
-                    TextView_VersionCheck.setText(TextView_VersionCheck.getText() + ".");
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            threadtime += 500;
-                            TextView_VersionCheck.setText(TextView_VersionCheck.getText() + ".");
-                            final MaterialDialog DropOutDialog = new MaterialDialog(start.this);
-                            DropOutDialog
-                                    .setTitle("바스켓북")
-                                    .setMessage("업데이트 후 이용해주시기 바랍니다.")
-                                    .setNegativeButton("취소", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            finish();
-                                        }
-                                    })
-                                    .setPositiveButton("업데이트", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            String url ="https://play.google.com/store/apps/details?id=com.mysports.basketbook";
-                                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                            startActivity(intent);
-                                        }
-                                    });
-                            DropOutDialog.show();
-                           // Intent marketLaunch = new Intent(Intent.ACTION_VIEW);
-                            //marketLaunch.setData(Uri.parse("market://search?q=네이트온"));
-                            //startActivity(marketLaunch);
-                        }
-                    }, 1000);// 0.5초 정도 딜레이를 준 후 시작
-                }
-            }, 1000);// 0.5초 정도 딜레이를 준 후 시작
-        }else {
-
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    threadtime += 500;
-                    TextView_VersionCheck.setText(TextView_VersionCheck.getText() + ".");
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            threadtime += 500;
-                            TextView_VersionCheck.setText(TextView_VersionCheck.getText() + ".");
-                            new Handler().postDelayed(new Runnable() {
+                    final MaterialDialog DropOutDialog = new MaterialDialog(start.this);
+                    DropOutDialog
+                            .setTitle("바스켓북")
+                            .setMessage("업데이트 후 이용해주시기 바랍니다.")
+                            .setNegativeButton("취소", new View.OnClickListener() {
                                 @Override
-                                public void run() {
-                                    threadtime += 500;
-                                    TextView_VersionCheck.setText(TextView_VersionCheck.getText() + ".");
-                                    if (threadtime == 1500) {
-                                        Intent LoginIntent = new Intent(getApplicationContext(), LoginActivity.class);
-                                        LoginIntent.putExtra("fragment1", parsedData[0][1]);
-                                        LoginIntent.putExtra("fragment2", parsedData[0][2]);
-                                        LoginIntent.putExtra("fragment3", parsedData[0][3]);
-                                        LoginIntent.putExtra("fragment4", parsedData[0][4]);
-                                        LoginIntent.putExtra("Approach", Approach);
-                                        LoginIntent.putExtra("NewsFeed_Num", NewsFeed_Num);
-                                        startActivity(LoginIntent);
-                                    }
+                                public void onClick(View v) {
+                                    finish();
                                 }
-                            }, 500);// 0.5초 정도 딜레이를 준 후 시작
-                        }
-                    }, 500);// 0.5초 정도 딜레이를 준 후 시작
+                            })
+                            .setPositiveButton("업데이트", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String url = "https://play.google.com/store/apps/details?id=com.mysports.basketbook";
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                    startActivity(intent);
+                                }
+                            });
+                    DropOutDialog.show();
+                    // Intent marketLaunch = new Intent(Intent.ACTION_VIEW);
+                    //marketLaunch.setData(Uri.parse("market://search?q=네이트온"));
+                    //startActivity(marketLaunch);
                 }
-            }, 500);// 0.5초 정도 딜레이를 준 후 시작
+            }, 2000);// 0.5초 정도 딜레이를 준 후 시작
+        } else {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent LoginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                    LoginIntent.putExtra("fragment1", parsedData[0][1]);
+                    LoginIntent.putExtra("fragment2", parsedData[0][2]);
+                    LoginIntent.putExtra("fragment3", parsedData[0][3]);
+                    LoginIntent.putExtra("fragment4", parsedData[0][4]);
+                    LoginIntent.putExtra("Approach", Approach);
+                    LoginIntent.putExtra("NewsFeed_Num", NewsFeed_Num);
+                    startActivity(LoginIntent);
+
+                }
+            }, 2000);// 0.5초 정도 딜레이를 준 후 시작
+            ///////////////////////////////////////////////////////////////////////////////////////
         }
     }
 
     public String[][] jsonParserList(String pRecvServerPage) {
-        Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+        Log.i("version에서 받은 전체 내용", pRecvServerPage);
         try {
             String[] jsonName = {"version", "fragment1", "fragment2", "fragment3", "fragment4"};
 
@@ -182,5 +151,6 @@ public class start extends AppCompatActivity {
             return null;
         }
     }
+
 
 } // end class

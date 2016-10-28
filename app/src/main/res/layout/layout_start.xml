@@ -2,40 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/White">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:text="Basket Book"
-        android:textSize="50dp"
-        android:fontFamily="sans-serif"
-        android:paddingTop="50dp"
-        android:paddingBottom="50dp"
-        android:gravity="center_horizontal"/>
+    android:orientation="vertical">
 
     <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ball"
-        android:id="@+id/imgLava"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_vertical"
-        />
-    <TextView
-        android:paddingTop="100dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="버전 확인중"
-        android:id="@+id/TextView_VersionCheck"
-        android:textSize="30dp"
-        android:textAlignment="center"/>
+        android:src="@drawable/main"
+        android:scaleType="fitXY"
+        />
 
-    <!--<ImageView-->
-    <!--android:paddingTop="100dp"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:src="@drawable/seoul"/>-->
 </LinearLayout>
