@@ -81,7 +81,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -157,10 +159,12 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 // 현재 날짜
-        Calendar cal = Calendar.getInstance();
+        /*Calendar cal = Calendar.getInstance();
         DateFormat formatter1 = DateFormat.getDateInstance(DateFormat.DEFAULT);
-        formatter1.setTimeZone(cal.getTimeZone());
-        now_Date = formatter1.format(cal.getTime());
+        formatter1.setTimeZone(cal.getTimeZone());*/
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        now_Date = df.format(new Date());
+       // now_Date = formatter1.format(cal.getTime());
         ////////////////
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -3027,7 +3031,7 @@ ListView Leauge_myRecord_ListView;
                 @Override
                 public void onClick(View view) {
                     Snackbar.make(view,"점검 중입니다.",Snackbar.LENGTH_SHORT).show();
-                    String a="점거중";
+                    String a="테스트";
                     if(a.equals("테스트")){
                     TabChoice = "2";
                     League_Layout_1.setVisibility(View.GONE);
@@ -3121,6 +3125,8 @@ ListView Leauge_myRecord_ListView;
             League_Button_Start.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Log.i("MyTeam",Team1);
+                    Log.i("now_Date",now_Date);
                    String result_personCount = "";           //8명 이하일 경우 처리
                     try {
                         HttpClient client = new DefaultHttpClient();
@@ -3129,6 +3135,7 @@ ListView Leauge_myRecord_ListView;
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
 
                         params.add(new BasicNameValuePair("MyTeam", Team1));
+                        params.add(new BasicNameValuePair("now_Date", now_Date));
                         UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                         post.setEntity(ent);
                         HttpResponse response = client.execute(post);
@@ -3144,6 +3151,9 @@ ListView Leauge_myRecord_ListView;
                     //시합 완료 처리
                     if (parsedData_TeamPersonCount[0][0].equals("not enough")) {
                         Snackbar.make(view,"팀원이 부족합니다.(8)",Snackbar.LENGTH_SHORT).show();
+                    }
+                    else if(parsedData_TeamPersonCount[0][0].equals("already")){
+                        Snackbar.make(view,"이미 오늘 경기하셨습니다.",Snackbar.LENGTH_SHORT).show();
                     }
                     else{
                         if(Authority.equals("1")){
@@ -3539,6 +3549,7 @@ ListView Leauge_myRecord_ListView;
                                             params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
                                             params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
                                             params.add(new BasicNameValuePair("MyTeam", Team1));
+                                            params.add(new BasicNameValuePair("now_Date", now_Date));
                                             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                                             post.setEntity(ent);
                                             HttpResponse response = client.execute(post);

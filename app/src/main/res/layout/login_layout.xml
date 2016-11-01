@@ -81,16 +81,15 @@
         android:layout_marginBottom="10dp">
 
         <ImageButton
-            android:layout_width="match_parent"
+            android:layout_width="41dp"
             android:layout_height="match_parent"
             android:src="@drawable/basketball_white"
             android:id="@+id/imageButton"
-            android:layout_weight="4"
             android:scaleType="fitXY"
             android:background="@color/colorPrimary"
             android:layout_marginLeft="18dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="19dp"
+            android:layout_marginBottom="19dp"
             android:layout_marginRight="18dp" />
 
         <Button
@@ -98,11 +97,11 @@
             android:layout_height="match_parent"
             android:text="바스켓북 로그인"
             android:textColor="@color/White"
+            android:textColorHighlight="@color/colorPrimary"
             android:id="@+id/login_button"
             android:onClick="onClicked"
             android:layout_gravity="center_horizontal"
             android:backgroundTint="@color/colorPrimary"
-            android:layout_weight="1"
             android:textStyle="normal|bold"
             android:textSize="17dp" />
     </LinearLayout>
