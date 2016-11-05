@@ -6,68 +6,63 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:id="@+id/layout_contest_Root">
-        <ScrollView
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/ConTest_Layout_Tab">
+
+            <Button
+                android:text="Button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/Contest_Button_Tab1"
+                android:layout_weight="1" />
+
+            <Button
+                android:text="Button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/Contest_Button_Tab2"
+                android:layout_weight="1" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/scrollView5"
-            android:visibility="gone">
+            android:id="@+id/Contest_Layout_View">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:id="@+id/Contest_Layout_1">
 
-                <LinearLayout
-                    android:orientation="horizontal"
+                <TextView
+                    android:text="동석쿠 작업"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp">
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/League_League_Spinner_Do"
-                        android:layout_weight="1" />
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/League_League_Spinner_Se"
-                        android:layout_weight="1" />
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/League_League_Button_Search"
-                        android:layout_weight="1"
-                        android:text="검색" />
-                </LinearLayout>
-
-                <ListView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:id="@+id/League_League_ListView_League" />
-
-                <ListView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/League_Contest_ListView_Contest"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView26" />
             </LinearLayout>
-        </ScrollView>
 
-        <TextView
-            android:text="준비중입니다."
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView26"
-            android:layout_weight="1"
-            android:textColor="@color/Black"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:layout_margin="20dp"
-            android:layout_marginLeft="20dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/Contest_Layout_2">
+
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView57" />
+            </LinearLayout>
+        </LinearLayout>
+
     </LinearLayout>
 
 

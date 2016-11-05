@@ -2098,6 +2098,8 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
     }
 
     public static class SectionsFragment2 extends Fragment {
+        Button Contest_Button_Tab1, Contest_Button_Tab2;
+        LinearLayout Contest_Layout_1, Contest_Layout_2;
 
         public SectionsFragment2() {
         }
@@ -2106,7 +2108,25 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             final View rootView = inflater.inflate(R.layout.layout_contest, container, false);
+            Contest_Button_Tab1 = (Button)rootView.findViewById(R.id.Contest_Button_Tab1);
+            Contest_Button_Tab2 = (Button)rootView.findViewById(R.id.Contest_Button_Tab2);
+            Contest_Layout_1 = (LinearLayout)rootView.findViewById(R.id.Contest_Layout_1);
+            Contest_Layout_2 = (LinearLayout)rootView.findViewById(R.id.Contest_Layout_2);
 
+            Contest_Button_Tab1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Contest_Layout_1.setVisibility(View.VISIBLE);
+                    Contest_Layout_2.setVisibility(View.GONE);
+                }
+            });
+            Contest_Button_Tab2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Contest_Layout_1.setVisibility(View.GONE);
+                    Contest_Layout_2.setVisibility(View.VISIBLE);
+                }
+            });
             return rootView;
         }
 
