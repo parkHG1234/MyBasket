@@ -17,14 +17,14 @@
             android:id="@+id/ConTest_Layout_Tab">
 
             <Button
-                android:text="Button"
+                android:text="대회소개"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/Contest_Button_Tab1"
                 android:layout_weight="1" />
 
             <Button
-                android:text="Button"
+                android:text="교류전 게임"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/Contest_Button_Tab2"
@@ -40,7 +40,8 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/Contest_Layout_1">
+                android:id="@+id/Contest_Layout_1"
+                android:visibility="gone">
 
                 <TextView
                     android:text="동석쿠 작업"
@@ -53,17 +54,75 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/Contest_Layout_2">
+                android:id="@+id/Contest_Layout_2"
+                android:visibility="visible">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp">
 
-                <TextView
-                    android:text="TextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView57" />
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp">
+
+                            <Button
+                                android:text="클린쳐"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/Contest_Button_MyTeam"
+                                android:layout_weight="1" />
+
+                            <TextView
+                                android:text="vs"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/textView32"
+                                android:layout_weight="1.5"
+                                android:gravity="center"
+                                android:textSize="18dp"
+                                android:textStyle="normal|bold" />
+
+                            <Button
+                                android:text="팀 찾기"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/Contest_Button_YourTeam"
+                                android:layout_weight="1" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_width="150dp">
+
+                        <Button
+                            android:text="시합신청"
+                            android:layout_height="40dp"
+                            android:id="@+id/Contest_Button_Start"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:visibility="visible"
+                            android:textColor="@color/White"
+                            android:background="@color/colorPrimary"/>
+
+                        <Button
+                            android:text="취  소"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:visibility="gone"
+                            android:id="@+id/Contest_Button_Cancel" />
+
+                    </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
-    </LinearLayout>
 
 
     <TextView
@@ -75,3 +134,4 @@
         android:textSize="50dp"/>
 
 </LinearLayout>
+    </LinearLayout>

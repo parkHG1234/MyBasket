@@ -57,72 +57,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/League_Layout_2"
                 android:visibility="gone">
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="4"
-                    android:layout_marginTop="20dp">
 
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp">
-
-                        <Button
-                            android:text="클린쳐"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:id="@+id/League_Button_MyTeam"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:text="vs"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:id="@+id/textView32"
-                            android:layout_weight="1.5"
-                            android:gravity="center"
-                            android:textSize="18dp"
-                            android:textStyle="normal|bold" />
-
-                        <Button
-                            android:text="팀 찾기"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:id="@+id/League_Button_YourTeam"
-                            android:layout_weight="1" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:layout_width="150dp">
-
-                    <Button
-                        android:text="시합신청"
-                        android:layout_height="40dp"
-                        android:id="@+id/League_Button_Start"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_weight="1"
-                        android:visibility="visible"
-                        android:textColor="@color/White"
-                        android:background="@color/colorPrimary"/>
-
-                    <Button
-                        android:text="취  소"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="gone"
-                        android:id="@+id/League_Button_Cancel" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:orientation="vertical"

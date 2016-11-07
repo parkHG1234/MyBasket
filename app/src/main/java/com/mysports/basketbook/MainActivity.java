@@ -43,6 +43,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -93,6 +95,8 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class MainActivity extends AppCompatActivity {
     static String Id = "";
     static String Profile;
+    static String Height="";
+    static String Weight="";
     static String fragment1,fragment2,fragment3,fragment4;
     static String yourTeamStatus = "reset";
     static String Approach="";
@@ -359,6 +363,8 @@ public class MainActivity extends AppCompatActivity {
         parsedData_Profile = jsonParserList_UserInfo(result_profile);
         MyTeam = parsedData_Profile[0][6];
         Profile = parsedData_Profile[0][7];
+        Height = parsedData_Profile[0][8];
+        Weight = parsedData_Profile[0][9];
         /////////////////////////////////////////
         //일반 접근인 경우
         ///일반적 접근일 경우 처리
@@ -694,7 +700,7 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
 
-            String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6", "msg7", "msg8"};
+            String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6", "msg7", "msg8","msg9","msg10"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for (int i = 0; i < jArr.length(); i++) {
                 json = jArr.getJSONObject(i);
@@ -2100,7 +2106,17 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
     public static class SectionsFragment2 extends Fragment {
         Button Contest_Button_Tab1, Contest_Button_Tab2;
         LinearLayout Contest_Layout_1, Contest_Layout_2;
-
+//교류전 게임 선언
+        Button Contest_Button_MyTeam, Contest_Button_YourTeam,Contest_Button_Start, Contest_Button_Cancel;
+        String TabChoice = "1";
+        String Do, Si, Team;
+        int spinnum1, spinnum2, spinnum3;
+        ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
+        String[][] parsedData, parsedData_gameGenerate, parsedData_gameDelete, parsedData_gameStatus, parsedData_gameScoreAdd,parsedData_TeamPersonCount;
+        ArrayList arr;
+        static TimerTask myTask;
+        static Timer timer;
+        //////////////////////////////////////////////
         public SectionsFragment2() {
         }
 
@@ -2108,10 +2124,17 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             final View rootView = inflater.inflate(R.layout.layout_contest, container, false);
+            /////////////탭 선언 연결
             Contest_Button_Tab1 = (Button)rootView.findViewById(R.id.Contest_Button_Tab1);
             Contest_Button_Tab2 = (Button)rootView.findViewById(R.id.Contest_Button_Tab2);
             Contest_Layout_1 = (LinearLayout)rootView.findViewById(R.id.Contest_Layout_1);
             Contest_Layout_2 = (LinearLayout)rootView.findViewById(R.id.Contest_Layout_2);
+////////////////게임 선언 연결
+            Contest_Button_MyTeam = (Button) rootView.findViewById(R.id.Contest_Button_MyTeam);
+            Contest_Button_YourTeam = (Button) rootView.findViewById(R.id.Contest_Button_YourTeam);
+            Contest_Button_Start = (Button) rootView.findViewById(R.id.Contest_Button_Start);
+            Contest_Button_Cancel = (Button) rootView.findViewById(R.id.Contest_Button_Cancel);
+            //////////////////////////
 
             Contest_Button_Tab1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -2127,9 +2150,1696 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
                     Contest_Layout_2.setVisibility(View.VISIBLE);
                 }
             });
+            ///교류전 코딩
+            final Spinner Layout_CustomDialog_teamChoice_Do = (Spinner) layout.findViewById(R.id.Layout_CustomDialog_teamChoice_Do);
+            final Spinner Layout_CustomDialog_teamChoice_Se = (Spinner) layout.findViewById(R.id.Layout_CustomDialog_teamChoice_Se);
+            final Spinner Layout_CustomDialog_teamChoice_team = (Spinner) layout.findViewById(R.id.Layout_CustomDialog_teamChoice_team);
+
+            Contest_Button_MyTeam.setText(MyTeam);
+            if(Authority.equals("1")){
+                if (yourTeamStatus.equals("allow_away")) {
+                    Team = HomeTeam;
+                    Contest_Button_Start.setText("신청 접수중");
+                    Contest_Button_Cancel.setVisibility(View.VISIBLE);
+                    Contest_Button_MyTeam.setText(Team);
+                    Contest_Button_YourTeam.setText(MyTeam);
+                    Contest_Button_YourTeam.setEnabled(false);
+                    myTask = new TimerTask() {
+                        int i = 300;
+
+                        public void run() {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Contest_Button_Start.setText("신청 접수중 " + i);
+                                    if (i % 3 == 0) {
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/GameStatusCheck.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("SendTeam", Team));
+                                            params.add(new BasicNameValuePair("ReceiveTeam", MyTeam));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData_gameStatus = jsonParserList_gameGenerate(result);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (parsedData_gameStatus[0][0].equals(".")) {
+                                            Log.i("bbbbb", "bbbbb");
+                                        } else if (parsedData_gameStatus[0][0].equals("ing")) {
+                                            timer.cancel();
+                                            Contest_Button_Start.setText("시합 중");
+                                            Contest_Button_Start.setTextColor(Color.WHITE);
+                                            Contest_Button_Start.setBackgroundColor(Color.RED);
+                                        }
+                                    }
+                                }
+                            });
+                            i--;
+                        }
+                    };
+                    timer = new Timer();
+                    //timer.schedule(myTask, 5000);  // 5초후 실행하고 종료
+                    timer.schedule(myTask, 500, 1000); // 5초후 첫실행, 3초마다 계속실행
+                }
+                // int a=300
+                else if (yourTeamStatus.equals("suggest")) {
+                    Team = AwayTeam;
+                    Contest_Button_Cancel.setVisibility(View.VISIBLE);
+                    Contest_Button_MyTeam.setText(HomeTeam);
+                    Contest_Button_YourTeam.setText(AwayTeam);
+                    Contest_Button_YourTeam.setEnabled(false);
+                    myTask = new TimerTask() {
+                        int i = 300 - (allowtime * 60);
+
+                        public void run() {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // 해당 작업을 처리함
+                                    Contest_Button_Start.setText("신청 중 " + i);
+                                    if (i % 3 == 0) {
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/GameStatusCheck.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("SendTeam", MyTeam));
+                                            params.add(new BasicNameValuePair("ReceiveTeam", Team));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData_gameStatus = jsonParserList_gameGenerate(result);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (parsedData_gameStatus[0][0].equals(".")) {
+                                            Log.i("bbbbb", "bbbbb");
+                                        }
+                                        ///시합 신청이 수락된 경우
+                                        else if (parsedData_gameStatus[0][0].equals("allow")) {
+                                            timer.cancel();
+                                            final MaterialDialog DropOutDialog = new MaterialDialog(rootView.getContext());
+                                            DropOutDialog
+                                                    .setTitle("시합신청")
+                                                    .setMessage(Team + "팀에서 시합신청을 수락하였습니다.")
+                                                    .setNegativeButton("시합하기", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View v) {
+                                                            String result = "";
+                                                            try {
+                                                                HttpClient client = new DefaultHttpClient();
+                                                                String postURL = "http://210.122.7.193:8080/Web_basket/Gameing.jsp";
+                                                                HttpPost post = new HttpPost(postURL);
+                                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                                params.add(new BasicNameValuePair("SendTeam", MyTeam));
+                                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                                post.setEntity(ent);
+                                                                HttpResponse response = client.execute(post);
+                                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                                String line = null;
+                                                                while ((line = bufreader.readLine()) != null) {
+                                                                    result += line;
+                                                                }
+                                                                parsedData_gameStatus = jsonParserList_gameGenerate(result);
+                                                            } catch (Exception e) {
+
+                                                                e.printStackTrace();
+                                                            }
+                                                            if (parsedData_gameStatus[0][0].equals("succed")) {
+                                                                Contest_Button_Start.setText("시합 중");
+                                                                Contest_Button_Start.setTextColor(Color.WHITE);
+                                                                Contest_Button_Start.setBackgroundColor(Color.RED);
+                                                                DropOutDialog.dismiss();
+                                                            }
+                                                        }
+                                                    });
+                                            DropOutDialog.show();
+                                        }
+                                        //시합 신청이 거절된 경우
+                                        else if (parsedData_gameStatus[0][0].equals("refuse")) {
+                                            timer.cancel();
+                                            final MaterialDialog DropOutDialog = new MaterialDialog(rootView.getContext());
+                                            DropOutDialog
+                                                    .setTitle("시합신청")
+                                                    .setMessage(Team + "팀에서 시합신청을 거절하였습니다.")
+                                                    .setNegativeButton("확인", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View v) {
+                                                            String result = "";
+                                                            try {
+                                                                HttpClient client = new DefaultHttpClient();
+                                                                String postURL = "http://210.122.7.193:8080/Web_basket/GameDelete.jsp";
+                                                                HttpPost post = new HttpPost(postURL);
+                                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                                params.add(new BasicNameValuePair("SendTeam", MyTeam));
+                                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                                post.setEntity(ent);
+                                                                HttpResponse response = client.execute(post);
+                                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                                String line = null;
+                                                                while ((line = bufreader.readLine()) != null) {
+                                                                    result += line;
+                                                                }
+                                                                parsedData_gameDelete = jsonParserList_gameDelete(result);
+                                                            } catch (Exception e) {
+                                                                e.printStackTrace();
+                                                            }
+                                                            if (parsedData_gameDelete[0][0].equals("succed")) {
+                                                                getActivity().runOnUiThread(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+                                                                        yourTeamStatus = "reset";
+                                                                        Contest_Button_Cancel.setVisibility(View.GONE);
+                                                                        Contest_Button_YourTeam.setText("팀 찾기");
+                                                                        Contest_Button_YourTeam.setEnabled(true);
+                                                                        Contest_Button_Start.setText("시합신청");
+                                                                        Contest_Button_Start.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                                                    }
+                                                                });
+                                                            }
+                                                            if (layout != null) {
+                                                                ViewGroup parentViewGroup = (ViewGroup) layout.getParent();
+                                                                if (null != parentViewGroup) {
+                                                                    parentViewGroup.removeView(layout);
+                                                                }
+                                                            }
+                                                            DropOutDialog.dismiss();
+                                                        }
+                                                    });
+                                            DropOutDialog.show();
+                                        }
+                                    }
+                                }
+                            });
+
+                            Log.d("myTask", Integer.toString(i));
+                            i--;
+                            //시간이 초과된 경우 game 내 데이터 삭제 및 초기화.
+                            if (i == 1) {
+                                timer.cancel();
+                                String result = "";
+                                try {
+                                    HttpClient client = new DefaultHttpClient();
+                                    String postURL = "http://210.122.7.193:8080/Web_basket/GameDelete.jsp";
+                                    HttpPost post = new HttpPost(postURL);
+                                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                    params.add(new BasicNameValuePair("SendTeam", MyTeam));
+                                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                    post.setEntity(ent);
+                                    HttpResponse response = client.execute(post);
+                                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                    String line = null;
+                                    while ((line = bufreader.readLine()) != null) {
+                                        result += line;
+                                    }
+                                    parsedData_gameDelete = jsonParserList_gameDelete(result);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                if (parsedData_gameDelete[0][0].equals("succed")) {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            yourTeamStatus = "reset";
+                                            Contest_Button_Cancel.setVisibility(View.GONE);
+                                            Contest_Button_YourTeam.setText("팀 찾기");
+                                            Contest_Button_YourTeam.setEnabled(true);
+                                            Contest_Button_Start.setText("시합신청");
+                                            Contest_Button_Start.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                        }
+                                    });
+                                }
+                                if (layout != null) {
+                                    ViewGroup parentViewGroup = (ViewGroup) layout.getParent();
+                                    if (null != parentViewGroup) {
+                                        parentViewGroup.removeView(layout);
+                                    }
+                                }
+                            }
+                        }
+                    };
+                    timer = new Timer();
+                    //timer.schedule(myTask, 5000);  // 5초후 실행하고 종료
+                    timer.schedule(myTask, 500, 1000); // 5초후 첫실행, 3초마다 계속실행
+                } else if (yourTeamStatus.equals("allow")) {
+                    final MaterialDialog DropOutDialog = new MaterialDialog(rootView.getContext());
+                    DropOutDialog
+                            .setTitle("시합신청")
+                            .setMessage(Team + "팀에서 시합신청을 수락하였습니다.")
+                            .setNegativeButton("시합하기", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String result = "";
+                                    try {
+                                        HttpClient client = new DefaultHttpClient();
+                                        String postURL = "http://210.122.7.193:8080/Web_basket/Gameing.jsp";
+                                        HttpPost post = new HttpPost(postURL);
+                                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                        params.add(new BasicNameValuePair("SendTeam", MyTeam));
+                                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                        post.setEntity(ent);
+                                        HttpResponse response = client.execute(post);
+                                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                        String line = null;
+                                        while ((line = bufreader.readLine()) != null) {
+                                            result += line;
+                                        }
+                                        parsedData_gameStatus = jsonParserList_gameGenerate(result);
+                                    } catch (Exception e) {
+
+                                        e.printStackTrace();
+                                    }
+                                    if (parsedData_gameStatus[0][0].equals("succed")) {
+                                        Contest_Button_Start.setText("시합 중");
+                                        Contest_Button_Start.setTextColor(Color.WHITE);
+                                        Contest_Button_Start.setBackgroundColor(Color.RED);
+                                        DropOutDialog.dismiss();
+                                    }
+                                }
+                            });
+                    DropOutDialog.show();
+                } else if (yourTeamStatus.equals("ing")) {
+                    Contest_Button_Cancel.setVisibility(View.VISIBLE);
+                    Contest_Button_MyTeam.setText(HomeTeam);
+                    Contest_Button_YourTeam.setText(AwayTeam);
+                    Contest_Button_YourTeam.setEnabled(false);
+                    Contest_Button_Start.setText("시합 중");
+                    Contest_Button_Start.setTextColor(Color.WHITE);
+                    Contest_Button_Start.setBackgroundColor(Color.RED);
+                }
+                else if (yourTeamStatus.equals("ScoreCheck")) {
+                    Contest_Button_Cancel.setVisibility(View.VISIBLE);
+                    Contest_Button_MyTeam.setText(HomeTeam);
+                    Contest_Button_YourTeam.setText(AwayTeam);
+                    Contest_Button_YourTeam.setEnabled(false);
+                    Contest_Button_Start.setText("완료 대기중");
+                    Contest_Button_Start.setTextColor(Color.WHITE);
+                    Contest_Button_Start.setBackgroundColor(Color.RED);
+                }
+            }
+            else{
+
+            }
+            final Button Layout_CustomDialog_GameAdd_Button_HomeTeam = (Button) layout_GameAdd.findViewById(R.id.Layout_CustomDialog_GameAdd_Button_HomeTeam);
+            final EditText Layout_CustomDialog_GameAdd_EditText_HomeTeam = (EditText) layout_GameAdd.findViewById(R.id.Layout_CustomDialog_GameAdd_EditText_HomeTeam);
+            final Button Layout_CustomDialog_GameAdd_Button_AwayTeam = (Button) layout_GameAdd.findViewById(R.id.Layout_CustomDialog_GameAdd_Button_AwayTeam);
+            final EditText Layout_CustomDialog_GameAdd_EditText_AwayTeam = (EditText) layout_GameAdd.findViewById(R.id.Layout_CustomDialog_GameAdd_EditText_AwayTeam);
+
+            Contest_Button_Start.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.i("MyTeam",MyTeam);
+                    Log.i("now_Date",now_Date);
+                    String result_personCount = "";           //8명 이하일 경우 처리
+                    try {
+                        HttpClient client = new DefaultHttpClient();
+                        String postURL = "http://210.122.7.193:8080/Web_basket/TeamPersonCount.jsp";
+                        HttpPost post = new HttpPost(postURL);
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+                        params.add(new BasicNameValuePair("MyTeam", MyTeam));
+                        params.add(new BasicNameValuePair("now_Date", now_Date));
+                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                        post.setEntity(ent);
+                        HttpResponse response = client.execute(post);
+                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                        String line = null;
+                        while ((line = bufreader.readLine()) != null) {
+                            result_personCount += line;
+                        }
+                        parsedData_TeamPersonCount = jsonParserList_gameGenerate(result_personCount);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //시합 완료 처리
+                    if (parsedData_TeamPersonCount[0][0].equals("not enough")) {
+                        Snackbar.make(view,"팀원이 부족합니다.(8)",Snackbar.LENGTH_SHORT).show();
+                    }
+                    else if(parsedData_TeamPersonCount[0][0].equals("already")){
+                        Snackbar.make(view,"이미 오늘 경기하셨습니다.",Snackbar.LENGTH_SHORT).show();
+                    }
+                    else{
+                        if(Authority.equals("1")){
+                            if (Contest_Button_YourTeam.getText().toString().equals("팀 찾기")) {
+                                Snackbar.make(view, "팀 찾기 후 이용해주시기 바랍니다.", Snackbar.LENGTH_SHORT).show();
+                            } else if (Contest_Button_Start.getText().toString().equals("시합 중")) {
+                                Layout_CustomDialog_GameAdd_Button_HomeTeam.setText(Contest_Button_MyTeam.getText().toString());
+                                Layout_CustomDialog_GameAdd_Button_AwayTeam.setText(Contest_Button_YourTeam.getText().toString());
+                                final MaterialDialog GameAddDialog = new MaterialDialog(rootView.getContext());
+                                GameAddDialog
+                                        .setTitle("시합 종료")
+                                        .setView(layout_GameAdd)
+                                        .setNegativeButton("취소", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                GameAddDialog.dismiss();
+                                            }
+                                        })
+                                        .setPositiveButton("확인", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                if (Layout_CustomDialog_GameAdd_EditText_HomeTeam.equals("")) {
+                                                    Snackbar.make(v, "점수를 입력해주세요.", Snackbar.LENGTH_SHORT);
+                                                } else if (Layout_CustomDialog_GameAdd_EditText_AwayTeam.equals("")) {
+                                                    Snackbar.make(v, "점수를 입력해주세요.", Snackbar.LENGTH_SHORT);
+                                                } else {
+                                                    String HomeScore = Layout_CustomDialog_GameAdd_EditText_HomeTeam.getText().toString();
+                                                    String AwayScore = Layout_CustomDialog_GameAdd_EditText_AwayTeam.getText().toString();
+                                                    String result = "";
+                                                    try {
+                                                        HttpClient client = new DefaultHttpClient();
+                                                        String postURL = "http://210.122.7.193:8080/Web_basket/GameScoreCheck.jsp";
+                                                        HttpPost post = new HttpPost(postURL);
+                                                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                        params.add(new BasicNameValuePair("SendTeam", Layout_CustomDialog_GameAdd_Button_HomeTeam.getText().toString()));
+                                                        params.add(new BasicNameValuePair("AwayTeam", Layout_CustomDialog_GameAdd_Button_AwayTeam.getText().toString()));
+                                                        params.add(new BasicNameValuePair("HomeScore", HomeScore));
+                                                        params.add(new BasicNameValuePair("AwayScore", AwayScore));
+                                                        params.add(new BasicNameValuePair("MyTeam", MyTeam));
+                                                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                        post.setEntity(ent);
+                                                        HttpResponse response = client.execute(post);
+                                                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                        String line = null;
+                                                        while ((line = bufreader.readLine()) != null) {
+                                                            result += line;
+                                                        }
+                                                        parsedData_gameScoreAdd = jsonParserList_gameGenerate(result);
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    //시합 완료 처리
+                                                    if (parsedData_gameScoreAdd[0][0].equals("succed")) {
+                                                        Contest_Button_Start.setText("완료 대기중");
+                                                    }
+                                                }
+                                                GameAddDialog.dismiss();
+                                            }
+                                        });
+                                GameAddDialog.show();
+                            }
+                            else {
+                                Contest_Button_Cancel.setVisibility(View.VISIBLE);
+                                Contest_Button_YourTeam.setEnabled(false);
+                                if (yourTeamStatus.equals("teamchoice")) {
+                                    String result = "";
+                                    try {
+                                        HttpClient client = new DefaultHttpClient();
+                                        String postURL = "http://210.122.7.193:8080/Web_basket/GameGenerate.jsp";
+                                        HttpPost post = new HttpPost(postURL);
+                                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                        params.add(new BasicNameValuePair("SendTeam", MyTeam));
+                                        params.add(new BasicNameValuePair("ReceiveTeam", Team));
+                                        params.add(new BasicNameValuePair("Time", realTime));
+                                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                        post.setEntity(ent);
+                                        HttpResponse response = client.execute(post);
+                                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                        String line = null;
+                                        while ((line = bufreader.readLine()) != null) {
+                                            result += line;
+                                        }
+                                        parsedData_gameGenerate = jsonParserList_gameGenerate(result);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    ///게임생성.
+                                    if (parsedData_gameGenerate[0][0].equals("succed")) {
+                                        myTask = new TimerTask() {
+                                            int i = 300;
+
+                                            public void run() {
+                                                getActivity().runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        // 해당 작업을 처리함
+                                                        Contest_Button_Start.setText("신청 중 " + i);
+                                                        if (i % 3 == 0) {
+                                                            String result = "";
+                                                            try {
+                                                                HttpClient client = new DefaultHttpClient();
+                                                                String postURL = "http://210.122.7.193:8080/Web_basket/GameStatusCheck.jsp";
+                                                                HttpPost post = new HttpPost(postURL);
+                                                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                                params.add(new BasicNameValuePair("SendTeam", MyTeam));
+                                                                params.add(new BasicNameValuePair("ReceiveTeam", Team));
+                                                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                                post.setEntity(ent);
+                                                                HttpResponse response = client.execute(post);
+                                                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                                String line = null;
+                                                                while ((line = bufreader.readLine()) != null) {
+                                                                    result += line;
+                                                                }
+                                                                parsedData_gameStatus = jsonParserList_gameGenerate(result);
+                                                            } catch (Exception e) {
+                                                                e.printStackTrace();
+                                                            }
+                                                            if (parsedData_gameStatus[0][0].equals(".")) {
+                                                                Log.i("bbbbb", "bbbbb");
+                                                            }
+                                                            ///시합 신청이 수락된 경우
+                                                            else if (parsedData_gameStatus[0][0].equals("allow")) {
+                                                                timer.cancel();
+                                                                final MaterialDialog DropOutDialog = new MaterialDialog(rootView.getContext());
+                                                                DropOutDialog
+                                                                        .setTitle("시합신청")
+                                                                        .setMessage(Team + "팀에서 시합신청을 수락하였습니다.")
+                                                                        .setNegativeButton("시합하기", new View.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(View v) {
+                                                                                String result = "";
+                                                                                try {
+                                                                                    HttpClient client = new DefaultHttpClient();
+                                                                                    String postURL = "http://210.122.7.193:8080/Web_basket/Gameing.jsp";
+                                                                                    HttpPost post = new HttpPost(postURL);
+                                                                                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                                                    params.add(new BasicNameValuePair("SendTeam", MyTeam));
+                                                                                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                                                    post.setEntity(ent);
+                                                                                    HttpResponse response = client.execute(post);
+                                                                                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                                                    String line = null;
+                                                                                    while ((line = bufreader.readLine()) != null) {
+                                                                                        result += line;
+                                                                                    }
+                                                                                    parsedData_gameStatus = jsonParserList_gameGenerate(result);
+                                                                                } catch (Exception e) {
+
+                                                                                    e.printStackTrace();
+                                                                                }
+                                                                                if (parsedData_gameStatus[0][0].equals("succed")) {
+                                                                                    Contest_Button_Start.setText("시합 중");
+                                                                                    Contest_Button_Start.setTextColor(Color.WHITE);
+                                                                                    Contest_Button_Start.setBackgroundColor(Color.RED);
+                                                                                    DropOutDialog.dismiss();
+                                                                                }
+                                                                            }
+                                                                        });
+                                                                DropOutDialog.show();
+                                                            }
+                                                            //시합 신청이 거절된 경우
+                                                            else if (parsedData_gameStatus[0][0].equals("refuse")) {
+                                                                timer.cancel();
+                                                                final MaterialDialog DropOutDialog = new MaterialDialog(rootView.getContext());
+                                                                DropOutDialog
+                                                                        .setTitle("시합신청")
+                                                                        .setMessage(Team + "팀에서 시합신청을 거절하였습니다.")
+                                                                        .setNegativeButton("확인", new View.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(View v) {
+                                                                                String result = "";
+                                                                                try {
+                                                                                    HttpClient client = new DefaultHttpClient();
+                                                                                    String postURL = "http://210.122.7.193:8080/Web_basket/GameDelete.jsp";
+                                                                                    HttpPost post = new HttpPost(postURL);
+                                                                                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                                                    params.add(new BasicNameValuePair("SendTeam", MyTeam));
+                                                                                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                                                    post.setEntity(ent);
+                                                                                    HttpResponse response = client.execute(post);
+                                                                                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                                                    String line = null;
+                                                                                    while ((line = bufreader.readLine()) != null) {
+                                                                                        result += line;
+                                                                                    }
+                                                                                    parsedData_gameDelete = jsonParserList_gameDelete(result);
+                                                                                } catch (Exception e) {
+                                                                                    e.printStackTrace();
+                                                                                }
+                                                                                if (parsedData_gameDelete[0][0].equals("succed")) {
+                                                                                    getActivity().runOnUiThread(new Runnable() {
+                                                                                        @Override
+                                                                                        public void run() {
+                                                                                            yourTeamStatus = "reset";
+                                                                                            Contest_Button_Cancel.setVisibility(View.GONE);
+                                                                                            Contest_Button_YourTeam.setText("팀 찾기");
+                                                                                            Contest_Button_YourTeam.setEnabled(true);
+                                                                                            Contest_Button_Start.setText("시합신청");
+                                                                                            Contest_Button_Start.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                                                                        }
+                                                                                    });
+                                                                                }
+                                                                                if (layout != null) {
+                                                                                    ViewGroup parentViewGroup = (ViewGroup) layout.getParent();
+                                                                                    if (null != parentViewGroup) {
+                                                                                        parentViewGroup.removeView(layout);
+                                                                                    }
+                                                                                }
+                                                                                DropOutDialog.dismiss();
+                                                                            }
+                                                                        });
+                                                                DropOutDialog.show();
+                                                            }
+                                                        }
+                                                    }
+                                                });
+
+                                                Log.d("myTask", Integer.toString(i));
+                                                i--;
+                                                //시간이 초과된 경우 game 내 데이터 삭제 및 초기화.
+                                                if (i == 1) {
+                                                    timer.cancel();
+                                                    String result = "";
+                                                    try {
+                                                        HttpClient client = new DefaultHttpClient();
+                                                        String postURL = "http://210.122.7.193:8080/Web_basket/GameDelete.jsp";
+                                                        HttpPost post = new HttpPost(postURL);
+                                                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                                        params.add(new BasicNameValuePair("SendTeam", MyTeam));
+                                                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                                        post.setEntity(ent);
+                                                        HttpResponse response = client.execute(post);
+                                                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                                        String line = null;
+                                                        while ((line = bufreader.readLine()) != null) {
+                                                            result += line;
+                                                        }
+                                                        parsedData_gameDelete = jsonParserList_gameDelete(result);
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    if (parsedData_gameDelete[0][0].equals("succed")) {
+                                                        getActivity().runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                yourTeamStatus = "reset";
+                                                                Contest_Button_Cancel.setVisibility(View.GONE);
+                                                                Contest_Button_YourTeam.setText("팀 찾기");
+                                                                Contest_Button_YourTeam.setEnabled(true);
+                                                                Contest_Button_Start.setText("시합신청");
+                                                                Contest_Button_Start.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                                            }
+                                                        });
+                                                    }
+                                                    if (layout != null) {
+                                                        ViewGroup parentViewGroup = (ViewGroup) layout.getParent();
+                                                        if (null != parentViewGroup) {
+                                                            parentViewGroup.removeView(layout);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        };
+                                    }
+                                }
+                                timer = new Timer();
+                                //timer.schedule(myTask, 5000);  // 5초후 실행하고 종료
+                                timer.schedule(myTask, 500, 1000); // 5초후 첫실행, 3초마다 계속실행
+                            }
+                        }
+                        else{
+                            Snackbar.make(view,"게임 권한이 없습니다.",Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
+            Contest_Button_Cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!yourTeamStatus.equals("ScoreCheck")){
+                        timer.cancel();
+                    }
+                    new Handler().postDelayed(new Runnable() {// 1 초 후에 실행
+                        @Override
+                        public void run() {
+                            String result = "";
+                            try {
+                                HttpClient client = new DefaultHttpClient();
+                                String postURL = "http://210.122.7.193:8080/Web_basket/GameDelete.jsp";
+                                HttpPost post = new HttpPost(postURL);
+                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                params.add(new BasicNameValuePair("SendTeam", MyTeam));
+                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                post.setEntity(ent);
+                                HttpResponse response = client.execute(post);
+                                BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                String line = null;
+                                while ((line = bufreader.readLine()) != null) {
+                                    result += line;
+                                }
+                                parsedData_gameDelete = jsonParserList_gameDelete(result);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            if (parsedData_gameDelete[0][0].equals("succed")) {
+                                yourTeamStatus = "reset";
+                                Contest_Button_Cancel.setVisibility(View.GONE);
+                                Contest_Button_YourTeam.setText("팀 찾기");
+                                Contest_Button_YourTeam.setEnabled(true);
+                                Contest_Button_Start.setText("시합신청");
+                                Contest_Button_Start.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            }
+                            if (layout != null) {
+                                ViewGroup parentViewGroup = (ViewGroup) layout.getParent();
+                                if (null != parentViewGroup) {
+                                    parentViewGroup.removeView(layout);
+                                }
+                            }
+                        }
+                    }, 1000);
+                }
+            });
+            Contest_Button_YourTeam.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (Contest_Button_YourTeam.getText().toString().equals("팀 찾기")) {
+                        Team = "팀 선택";
+                        final MaterialDialog TeamSearchDialog = new MaterialDialog(view.getContext());
+                        TeamSearchDialog
+                                .setTitle("팀 선택")
+                                .setView(layout)
+                                .setNegativeButton("취소", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Contest_Button_YourTeam.setText("팀 찾기");
+                                        TeamSearchDialog.dismiss();
+                                        if (layout != null) {
+                                            ViewGroup parentViewGroup = (ViewGroup) layout.getParent();
+                                            if (null != parentViewGroup) {
+                                                parentViewGroup.removeView(layout);
+                                            }
+                                        }
+                                    }
+                                })
+                                .setPositiveButton("선택 완료", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (Team.equals("팀 선택")) {
+                                            Snackbar.make(v, "팀을 선택해주세요.", Snackbar.LENGTH_SHORT).show();
+                                        } else {
+                                            TeamSearchDialog.dismiss();
+                                            yourTeamStatus = "teamchoice";
+                                            if (layout != null) {
+                                                ViewGroup parentViewGroup = (ViewGroup) layout.getParent();
+                                                if (null != parentViewGroup) {
+                                                    parentViewGroup.removeView(layout);
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                        TeamSearchDialog.show();
+                    }
+                }
+            });
+            //////////일반적 접근 - 신청 중인 경우.
+            adspin1 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do, R.layout.zfile_spinner_test);
+            adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            Layout_CustomDialog_teamChoice_Do.setAdapter(adspin1);
+
+            Layout_CustomDialog_teamChoice_Do.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    spinnum1 = i;
+                    Do = adspin1.getItem(i).toString();
+                    if (adspin1.getItem(i).equals("서울")) {
+                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Layout_CustomDialog_teamChoice_Se.setAdapter(adspin2);
+                        Layout_CustomDialog_teamChoice_Se.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        spinnum2 = i;
+                                        Si = adspin2.getItem(i).toString();
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
+                                            params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            params.add(new BasicNameValuePair("MyTeam", MyTeam));
+                                            params.add(new BasicNameValuePair("now_Date", now_Date));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData = jsonParserList_TeamSearch(result);
+                                            arr = new ArrayList();
+                                            arr.add("팀 선택");
+                                            for (int a = 0; a < parsedData.length; a++) {
+                                                arr.add(parsedData[a][0]);
+                                            }
+                                            adspin3 = new ArrayAdapter<CharSequence>(rootView.getContext(), android.R.layout.simple_spinner_item, arr);
+                                            adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            Layout_CustomDialog_teamChoice_team.setAdapter(adspin3);
+                                            Layout_CustomDialog_teamChoice_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                                    Team = adspin3.getItem(i).toString();
+                                                    Contest_Button_YourTeam.setText(Team);
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                    }
+                                }
+                        );
+                    } else if (adspin1.getItem(i).equals("인천")) {
+                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_incheon, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Layout_CustomDialog_teamChoice_Se.setAdapter(adspin2);
+                        Layout_CustomDialog_teamChoice_Se.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        spinnum2 = i;
+                                        Si = adspin2.getItem(i).toString();
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
+                                            params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData = jsonParserList_TeamSearch(result);
+                                            arr = new ArrayList();
+                                            arr.add("팀 선택");
+                                            for (int a = 0; a < parsedData.length; a++) {
+                                                arr.add(parsedData[a][0]);
+                                            }
+                                            adspin3 = new ArrayAdapter<CharSequence>(rootView.getContext(), android.R.layout.simple_spinner_item, arr);
+                                            adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            Layout_CustomDialog_teamChoice_team.setAdapter(adspin3);
+                                            Layout_CustomDialog_teamChoice_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    Team = adspin3.getItem(i).toString();
+                                                    Contest_Button_YourTeam.setText(Team);
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                    }
+                                }
+                        );
+                    } else if (adspin1.getItem(i).equals("광주")) {
+                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_gwangju, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Layout_CustomDialog_teamChoice_Se.setAdapter(adspin2);
+                        Layout_CustomDialog_teamChoice_Se.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        spinnum2 = i;
+                                        Si = adspin2.getItem(i).toString();
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
+                                            params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData = jsonParserList_TeamSearch(result);
+                                            arr = new ArrayList();
+                                            arr.add("팀 선택");
+                                            for (int a = 0; a < parsedData.length; a++) {
+                                                arr.add(parsedData[a][0]);
+                                            }
+                                            adspin3 = new ArrayAdapter<CharSequence>(rootView.getContext(), android.R.layout.simple_spinner_item, arr);
+                                            adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            Layout_CustomDialog_teamChoice_team.setAdapter(adspin3);
+                                            Layout_CustomDialog_teamChoice_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    Team = adspin3.getItem(i).toString();
+                                                    Contest_Button_YourTeam.setText(Team);
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                    }
+                                }
+                        );
+                    } else if (adspin1.getItem(i).equals("대구")) {
+                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_DaeGu, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Layout_CustomDialog_teamChoice_Se.setAdapter(adspin2);
+                        Layout_CustomDialog_teamChoice_Se.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        spinnum2 = i;
+                                        Si = adspin2.getItem(i).toString();
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
+                                            params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData = jsonParserList_TeamSearch(result);
+                                            arr = new ArrayList();
+                                            arr.add("팀 선택");
+                                            for (int a = 0; a < parsedData.length; a++) {
+                                                arr.add(parsedData[a][0]);
+                                            }
+                                            adspin3 = new ArrayAdapter<CharSequence>(rootView.getContext(), android.R.layout.simple_spinner_item, arr);
+                                            adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            Layout_CustomDialog_teamChoice_team.setAdapter(adspin3);
+                                            Layout_CustomDialog_teamChoice_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    Team = adspin3.getItem(i).toString();
+                                                    Contest_Button_YourTeam.setText(Team);
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                    }
+                                }
+                        );
+                    } else if (adspin1.getItem(i).equals("울산")) {
+                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Ulsan, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Layout_CustomDialog_teamChoice_Se.setAdapter(adspin2);
+                        Layout_CustomDialog_teamChoice_Se.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        spinnum2 = i;
+                                        Si = adspin2.getItem(i).toString();
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
+                                            params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData = jsonParserList_TeamSearch(result);
+                                            arr = new ArrayList();
+                                            arr.add("팀 선택");
+                                            for (int a = 0; a < parsedData.length; a++) {
+                                                arr.add(parsedData[a][0]);
+                                            }
+                                            adspin3 = new ArrayAdapter<CharSequence>(rootView.getContext(), android.R.layout.simple_spinner_item, arr);
+                                            adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            Layout_CustomDialog_teamChoice_team.setAdapter(adspin3);
+                                            Layout_CustomDialog_teamChoice_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    Team = adspin3.getItem(i).toString();
+                                                    Contest_Button_YourTeam.setText(Team);
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                    }
+                                }
+                        );
+                    } else if (adspin1.getItem(i).equals("대전")) {
+                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_DaeJeon, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Layout_CustomDialog_teamChoice_Se.setAdapter(adspin2);
+                        Layout_CustomDialog_teamChoice_Se.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        spinnum2 = i;
+                                        Si = adspin2.getItem(i).toString();
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
+                                            params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData = jsonParserList_TeamSearch(result);
+                                            arr = new ArrayList();
+                                            arr.add("팀 선택");
+                                            for (int a = 0; a < parsedData.length; a++) {
+                                                arr.add(parsedData[a][0]);
+                                            }
+                                            adspin3 = new ArrayAdapter<CharSequence>(rootView.getContext(), android.R.layout.simple_spinner_item, arr);
+                                            adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            Layout_CustomDialog_teamChoice_team.setAdapter(adspin3);
+                                            Layout_CustomDialog_teamChoice_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    Team = adspin3.getItem(i).toString();
+                                                    Contest_Button_YourTeam.setText(Team);
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                    }
+                                }
+                        );
+                    } else if (adspin1.getItem(i).equals("부산")) {
+                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Busan, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Layout_CustomDialog_teamChoice_Se.setAdapter(adspin2);
+                        Layout_CustomDialog_teamChoice_Se.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        spinnum2 = i;
+                                        Si = adspin2.getItem(i).toString();
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
+                                            params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData = jsonParserList_TeamSearch(result);
+                                            arr = new ArrayList();
+                                            arr.add("팀 선택");
+                                            for (int a = 0; a < parsedData.length; a++) {
+                                                arr.add(parsedData[a][0]);
+                                            }
+                                            adspin3 = new ArrayAdapter<CharSequence>(rootView.getContext(), android.R.layout.simple_spinner_item, arr);
+                                            adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            Layout_CustomDialog_teamChoice_team.setAdapter(adspin3);
+                                            Layout_CustomDialog_teamChoice_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    Team = adspin3.getItem(i).toString();
+                                                    Contest_Button_YourTeam.setText(Team);
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                    }
+                                }
+                        );
+                    } else if (adspin1.getItem(i).equals("강원도")) {
+                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Gangwondo, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Layout_CustomDialog_teamChoice_Se.setAdapter(adspin2);
+                        Layout_CustomDialog_teamChoice_Se.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        spinnum2 = i;
+                                        Si = adspin2.getItem(i).toString();
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
+                                            params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData = jsonParserList_TeamSearch(result);
+                                            arr = new ArrayList();
+                                            arr.add("팀 선택");
+                                            for (int a = 0; a < parsedData.length; a++) {
+                                                arr.add(parsedData[a][0]);
+                                            }
+                                            adspin3 = new ArrayAdapter<CharSequence>(rootView.getContext(), android.R.layout.simple_spinner_item, arr);
+                                            adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            Layout_CustomDialog_teamChoice_team.setAdapter(adspin3);
+                                            Layout_CustomDialog_teamChoice_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    Team = adspin3.getItem(i).toString();
+                                                    Contest_Button_YourTeam.setText(Team);
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                    }
+                                }
+                        );
+                    } else if (adspin1.getItem(i).equals("경기도")) {
+                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Gyeonggido, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Layout_CustomDialog_teamChoice_Se.setAdapter(adspin2);
+                        Layout_CustomDialog_teamChoice_Se.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        spinnum2 = i;
+                                        Si = adspin2.getItem(i).toString();
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
+                                            params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData = jsonParserList_TeamSearch(result);
+                                            arr = new ArrayList();
+                                            arr.add("팀 선택");
+                                            for (int a = 0; a < parsedData.length; a++) {
+                                                arr.add(parsedData[a][0]);
+                                            }
+                                            adspin3 = new ArrayAdapter<CharSequence>(rootView.getContext(), android.R.layout.simple_spinner_item, arr);
+                                            adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            Layout_CustomDialog_teamChoice_team.setAdapter(adspin3);
+                                            Layout_CustomDialog_teamChoice_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    Team = adspin3.getItem(i).toString();
+                                                    Contest_Button_YourTeam.setText(Team);
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                    }
+                                }
+                        );
+                    } else if (adspin1.getItem(i).equals("충청북도")) {
+                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Chungcheongbukdo, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Layout_CustomDialog_teamChoice_Se.setAdapter(adspin2);
+                        Layout_CustomDialog_teamChoice_Se.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        spinnum2 = i;
+                                        Si = adspin2.getItem(i).toString();
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
+                                            params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData = jsonParserList_TeamSearch(result);
+                                            arr = new ArrayList();
+                                            arr.add("팀 선택");
+                                            for (int a = 0; a < parsedData.length; a++) {
+                                                arr.add(parsedData[a][0]);
+                                            }
+                                            adspin3 = new ArrayAdapter<CharSequence>(rootView.getContext(), android.R.layout.simple_spinner_item, arr);
+                                            adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            Layout_CustomDialog_teamChoice_team.setAdapter(adspin3);
+                                            Layout_CustomDialog_teamChoice_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    Team = adspin3.getItem(i).toString();
+                                                    Contest_Button_YourTeam.setText(Team);
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                    }
+                                }
+                        );
+                    } else if (adspin1.getItem(i).equals("충청남도")) {
+                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Chungcheongnamdo, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Layout_CustomDialog_teamChoice_Se.setAdapter(adspin2);
+                        Layout_CustomDialog_teamChoice_Se.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        spinnum2 = i;
+                                        Si = adspin2.getItem(i).toString();
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
+                                            params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData = jsonParserList_TeamSearch(result);
+                                            arr = new ArrayList();
+                                            arr.add("팀 선택");
+                                            for (int a = 0; a < parsedData.length; a++) {
+                                                arr.add(parsedData[a][0]);
+                                            }
+                                            adspin3 = new ArrayAdapter<CharSequence>(rootView.getContext(), android.R.layout.simple_spinner_item, arr);
+                                            adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            Layout_CustomDialog_teamChoice_team.setAdapter(adspin3);
+                                            Layout_CustomDialog_teamChoice_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    Team = adspin3.getItem(i).toString();
+                                                    Contest_Button_YourTeam.setText(Team);
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                    }
+                                }
+                        );
+                    } else if (adspin1.getItem(i).equals("전라북도")) {
+                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Jeolabukdo, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Layout_CustomDialog_teamChoice_Se.setAdapter(adspin2);
+                        Layout_CustomDialog_teamChoice_Se.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        spinnum2 = i;
+                                        Si = adspin2.getItem(i).toString();
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
+                                            params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData = jsonParserList_TeamSearch(result);
+                                            arr = new ArrayList();
+                                            arr.add("팀 선택");
+                                            for (int a = 0; a < parsedData.length; a++) {
+                                                arr.add(parsedData[a][0]);
+                                            }
+                                            adspin3 = new ArrayAdapter<CharSequence>(rootView.getContext(), android.R.layout.simple_spinner_item, arr);
+                                            adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            Layout_CustomDialog_teamChoice_team.setAdapter(adspin3);
+                                            Layout_CustomDialog_teamChoice_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    Team = adspin3.getItem(i).toString();
+                                                    Contest_Button_YourTeam.setText(Team);
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                    }
+                                }
+                        );
+                    } else if (adspin1.getItem(i).equals("전라남도")) {
+                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Jeolanamdo, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Layout_CustomDialog_teamChoice_Se.setAdapter(adspin2);
+                        Layout_CustomDialog_teamChoice_Se.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        spinnum2 = i;
+                                        Si = adspin2.getItem(i).toString();
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
+                                            params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData = jsonParserList_TeamSearch(result);
+                                            arr = new ArrayList();
+                                            arr.add("팀 선택");
+                                            for (int a = 0; a < parsedData.length; a++) {
+                                                arr.add(parsedData[a][0]);
+                                            }
+                                            adspin3 = new ArrayAdapter<CharSequence>(rootView.getContext(), android.R.layout.simple_spinner_item, arr);
+                                            adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            Layout_CustomDialog_teamChoice_team.setAdapter(adspin3);
+                                            Layout_CustomDialog_teamChoice_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    Team = adspin3.getItem(i).toString();
+                                                    Contest_Button_YourTeam.setText(Team);
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                    }
+                                }
+                        );
+                    } else if (adspin1.getItem(i).equals("경상북도")) {
+                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Gyeongsangbukdo, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Layout_CustomDialog_teamChoice_Se.setAdapter(adspin2);
+                        Layout_CustomDialog_teamChoice_Se.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        spinnum2 = i;
+                                        Si = adspin2.getItem(i).toString();
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
+                                            params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData = jsonParserList_TeamSearch(result);
+                                            arr = new ArrayList();
+                                            arr.add("팀 선택");
+                                            for (int a = 0; a < parsedData.length; a++) {
+                                                arr.add(parsedData[a][0]);
+                                            }
+                                            adspin3 = new ArrayAdapter<CharSequence>(rootView.getContext(), android.R.layout.simple_spinner_item, arr);
+                                            adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            Layout_CustomDialog_teamChoice_team.setAdapter(adspin3);
+                                            Layout_CustomDialog_teamChoice_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    Team = adspin3.getItem(i).toString();
+                                                    Contest_Button_YourTeam.setText(Team);
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                    }
+                                }
+                        );
+                    } else if (adspin1.getItem(i).equals("경상남도")) {
+                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Gyeongsangnamdo, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Layout_CustomDialog_teamChoice_Se.setAdapter(adspin2);
+                        Layout_CustomDialog_teamChoice_Se.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        spinnum2 = i;
+                                        Si = adspin2.getItem(i).toString();
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
+                                            params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData = jsonParserList_TeamSearch(result);
+                                            arr = new ArrayList();
+                                            arr.add("팀 선택");
+                                            for (int a = 0; a < parsedData.length; a++) {
+                                                arr.add(parsedData[a][0]);
+                                            }
+                                            adspin3 = new ArrayAdapter<CharSequence>(rootView.getContext(), android.R.layout.simple_spinner_item, arr);
+                                            adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            Layout_CustomDialog_teamChoice_team.setAdapter(adspin3);
+                                            Layout_CustomDialog_teamChoice_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    Team = adspin3.getItem(i).toString();
+                                                    Contest_Button_YourTeam.setText(Team);
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                    }
+                                }
+                        );
+                    } else if (adspin1.getItem(i).equals("제주도")) {
+                        adspin2 = ArrayAdapter.createFromResource(rootView.getContext(), R.array.spinner_do_Jejudo, R.layout.zfile_spinner_test);
+                        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        Layout_CustomDialog_teamChoice_Se.setAdapter(adspin2);
+                        Layout_CustomDialog_teamChoice_Se.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        spinnum2 = i;
+                                        Si = adspin2.getItem(i).toString();
+                                        String result = "";
+                                        try {
+                                            HttpClient client = new DefaultHttpClient();
+                                            String postURL = "http://210.122.7.193:8080/Web_basket/TeamInformation.jsp";
+                                            HttpPost post = new HttpPost(postURL);
+                                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                            params.add(new BasicNameValuePair("TeamSearch_Do", (String) adspin1.getItem(spinnum1)));
+                                            params.add(new BasicNameValuePair("TeamSearch_Si", (String) adspin2.getItem(spinnum2)));
+                                            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                            post.setEntity(ent);
+                                            HttpResponse response = client.execute(post);
+                                            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                            String line = null;
+                                            while ((line = bufreader.readLine()) != null) {
+                                                result += line;
+                                            }
+                                            parsedData = jsonParserList_TeamSearch(result);
+                                            arr = new ArrayList();
+                                            arr.add("팀 선택");
+                                            for (int a = 0; a < parsedData.length; a++) {
+                                                arr.add(parsedData[a][0]);
+                                            }
+                                            adspin3 = new ArrayAdapter<CharSequence>(rootView.getContext(), android.R.layout.simple_spinner_item, arr);
+                                            adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            Layout_CustomDialog_teamChoice_team.setAdapter(adspin3);
+                                            Layout_CustomDialog_teamChoice_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    Team = adspin3.getItem(i).toString();
+                                                    Contest_Button_YourTeam.setText(Team);
+                                                }
+
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> adapterView) {
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                    }
+                                }
+                        );
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
             return rootView;
         }
+        public String[][] jsonParserList_TeamSearch(String pRecvServerPage) {
+            Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+            try {
+                JSONObject json = new JSONObject(pRecvServerPage);
+                JSONArray jArr = json.getJSONArray("List");
 
+                String[] jsonName = {"msg1"};
+                String[][] parseredData = new String[jArr.length()][jsonName.length];
+                for (int i = 0; i < jArr.length(); i++) {
+                    json = jArr.getJSONObject(i);
+                    for (int j = 0; j < jsonName.length; j++) {
+                        parseredData[i][j] = json.getString(jsonName[j]);
+                    }
+                }
+                return parseredData;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        public String[][] jsonParserList_gameGenerate(String pRecvServerPage) {
+            Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+            try {
+                JSONObject json = new JSONObject(pRecvServerPage);
+                JSONArray jArr = json.getJSONArray("List");
+
+                String[] jsonName = {"msg1"};
+                String[][] parseredData = new String[jArr.length()][jsonName.length];
+                for (int i = 0; i < jArr.length(); i++) {
+                    json = jArr.getJSONObject(i);
+                    for (int j = 0; j < jsonName.length; j++) {
+                        parseredData[i][j] = json.getString(jsonName[j]);
+                    }
+                }
+                return parseredData;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        public String[][] jsonParserList_gameDelete(String pRecvServerPage) {
+            Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+            try {
+                JSONObject json = new JSONObject(pRecvServerPage);
+                JSONArray jArr = json.getJSONArray("List");
+
+                String[] jsonName = {"msg1"};
+                String[][] parseredData = new String[jArr.length()][jsonName.length];
+                for (int i = 0; i < jArr.length(); i++) {
+                    json = jArr.getJSONObject(i);
+                    for (int j = 0; j < jsonName.length; j++) {
+                        parseredData[i][j] = json.getString(jsonName[j]);
+                    }
+                }
+                return parseredData;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
     }
 
     public static class SectionsFragment3 extends Fragment {
@@ -2151,16 +3861,17 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
 
         LinearLayout layout_league_Root;
         TextView update_textview;
+        ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
         ///////////////////////////////내 팀 게임 탭 선언
-        Button League_Button_MyTeam, League_Button_YourTeam, League_Button_Start, League_Button_Cancel;
+       /* Button League_Button_MyTeam, League_Button_YourTeam, League_Button_Start, League_Button_Cancel;
         String TabChoice = "1";
         String Do, Si, Team;
         int spinnum1, spinnum2, spinnum3;
-        ArrayAdapter<CharSequence> adspin1, adspin2, adspin3;
+
         String[][] parsedData, parsedData_gameGenerate, parsedData_gameDelete, parsedData_gameStatus, parsedData_gameScoreAdd,parsedData_TeamPersonCount;
         ArrayList arr;
         static TimerTask myTask;
-        static Timer timer;
+        static Timer timer;*/
 ///////////내 팀 기록 탭 선언//////////////////////////////////////////////////////////
 ListView Leauge_myRecord_ListView;
         ////////////////////////////////////////////////
@@ -2179,10 +3890,10 @@ ListView Leauge_myRecord_ListView;
             layout_league_Root= (LinearLayout)rootView.findViewById(R.id.layout_league_Root);
             update_textview =(TextView) rootView.findViewById(R.id.update_textview);
 ////////////게임 탭 선언
-            League_Button_MyTeam = (Button) rootView.findViewById(R.id.League_Button_MyTeam);
+         /*   League_Button_MyTeam = (Button) rootView.findViewById(R.id.League_Button_MyTeam);
             League_Button_YourTeam = (Button) rootView.findViewById(R.id.League_Button_YourTeam);
             League_Button_Start = (Button) rootView.findViewById(R.id.League_Button_Start);
-            League_Button_Cancel = (Button) rootView.findViewById(R.id.League_Button_Cancel);
+            League_Button_Cancel = (Button) rootView.findViewById(R.id.League_Button_Cancel);*/
             ////랭크 탭 선언///////////////////////////////////////
 
             Spinner League_Rank_Spinner_Do = (Spinner) rootView.findViewById(R.id.League_Rank_Spinner_Do);
@@ -2728,7 +4439,7 @@ ListView Leauge_myRecord_ListView;
 
             });
             /////////////////////내 팀 게임탭/////////////////////////////////////////////////////////////////////
-            final Spinner Layout_CustomDialog_teamChoice_Do = (Spinner) layout.findViewById(R.id.Layout_CustomDialog_teamChoice_Do);
+          /*  final Spinner Layout_CustomDialog_teamChoice_Do = (Spinner) layout.findViewById(R.id.Layout_CustomDialog_teamChoice_Do);
             final Spinner Layout_CustomDialog_teamChoice_Se = (Spinner) layout.findViewById(R.id.Layout_CustomDialog_teamChoice_Se);
             final Spinner Layout_CustomDialog_teamChoice_team = (Spinner) layout.findViewById(R.id.Layout_CustomDialog_teamChoice_team);
 
@@ -3036,13 +4747,13 @@ ListView Leauge_myRecord_ListView;
             }
             //////////////////////////////////////////////
          //////////////////////////////   내 팀 기록 하단
-
+*/
 
 //./////////////////////////////////탭 구분.//////////////////////////////////////////////////////////////////////////
             League_Button_1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    TabChoice = "1";
+                   // TabChoice = "1";
                     League_Layout_1.setVisibility(View.VISIBLE);
                     League_Layout_2.setVisibility(View.GONE);
                 }
@@ -3053,7 +4764,7 @@ ListView Leauge_myRecord_ListView;
                     Snackbar.make(view,"점검 중입니다.",Snackbar.LENGTH_SHORT).show();
                     String a="테스트";
                     if(a.equals("테스트")){
-                    TabChoice = "2";
+                    //TabChoice = "2";
                     League_Layout_1.setVisibility(View.GONE);
                     League_Layout_2.setVisibility(View.VISIBLE);
 
@@ -3136,6 +4847,7 @@ ListView Leauge_myRecord_ListView;
                     }
                 }
             });
+            /*
             ///게임 탭 액션
             final Button Layout_CustomDialog_GameAdd_Button_HomeTeam = (Button) layout_GameAdd.findViewById(R.id.Layout_CustomDialog_GameAdd_Button_HomeTeam);
             final EditText Layout_CustomDialog_GameAdd_EditText_HomeTeam = (EditText) layout_GameAdd.findViewById(R.id.Layout_CustomDialog_GameAdd_EditText_HomeTeam);
@@ -4456,7 +6168,7 @@ ListView Leauge_myRecord_ListView;
                 public void onNothingSelected(AdapterView<?> adapterView) {
 
                 }
-            });
+            });*/
             return rootView;
         }
 
@@ -4625,7 +6337,7 @@ public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
         String[][] parsedData_overLap, parsedData_TeamCheck, parsedData_Alarm;
         String ProfileUrl;
         Bitmap bmImg;
-
+        String Position;
         final int REQ_SELECT = 0;
 
         public SectionsFragment4() {
@@ -4668,14 +6380,14 @@ public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
             });
 
             String Name = parsedData_Profile[0][2];
-            String Position = parsedData_Profile[0][5];
+            Position = parsedData_Profile[0][5];
             Profile = parsedData_Profile[0][7];
             String Sex = parsedData_Profile[0][2];
             Team1 = parsedData_Profile[0][6];
             String Age = ChangeAge(parsedData_Profile[0][4]);
             Profile_Button_Name.setText(Name);
             Profile_Button_Position.setText(Position);
-            Profile_Button_Age_Physical.setText(Age);
+            Profile_Button_Age_Physical.setText(Age+" / "+ Height +" / "+Weight);
             Profile_Button_TeamName.setText(Team1);
             //유저 개인 이미지를 서버에서 받아옵니다.
             try {
@@ -4820,6 +6532,280 @@ public String[][] jsonParserList_getTeamName(String pRecvServerPage) {
                     }
                 }
             });
+            /////////////////////////////////////////////////////////////////////////////////////////////////////
+            //////회원정보 수정
+            Profile_Button_Position.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+                    final View layout= inflater.inflate(R.layout.layout_customdialog_change_position, null);
+                    final RadioGroup rg = (RadioGroup)layout.findViewById(R.id.Positon_Root);
+
+                    final RadioButton Positon_Center = (RadioButton)layout.findViewById(R.id.Positon_Center);
+                    final RadioButton Positon_PowerFoward = (RadioButton)layout.findViewById(R.id.Positon_PowerFoward);
+                    final RadioButton Positon_SmallFoward = (RadioButton)layout.findViewById(R.id.Positon_SmallFoward);
+                    final RadioButton Positon_ShootingGuard = (RadioButton)layout.findViewById(R.id.Positon_ShootingGuard);
+                    final RadioButton Positon_PointGuard = (RadioButton)layout.findViewById(R.id.Positon_PointGuard);
+                    final Spinner Positon_Spinner_Height = (Spinner)layout.findViewById(R.id.Positon_Spinner_Height);
+                    final Spinner Positon_Spinner_Weight = (Spinner)layout.findViewById(R.id.Positon_Spinner_Weight);
+                    if(Position.equals("센터")){
+                        Positon_Center.setChecked(true);
+                    }
+                    if(Position.equals("파워포워드")){
+                        Positon_PowerFoward.setChecked(true);
+                    }
+                    if(Position.equals("스몰포워드")){
+                        Positon_SmallFoward.setChecked(true);
+                    }
+                    if(Position.equals("포인트가드")){
+                        Positon_PointGuard.setChecked(true);
+                    }
+                    if(Position.equals("슈팅가드")){
+                        Positon_ShootingGuard.setChecked(true);
+                    }
+                    //Positon_Spinner_Weight.setSelection(2);
+                    //멤버의 세부내역 입력 Dialog 생성 및 보이기
+
+
+                    ArrayAdapter<CharSequence> adspin1,adspin2;
+                    adspin1 = ArrayAdapter.createFromResource(getContext(), R.array.height, R.layout.zfile_spinner_test);
+                    adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                    Positon_Spinner_Height.setAdapter(adspin1);
+                    Positon_Spinner_Height.setSelection(Integer.parseInt(Height)-120,false);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.weight, R.layout.zfile_spinner_test);
+                    adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    Positon_Spinner_Weight.setAdapter(adspin2);
+                    AlertDialog.Builder buider= new AlertDialog.Builder(view.getContext()); //AlertDialog.Builder 객체 생성
+                    buider.setTitle("변경"); //Dialog 제목
+                    buider.setIcon(android.R.drawable.ic_menu_add); //제목옆의 아이콘 이미지(원하는 이미지 설정)
+                    buider.setView(layout);
+                    buider.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String CheckID = String.valueOf(rg.getCheckedRadioButtonId());
+
+                            if(CheckID.equals(String.valueOf(Positon_Center.getId()))){
+                                Position="센터";
+                                Profile_Button_Position.setText(Position);
+                            }else if(CheckID.equals(String.valueOf(Positon_PowerFoward.getId()))){
+                                Position="파워포워드";
+                                Profile_Button_Position.setText(Position);
+                            }else if(CheckID.equals(String.valueOf(Positon_SmallFoward.getId()))){
+                                Position="스몰포워드";
+                                Profile_Button_Position.setText(Position);
+                            }else if(CheckID.equals(String.valueOf(Positon_ShootingGuard.getId()))){
+                                Position="슛팅가드";
+                                Profile_Button_Position.setText(Position);
+                            }else if(CheckID.equals(String.valueOf(Positon_PointGuard.getId()))){
+                                Position="포인트가드";
+                                Profile_Button_Position.setText(Position);
+                            }
+                            try {
+                                HttpClient client = new DefaultHttpClient();
+                                String postURL = "http://210.122.7.193:8080/gg/user_information_update.jsp";
+
+                                HttpPost post = new HttpPost(postURL);
+                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                params.add(new BasicNameValuePair("id", Id));
+                                params.add(new BasicNameValuePair("Position",Position));
+                                params.add(new BasicNameValuePair("Height",String.valueOf(Positon_Spinner_Height.getSelectedItem())));
+                                params.add(new BasicNameValuePair("Weight",String.valueOf(Positon_Spinner_Weight.getSelectedItem())));
+                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                post.setEntity(ent);
+                                HttpResponse response = client.execute(post);
+                            } catch (Exception e) {
+                                Snackbar.make(view, "다시시도해주세요.", Snackbar.LENGTH_SHORT).show();
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    AlertDialog dialog=buider.create();
+                    dialog.show();
+                }
+            });
+            Profile_Button_TeamName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+                    final View layout= inflater.inflate(R.layout.layout_customdialog_change_position, null);
+                    final RadioGroup rg = (RadioGroup)layout.findViewById(R.id.Positon_Root);
+
+                    final RadioButton Positon_Center = (RadioButton)layout.findViewById(R.id.Positon_Center);
+                    final RadioButton Positon_PowerFoward = (RadioButton)layout.findViewById(R.id.Positon_PowerFoward);
+                    final RadioButton Positon_SmallFoward = (RadioButton)layout.findViewById(R.id.Positon_SmallFoward);
+                    final RadioButton Positon_ShootingGuard = (RadioButton)layout.findViewById(R.id.Positon_ShootingGuard);
+                    final RadioButton Positon_PointGuard = (RadioButton)layout.findViewById(R.id.Positon_PointGuard);
+                    final Spinner Positon_Spinner_Height = (Spinner)layout.findViewById(R.id.Positon_Spinner_Height);
+                    final Spinner Positon_Spinner_Weight = (Spinner)layout.findViewById(R.id.Positon_Spinner_Weight);
+                    if(Position.equals("센터")){
+                        Positon_Center.setChecked(true);
+                    }
+                    if(Position.equals("파워포워드")){
+                        Positon_PowerFoward.setChecked(true);
+                    }
+                    if(Position.equals("스몰포워드")){
+                        Positon_SmallFoward.setChecked(true);
+                    }
+                    if(Position.equals("포인트가드")){
+                        Positon_PointGuard.setChecked(true);
+                    }
+                    if(Position.equals("슈팅가드")){
+                        Positon_ShootingGuard.setChecked(true);
+                    }
+                    //멤버의 세부내역 입력 Dialog 생성 및 보이기
+
+
+                    ArrayAdapter<CharSequence> adspin1,adspin2;
+                    adspin1 = ArrayAdapter.createFromResource(getContext(), R.array.height, R.layout.zfile_spinner_test);
+                    adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    Positon_Spinner_Height.setAdapter(adspin1);
+
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.weight, R.layout.zfile_spinner_test);
+                    adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    Positon_Spinner_Weight.setAdapter(adspin2);
+                    AlertDialog.Builder buider= new AlertDialog.Builder(view.getContext()); //AlertDialog.Builder 객체 생성
+                    buider.setTitle("변경"); //Dialog 제목
+                    buider.setIcon(android.R.drawable.ic_menu_add); //제목옆의 아이콘 이미지(원하는 이미지 설정)
+                    buider.setView(layout);
+                    buider.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String CheckID = String.valueOf(rg.getCheckedRadioButtonId());
+
+                            if(CheckID.equals(String.valueOf(Positon_Center.getId()))){
+                                Position="센터";
+                                Profile_Button_Position.setText(Position);
+                            }else if(CheckID.equals(String.valueOf(Positon_PowerFoward.getId()))){
+                                Position="파워포워드";
+                                Profile_Button_Position.setText(Position);
+                            }else if(CheckID.equals(String.valueOf(Positon_SmallFoward.getId()))){
+                                Position="스몰포워드";
+                                Profile_Button_Position.setText(Position);
+                            }else if(CheckID.equals(String.valueOf(Positon_ShootingGuard.getId()))){
+                                Position="슛팅가드";
+                                Profile_Button_Position.setText(Position);
+                            }else if(CheckID.equals(String.valueOf(Positon_PointGuard.getId()))){
+                                Position="포인트가드";
+                                Profile_Button_Position.setText(Position);
+                            }
+                            try {
+                                HttpClient client = new DefaultHttpClient();
+                                String postURL = "http://210.122.7.193:8080/gg/user_information_update.jsp";
+
+                                HttpPost post = new HttpPost(postURL);
+                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                params.add(new BasicNameValuePair("id", Id));
+                                params.add(new BasicNameValuePair("Position",Position));
+                                params.add(new BasicNameValuePair("Height",String.valueOf(Positon_Spinner_Height.getSelectedItem())));
+                                params.add(new BasicNameValuePair("Weight",String.valueOf(Positon_Spinner_Weight.getSelectedItem())));
+                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                post.setEntity(ent);
+                                HttpResponse response = client.execute(post);
+                            } catch (Exception e) {
+                                Snackbar.make(view, "다시시도해주세요.", Snackbar.LENGTH_SHORT).show();
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    AlertDialog dialog=buider.create();
+                    dialog.show();
+                }
+            });
+            Profile_Button_Age_Physical.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+                    final View layout= inflater.inflate(R.layout.layout_customdialog_change_position, null);
+                    final RadioGroup rg = (RadioGroup)layout.findViewById(R.id.Positon_Root);
+
+                    final RadioButton Positon_Center = (RadioButton)layout.findViewById(R.id.Positon_Center);
+                    final RadioButton Positon_PowerFoward = (RadioButton)layout.findViewById(R.id.Positon_PowerFoward);
+                    final RadioButton Positon_SmallFoward = (RadioButton)layout.findViewById(R.id.Positon_SmallFoward);
+                    final RadioButton Positon_ShootingGuard = (RadioButton)layout.findViewById(R.id.Positon_ShootingGuard);
+                    final RadioButton Positon_PointGuard = (RadioButton)layout.findViewById(R.id.Positon_PointGuard);
+                    final Spinner Positon_Spinner_Height = (Spinner)layout.findViewById(R.id.Positon_Spinner_Height);
+                    final Spinner Positon_Spinner_Weight = (Spinner)layout.findViewById(R.id.Positon_Spinner_Weight);
+
+                    //멤버의 세부내역 입력 Dialog 생성 및 보이기
+                    if(Position.equals("센터")){
+                        Positon_Center.setChecked(true);
+                    }
+                    if(Position.equals("파워포워드")){
+                        Positon_PowerFoward.setChecked(true);
+                    }
+                    if(Position.equals("스몰포워드")){
+                        Positon_SmallFoward.setChecked(true);
+                    }
+                    if(Position.equals("포인트가드")){
+                        Positon_PointGuard.setChecked(true);
+                    }
+                    if(Position.equals("슈팅가드")){
+                        Positon_ShootingGuard.setChecked(true);
+                    }
+
+                    ArrayAdapter<CharSequence> adspin1,adspin2;
+                    adspin1 = ArrayAdapter.createFromResource(getContext(), R.array.height, R.layout.zfile_spinner_test);
+                    adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    Positon_Spinner_Height.setAdapter(adspin1);
+
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.weight, R.layout.zfile_spinner_test);
+                    adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    Positon_Spinner_Weight.setAdapter(adspin2);
+                    AlertDialog.Builder buider= new AlertDialog.Builder(view.getContext()); //AlertDialog.Builder 객체 생성
+                    buider.setTitle("변경"); //Dialog 제목
+                    buider.setIcon(android.R.drawable.ic_menu_add); //제목옆의 아이콘 이미지(원하는 이미지 설정)
+                    buider.setView(layout);
+                    buider.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String CheckID = String.valueOf(rg.getCheckedRadioButtonId());
+
+                            if(CheckID.equals(String.valueOf(Positon_Center.getId()))){
+                                Position="센터";
+                                Profile_Button_Position.setText(Position);
+                            }else if(CheckID.equals(String.valueOf(Positon_PowerFoward.getId()))){
+                                Position="파워포워드";
+                                Profile_Button_Position.setText(Position);
+                            }else if(CheckID.equals(String.valueOf(Positon_SmallFoward.getId()))){
+                                Position="스몰포워드";
+                                Profile_Button_Position.setText(Position);
+                            }else if(CheckID.equals(String.valueOf(Positon_ShootingGuard.getId()))){
+                                Position="슛팅가드";
+                                Profile_Button_Position.setText(Position);
+                            }else if(CheckID.equals(String.valueOf(Positon_PointGuard.getId()))){
+                                Position="포인트가드";
+                                Profile_Button_Position.setText(Position);
+                            }
+                            try {
+                                HttpClient client = new DefaultHttpClient();
+                                String postURL = "http://210.122.7.193:8080/gg/user_information_update.jsp";
+
+                                HttpPost post = new HttpPost(postURL);
+                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                params.add(new BasicNameValuePair("id", Id));
+                                params.add(new BasicNameValuePair("Position",Position));
+                                params.add(new BasicNameValuePair("Height",String.valueOf(Positon_Spinner_Height.getSelectedItem())));
+                                params.add(new BasicNameValuePair("Weight",String.valueOf(Positon_Spinner_Weight.getSelectedItem())));
+                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                post.setEntity(ent);
+                                HttpResponse response = client.execute(post);
+                            } catch (Exception e) {
+                                Snackbar.make(view, "다시시도해주세요.", Snackbar.LENGTH_SHORT).show();
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    AlertDialog dialog=buider.create();
+                    dialog.show();
+                }
+            });
+
+            ////////////////////////////////////////////////////////////////회원정보 수정 끝
+            ///팀 만들기 버튼
             Profile_Button_TeamMake.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
