@@ -14,10 +14,10 @@
 
         <ImageView
             android:layout_width="match_parent"
-            app:srcCompat="@drawable/common_plus_signin_btn_text_dark_pressed"
             android:layout_height="120dp"
             android:scaleType="fitXY"
-            android:id="@+id/Contest_logoImage" />
+            android:id="@+id/Contest_logoImage"
+            app:srcCompat="@drawable/common_plus_signin_btn_text_dark_focused" />
 
         <TextView
             android:text="대회명 : "
@@ -54,9 +54,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    app:srcCompat="@drawable/ic_account_circle_black_36px"
                     android:id="@+id/imageView9"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_account_circle_black_36px" />
 
                 <TextView
                     android:text="17/30"
@@ -69,9 +69,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="19dp"
-                    app:srcCompat="@drawable/ic_account_circle_black_36px"
                     android:id="@+id/imageView10"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_account_circle_black_36px" />
 
                 <TextView
                     android:text="30p"

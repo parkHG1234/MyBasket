@@ -4,7 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/10-20.iml" filepath="$PROJECT_DIR$/10-20.iml" />
       <module fileurl="file://$PROJECT_DIR$/10-9.iml" filepath="$PROJECT_DIR$/10-9.iml" />
+      <module fileurl="file://$PROJECT_DIR$/1108.iml" filepath="$PROJECT_DIR$/1108.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyBasket.iml" filepath="$PROJECT_DIR$/MyBasket.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
