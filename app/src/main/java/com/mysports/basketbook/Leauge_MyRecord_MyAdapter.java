@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -87,12 +88,16 @@ public class Leauge_MyRecord_MyAdapter extends BaseAdapter {
                     Glide.with(convertView.getContext()).load(R.drawable.profile_basic_image).into(Leauge_MyRecord_Image_HomeTeam);
                 } else {
                     Glide.with(convertView.getContext()).load("http://210.122.7.193:8080/Web_basket/imgs/Emblem/" + En_Profile_home + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(convertView.getContext()).getBitmapPool()))
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
                             .into(Leauge_MyRecord_Image_HomeTeam);
                 }
                 if (awayEmblem.equals(".")) {
                     Glide.with(convertView.getContext()).load(R.drawable.profile_basic_image).into(Leauge_MyRecord_Image_AwayTeam);
                 } else {
                     Glide.with(convertView.getContext()).load("http://210.122.7.193:8080/Web_basket/imgs/Emblem/" + En_Profile_away + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(convertView.getContext()).getBitmapPool()))
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
                             .into(Leauge_MyRecord_Image_AwayTeam);
                 }
 

@@ -4,16 +4,21 @@
     android:id="@+id/login_layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="1"
-    android:background="@color/White">
+    android:orientation="vertical">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:background="@drawable/main2"
+       >
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.15"></LinearLayout>
+        android:layout_weight="0.15"
+        android:layout_height="200dp"></LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -34,8 +39,12 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/id_Layout_EditText"
                 android:layout_weight="1"
+                android:textColor="@color/White"
                 android:ems="20"
-                android:hint="ID" />
+                android:hint="ID"
+                android:textColorHint="@color/White"
+                android:textColorHighlight="@color/White"
+                />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
@@ -55,8 +64,11 @@
                 android:inputType="textPassword"
                 android:ems="20"
                 android:id="@+id/pw_Layout_EditText"
+                android:textColor="@color/White"
                 android:layout_weight="1"
-                android:hint="Password"/>
+                android:hint="Password"
+                android:textColorHint="@color/White"
+                android:textColorHighlight="@color/White"/>
         </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
@@ -67,8 +79,10 @@
         android:text="자동 로그인"
         android:id="@+id/autuLogin_chkbox"
         android:layout_gravity="right"
+        android:textColor="@color/White"
         android:layout_weight="0.15"
-        android:checked="false" />
+        android:checked="false"
+        android:buttonTint="@color/White"></CheckBox>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -122,9 +136,10 @@
         android:text="회원가입"
         android:id="@+id/join_button"
         android:layout_gravity="center_horizontal"
-        android:background="@color/White"
         android:textStyle="normal|bold"
         android:layout_marginTop="20dp"
         android:gravity="center_vertical|center_horizontal|center"
-        android:textColor="@color/Black"/>
+        android:textColor="@color/White"/>
+</LinearLayout>
+
 </LinearLayout>

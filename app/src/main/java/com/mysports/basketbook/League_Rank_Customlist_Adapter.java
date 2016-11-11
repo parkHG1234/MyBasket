@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -118,6 +119,8 @@ public class League_Rank_Customlist_Adapter extends BaseAdapter {
                 Glide.with(context).load(R.drawable.profile_basic_image).into(league_Image_team);
             } else {
                 Glide.with(context).load("http://210.122.7.193:8080/Web_basket/imgs/Emblem/" + En_Profile + ".jpg").bitmapTransform(new CropCircleTransformation(Glide.get(context).getBitmapPool()))
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into(league_Image_team);
             }
         } catch (UnsupportedEncodingException e) {
