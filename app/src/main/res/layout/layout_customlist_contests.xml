@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:weightSum="1"
+        android:layout_weight="1"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:scaleType="fitXY"
+            android:id="@+id/Contest_logoImage"
+            app:srcCompat="@drawable/common_plus_signin_btn_text_dark_focused" />
+
+        <TextView
+            android:text="대회명 : "
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/contest_title" />
+
+        <TextView
+            android:text="대회일시 : "
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/contest_date" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_gravity="right"
+            android:layout_weight="0.10">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"></LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:id="@+id/imageView9"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_account_circle_black_36px" />
+
+                <TextView
+                    android:text="17/30"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center_horizontal"
+                    android:id="@+id/contest_num" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="19dp"
+                    android:id="@+id/imageView10"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_account_circle_black_36px" />
+
+                <TextView
+                    android:text="30p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/contest_point" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
