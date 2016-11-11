@@ -66,6 +66,6 @@ public class Contests_Customlist_Adapter extends BaseAdapter{
 
         }
 
-        return null;
+        return convertView;
     }
 }

@@ -2116,6 +2116,7 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
         ArrayList arr;
         static TimerTask myTask;
         static Timer timer;
+        ListView Contest_ListView_contest;
         //////////////////////////////////////////////
         public SectionsFragment2() {
         }
@@ -2141,6 +2142,40 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
                 public void onClick(View view) {
                     Contest_Layout_1.setVisibility(View.VISIBLE);
                     Contest_Layout_2.setVisibility(View.GONE);
+
+                    String result = "";
+                    try {
+                        HttpClient client = new DefaultHttpClient();
+                        String postURL = "http://210.122.7.193:8080/pp/Contests_Customlist_all.jsp";
+                        HttpPost post = new HttpPost(postURL);
+
+                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                        post.setEntity(ent);
+
+                        HttpResponse response = client.execute(post);
+                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                        String line = null;
+                        while ((line = bufreader.readLine()) != null) {
+                            result += line;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    String[][] ContestsParsedList = jsonParserList_getContestsList(result);
+
+                    ArrayList<com.mysports.basketbook.Contests_Customlist_MyData> Contests_Customlist_MyData;
+                    Contests_Customlist_MyData = new ArrayList<Contests_Customlist_MyData>();
+                    for (int i = 0; i < ContestsParsedList.length; i++) {
+                        Contests_Customlist_MyData.add(new Contests_Customlist_MyData(ContestsParsedList[i][1], ContestsParsedList[i][3], ContestsParsedList[i][2], ContestsParsedList[i][4], ContestsParsedList[i][5], ContestsParsedList[i][6], ContestsParsedList[i][0]));
+                    }
+                    Contest_ListView_contest = (ListView)rootView.findViewById(R.id.Contest_ListView_contests);
+                    Contests_Customlist_Adapter Adapter = new Contests_Customlist_Adapter(rootView.getContext(), Contests_Customlist_MyData);
+                    Contest_ListView_contest.setAdapter(Adapter);
+
+
                 }
             });
             Contest_Button_Tab2.setOnClickListener(new View.OnClickListener() {
@@ -2148,8 +2183,11 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
                 public void onClick(View view) {
                     Contest_Layout_1.setVisibility(View.GONE);
                     Contest_Layout_2.setVisibility(View.VISIBLE);
+
                 }
             });
+
+
             ///교류전 코딩
             final Spinner Layout_CustomDialog_teamChoice_Do = (Spinner) layout.findViewById(R.id.Layout_CustomDialog_teamChoice_Do);
             final Spinner Layout_CustomDialog_teamChoice_Se = (Spinner) layout.findViewById(R.id.Layout_CustomDialog_teamChoice_Se);
@@ -3827,6 +3865,27 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
                 JSONArray jArr = json.getJSONArray("List");
 
                 String[] jsonName = {"msg1"};
+                String[][] parseredData = new String[jArr.length()][jsonName.length];
+                for (int i = 0; i < jArr.length(); i++) {
+                    json = jArr.getJSONObject(i);
+                    for (int j = 0; j < jsonName.length; j++) {
+                        parseredData[i][j] = json.getString(jsonName[j]);
+                    }
+                }
+                return parseredData;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        public String[][] jsonParserList_getContestsList(String pRecvServerPage) {
+            Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+            try {
+                JSONObject json = new JSONObject(pRecvServerPage);
+                JSONArray jArr = json.getJSONArray("List");
+
+                String[] jsonName = {"Pk", "Title", "Date", "Image", "currentNum", "maxNum", "Point"};
                 String[][] parseredData = new String[jArr.length()][jsonName.length];
                 for (int i = 0; i < jArr.length(); i++) {
                     json = jArr.getJSONObject(i);
