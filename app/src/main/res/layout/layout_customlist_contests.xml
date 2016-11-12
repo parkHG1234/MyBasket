@@ -17,7 +17,7 @@
             android:layout_height="120dp"
             android:scaleType="fitXY"
             android:id="@+id/Contest_logoImage"
-            app:srcCompat="@drawable/common_plus_signin_btn_text_dark_focused" />
+            app:srcCompat="@drawable/contest_example" />
 
         <TextView
             android:text="대회명 : "

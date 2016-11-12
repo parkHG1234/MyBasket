@@ -1,5 +1,6 @@
 package com.mysports.basketbook;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -113,6 +114,16 @@ public class SectionsFragment2 extends Fragment {
                 Contest_ListView_contest = (ListView) rootView.findViewById(R.id.Contest_ListView_contests);
                 Contests_Customlist_Adapter Adapter = new Contests_Customlist_Adapter(rootView.getContext(), Contests_Customlist_MyData);
                 Contest_ListView_contest.setAdapter(Adapter);
+
+                Contest_ListView_contest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Object o = Contest_ListView_contest.getItemAtPosition(i);
+
+                        Intent intent = new Intent(getContext(), Contest_Detail.class);
+                        startActivity(intent);
+                    }
+                });
 
 
             }
