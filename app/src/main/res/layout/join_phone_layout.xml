@@ -1,60 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/join_phone_layout_root"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1"
-    android:id="@+id/join_phone_layout_root">
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="50dp"></LinearLayout>
+        android:layout_height="50dp"
+        android:orientation="vertical"></LinearLayout>
 
     <ImageView
+        android:id="@+id/imageView1"
         android:layout_width="161dp"
         android:layout_height="161dp"
-        android:id="@+id/imageView1"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/ic_account_circle_black_36px" />
 
     <TextView
+        android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textView9"
         android:layout_gravity="center_horizontal"
-        android:text="휴대전화 인증" />
+        android:text="휴대전화 인증"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <LinearLayout
-        android:orientation="vertical"
+
+
+    <EditText
+        android:id="@+id/join_phone_layout_phone_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.23"></LinearLayout>
+        android:maxLength="11"
+        android:inputType="number"
+        android:hint=" '-' 빼고 입력해주세요" />
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/join_phone_layout_phone_EditText"
-            android:layout_gravity="center_horizontal"
-            android:hint="전화번호" />
-        <com.digits.sdk.android.DigitsAuthButton
-            android:id="@+id/auth_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-
-    </android.support.design.widget.TextInputLayout>
     <Button
+        android:id="@+id/join_phone_layout_correct_Button"
         android:layout_width="362dp"
         android:layout_height="wrap_content"
-        android:text="다음"
-        android:id="@+id/join_pw_layout_next_Button"
         android:layout_gravity="center_horizontal"
-        android:onClick="onClickNext" />
+        android:onClick="onClickNext"
+        android:text="인증번호받기" />
+
+    <EditText
+        android:id="@+id/join_phone_layout_access_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:maxLength="6"
+        android:hint="인증번호"
+        android:inputType="number"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/join_phone_layout_next_Button"
+        android:layout_width="362dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClickNext"
+        android:text="다음"
+        android:visibility="gone" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/join_phone_layout_time_TextView"
+        android:layout_weight="1"
+        android:text=" "
+        android:textSize="20dp"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/join_phone_layout_count_TextView"
+        android:layout_weight="1"
+        android:textSize="20dp"
+        android:text=" "
+        android:textAlignment="center"/>
+    </LinearLayout>
 </LinearLayout>

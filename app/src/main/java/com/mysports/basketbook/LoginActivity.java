@@ -56,18 +56,17 @@ public class LoginActivity extends AppCompatActivity {
     AlertDialog dlg;
     View myview;
     CheckBox autoLoginChkbox;
-    String Approach=".";
-    String NewsFeed_Num=".";
+    String Approach = ".";
+    String NewsFeed_Num = ".";
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
-    String version,fragment1,fragment2,fragment3,fragment4;
-    String _id,_pw;
+    String version, fragment1, fragment2, fragment3, fragment4;
+    String _id, _pw;
     private BackPressCloseHandler backPressCloseHandler;
     private SessionCallback callback;      //콜백 선언
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
         GlobalApplication.setCurrentActivity(this);
@@ -78,13 +77,13 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
 
-        login_layout_root = (LinearLayout)findViewById(R.id.login_layout_root);
+        login_layout_root = (LinearLayout) findViewById(R.id.login_layout_root);
         id_EditText = (EditText) findViewById(R.id.id_Layout_EditText);
         pw_EditText = (EditText) findViewById(R.id.pw_Layout_EditText);
         login_Button = (Button) findViewById(R.id.login_button);
         join_Button = (TextView) findViewById(R.id.join_button);
         autoLoginChkbox = (CheckBox) findViewById(R.id.autuLogin_chkbox);
-        join_Button.setOnClickListener(new View.OnClickListener(){
+        join_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 join_Button(view);
@@ -101,20 +100,19 @@ public class LoginActivity extends AppCompatActivity {
         backPressCloseHandler = new BackPressCloseHandler(this);
 
 
-
         final Intent StartIntent = getIntent();
-        fragment1=StartIntent.getExtras().getString("fragment1");
-        fragment2=StartIntent.getExtras().getString("fragment2");
-        fragment3=StartIntent.getExtras().getString("fragment3");
-        fragment4=StartIntent.getExtras().getString("fragment4");
-        if(StartIntent.hasExtra("Approach")){
+        fragment1 = StartIntent.getExtras().getString("fragment1");
+        fragment2 = StartIntent.getExtras().getString("fragment2");
+        fragment3 = StartIntent.getExtras().getString("fragment3");
+        fragment4 = StartIntent.getExtras().getString("fragment4");
+        if (StartIntent.hasExtra("Approach")) {
             Approach = StartIntent.getStringExtra("Approach");
             NewsFeed_Num = StartIntent.getStringExtra("NewsFeed_Num");
         }
 
         autoLoginChkbox.setChecked(false);
-        String autoChkbox = preferences.getString("auto","");  //로그아웃시 autologinChkbox ""로 변경 or preference 삭제
-        if(autoChkbox.equals("true")) {
+        String autoChkbox = preferences.getString("auto", "");  //로그아웃시 autologinChkbox ""로 변경 or preference 삭제
+        if (autoChkbox.equals("true")) {
             autoLoginChkbox.setChecked(true);
         }
 
@@ -132,27 +130,27 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-        if(autoLoginChkbox.isChecked()){
-            Log.i("test123",Approach);
+        if (autoLoginChkbox.isChecked()) {
+            Log.i("test123", Approach);
             //preference 이름을 autoLogin
             String autologID = preferences.getString("id", "");
             String autologPW = preferences.getString("pw", "");
             Log.i("first auto", autologID);
-            if(autologID.equals("")) {
-            }else {
+            if (autologID.equals("")) {
+            } else {
                 Log.i("log.i AUTOLOGID", autologID);
                 String result = SendByHttp(autologID, autologPW);
                 parsedData = jsonParserList(result);
-                if(parsedData != null && parsedData[0][0].equals("succed")) {
+                if (parsedData != null && parsedData[0][0].equals("succed")) {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("LoginCheck",parsedData[0][0]);
-                    intent.putExtra("Id",parsedData[0][1]);
-                    intent.putExtra("Approach",Approach);
-                    intent.putExtra("NewsFeed_Num",NewsFeed_Num);
-                    intent.putExtra("fragment1",fragment1);
-                    intent.putExtra("fragment2",fragment2);
-                    intent.putExtra("fragment3",fragment3);
-                    intent.putExtra("fragment4",fragment4);
+                    intent.putExtra("LoginCheck", parsedData[0][0]);
+                    intent.putExtra("Id", parsedData[0][1]);
+                    intent.putExtra("Approach", Approach);
+                    intent.putExtra("NewsFeed_Num", NewsFeed_Num);
+                    intent.putExtra("fragment1", fragment1);
+                    intent.putExtra("fragment2", fragment2);
+                    intent.putExtra("fragment3", fragment3);
+                    intent.putExtra("fragment4", fragment4);
 
                     startActivity(intent);
                     finish();
@@ -168,26 +166,30 @@ public class LoginActivity extends AppCompatActivity {
         //super.onBackPressed();
         backPressCloseHandler.onBackPressed();
     }
-    public void join_Button (View view) {
-        Intent intent = new Intent(LoginActivity.this, JoinIdActivity.class);
+
+    public void join_Button(View view) {
+//        Intent intent = new Intent(LoginActivity.this, JoinIdActivity.class);
+        Intent intent = new Intent(LoginActivity.this, JoinPhoneActivity.class);
         startActivity(intent);
     }
-    public void login_Button (View view) {
-        Log.i("test123",Approach);
+
+    public void login_Button(View view) {
+        Log.i("test123", Approach);
         _id = id_EditText.getText().toString();
         _pw = pw_EditText.getText().toString();
         myview = view;
-        if(_id.equals("")) {
+        if (_id.equals("")) {
             Snackbar.make(view, "아이디를 입력해 주세요.", Snackbar.LENGTH_LONG)
                     .show();
-        }else if(_pw.equals("")) {
+        } else if (_pw.equals("")) {
             Snackbar.make(view, "비밀번호를 입력해 주세요.", Snackbar.LENGTH_LONG)
                     .show();
-        }else {
+        } else {
             loginHttp login = new loginHttp();
             login.execute(_id, _pw);
         }
     }
+
     public class loginHttp extends AsyncTask<String, Void, String> {
         ProgressDialog asyncDialog = new ProgressDialog(LoginActivity.this);
 
@@ -200,6 +202,7 @@ public class LoginActivity extends AppCompatActivity {
             asyncDialog.show();
             super.onPreExecute();
         }
+
         @Override
         protected String doInBackground(String... params) {
 
@@ -208,12 +211,12 @@ public class LoginActivity extends AppCompatActivity {
             parsedData = jsonParserList(result);
             return result;
         }
+
         @Override
         protected void onPostExecute(String result) {
             asyncDialog.dismiss();
-            if(parsedData != null && parsedData[0][0].equals("succed"))
-            {
-                if(autoLoginChkbox.isChecked()){
+            if (parsedData != null && parsedData[0][0].equals("succed")) {
+                if (autoLoginChkbox.isChecked()) {
                     SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
                     //preference 이름을 autoLogin
                     SharedPreferences.Editor editor = preferences.edit();
@@ -222,38 +225,35 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("pw", _pw);
                     editor.putString("auto", "true");
                     editor.commit();
-                    Snackbar.make(myview, preferences.getString("auto",""), Snackbar.LENGTH_LONG)
+                    Snackbar.make(myview, preferences.getString("auto", ""), Snackbar.LENGTH_LONG)
                             .show();
-                }else {
+                } else {
                 }
-                Log.i("test",Approach);
+                Log.i("test", Approach);
                 //메인엑티비티에다 데이터를보내
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("LoginCheck",parsedData[0][0]);
-                intent.putExtra("Id",parsedData[0][1]);
-                intent.putExtra("Approach",Approach);
-                intent.putExtra("NewsFeed_Num",NewsFeed_Num);
-                intent.putExtra("fragment1",fragment1);
-                intent.putExtra("fragment2",fragment2);
-                intent.putExtra("fragment3",fragment3);
-                intent.putExtra("fragment4",fragment4);
+                intent.putExtra("LoginCheck", parsedData[0][0]);
+                intent.putExtra("Id", parsedData[0][1]);
+                intent.putExtra("Approach", Approach);
+                intent.putExtra("NewsFeed_Num", NewsFeed_Num);
+                intent.putExtra("fragment1", fragment1);
+                intent.putExtra("fragment2", fragment2);
+                intent.putExtra("fragment3", fragment3);
+                intent.putExtra("fragment4", fragment4);
                 startActivity(intent);
 
                 finish();
-            }
-            else if(parsedData != null && parsedData[0][0].equals("failed")){
-                Snackbar.make(myview,"아이디 패스워드를 확인해주세요.",Snackbar.LENGTH_SHORT).show();
-            }
-            else{
-                Snackbar.make(myview,"서버와의 접속에 실패하였습니다.",Snackbar.LENGTH_SHORT).show();
+            } else if (parsedData != null && parsedData[0][0].equals("failed")) {
+                Snackbar.make(myview, "아이디 패스워드를 확인해주세요.", Snackbar.LENGTH_SHORT).show();
+            } else {
+                Snackbar.make(myview, "서버와의 접속에 실패하였습니다.", Snackbar.LENGTH_SHORT).show();
             }
             super.onPostExecute(result);
         }
     }
 
     private String SendByHttp(String _id, String _password) {
-        if (_id == null)
-        {
+        if (_id == null) {
             _id = "";
         }
         try {
@@ -294,20 +294,20 @@ public class LoginActivity extends AppCompatActivity {
 
             //String[] jsonName = {"login_check","usercode","password","name","sex","email","univ","club" };
 
-            String[] jsonName = {"login_check","id"};
+            String[] jsonName = {"login_check", "id"};
             String[][] parseredData = new String[jarr.length()][jsonName.length];
-            for(int i = 0; i<jarr.length();i++){
+            for (int i = 0; i < jarr.length(); i++) {
                 json = jarr.getJSONObject(i);
-                for (int j=0;j<jsonName.length; j++){
+                for (int j = 0; j < jsonName.length; j++) {
                     parseredData[i][j] = json.getString(jsonName[j]);
                 }
             }
-            for(int i=0;i<parseredData.length;i++) {
+            for (int i = 0; i < parseredData.length; i++) {
                 Log.i("JSON을 분석한 데이터" + i + ":", parseredData[i][0]);
                 Log.i("JSON을 분석한 데이터" + i + ":", parseredData[i][1]);
             }
             return parseredData;
-        }catch(JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
@@ -331,14 +331,14 @@ public class LoginActivity extends AppCompatActivity {
     private class SessionCallback implements ISessionCallback {
         @Override
         public void onSessionOpened() {
-            Log.d("TAG","세션 오픈됨");
+            Log.d("TAG", "세션 오픈됨");
             redirectSignupActivity();  // 세션 연결성공 시 redirectSignupActivity() 호출
         }
 
         @Override
         public void onSessionOpenFailed(KakaoException exception) {
-            if(exception != null) {
-                Log.d("TAG",exception.getMessage());
+            if (exception != null) {
+                Log.d("TAG", exception.getMessage());
             }
             setContentView(R.layout.login_layout); // 세션 연결이 실패했을때
         }                                            // 로그인화면을 다시 불러옴
@@ -347,12 +347,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void redirectSignupActivity() {       //세션 연결 성공 시 SignupActivity로 넘김
         final Intent intent = new Intent(this, KakaoSignupActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        intent.putExtra("Approach",Approach);
-        intent.putExtra("NewsFeed_Num",NewsFeed_Num);
-        intent.putExtra("fragment1",fragment1);
-        intent.putExtra("fragment2",fragment2);
-        intent.putExtra("fragment3",fragment3);
-        intent.putExtra("fragment4",fragment4);
+        intent.putExtra("Approach", Approach);
+        intent.putExtra("NewsFeed_Num", NewsFeed_Num);
+        intent.putExtra("fragment1", fragment1);
+        intent.putExtra("fragment2", fragment2);
+        intent.putExtra("fragment3", fragment3);
+        intent.putExtra("fragment4", fragment4);
         startActivity(intent);
         finish();
     }

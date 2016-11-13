@@ -1,6 +1,7 @@
 package com.mysports.basketbook;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,14 +29,20 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.gms.tasks.RuntimeExecutionException;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.apache.http.HttpResponse;
@@ -65,6 +72,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -74,21 +82,22 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class MainActivity extends AppCompatActivity {
     static String Id = "";
     static String Profile;
-    static String Height="";
-    static String Weight="";
-    static String fragment1,fragment2,fragment3,fragment4;
+    static String Height = "";
+    static String Weight = "";
+    static String Phone = "";
+    static String fragment1, fragment2, fragment3, fragment4;
     static String yourTeamStatus = "reset";
-    static String Approach="";
-    static String NewsFeed_Num="";
-    static String now_Date="";
+    static String Approach = "";
+    static String NewsFeed_Num = "";
+    static String now_Date = "";
     static String realTime = "";
     static String Team1 = "";
     static int MaxNum_out;
     static int in_MinNum;
     static String Token = "";
     static String MyTeam = "";
-    static String interestArea_do = ""; static String interestArea_si = "";
-
+    static String interestArea_do = "";
+    static String interestArea_si = "";
     View rootView;
     static String Alarm = "";
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -106,10 +115,16 @@ public class MainActivity extends AppCompatActivity {
     static String[][] parsedData_CommentDirect;
     static int allowtime = 0;
     static String HomeTeam, AwayTeam, Authority;
-    static Button Contest_Button_MyTeam, Contest_Button_YourTeam,Contest_Button_Start, Contest_Button_Cancel;
+    static Button Contest_Button_MyTeam, Contest_Button_YourTeam, Contest_Button_Start, Contest_Button_Cancel;
     static TimerTask myTask;
     static Timer timer;
-    static String[][] parsedData_gameDelete,parsedData_gameGenerate;
+    DialogInterface mPopupDlg = null;
+    AlertDialog.Builder phonebuider;
+    String msg, phone, date;
+    final BackThread thread = new BackThread();
+    Random random = new Random();
+    int rnd, cnt = 3;
+    static String[][] parsedData_gameDelete, parsedData_gameGenerate;
     ////
     static ImageView Profile_ImageVIew_Profile;
     static ListView NewsFeed_List;
@@ -140,6 +155,9 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     GestureDetector gd = new GestureDetector(new GestureDetector.SimpleOnGestureListener());
 
+    public MainActivity() {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
         now_Date = df.format(new Date());
-       // now_Date = formatter1.format(cal.getTime());
+        // now_Date = formatter1.format(cal.getTime());
         ////////////////
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -230,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
         fragment2 = intent1.getStringExtra("fragment2");
         fragment3 = intent1.getStringExtra("fragment3");
         fragment4 = intent1.getStringExtra("fragment4");
-        if(intent1.hasExtra("Approach")){
+        if (intent1.hasExtra("Approach")) {
             Approach = intent1.getStringExtra("Approach");
             NewsFeed_Num = intent1.getStringExtra("NewsFeed_Num");
         }
@@ -267,6 +285,37 @@ public class MainActivity extends AppCompatActivity {
             Log.i("실패", "실패");
         }
         ///////////////////////////////////////////////////////////////////
+
+        String result_profile = "";
+        try {
+            HttpClient client = new DefaultHttpClient();
+            String postURL = "http://210.122.7.193:8080/Web_basket/Profile.jsp";
+            HttpPost post = new HttpPost(postURL);
+
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("Id", Id));
+
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+            String line = null;
+            while ((line = bufreader.readLine()) != null) {
+                result_profile += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        parsedData_Profile = jsonParserList_UserInfo(result_profile);
+        MyTeam = parsedData_Profile[0][6];
+        Profile = parsedData_Profile[0][7];
+        Height = parsedData_Profile[0][8];
+        Weight = parsedData_Profile[0][9];
+        interestArea_do = parsedData_Profile[0][10];
+        interestArea_si = parsedData_Profile[0][11];
+        Phone = parsedData_Profile[0][12];
 
         ////////////////////////////////건의사항 체크소스/////////////////////////////////////////////////
 
@@ -324,39 +373,139 @@ public class MainActivity extends AppCompatActivity {
         }
         ///////////////////////////////////////////////////////////////////////////////////////
 
-        String result_profile = "";
-        try {
-            HttpClient client = new DefaultHttpClient();
-            String postURL = "http://210.122.7.193:8080/Web_basket/Profile.jsp";
-            HttpPost post = new HttpPost(postURL);
 
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("Id", Id));
-
-            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-            post.setEntity(ent);
-
-            HttpResponse response = client.execute(post);
-            BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-
-            String line = null;
-            while ((line = bufreader.readLine()) != null) {
-                result_profile += line;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        parsedData_Profile = jsonParserList_UserInfo(result_profile);
-        MyTeam = parsedData_Profile[0][6];
-        Profile = parsedData_Profile[0][7];
-        Height = parsedData_Profile[0][8];
-        Weight = parsedData_Profile[0][9];
-        interestArea_do = parsedData_Profile[0][10];
-        interestArea_si = parsedData_Profile[0][11];
         /////////////////////////////////////////
         //일반 접근인 경우
         ///일반적 접근일 경우 처리
         ///jsp문 돌려서 어떤 접근인지 check
+        ////////////////////////////////PhoneNumber_Check Source/////////////////////////////////////////////////
+
+        try {
+            if (Phone.equals(".")) {
+                final View dialoglayout = inflater.inflate(R.layout.layout_customdialog_insert_phonenumber, null);
+
+                final LinearLayout layout_customdialog_insert_phonenumber_Root = (LinearLayout) dialoglayout.findViewById(R.id.layout_customdialog_insert_phonenumber_Root);
+                final EditText insert_phonenumber_layout_phone_EditText = (EditText) dialoglayout.findViewById(R.id.insert_phonenumber_layout_phone_EditText);
+                final Button insert_phonenumber_layout_correct_Button = (Button) dialoglayout.findViewById(R.id.insert_phonenumber_layout_correct_Button);
+                final EditText insert_phonenumber_layout_access_EditText = (EditText) dialoglayout.findViewById(R.id.insert_phonenumber_layout_access_EditText);
+                final Button insert_phonenumber_layout_next_Button = (Button) dialoglayout.findViewById(R.id.insert_phonenumber_layout_next_Button);
+                final TextView insert_phonenumber_layout_time_TextView = (TextView) dialoglayout.findViewById(R.id.insert_phonenumber_layout_time_TextView);
+                final TextView insert_phonenumber_layout_count_TextView = (TextView) dialoglayout.findViewById(R.id.insert_phonenumber_layout_count_TextView);
+
+                phonebuider = new AlertDialog.Builder(MainActivity.this); //AlertDialog.Builder 객체 생성
+
+                phonebuider.setTitle("핸드폰번호 입력"); //Dialog 제목
+                phonebuider.setView(dialoglayout);
+
+                mPopupDlg = phonebuider.show();
+
+                insert_phonenumber_layout_correct_Button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        try {
+                            phone = insert_phonenumber_layout_phone_EditText.getText().toString();
+
+                            if (phone.length() == 11) {
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
+                                Date d = new Date();
+                                date = dateFormat.format(d);
+                                rnd = Math.abs(random.nextInt(899999) + 100000);
+                                msg = "바스켓북 인증번호는 [" + String.valueOf(rnd) + "] 입니다.감사합니다.";
+
+                                Log.i("aaaaaabb",String.valueOf(rnd));
+                                HttpClient client = new DefaultHttpClient();
+                                String postURL = "http://210.122.7.193:8080/InetSMSExample/example.jsp";
+                                HttpPost post = new HttpPost(postURL);
+                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                params.add(new BasicNameValuePair("sms_msg", msg));
+                                params.add(new BasicNameValuePair("sms_to", phone));
+                                params.add(new BasicNameValuePair("sms_from", phone));
+                                params.add(new BasicNameValuePair("sms_date", date));
+                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                post.setEntity(ent);
+//                                client.execute(post);
+
+                                insert_phonenumber_layout_correct_Button.setVisibility(View.GONE);
+                                insert_phonenumber_layout_access_EditText.setVisibility(View.VISIBLE);
+                                insert_phonenumber_layout_next_Button.setVisibility(View.VISIBLE);
+                                insert_phonenumber_layout_time_TextView.setVisibility(View.VISIBLE);
+                                insert_phonenumber_layout_count_TextView.setVisibility(View.VISIBLE);
+
+                                insert_phonenumber_layout_count_TextView.setText("남은횟수 : " + String.valueOf(cnt));
+                                myTask = new TimerTask() {
+                                    int i = 30;
+
+                                    public void run() {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                // 해당 작업을 처리함
+                                                insert_phonenumber_layout_time_TextView.setText("제한시간 : " + i);
+                                            }
+                                        });
+                                        i--;
+                                        //시간이 초과된 경우 game 내 데이터 삭제 및 초기화.
+                                        if (i == 0) {
+                                            timer.cancel();
+                                            Snackbar.make(v, "재접속 후 다시 시도해주세요.", Snackbar.LENGTH_SHORT).show();
+                                            thread.start();
+                                        }
+                                    }
+                                };
+                                timer = new Timer();
+                                timer.schedule(myTask, 0, 1000); // 5초후 첫실행, 1초마다 계속실행
+                            } else {
+                                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(insert_phonenumber_layout_phone_EditText.getWindowToken(), 0);
+                                Snackbar.make(v, "핸드폰번호를 확인해주세요.", Snackbar.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                insert_phonenumber_layout_next_Button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(insert_phonenumber_layout_access_EditText.getWindowToken(), 0);
+                        if (insert_phonenumber_layout_access_EditText.getText().toString().equals(String.valueOf(rnd))) {
+                            myTask.cancel();
+                            timer.cancel();
+                            try {
+                                HttpClient client = new DefaultHttpClient();
+                                String postURL = "http://210.122.7.193:8080/gg/phonenumber_insert.jsp";
+                                HttpPost post = new HttpPost(postURL);
+                                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                params.add(new BasicNameValuePair("Phone", phone));
+                                params.add(new BasicNameValuePair("Id", Id));
+                                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                post.setEntity(ent);
+                                client.execute(post);
+
+                                thread.start();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            cnt--;
+                            insert_phonenumber_layout_count_TextView.setText("남은횟수 : " + String.valueOf(cnt));
+                            Snackbar.make(v, "인증번호를 확인해주세요.", Snackbar.LENGTH_SHORT).show();
+                        }
+                        if (cnt == 0) {
+                            Snackbar.make(v, "재접속 후 다시 시도해주세요.", Snackbar.LENGTH_SHORT).show();
+                            thread.start();
+                        }
+                    }
+                });
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (RuntimeExecutionException e) {
+
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////
+
+
         String result_GameStatus = "";
         try {
             HttpClient client = new DefaultHttpClient();
@@ -396,8 +545,7 @@ public class MainActivity extends AppCompatActivity {
                 yourTeamStatus = "allow";
             } else if (parsedData_gameStatus[0][0].equals("ing")) {
                 yourTeamStatus = "ing";
-            }
-            else if (parsedData_gameStatus[0][0].equals("refuse")) {
+            } else if (parsedData_gameStatus[0][0].equals("refuse")) {
                 yourTeamStatus = "refuse";
             }
 //            else if (parsedData_gameStatus[0][0].equals("ScoreCheck")) {
@@ -407,7 +555,7 @@ public class MainActivity extends AppCompatActivity {
         //시합 신청받은 팀으로 접근하는 경우
         else {
             if (parsedData_gameStatus[0][0].equals(".")) {
-                if(parsedData_gameStatus[0][6].equals("1")){
+                if (parsedData_gameStatus[0][6].equals("1")) {
                     final MaterialDialog DropOutDialog = new MaterialDialog(MainActivity.this);
                     DropOutDialog
                             .setTitle("시합신청")
@@ -474,7 +622,7 @@ public class MainActivity extends AppCompatActivity {
                                         Contest_Button_YourTeam.setText(AwayTeam);
                                         Contest_Button_Start.setText("신청 접수중");
                                         Contest_Button_Cancel.setVisibility(View.VISIBLE);*/
-                                        Log.i("asdf","asdf");
+                                        Log.i("asdf", "asdf");
                                         Contest_Button_Start.setText("신청 접수중");
                                         Contest_Button_Cancel.setVisibility(View.VISIBLE);
                                         Contest_Button_MyTeam.setText(HomeTeam);
@@ -482,6 +630,7 @@ public class MainActivity extends AppCompatActivity {
                                         Contest_Button_YourTeam.setEnabled(false);
                                         myTask = new TimerTask() {
                                             int i = 300;
+
                                             public void run() {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
@@ -544,7 +693,7 @@ public class MainActivity extends AppCompatActivity {
                                                         e.printStackTrace();
                                                     }
                                                     if (parsedData_gameDelete[0][0].equals("succed")) {
-                                                       runOnUiThread(new Runnable() {
+                                                        runOnUiThread(new Runnable() {
                                                             @Override
                                                             public void run() {
                                                                 yourTeamStatus = "reset";
@@ -577,126 +726,124 @@ public class MainActivity extends AppCompatActivity {
                             });
                     DropOutDialog.show();
                 }
-            }
-            else if (parsedData_gameStatus[0][0].equals("allow")) {
+            } else if (parsedData_gameStatus[0][0].equals("allow")) {
                 yourTeamStatus = "allow_away";
-            }
-            else if (parsedData_gameStatus[0][0].equals("ing")) {
+            } else if (parsedData_gameStatus[0][0].equals("ing")) {
                 yourTeamStatus = "ing";
             }
         }
-       if (parsedData_gameStatus[0][0].equals("ScoreCheck")) {
-           if(parsedData_gameStatus[0][6].equals("1")) {
-               String result_ScoreCheck = "";
-               try {
-                   HttpClient client = new DefaultHttpClient();
-                   String postURL = "http://210.122.7.193:8080/Web_basket/GameScoreInfo.jsp";
-                   HttpPost post = new HttpPost(postURL);
-                   List<NameValuePair> params = new ArrayList<NameValuePair>();
-                   params.add(new BasicNameValuePair("SendTeam", parsedData_Profile[0][6]));
-                   UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                   post.setEntity(ent);
-                   HttpResponse response = client.execute(post);
-                   BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                   String line = null;
-                   while ((line = bufreader.readLine()) != null) {
-                       result_ScoreCheck += line;
-                   }
-                   parsedData_gameScoreInfo = jsonParserList_gameScoreInfo(result_ScoreCheck);
-               } catch (Exception e) {
-                   e.printStackTrace();
-               }
-               if (parsedData_gameScoreInfo[0][4].equals(MyTeam)) {
-                   yourTeamStatus = "ScoreCheck";
-               } else {
-                   final String HomeTeam = parsedData_gameScoreInfo[0][0];
-                   final String AwayTeam = parsedData_gameScoreInfo[0][1];
-                   final String HomeScore = parsedData_gameScoreInfo[0][2];
-                   final String AwayScore = parsedData_gameScoreInfo[0][3];
+        if (parsedData_gameStatus[0][0].equals("ScoreCheck")) {
+            if (parsedData_gameStatus[0][6].equals("1")) {
+                String result_ScoreCheck = "";
+                try {
+                    HttpClient client = new DefaultHttpClient();
+                    String postURL = "http://210.122.7.193:8080/Web_basket/GameScoreInfo.jsp";
+                    HttpPost post = new HttpPost(postURL);
+                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                    params.add(new BasicNameValuePair("SendTeam", parsedData_Profile[0][6]));
+                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                    post.setEntity(ent);
+                    HttpResponse response = client.execute(post);
+                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                    String line = null;
+                    while ((line = bufreader.readLine()) != null) {
+                        result_ScoreCheck += line;
+                    }
+                    parsedData_gameScoreInfo = jsonParserList_gameScoreInfo(result_ScoreCheck);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (parsedData_gameScoreInfo[0][4].equals(MyTeam)) {
+                    yourTeamStatus = "ScoreCheck";
+                } else {
+                    final String HomeTeam = parsedData_gameScoreInfo[0][0];
+                    final String AwayTeam = parsedData_gameScoreInfo[0][1];
+                    final String HomeScore = parsedData_gameScoreInfo[0][2];
+                    final String AwayScore = parsedData_gameScoreInfo[0][3];
 
-                   final Button Layout_CustomDialog_GameScoreInfo_Button_HomeTeam = (Button) layout_GameScoreInfo.findViewById(R.id.Layout_CustomDialog_GameScoreInfo_Button_HomeTeam);
-                   final TextView Layout_CustomDialog_GameScoreInfo_TextView_HomeTeam = (TextView) layout_GameScoreInfo.findViewById(R.id.Layout_CustomDialog_GameScoreInfo_TextView_HomeTeam);
-                   final Button Layout_CustomDialog_GameScoreInfo_Button_AwayTeam = (Button) layout_GameScoreInfo.findViewById(R.id.Layout_CustomDialog_GameScoreInfo_Button_AwayTeam);
-                   final TextView Layout_CustomDialog_GameScoreInfo_TextView_AwayTeam = (TextView) layout_GameScoreInfo.findViewById(R.id.Layout_CustomDialog_GameScoreInfo_TextView_AwayTeam);
+                    final Button Layout_CustomDialog_GameScoreInfo_Button_HomeTeam = (Button) layout_GameScoreInfo.findViewById(R.id.Layout_CustomDialog_GameScoreInfo_Button_HomeTeam);
+                    final TextView Layout_CustomDialog_GameScoreInfo_TextView_HomeTeam = (TextView) layout_GameScoreInfo.findViewById(R.id.Layout_CustomDialog_GameScoreInfo_TextView_HomeTeam);
+                    final Button Layout_CustomDialog_GameScoreInfo_Button_AwayTeam = (Button) layout_GameScoreInfo.findViewById(R.id.Layout_CustomDialog_GameScoreInfo_Button_AwayTeam);
+                    final TextView Layout_CustomDialog_GameScoreInfo_TextView_AwayTeam = (TextView) layout_GameScoreInfo.findViewById(R.id.Layout_CustomDialog_GameScoreInfo_TextView_AwayTeam);
 
-                   Layout_CustomDialog_GameScoreInfo_Button_HomeTeam.setText(HomeTeam);
-                   Layout_CustomDialog_GameScoreInfo_TextView_HomeTeam.setText(HomeScore);
-                   Layout_CustomDialog_GameScoreInfo_Button_AwayTeam.setText(AwayTeam);
-                   Layout_CustomDialog_GameScoreInfo_TextView_AwayTeam.setText(AwayScore);
+                    Layout_CustomDialog_GameScoreInfo_Button_HomeTeam.setText(HomeTeam);
+                    Layout_CustomDialog_GameScoreInfo_TextView_HomeTeam.setText(HomeScore);
+                    Layout_CustomDialog_GameScoreInfo_Button_AwayTeam.setText(AwayTeam);
+                    Layout_CustomDialog_GameScoreInfo_TextView_AwayTeam.setText(AwayScore);
 
-                   final MaterialDialog DropOutDialog = new MaterialDialog(MainActivity.this);
-                   DropOutDialog
-                           .setTitle("시합점수 확인")
-                           .setView(layout_GameScoreInfo)
-                           .setNegativeButton("취소", new View.OnClickListener() {
-                               @Override
-                               public void onClick(View v) {
-                                   String result_ScoreCheck_refuse = "";
-                                   String Orderteam = "";
-                                   try {
-                                       if (HomeTeam.equals(MyTeam)) {
-                                           Orderteam = AwayTeam;
-                                       }
-                                       if (AwayTeam.equals(MyTeam)) {
-                                           Orderteam = HomeTeam;
-                                       }
-                                       HttpClient client = new DefaultHttpClient();
-                                       String postURL = "http://210.122.7.193:8080/Web_basket/GameScoreInfoRefuse.jsp";
-                                       HttpPost post = new HttpPost(postURL);
-                                       List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                       params.add(new BasicNameValuePair("Myteam", parsedData_Profile[0][6]));
-                                       Log.i("OrderTema",Orderteam);
-                                       params.add(new BasicNameValuePair("Orderteam", Orderteam));
-                                       UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                       post.setEntity(ent);
-                                       HttpResponse response = client.execute(post);
-                                       BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                                       String line = null;
-                                       while ((line = bufreader.readLine()) != null) {
-                                           result_ScoreCheck_refuse += line;
-                                       }
-                                       parsedData_gameScoreInfo_succed = jsonParserList_BasicSetting(result_ScoreCheck_refuse);
-                                   } catch (Exception e) {
-                                       e.printStackTrace();
-                                   }
-                                   DropOutDialog.dismiss();
-                               }
-                           })
-                           .setPositiveButton("확인", new View.OnClickListener() {
-                               @Override
-                               public void onClick(View view) {
-                                   String result_ScoreCheck_agree = "";
-                                   try {
-                                       HttpClient client = new DefaultHttpClient();
-                                       String postURL = "http://210.122.7.193:8080/Web_basket/GameScoreInfoAgree.jsp";
-                                       HttpPost post = new HttpPost(postURL);
-                                       List<NameValuePair> params = new ArrayList<NameValuePair>();
-                                       params.add(new BasicNameValuePair("hometeamName", HomeTeam));
-                                       params.add(new BasicNameValuePair("awayteamName", AwayTeam));
-                                       params.add(new BasicNameValuePair("hometeamScore", HomeScore));
-                                       params.add(new BasicNameValuePair("awayteamScore", AwayScore));
-                                       params.add(new BasicNameValuePair("myteam", parsedData_Profile[0][6]));
-                                       params.add(new BasicNameValuePair("Date", now_Date));
-                                       UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-                                       post.setEntity(ent);
-                                       HttpResponse response = client.execute(post);
-                                       BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
-                                       String line = null;
-                                       while ((line = bufreader.readLine()) != null) {
-                                           result_ScoreCheck_agree += line;
-                                       }
-                                       parsedData_gameScoreInfo_succed = jsonParserList_BasicSetting(result_ScoreCheck_agree);
-                                   } catch (Exception e) {
-                                       e.printStackTrace();
-                                   }
-                                   DropOutDialog.dismiss();
-                               }
-                           }).show();
-               }
-           }
+                    final MaterialDialog DropOutDialog = new MaterialDialog(MainActivity.this);
+                    DropOutDialog
+                            .setTitle("시합점수 확인")
+                            .setView(layout_GameScoreInfo)
+                            .setNegativeButton("취소", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String result_ScoreCheck_refuse = "";
+                                    String Orderteam = "";
+                                    try {
+                                        if (HomeTeam.equals(MyTeam)) {
+                                            Orderteam = AwayTeam;
+                                        }
+                                        if (AwayTeam.equals(MyTeam)) {
+                                            Orderteam = HomeTeam;
+                                        }
+                                        HttpClient client = new DefaultHttpClient();
+                                        String postURL = "http://210.122.7.193:8080/Web_basket/GameScoreInfoRefuse.jsp";
+                                        HttpPost post = new HttpPost(postURL);
+                                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                        params.add(new BasicNameValuePair("Myteam", parsedData_Profile[0][6]));
+                                        Log.i("OrderTema", Orderteam);
+                                        params.add(new BasicNameValuePair("Orderteam", Orderteam));
+                                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                        post.setEntity(ent);
+                                        HttpResponse response = client.execute(post);
+                                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                        String line = null;
+                                        while ((line = bufreader.readLine()) != null) {
+                                            result_ScoreCheck_refuse += line;
+                                        }
+                                        parsedData_gameScoreInfo_succed = jsonParserList_BasicSetting(result_ScoreCheck_refuse);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    DropOutDialog.dismiss();
+                                }
+                            })
+                            .setPositiveButton("확인", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    String result_ScoreCheck_agree = "";
+                                    try {
+                                        HttpClient client = new DefaultHttpClient();
+                                        String postURL = "http://210.122.7.193:8080/Web_basket/GameScoreInfoAgree.jsp";
+                                        HttpPost post = new HttpPost(postURL);
+                                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+                                        params.add(new BasicNameValuePair("hometeamName", HomeTeam));
+                                        params.add(new BasicNameValuePair("awayteamName", AwayTeam));
+                                        params.add(new BasicNameValuePair("hometeamScore", HomeScore));
+                                        params.add(new BasicNameValuePair("awayteamScore", AwayScore));
+                                        params.add(new BasicNameValuePair("myteam", parsedData_Profile[0][6]));
+                                        params.add(new BasicNameValuePair("Date", now_Date));
+                                        UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                                        post.setEntity(ent);
+                                        HttpResponse response = client.execute(post);
+                                        BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+                                        String line = null;
+                                        while ((line = bufreader.readLine()) != null) {
+                                            result_ScoreCheck_agree += line;
+                                        }
+                                        parsedData_gameScoreInfo_succed = jsonParserList_BasicSetting(result_ScoreCheck_agree);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    DropOutDialog.dismiss();
+                                }
+                            }).show();
+                }
+            }
         }
-        if(Approach.equals("comment")) {
-            Log.i("test",NewsFeed_Num);
+        if (Approach.equals("comment")) {
+            Log.i("test", NewsFeed_Num);
             try {
                 HttpClient client = new DefaultHttpClient();
                 String postURL = "http://210.122.7.193:8080/pp/Comment_Direct.jsp";
@@ -740,27 +887,29 @@ public class MainActivity extends AppCompatActivity {
             startActivity(CommentIntent);
         }
     }
-////건의사항 체크 파서리스트
-public String[][] recommend_jsonParserList(String pRecvServerPage) {
-    Log.i("recommend에서 받은 전체 내용", pRecvServerPage);
-    try {
-        JSONObject json = new JSONObject(pRecvServerPage);
-        JSONArray jArr = json.getJSONArray("List");
 
-        String[] jsonName = {"recommend_answer"};
-        json = new JSONObject(pRecvServerPage);
-        recommendparsedData = new String[jArr.length()][jsonName.length];
-        for (int i = 0; i < jArr.length(); i++) {
-            json = jArr.getJSONObject(i);
-            for (int j = 0; j < jsonName.length; j++) {
-                recommendparsedData[i][j] = json.getString(jsonName[j]);
+    ////건의사항 체크 파서리스트
+    public String[][] recommend_jsonParserList(String pRecvServerPage) {
+        Log.i("recommend에서 받은 전체 내용", pRecvServerPage);
+        try {
+            JSONObject json = new JSONObject(pRecvServerPage);
+            JSONArray jArr = json.getJSONArray("List");
+
+            String[] jsonName = {"recommend_answer"};
+            json = new JSONObject(pRecvServerPage);
+            recommendparsedData = new String[jArr.length()][jsonName.length];
+            for (int i = 0; i < jArr.length(); i++) {
+                json = jArr.getJSONObject(i);
+                for (int j = 0; j < jsonName.length; j++) {
+                    recommendparsedData[i][j] = json.getString(jsonName[j]);
+                }
             }
+            return recommendparsedData;
+        } catch (JSONException e) {
+            return null;
         }
-        return recommendparsedData;
-    } catch (JSONException e) {
-        return null;
     }
-}
+
     ///////game상태 접근법 파서
     /////프로필 탭 사용자정보를 파싱합니다.//////////////////////////////////////////////////////////
     public String[][] jsonParserList_GameStatus(String pRecvServerPage) {
@@ -769,7 +918,7 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
 
-            String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6","msg7"};
+            String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6", "msg7"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for (int i = 0; i < jArr.length(); i++) {
                 json = jArr.getJSONObject(i);
@@ -791,7 +940,7 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
 
-            String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6", "msg7", "msg8","msg9","msg10","msg11","msg12"};
+            String[] jsonName = {"msg1", "msg2", "msg3", "msg4", "msg5", "msg6", "msg7", "msg8", "msg9", "msg10", "msg11", "msg12", "msg13"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for (int i = 0; i < jArr.length(); i++) {
                 json = jArr.getJSONObject(i);
@@ -868,6 +1017,7 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
             return null;
         }
     }
+
     /////댓글 푸시알림으로 접근한 경우, 데이터를 파싱합니다.//////////////////////////////////////////////////////////
     public String[][] jsonParserList_CommentDirect(String pRecvServerPage) {
         Log.i("서버에서 받은 전체 내용", pRecvServerPage);
@@ -875,7 +1025,7 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
             JSONObject json = new JSONObject(pRecvServerPage);
             JSONArray jArr = json.getJSONArray("List");
 
-            String[] jsonName = {"Do", "Si", "Court", "Name", "User", "Data","Month","Day","Hour","Minute","Image"};
+            String[] jsonName = {"Do", "Si", "Court", "Name", "User", "Data", "Month", "Day", "Hour", "Minute", "Image"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for (int i = 0; i < jArr.length(); i++) {
                 json = jArr.getJSONObject(i);
@@ -889,6 +1039,7 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
             return null;
         }
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -1160,4 +1311,17 @@ public String[][] recommend_jsonParserList(String pRecvServerPage) {
         }
     }
 
+    class BackThread extends Thread {
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(1000);
+                myTask.cancel();
+                timer.cancel();
+                mPopupDlg.dismiss();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } // end run()
+    } // end class BackThread
 }
