@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout_customdialog_insert_phonenumber_Root"
+    android:orientation="vertical">
+    <EditText
+        android:id="@+id/insert_phonenumber_layout_phone_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:maxLength="11"
+        android:inputType="number"
+        android:hint=" '-' 빼고 입력해주세요" />
+
+    <Button
+        android:id="@+id/insert_phonenumber_layout_correct_Button"
+        android:layout_width="362dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClickNext"
+        android:text="인증번호받기" />
+
+    <EditText
+        android:id="@+id/insert_phonenumber_layout_access_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:maxLength="6"
+        android:hint="인증번호"
+        android:inputType="number"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/insert_phonenumber_layout_next_Button"
+        android:layout_width="362dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClickNext"
+        android:text="다음"
+        android:visibility="gone" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/insert_phonenumber_layout_time_TextView"
+            android:layout_weight="1"
+            android:text=" "
+            android:textSize="20dp"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/insert_phonenumber_layout_count_TextView"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:text=" "
+            android:textAlignment="center"/>
+    </LinearLayout>
+</LinearLayout>

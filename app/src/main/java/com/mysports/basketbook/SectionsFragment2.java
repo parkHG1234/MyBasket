@@ -144,10 +144,8 @@ public class SectionsFragment2 extends Fragment {
         final Spinner Layout_CustomDialog_teamChoice_team = (Spinner) MainActivity.layout.findViewById(R.id.Layout_CustomDialog_teamChoice_team);
 
         MainActivity.Contest_Button_MyTeam.setText(MainActivity.MyTeam);
-        Log.i("asdf", "asdf");
         if (MainActivity.Authority.equals("1")) {
             if (MainActivity.yourTeamStatus.equals("allow_away")) {
-                Log.i("asdf", "asdf");
                 Team = MainActivity.HomeTeam;
                 MainActivity.Contest_Button_Start.setText("신청 접수중");
                 MainActivity.Contest_Button_Cancel.setVisibility(View.VISIBLE);
