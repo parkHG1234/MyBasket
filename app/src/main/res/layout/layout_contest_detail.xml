@@ -26,9 +26,9 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     app:srcCompat="@drawable/contest_example"
-                    android:id="@+id/imageView8" />
+                    android:id="@+id/imageView8"
+                    android:layout_height="400dp" />
 
                 <TextView
                     android:text="[서울, 경기, 인천] 인하공전 농구 대회"
@@ -43,12 +43,18 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:text="50000원│"
+                        android:text="50000원"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/textView58"
+                        android:id="@+id/layout_contest_register_price"
                         android:gravity="left"
                         android:textColor="@color/basil" />
+
+                    <TextView
+                        android:text="│"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView26" />
 
                     <TextView
                         android:text="마감"
@@ -60,7 +66,7 @@
                         android:text=" 2주 "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/textView73"
+                        android:id="@+id/layout_contest_remainder"
                         android:textColor="@color/azure" />
 
                     <TextView
@@ -90,7 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:id="@+id/textView70" />
+                    android:id="@+id/layout_contest_host" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -105,7 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:id="@+id/textView71" />
+                    android:id="@+id/layout_contest_management" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -120,7 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:id="@+id/textView72" />
+                    android:id="@+id/layout_contest_support" />
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -140,7 +146,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:id="@+id/textView62" />
+                    android:id="@+id/layout_contest_recruit_period" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -155,7 +161,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:id="@+id/textView64" />
+                    android:id="@+id/layout_contest_date" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -170,24 +176,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:id="@+id/textView66"
+                    android:id="@+id/layout_contest_place"
                     android:layout_weight="1" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView75"
-                    android:layout_weight="1"
-                    android:text="대회 규정"
-                    android:textColor="@color/basil" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:id="@+id/textView76"
-                    android:layout_weight="1"
-                    android:text="전국농구연합회(NABA) 경기규정 " />
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -202,12 +192,13 @@
                     android:layout_weight="1"
                     android:textColor="@color/colorPrimary"
                     android:gravity="center_horizontal"
-                    android:text="세부 운영안" />
+                    android:text="세부 운영안"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView79"
+                    android:id="@+id/layout_contest_detailInfo"
                     android:text="9. 시 상 :  각부 1 위 : 상장, 개인메달, 장학금 20만원\n                      2 위 : 상장, 개인메달, 장학금 10만원\n                      공동   3 위 :  상장, 개인메달\n                      예선탈락 : 농구공 팀당 1개\n                      * 개회식 당일 11시 40분\n              \n 10. 신청 마감 : 참가비 입금 순 (마감시 까지)\n         - 참가비는 팀명으로 입금\n\n  11. 대표자회의 및 조추첨 : \n         - 대표자회의는 별도로 없으며 대회당일 개막식전 팀대표자 간단히 미팅\n         - 대회비입금 마감 후 추후 톡방개설 후 조추첨\n\n  12.  공제보험 \n 부상선수 발생 시 본 주최측에서는 일체책임지지 않음을 알려드리며 예방을 위하여 \n 공제조합을 안내해드리니 참고 바랍니다. 국민생활체육협의회 안전공제센타 (02-2202-7748)\n\n  13. 기타 경기 규정 \n 가. 경기 룰은 FIBA룰로 진행한다. \n 나. 안경 착용을 금지\n 다. 휴식시간은 전반전이 끝난 후 2분으로 한다.\n 라. 유니폼테크니컬 미적용.\n 마. 경기 중 발생한 일체의 사고에 대해서는 주최 측의 책임이 없다. \n 바. 상벌 위원회 구성 _ ( 소청 위원회 )\n 사. 이외 기재되지 않은 사항은 대회운영위원회에 따른다\n 아. 작전타임 전반1회,후반2회 (벤취타임만)\n 자. 종료 2분전 데드타임(시간만 적용),중등부(성인룰적용)\n 차. 팀파울 8개부터 자유투\n 카. 골대(305cm 성인골대 일괄적용)\n 타. 전문선수등록자\n      - 당해년도 등록되어있어도 선수활동 안하고 있으면 출전가능 (사전문의/근거자료 당일제출)" />
 
             </LinearLayout>
@@ -217,7 +208,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="대회신청"
-            android:id="@+id/Contest_Detail_Button_Submit"
+            android:id="@+id/layout_contest_submit"
             android:layout_gravity="bottom"
             android:layout_weight="13"
             android:textColor="@color/White"
