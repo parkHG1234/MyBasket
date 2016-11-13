@@ -119,8 +119,12 @@ public class SectionsFragment2 extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Object o = Contest_ListView_contest.getItemAtPosition(i);
+                        String b = String.valueOf(o);
+                        System.out.println(i);
 
                         Intent intent = new Intent(getContext(), Contest_Detail.class);
+                        String Pk = Integer.toString(i+1);
+                        intent.putExtra("position", Pk);
                         startActivity(intent);
                     }
                 });
