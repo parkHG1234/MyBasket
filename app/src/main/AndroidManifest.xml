@@ -26,7 +26,7 @@
         <activity android:name="com.mysports.basketbook.ChangePw1Activity"></activity>
         <activity android:name="com.mysports.basketbook.ChangePw2Activity"></activity>
         <activity android:name="com.mysports.basketbook.Contest_Detail"></activity>
-
+        <activity android:name=".Contest_Detail_Form"></activity>
         <activity
             android:name="com.mysports.basketbook.LoginActivity">
         </activity>

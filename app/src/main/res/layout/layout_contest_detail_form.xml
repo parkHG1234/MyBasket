@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="참가신청서"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.2"
+        android:id="@+id/textView26"
+        android:textSize="20dp"
+        android:textStyle="normal|bold"
+        android:gravity="center" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.15">
+        <TextView
+            android:text="참가팀명"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/aa"
+            android:layout_weight="2"
+            android:textStyle="normal|bold"
+            android:paddingLeft="10dp"
+            android:gravity="bottom" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
+            android:id="@+id/Contest_Detail_Form_Button_TeamName"
+            android:layout_weight="1"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.15">
+        <TextView
+            android:text="참가팀대표명"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/bb"
+            android:layout_weight="2"
+            android:textStyle="normal|bold"
+            android:paddingLeft="10dp"
+            android:gravity="bottom" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
+            android:id="@+id/Contest_Detail_Form_Button_TeamLeader"
+            android:layout_weight="1"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.15">
+        <TextView
+            android:text="참가팀대표번호"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/cc"
+            android:layout_weight="2"
+            android:textStyle="normal|bold"
+            android:paddingLeft="10dp"
+            android:gravity="bottom" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
+            android:id="@+id/Contest_Detail_Form_Button_TeamPhone"
+            android:layout_weight="1"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.6">
+        <TextView
+            android:text="참가자"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/textView57"
+            android:layout_weight="4"
+            android:textSize="15dp"
+            android:textStyle="normal|bold"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp" />
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5">
+        </ListView>
+    </LinearLayout>
+    <Button
+        android:text="참가 신청"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/button3"
+        android:layout_weight="1.2"/>
+</LinearLayout>

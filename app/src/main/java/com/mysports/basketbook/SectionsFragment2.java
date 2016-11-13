@@ -255,6 +255,7 @@ public class SectionsFragment2 extends Fragment {
                 MainActivity.Contest_Button_MyTeam.setText(MainActivity.HomeTeam);
                 MainActivity.Contest_Button_YourTeam.setText(MainActivity.AwayTeam);
                 MainActivity.Contest_Button_YourTeam.setEnabled(false);
+
                 myTask = new TimerTask() {
                     int i = 300 - (MainActivity.allowtime * 60);
 
