@@ -125,6 +125,7 @@ public class SectionsFragment2 extends Fragment {
                         Intent intent = new Intent(getContext(), Contest_Detail.class);
                         String Pk = Integer.toString(i+1);
                         intent.putExtra("position", Pk);
+                        intent.putExtra("Id", MainActivity.Id);
                         startActivity(intent);
                     }
                 });

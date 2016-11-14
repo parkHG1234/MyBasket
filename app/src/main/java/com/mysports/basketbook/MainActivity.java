@@ -398,7 +398,6 @@ public class MainActivity extends AppCompatActivity {
                 phonebuider.setView(dialoglayout);
 
                 mPopupDlg = phonebuider.show();
-
                 insert_phonenumber_layout_correct_Button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
@@ -412,7 +411,6 @@ public class MainActivity extends AppCompatActivity {
                                 rnd = Math.abs(random.nextInt(899999) + 100000);
                                 msg = "바스켓북 인증번호는 [" + String.valueOf(rnd) + "] 입니다.감사합니다.";
 
-                                Log.i("aaaaaabb",String.valueOf(rnd));
                                 HttpClient client = new DefaultHttpClient();
                                 String postURL = "http://210.122.7.193:8080/InetSMSExample/example.jsp";
                                 HttpPost post = new HttpPost(postURL);
@@ -421,9 +419,12 @@ public class MainActivity extends AppCompatActivity {
                                 params.add(new BasicNameValuePair("sms_to", phone));
                                 params.add(new BasicNameValuePair("sms_from", phone));
                                 params.add(new BasicNameValuePair("sms_date", date));
+                                Log.i("msg",msg);
+                                Log.i("phone",phone);
+                                Log.i("sms_date",date);
                                 UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                                 post.setEntity(ent);
-//                                client.execute(post);
+                                client.execute(post);
 
                                 insert_phonenumber_layout_correct_Button.setVisibility(View.GONE);
                                 insert_phonenumber_layout_access_EditText.setVisibility(View.VISIBLE);
@@ -433,7 +434,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 insert_phonenumber_layout_count_TextView.setText("남은횟수 : " + String.valueOf(cnt));
                                 myTask = new TimerTask() {
-                                    int i = 30;
+                                    int i = 300;
 
                                     public void run() {
                                         runOnUiThread(new Runnable() {

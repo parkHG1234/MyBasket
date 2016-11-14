@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/Contest_Detail_Form_Player_CustomList_Check"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/Contest_Detail_Form_Player_CustomList_ProfileImage"
+            android:layout_weight="1"
+            android:layout_margin="5dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/Contest_Detail_Form_Player_CustomList_Duty"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="15dp"
+            android:textColor="@color/Black"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/Contest_Detail_Form_Player_CustomList_Name"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="15dp"
+            android:textColor="@color/Black"/>
+
+        <TextView
+            android:text="24"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/Contest_Detail_Form_Player_CustomList_Age"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="15dp"
+            android:textColor="@color/Black"/>
+
+    </LinearLayout>
+</LinearLayout>

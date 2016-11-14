@@ -102,6 +102,7 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/Contest_Detail_Form_ListView"
             android:layout_weight="0.5">
         </ListView>
     </LinearLayout>
@@ -109,6 +110,6 @@
         android:text="참가 신청"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/button3"
+        android:id="@+id/Contest_Detail_Form_Input"
         android:layout_weight="1.2"/>
 </LinearLayout>
