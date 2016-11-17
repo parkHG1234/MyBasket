@@ -13,6 +13,7 @@ public class Contest_Detail_Form_Customlist_MyData {
     private String Position;
     private String TeamName;
     private String Id;
+
     public Contest_Detail_Form_Customlist_MyData(String Duty, String Name, String Profile, String Birth, String Sex, String Position, String TeamName,String Id){
         this.Name = Name;
         this.Duty = Duty;
@@ -42,7 +43,8 @@ public class Contest_Detail_Form_Customlist_MyData {
     public String getTeamName(){
         return TeamName;
     }
-    public java.lang.String getId() {
+    public String getId() {
         return Id;
     }
+
 }

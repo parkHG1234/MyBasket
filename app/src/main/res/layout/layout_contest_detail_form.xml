@@ -89,16 +89,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.6">
-        <TextView
-            android:text="참가자"
+
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/textView57"
-            android:layout_weight="4"
-            android:textSize="15dp"
-            android:textStyle="normal|bold"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp" />
+            android:layout_weight="4">
+
+            <TextView
+                android:text="참가자"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/textView57"
+                android:layout_weight="1"
+                android:textSize="15dp"
+                android:textStyle="normal|bold"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp" />
+
+            <TextView
+                android:text="0명 참가"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/Contest_Detail_Form_JoinerCount"
+                android:layout_weight="2"
+                android:textSize="15dp"
+                android:textStyle="normal|bold"
+                android:gravity="right|center_vertical"
+                android:paddingRight="10dp"/>
+        </LinearLayout>
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

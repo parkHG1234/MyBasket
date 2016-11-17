@@ -12,8 +12,12 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -25,6 +29,8 @@ import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.util.exception.KakaoException;
 import com.mysports.basketbook.R;
+import com.tsengvn.typekit.Typekit;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -48,10 +54,10 @@ import java.util.concurrent.ExecutionException;
  * Created by ldong on 2016-06-30.
  */
 public class LoginActivity extends AppCompatActivity {
-    LinearLayout login_layout_root;
+    LinearLayout login_layout_root, Layout_Login_Point;
     EditText id_EditText, pw_EditText;
     Button login_Button;
-    TextView join_Button;
+    TextView join_Button, search_Button;
     String[][] parsedData;
     AlertDialog dlg;
     View myview;
@@ -73,15 +79,20 @@ public class LoginActivity extends AppCompatActivity {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+        Typekit.getInstance()
+                .addNormal(Typekit.createFromAsset(this, "fonts/NanumBarunGothic.ttf"))
+                .addBold(Typekit.createFromAsset(this, "fonts/NanumBarunGothicBold.ttf"));
 
 
         SharedPreferences preferences = getSharedPreferences("autoLogin", MODE_PRIVATE);
 
         login_layout_root = (LinearLayout) findViewById(R.id.login_layout_root);
+        Layout_Login_Point = (LinearLayout)findViewById(R.id.Layout_Login_Point);
         id_EditText = (EditText) findViewById(R.id.id_Layout_EditText);
         pw_EditText = (EditText) findViewById(R.id.pw_Layout_EditText);
         login_Button = (Button) findViewById(R.id.login_button);
         join_Button = (TextView) findViewById(R.id.join_button);
+        search_Button = (TextView)findViewById(R.id.search_Button);
         autoLoginChkbox = (CheckBox) findViewById(R.id.autuLogin_chkbox);
         join_Button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +109,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
         backPressCloseHandler = new BackPressCloseHandler(this);
-
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.translate);
+        Layout_Login_Point.startAnimation(animation);
 
         final Intent StartIntent = getIntent();
         fragment1 = StartIntent.getExtras().getString("fragment1");
@@ -109,6 +121,14 @@ public class LoginActivity extends AppCompatActivity {
             Approach = StartIntent.getStringExtra("Approach");
             NewsFeed_Num = StartIntent.getStringExtra("NewsFeed_Num");
         }
+
+        SpannableString content = new SpannableString("신규회원가입");
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        join_Button.setText(content);
+
+        SpannableString content1 = new SpannableString("비밀번호 찾기");
+        content1.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        search_Button.setText(content1);
 
         autoLoginChkbox.setChecked(false);
         String autoChkbox = preferences.getString("auto", "");  //로그아웃시 autologinChkbox ""로 변경 or preference 삭제
@@ -355,5 +375,11 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra("fragment4", fragment4);
         startActivity(intent);
         finish();
+    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+
     }
 }

@@ -3,6 +3,7 @@ package com.mysports.basketbook;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -112,11 +113,43 @@ Button layout_contest_submit;
         layout_contest_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Contest_Detail.this, Contest_Detail_Form.class);
-                intent.putExtra("Id",Id);
-                intent.putExtra("Pk",Pk);
-                startActivity(intent);
-                overridePendingTransition(R.anim.anim_slide_in_top, R.anim.anim_slide_out_bottom);
+                String result = "";
+                try {
+                    HttpClient client = new DefaultHttpClient();
+                    String postURL = "http://210.122.7.193:8080/Web_basket/Contest_Detail_Check.jsp";
+                    HttpPost post = new HttpPost(postURL);
+
+                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                    params.add(new BasicNameValuePair("Pk", Pk));
+                    params.add(new BasicNameValuePair("Id", Id));
+
+                    UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                    post.setEntity(ent);
+
+                    HttpResponse response = client.execute(post);
+                    BufferedReader bufreader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
+
+                    String line = null;
+                    while ((line = bufreader.readLine()) != null) {
+                        result += line;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                String[][] ParsedData_Check = jsonParserList_ContestDetail_Check(result);
+                if (ParsedData_Check[0][0].equals("succed")) {
+                    Intent intent = new Intent(Contest_Detail.this, Contest_Detail_Form.class);
+                    intent.putExtra("Id",Id);
+                    intent.putExtra("Pk",Pk);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.anim_slide_in_top, R.anim.anim_slide_out_bottom);
+                }
+                else if (ParsedData_Check[0][0].equals("already")) {
+                    Snackbar.make(view,"이미 신청중입니다.",Snackbar.LENGTH_SHORT).show();
+                }
+                else if (ParsedData_Check[0][0].equals("notDuty")) {
+                    Snackbar.make(view,"대회 신청권한이 없습니다.",Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -128,6 +161,26 @@ Button layout_contest_submit;
             JSONArray jArr = json.getJSONArray("List");
 
             String[] jsonName = {"Pk", "Title", "Date", "Image", "currentNum", "maxNum", "Point", "Host", "Management", "Support", "RecruitmentStart", "RecruitmentFinish", "DetailInfo"};
+            String[][] parseredData = new String[jArr.length()][jsonName.length];
+            for (int i = 0; i < jArr.length(); i++) {
+                json = jArr.getJSONObject(i);
+                for (int j = 0; j < jsonName.length; j++) {
+                    parseredData[i][j] = json.getString(jsonName[j]);
+                }
+            }
+            return parseredData;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public String[][] jsonParserList_ContestDetail_Check(String pRecvServerPage) {
+        Log.i("서버에서 받은 전체 내용", pRecvServerPage);
+        try {
+            JSONObject json = new JSONObject(pRecvServerPage);
+            JSONArray jArr = json.getJSONArray("List");
+
+            String[] jsonName = {"msg1"};
             String[][] parseredData = new String[jArr.length()][jsonName.length];
             for (int i = 0; i < jArr.length(); i++) {
                 json = jArr.getJSONObject(i);

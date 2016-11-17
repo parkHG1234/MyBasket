@@ -115,7 +115,7 @@ public class SectionsFragment2 extends Fragment {
                 Contests_Customlist_Adapter Adapter = new Contests_Customlist_Adapter(rootView.getContext(), Contests_Customlist_MyData);
                 Contest_ListView_contest.setAdapter(Adapter);
 
-                Contest_ListView_contest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+              /*  Contest_ListView_contest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Object o = Contest_ListView_contest.getItemAtPosition(i);
@@ -128,7 +128,7 @@ public class SectionsFragment2 extends Fragment {
                         intent.putExtra("Id", MainActivity.Id);
                         startActivity(intent);
                     }
-                });
+                });*/
 
 
             }

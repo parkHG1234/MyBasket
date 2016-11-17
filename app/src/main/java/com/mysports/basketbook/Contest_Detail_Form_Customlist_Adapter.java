@@ -60,7 +60,7 @@ public class Contest_Detail_Form_Customlist_Adapter extends BaseAdapter{
         TextView Name = (TextView) convertView.findViewById(R.id.Contest_Detail_Form_Player_CustomList_Name);
         TextView Duty = (TextView) convertView.findViewById(R.id.Contest_Detail_Form_Player_CustomList_Duty);
         TextView Age = (TextView)convertView.findViewById(R.id.Contest_Detail_Form_Player_CustomList_Age) ;
-        CheckBox check= (CheckBox)convertView.findViewById(R.id.Contest_Detail_Form_Player_CustomList_Check);
+       // CheckBox check= (CheckBox)convertView.findViewById(R.id.Contest_Detail_Form_Player_CustomList_Check);
 
         Contest_Detail_Form_Player_CustomList_ProfileImage = (ImageView)convertView.findViewById(R.id.Contest_Detail_Form_Player_CustomList_ProfileImage);
         Name.setText(arrData.get(position).getName());

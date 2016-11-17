@@ -44,16 +44,15 @@ import java.util.List;
 public class Navigation_TeamManager_TeamMake1 extends AppCompatActivity {
     LinearLayout layout_teammanager_teammake1_root;
     LinearLayout TeamManager_TeamMake_Layout_Maker;
-    LinearLayout TeamManager_TeamMake_Layout_OverLap;
     String Str_TeamManager_TeamMake_EditText_TeamName="";
     String Str_TeamManager_TeamMake_EditText_TeamAddress_do="";
     String Str_TeamManager_TeamMake_EditText_TeamAddress_se="전 체";
     String Str_TeamManager_TeamMake_EditText_HomeCourt;
     String Str_TeamManager_TeamMake_EditText_Time;
     String Str_TeamManager_TeamMake_EditText_TeamIntro;
-    MaterialEditText TeamManager_TeamMake_EditText_TeamName;
-    MaterialEditText TeamManager_TeamMake_EditText_HomeCourt;
-    MaterialEditText TeamManager_TeamMake_EditText_Time;
+    EditText TeamManager_TeamMake_EditText_TeamName;
+    EditText TeamManager_TeamMake_EditText_HomeCourt;
+    EditText TeamManager_TeamMake_EditText_Time;
     Button TeamManger_TeamMake_Button_UniformColor;
     EditText TeamManager_TeamMake_EditText_TeamIntro;
     Spinner TeamManager_TeamMake_Spinner_Address_Do;
@@ -68,15 +67,14 @@ public class Navigation_TeamManager_TeamMake1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_teammanager_teammake1);
         layout_teammanager_teammake1_root = (LinearLayout)findViewById(R.id.layout_teammanager_teammake1_root);
-        TeamManager_TeamMake_EditText_TeamName = (MaterialEditText)findViewById(R.id.TeamManager_TeamMake_EditText_TeamName);
-        TeamManager_TeamMake_EditText_HomeCourt = (MaterialEditText)findViewById(R.id.TeamManager_TeamMake_EditText_HomeCourt);
-        TeamManager_TeamMake_EditText_Time = (MaterialEditText)findViewById(R.id.TeamManager_TeamMake_EditText_Time);
+        TeamManager_TeamMake_EditText_TeamName = (EditText)findViewById(R.id.TeamManager_TeamMake_EditText_TeamName);
+        TeamManager_TeamMake_EditText_HomeCourt = (EditText)findViewById(R.id.TeamManager_TeamMake_EditText_HomeCourt);
+        TeamManager_TeamMake_EditText_Time = (EditText)findViewById(R.id.TeamManager_TeamMake_EditText_Time);
         TeamManger_TeamMake_Button_UniformColor = (Button)findViewById(R.id.TeamManger_TeamMake_Button_UniformColor);
         TeamManager_TeamMake_EditText_TeamIntro = (EditText)findViewById(R.id.TeamManager_TeamMake_EditText_TeamIntro);
         TeamManager_TeamMake_Spinner_Address_Do = (Spinner)findViewById(R.id.TeamManager_TeamMake_Spinner_Address_Do);
         TeamManager_TeamMake_Spinner_Address_Se = (Spinner)findViewById(R.id.TeamManager_TeamMake_Spinner_Address_Se);
         TeamManager_TeamMake_Layout_Maker = (LinearLayout)findViewById(R.id.TeamManager_TeamMake_Layout_Maker);
-        TeamManager_TeamMake_Layout_OverLap = (LinearLayout)findViewById(R.id.TeamManager_TeamMake_Layout_OverLap);
         Button TeamManager_TeamMake1_Button_Next = (Button)findViewById(R.id.TeamManager_TeamMake_Button_Next);
 
 
@@ -114,7 +112,6 @@ public class Navigation_TeamManager_TeamMake1 extends AppCompatActivity {
         Intent intent1 = getIntent();
         Id = intent1.getStringExtra("Id");
         TeamManager_TeamMake_Layout_Maker.setVisibility(View.VISIBLE);
-        TeamManager_TeamMake_Layout_OverLap.setVisibility(View.GONE);
         adspin1 = ArrayAdapter.createFromResource(Navigation_TeamManager_TeamMake1.this, R.array.spinner_do, R.layout.zfile_spinner_test);
         adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         TeamManager_TeamMake_Spinner_Address_Do.setAdapter(adspin1);

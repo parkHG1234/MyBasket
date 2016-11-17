@@ -1,6 +1,8 @@
 package com.mysports.basketbook;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ public class Contests_Customlist_Adapter extends BaseAdapter{
     private Context context;
     private ArrayList<Contests_Customlist_MyData> arrData;
     private LayoutInflater inflater;
+    String Contest_Pk;
     public Contests_Customlist_Adapter(Context c, ArrayList<Contests_Customlist_MyData> arr) {
         this.context = c;
         this.arrData = arr;
@@ -51,7 +54,7 @@ public class Contests_Customlist_Adapter extends BaseAdapter{
             String Contest_currentNum = arrData.get(position).getContest_currentNum();
             String Contest_maxNum = arrData.get(position).getContest_maxNum();
             String Contest_Point = arrData.get(position).getContest_Point();
-            String Contest_Pk = arrData.get(position).getContest_Pk();
+            Contest_Pk = arrData.get(position).getContest_Pk();
 
             ImageView viewContest_Image = (ImageView)convertView.findViewById(R.id.Contest_logoImage);
             TextView viewContest_Title = (TextView)convertView.findViewById(R.id.contest_title);
@@ -63,7 +66,16 @@ public class Contests_Customlist_Adapter extends BaseAdapter{
             viewContest_Date.setText(Contest_Date);
             viewContest_Num.setText(Contest_currentNum + " / " + Contest_maxNum);
             viewContest_Point.setText(Contest_Point);
-
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.i("Pk",Contest_Pk);
+                    Intent intent = new Intent(context, Contest_Detail.class);
+                    intent.putExtra("position", Contest_Pk);
+                    intent.putExtra("Id", MainActivity.Id);
+                    context.startActivity(intent);
+                }
+            });
         }
 
         return convertView;

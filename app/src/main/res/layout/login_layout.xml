@@ -9,7 +9,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="1"
         android:background="@drawable/main2"
        >
 
@@ -17,129 +16,201 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.15"
-        android:layout_height="200dp"></LinearLayout>
+        android:layout_weight="1.5"
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textview"
-            android:textSize="20dp" />
-
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/Layout_Login_Point">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.1"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="35dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/ball"
+                        android:id="@+id/imageView12"
+                        android:layout_weight="7"
+                        android:scaleType="fitXY"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="3dp" />
+
+                    <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/id_Layout_EditText"
+                            android:textColor="@color/White"
+                            android:ems="20"
+                            android:hint="아이디"
+                            android:textColorHint="@color/White"
+                            android:textColorHighlight="@color/White"
+                        android:background="@null"
+                        android:layout_weight="1"
+                        android:gravity="bottom|center"
+                        android:paddingBottom="7dp"
+                        android:textSize="10dp" />
+                </LinearLayout>
+                <Button
+                    android:text="Button"
+                    android:layout_width="match_parent"
+                    android:id="@+id/button8"
+                    android:background="@color/White"
+                    android:clickable="false"
+                    android:layout_height="1dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1.1"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="35dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/ball"
+                        android:id="@+id/imageView13"
+                        android:layout_weight="7"
+                        android:layout_width="match_parent"
+                        android:scaleType="fitXY"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="3dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/pw_Layout_EditText"
+                        android:textColor="@color/White"
+                        android:ems="20"
+                        android:hint="비밀번호"
+                        android:textColorHint="@color/White"
+                        android:textColorHighlight="@color/White"
+                        android:gravity="bottom|center"
+                        android:background="@null"
+                        android:layout_weight="1"
+                        android:paddingBottom="7dp"
+                        android:textSize="10dp" />
+                </LinearLayout>
+                <Button
+                    android:text="Button"
+                    android:layout_width="match_parent"
+                    android:id="@+id/button9"
+                    android:background="@color/White"
+                    android:clickable="false"
+                    android:layout_height="1dp" />
+            </LinearLayout>
+
+            <CheckBox
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/id_Layout_EditText"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="자동 로그인"
+                android:id="@+id/autuLogin_chkbox"
                 android:textColor="@color/White"
-                android:ems="20"
-                android:hint="ID"
-                android:textColorHint="@color/White"
-                android:textColorHighlight="@color/White"
+                android:layout_weight="1.1"
+                android:checked="false"
+                android:buttonTint="@color/White"
+                android:gravity="start"
+                android:layout_gravity="right"
+                android:layout_marginRight="35dp"
+                android:layout_marginTop="7dp"
+                android:paddingTop="9dp"
+                android:textSize="11dp"></CheckBox>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="바스켓북 로그인"
+                android:textColor="@color/White"
+                android:textColorHighlight="@color/colorPrimary"
+                android:id="@+id/login_button"
+                android:onClick="onClicked"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="@color/White"
+                android:textStyle="normal|bold"
+                android:textSize="17dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp" />
+
+            <com.kakao.usermgmt.LoginButton
+                android:id="@+id/com_kakao_login"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="100dp"
+                android:layout_marginLeft="100dp"
+                android:layout_gravity="center_vertical"
                 />
-        </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="신규 회원가입"
+                    android:id="@+id/join_button"
+                    android:layout_gravity="center_horizontal"
+                    android:textStyle="bold"
+                    android:gravity="right|center_vertical"
+                    android:textColor="@color/White"
+                    android:layout_weight="1"
+                    android:textSize="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp" />
+
+                <TextView
+                    android:text="비밀번호 찾기"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/search_Button"
+                    android:layout_gravity="center_horizontal"
+                    android:textStyle="bold"
+                    android:gravity="left|center_vertical"
+                    android:textColor="@color/White"
+                    android:layout_weight="1"
+                    android:textSize="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="5dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
     </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:ems="20"
-                android:id="@+id/pw_Layout_EditText"
-                android:textColor="@color/White"
-                android:layout_weight="1"
-                android:hint="Password"
-                android:textColorHint="@color/White"
-                android:textColorHighlight="@color/White"/>
-        </android.support.design.widget.TextInputLayout>
-
-    </LinearLayout>
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="자동 로그인"
-        android:id="@+id/autuLogin_chkbox"
-        android:layout_gravity="right"
-        android:textColor="@color/White"
-        android:layout_weight="0.15"
-        android:checked="false"
-        android:buttonTint="@color/White"></CheckBox>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/round_button"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp">
-
-        <ImageButton
-            android:layout_width="41dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/basketball_white"
-            android:id="@+id/imageButton"
-            android:scaleType="fitXY"
-            android:background="@color/colorPrimary"
-            android:layout_marginLeft="18dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginBottom="19dp"
-            android:layout_marginRight="18dp" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="바스켓북 로그인"
-            android:textColor="@color/White"
-            android:textColorHighlight="@color/colorPrimary"
-            android:id="@+id/login_button"
-            android:onClick="onClicked"
-            android:layout_gravity="center_horizontal"
-            android:backgroundTint="@color/colorPrimary"
-            android:textStyle="normal|bold"
-            android:textSize="17dp" />
-    </LinearLayout>
-
-    <com.kakao.usermgmt.LoginButton
-        android:id="@+id/com_kakao_login"
-        android:layout_width="match_parent"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="30dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_height="wrap_content"
-         />
-
-    <TextView
-        android:layout_width="351dp"
-        android:layout_height="wrap_content"
-        android:text="회원가입"
-        android:id="@+id/join_button"
-        android:layout_gravity="center_horizontal"
-        android:textStyle="normal|bold"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical|center_horizontal|center"
-        android:textColor="@color/White"/>
-</LinearLayout>
 
 </LinearLayout>
