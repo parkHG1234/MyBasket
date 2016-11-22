@@ -62,7 +62,7 @@ public class SectionsFragment4 extends Fragment {
     Button Profile_Button_Password;
     LinearLayout layout_profile_Root;
     TextView update_textview;
-    FloatingActionButton Profile_Button_setting;
+    Button Profile_Button_setting;
     String[][] parsedData_overLap, parsedData_TeamCheck, parsedData_Alarm;
     String ProfileUrl;
     Bitmap bmImg;
@@ -92,7 +92,7 @@ public class SectionsFragment4 extends Fragment {
         Profile_Button_TeamSearch = (Button) rootView.findViewById(R.id.Profile_Button_TeamSearch);
         Profile_Button_Password = (Button) rootView.findViewById(R.id.Profile_Button_Password);
         Profile_Button_Logout = (Button) rootView.findViewById(R.id.Profile_Button_Logout);
-        Profile_Button_setting = (FloatingActionButton) rootView.findViewById(R.id.Profile_Button_setting);
+        Profile_Button_setting = (Button) rootView.findViewById(R.id.Profile_Button_setting);
         if (Boolean.parseBoolean(MainActivity.fragment4)) {
             update_textview.setVisibility(View.GONE);
             layout_profile_Root.setVisibility(View.VISIBLE);
@@ -703,7 +703,7 @@ public class SectionsFragment4 extends Fragment {
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Do.setAdapter(adspin1);
                     Layout_Spinner_Change_interestarea_Do.setSelection(0);
-                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul_notall, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
 
@@ -712,7 +712,7 @@ public class SectionsFragment4 extends Fragment {
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Do.setAdapter(adspin1);
                     Layout_Spinner_Change_interestarea_Do.setSelection(1);
-                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_incheon, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_incheon_notall, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
 
@@ -721,7 +721,7 @@ public class SectionsFragment4 extends Fragment {
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Do.setAdapter(adspin1);
                     Layout_Spinner_Change_interestarea_Do.setSelection(2);
-                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_gwangju, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_gwangju_notall, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
 
@@ -730,7 +730,7 @@ public class SectionsFragment4 extends Fragment {
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Do.setAdapter(adspin1);
                     Layout_Spinner_Change_interestarea_Do.setSelection(3);
-                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_DaeGu, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_DaeGu_notall, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
 
@@ -739,7 +739,7 @@ public class SectionsFragment4 extends Fragment {
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Do.setAdapter(adspin1);
                     Layout_Spinner_Change_interestarea_Do.setSelection(4);
-                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Ulsan, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Ulsan_notall, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
 
@@ -748,7 +748,7 @@ public class SectionsFragment4 extends Fragment {
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Do.setAdapter(adspin1);
                     Layout_Spinner_Change_interestarea_Do.setSelection(5);
-                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Ulsan, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_DaeJeon_notall, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
 
@@ -757,7 +757,7 @@ public class SectionsFragment4 extends Fragment {
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Do.setAdapter(adspin1);
                     Layout_Spinner_Change_interestarea_Do.setSelection(6);
-                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Ulsan, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Busan_notall, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
 
@@ -766,7 +766,7 @@ public class SectionsFragment4 extends Fragment {
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Do.setAdapter(adspin1);
                     Layout_Spinner_Change_interestarea_Do.setSelection(7);
-                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Ulsan, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gangwondo_notall, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
 
@@ -775,7 +775,7 @@ public class SectionsFragment4 extends Fragment {
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Do.setAdapter(adspin1);
                     Layout_Spinner_Change_interestarea_Do.setSelection(8);
-                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeonggido, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeonggido_notall, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
 
@@ -784,7 +784,7 @@ public class SectionsFragment4 extends Fragment {
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Do.setAdapter(adspin1);
                     Layout_Spinner_Change_interestarea_Do.setSelection(9);
-                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Chungcheongbukdo, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Chungcheongbukdo_notall, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
 
@@ -793,7 +793,7 @@ public class SectionsFragment4 extends Fragment {
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Do.setAdapter(adspin1);
                     Layout_Spinner_Change_interestarea_Do.setSelection(10);
-                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Chungcheongnamdo, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Chungcheongnamdo_notall, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
 
@@ -802,7 +802,7 @@ public class SectionsFragment4 extends Fragment {
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Do.setAdapter(adspin1);
                     Layout_Spinner_Change_interestarea_Do.setSelection(11);
-                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jeolabukdo, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jeolabukdo_notall, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
 
@@ -811,7 +811,7 @@ public class SectionsFragment4 extends Fragment {
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Do.setAdapter(adspin1);
                     Layout_Spinner_Change_interestarea_Do.setSelection(12);
-                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jeolanamdo, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jeolanamdo_notall, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
 
@@ -820,7 +820,7 @@ public class SectionsFragment4 extends Fragment {
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Do.setAdapter(adspin1);
                     Layout_Spinner_Change_interestarea_Do.setSelection(13);
-                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeongsangbukdo, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeongsangbukdo_notall, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
 
@@ -829,7 +829,7 @@ public class SectionsFragment4 extends Fragment {
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Do.setAdapter(adspin1);
                     Layout_Spinner_Change_interestarea_Do.setSelection(14);
-                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeongsangnamdo, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeongsangnamdo_notall, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
 
@@ -838,7 +838,7 @@ public class SectionsFragment4 extends Fragment {
                     adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Do.setAdapter(adspin1);
                     Layout_Spinner_Change_interestarea_Do.setSelection(15);
-                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jejudo, R.layout.zfile_spinner_test);
+                    adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jejudo_notall, R.layout.zfile_spinner_test);
                     adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                 }
@@ -880,7 +880,7 @@ public class SectionsFragment4 extends Fragment {
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if (adspin1.getItem(position).equals("서울")) {
                             MainActivity.interestArea_do = adspin1.getItem(position).toString();
-                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_seoul_notall, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                             Layout_Spinner_Change_interestarea_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -895,7 +895,7 @@ public class SectionsFragment4 extends Fragment {
                             });
                         } else if (adspin1.getItem(position).equals("인천")) {
                             MainActivity.interestArea_do = adspin1.getItem(position).toString();
-                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_incheon, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_incheon_notall, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                             Layout_Spinner_Change_interestarea_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -910,7 +910,7 @@ public class SectionsFragment4 extends Fragment {
                             });
                         } else if (adspin1.getItem(position).equals("광주")) {
                             MainActivity.interestArea_do = adspin1.getItem(position).toString();
-                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_gwangju, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_gwangju_notall, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                             Layout_Spinner_Change_interestarea_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -925,7 +925,7 @@ public class SectionsFragment4 extends Fragment {
                             });
                         } else if (adspin1.getItem(position).equals("대구")) {
                             MainActivity.interestArea_do = adspin1.getItem(position).toString();
-                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_DaeGu, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_DaeGu_notall, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                             Layout_Spinner_Change_interestarea_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -940,7 +940,7 @@ public class SectionsFragment4 extends Fragment {
                             });
                         } else if (adspin1.getItem(position).equals("울산")) {
                             MainActivity.interestArea_do = adspin1.getItem(position).toString();
-                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Ulsan, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Ulsan_notall, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                             Layout_Spinner_Change_interestarea_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -955,7 +955,7 @@ public class SectionsFragment4 extends Fragment {
                             });
                         } else if (adspin1.getItem(position).equals("대전")) {
                             MainActivity.interestArea_do = adspin1.getItem(position).toString();
-                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_DaeJeon, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_DaeJeon_notall, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                             Layout_Spinner_Change_interestarea_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -970,7 +970,7 @@ public class SectionsFragment4 extends Fragment {
                             });
                         } else if (adspin1.getItem(position).equals("부산")) {
                             MainActivity.interestArea_do = adspin1.getItem(position).toString();
-                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Busan, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Busan_notall, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                             Layout_Spinner_Change_interestarea_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -985,7 +985,7 @@ public class SectionsFragment4 extends Fragment {
                             });
                         } else if (adspin1.getItem(position).equals("강원도")) {
                             MainActivity.interestArea_do = adspin1.getItem(position).toString();
-                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gangwondo, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gangwondo_notall, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                             Layout_Spinner_Change_interestarea_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1000,7 +1000,7 @@ public class SectionsFragment4 extends Fragment {
                             });
                         } else if (adspin1.getItem(position).equals("경기도")) {
                             MainActivity.interestArea_do = adspin1.getItem(position).toString();
-                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeonggido, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeonggido_notall, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                             Layout_Spinner_Change_interestarea_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1015,7 +1015,7 @@ public class SectionsFragment4 extends Fragment {
                             });
                         } else if (adspin1.getItem(position).equals("충청북도")) {
                             MainActivity.interestArea_do = adspin1.getItem(position).toString();
-                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Chungcheongbukdo, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Chungcheongbukdo_notall, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                             Layout_Spinner_Change_interestarea_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1030,7 +1030,7 @@ public class SectionsFragment4 extends Fragment {
                             });
                         } else if (adspin1.getItem(position).equals("충청남도")) {
                             MainActivity.interestArea_do = adspin1.getItem(position).toString();
-                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Chungcheongnamdo, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Chungcheongnamdo_notall, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                             Layout_Spinner_Change_interestarea_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1045,7 +1045,7 @@ public class SectionsFragment4 extends Fragment {
                             });
                         } else if (adspin1.getItem(position).equals("전라북도")) {
                             MainActivity.interestArea_do = adspin1.getItem(position).toString();
-                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jeolabukdo, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jeolabukdo_notall, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                             Layout_Spinner_Change_interestarea_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1060,7 +1060,7 @@ public class SectionsFragment4 extends Fragment {
                             });
                         } else if (adspin1.getItem(position).equals("전라남도")) {
                             MainActivity.interestArea_do = adspin1.getItem(position).toString();
-                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jeolanamdo, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jeolanamdo_notall, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                             Layout_Spinner_Change_interestarea_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1075,7 +1075,7 @@ public class SectionsFragment4 extends Fragment {
                             });
                         } else if (adspin1.getItem(position).equals("경상북도")) {
                             MainActivity.interestArea_do = adspin1.getItem(position).toString();
-                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeongsangbukdo, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeongsangbukdo_notall, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                             Layout_Spinner_Change_interestarea_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1090,7 +1090,7 @@ public class SectionsFragment4 extends Fragment {
                             });
                         } else if (adspin1.getItem(position).equals("경상남도")) {
                             MainActivity.interestArea_do = adspin1.getItem(position).toString();
-                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeongsangnamdo, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Gyeongsangnamdo_notall, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                             Layout_Spinner_Change_interestarea_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1105,7 +1105,7 @@ public class SectionsFragment4 extends Fragment {
                             });
                         } else if (adspin1.getItem(position).equals("제주도")) {
                             MainActivity.interestArea_do = adspin1.getItem(position).toString();
-                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jejudo, R.layout.zfile_spinner_test);
+                            adspin2 = ArrayAdapter.createFromResource(getContext(), R.array.spinner_do_Jejudo_notall, R.layout.zfile_spinner_test);
                             adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             Layout_Spinner_Change_interestarea_Si.setAdapter(adspin2);
                             Layout_Spinner_Change_interestarea_Si.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

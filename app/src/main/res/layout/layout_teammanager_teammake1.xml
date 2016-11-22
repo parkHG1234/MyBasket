@@ -5,12 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_teammanager_teammake1_root">
 
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/TeamManager_TeamMake_Button_Next"
-        android:layout_weight="1" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -50,26 +44,28 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:srcCompat="@drawable/ab"
+                        app:srcCompat="@drawable/teamname"
                         android:id="@+id/imageView15"
                         android:scaleType="fitXY"
                         android:layout_weight="4"
-                        android:layout_marginLeft="25dp" />
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginBottom="18dp" />
 
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="팀명을 정하세요"
                         android:textColorHint="@color/Black"
-                        android:textSize="10dp"
+                        android:textSize="14dp"
                         android:textColor="@color/Black"
                         android:id="@+id/TeamManager_TeamMake_EditText_TeamName"
                         android:layout_weight="1"
                         android:gravity="center_vertical|center"
                         android:background="@color/Gray"
                         android:layout_marginRight="25dp"
-                        android:layout_marginTop="22.5dp"
-                        android:layout_marginBottom="22.5dp" />
+                        android:layout_marginTop="22dp"
+                        android:layout_marginBottom="22dp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -95,7 +91,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="20dp">
+                    android:layout_marginBottom="10dp">
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
@@ -105,54 +101,38 @@
                         android:layout_marginBottom="10dp">
 
 
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
+                        <ImageView
+                            app:srcCompat="@drawable/location1"
+                            android:id="@+id/imageView16"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_width="25dp" />
+
+                        <TextView
+                            android:text="팀 주소"
+                            android:textColor="@color/Black"
+                            android:textSize="15dp"
+                            android:gravity="center"
                             android:layout_height="match_parent"
-                            android:layout_weight="3">
+                            android:id="@+id/textView13"
+                            android:textStyle="normal|bold"
+                            android:layout_width="wrap_content"
+                            android:layout_marginRight="15dp" />
 
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                app:srcCompat="@drawable/location1"
-                                android:id="@+id/imageView16"
-                                android:layout_weight="1"
-                                android:layout_marginBottom="7dp"
-                                android:layout_marginTop="7dp"
-                                android:layout_marginLeft="4dp"
-                                android:layout_marginRight="4dp" />
-
-                            <TextView
-                                android:text="팀 주소"
-                                android:textColor="@color/Black"
-                                android:textSize="10dp"
-                                android:gravity="center"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:id="@+id/textView13"
-                                android:layout_weight="1"
-                                android:textStyle="normal|bold" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
+                        <Spinner
                             android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:id="@+id/TeamManager_TeamMake_Spinner_Address_Do"
+                            android:layout_marginRight="15dp"
+                            android:layout_width="120dp" />
 
-                            <Spinner
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/TeamManager_TeamMake_Spinner_Address_Do"
-                                android:layout_weight="1" />
+                        <Spinner
+                            android:layout_height="match_parent"
+                            android:id="@+id/TeamManager_TeamMake_Spinner_Address_Se"
+                            android:layout_width="120dp"
+                            android:layout_marginRight="15dp" />
 
-                            <Spinner
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/TeamManager_TeamMake_Spinner_Address_Se"
-                                android:layout_weight="1" />
-                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -164,160 +144,143 @@
                         android:layout_marginBottom="10dp">
 
 
+                        <ImageView
+                            app:srcCompat="@drawable/teamaddress"
+                            android:id="@+id/imageView29"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_gravity="center"
+                            android:layout_width="25dp"
+                            android:layout_height="30dp"
+                            android:scaleType="fitXY" />
+
+                        <TextView
+                            android:text="홈코트 위치"
+                            android:textColor="@color/Black"
+                            android:textSize="15dp"
+                            android:gravity="left|center"
+                            android:layout_height="match_parent"
+                            android:id="@+id/textView14"
+                            android:textStyle="normal|bold"
+                            android:layout_width="100dp" />
+
                         <LinearLayout
-                            android:orientation="horizontal"
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="3">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                app:srcCompat="@drawable/teamaddress"
-                                android:id="@+id/imageView29"
-                                android:layout_weight="1"
-                                android:layout_marginBottom="7dp"
-                                android:layout_marginTop="7dp"
-                                android:layout_marginLeft="4dp"
-                                android:layout_marginRight="4dp" />
-
-                            <TextView
-                                android:text="홈코트 위치"
-                                android:textColor="@color/Black"
-                                android:textSize="10dp"
-                                android:gravity="center"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:id="@+id/textView14"
-                                android:layout_weight="1"
-                                android:textStyle="normal|bold" />
-
-                        </LinearLayout>
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
+                            android:layout_marginTop="14dp"
+                            android:layout_marginBottom="14dp"
+                            android:layout_marginRight="15dp">
 
                             <EditText
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPersonName"
-                                android:text="Name"
-                                android:ems="10"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:id="@+id/TeamManager_TeamMake_EditText_HomeCourt"
-                                android:layout_weight="1" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:background="@color/White"
-                        android:layout_marginBottom="10dp">
-
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="3">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                app:srcCompat="@drawable/teamtime"
-                                android:id="@+id/imageView81"
-                                android:layout_weight="1"
-                                android:layout_marginBottom="7dp"
-                                android:layout_marginTop="7dp"
-                                android:layout_marginLeft="4dp"
-                                android:layout_marginRight="4dp" />
-
-                            <TextView
-                                android:text="사용시간"
+                                android:gravity="right|center_vertical"
                                 android:textColor="@color/Black"
-                                android:textSize="10dp"
-                                android:gravity="center"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:id="@+id/textView80"
-                                android:layout_weight="1"
-                                android:textStyle="normal|bold" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
-
-                            <EditText
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPersonName"
-                                android:text="Name"
-                                android:ems="10"
-                                android:id="@+id/TeamManager_TeamMake_EditText_Time"
-                                android:layout_weight="1" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:background="@color/White"
-                        android:layout_marginBottom="10dp">
-
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="3">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                app:srcCompat="@drawable/uniformcolor"
-                                android:id="@+id/imageView91"
-                                android:layout_weight="1"
-                                android:layout_marginBottom="7dp"
-                                android:layout_marginTop="7dp"
-                                android:layout_marginLeft="4dp"
-                                android:layout_marginRight="4dp" />
-
-                            <TextView
-                                android:text="유니폼 색"
-                                android:textColor="@color/Black"
-                                android:textSize="10dp"
-                                android:gravity="center"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:id="@+id/textView90"
-                                android:layout_weight="1"
-                                android:textStyle="normal|bold" />
-
-                        </LinearLayout>
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
+                                android:textSize="13dp"
+                                android:hint="ex) 의정부 농구센터  "
+                                android:background="@color/Gray"
+                                android:layout_marginBottom="1dp" />
 
                             <Button
                                 android:text="Button"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/TeamManger_TeamMake_Button_UniformColor"
-                                android:layout_weight="1" />
+                                android:layout_width="match_parent"
+                                android:layout_height="2px"
+                                android:background="@color/LinerColor"
+                                android:id="@+id/button3" />
                         </LinearLayout>
+
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:background="@color/White"
+                        android:layout_marginBottom="10dp">
+
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="30dp"
+                            app:srcCompat="@drawable/teamtime"
+                            android:id="@+id/imageView81"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_gravity="center"
+                            android:scaleType="fitXY" />
+
+                        <TextView
+                            android:text="사용시간"
+                            android:textColor="@color/Black"
+                            android:textSize="15dp"
+                            android:gravity="left|center"
+                            android:layout_height="match_parent"
+                            android:id="@+id/textView80"
+                            android:textStyle="normal|bold"
+                            android:layout_width="100dp" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/TeamManager_TeamMake_EditText_Time"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginBottom="14dp"
+                            android:gravity="right|center_vertical"
+                            android:textColor="@color/Black"
+                            android:textSize="13dp"
+                            android:hint="토요일 / 오후 1시 ~ 3시  "
+                            android:background="@color/Gray"
+                             />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:background="@color/White"
+                        android:layout_marginBottom="10dp">
+
+
+                        <ImageView
+                            app:srcCompat="@drawable/uniformcolor"
+                            android:id="@+id/imageView91"
+                            android:scaleType="fitXY"
+                            android:layout_gravity="center"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_width="25dp" />
+
+                        <TextView
+                            android:text="유니폼 컬러"
+                            android:textColor="@color/Black"
+                            android:textSize="15dp"
+                            android:gravity="left|center"
+                            android:layout_height="match_parent"
+                            android:id="@+id/textView70"
+                            android:textStyle="normal|bold"
+                            android:layout_width="100dp" />
+
+                        <Button
+                            android:text="Click"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/TeamManger_TeamMake_Button_UniformColor"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginBottom="14dp"
+                            android:layout_marginTop="14dp"
+                            android:background="@color/MainColor2"
+                            android:textColor="@color/White"
+                            android:layout_marginLeft="80dp" />
+
+                    </LinearLayout>
+
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
@@ -334,57 +297,78 @@
                             <LinearLayout
                                 android:orientation="horizontal"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="4">
+                                android:layout_height="wrap_content">
                                 <LinearLayout
                                     android:orientation="horizontal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="3">
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp">
+
                                     <ImageView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="30dp"
                                         app:srcCompat="@drawable/teamintroduce"
+                                        android:scaleType="fitXY"
                                         android:id="@+id/imageView20"
-                                        android:layout_weight="1"
-                                        android:layout_marginBottom="7dp"
-                                        android:layout_marginLeft="4dp"
-                                        android:layout_marginRight="4dp"
-                                        android:layout_marginTop="7dp" />
+                                        android:layout_marginRight="15dp"
+                                        android:layout_marginLeft="15dp"
+                                        android:layout_width="20dp"
+                                        android:layout_marginTop="10dp"
+                                        android:padding="2dp" />
 
                                     <TextView
                                         android:text="팀 소개"
                                         android:textColor="@color/Black"
-                                        android:textSize="10dp"
+                                        android:textSize="15dp"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:id="@+id/textView17"
-                                        android:layout_weight="1"
-                                        android:gravity="center" />
+                                        android:gravity="left|center"
+                                        android:layout_marginTop="10dp" />
                                 </LinearLayout>
 
 
-                                <LinearLayout
-                                    android:orientation="horizontal"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1"></LinearLayout>
                             </LinearLayout>
 
                             <Button
                                 android:text="Button"
                                 android:layout_width="match_parent"
-                                android:layout_height="1px"
-                                android:id="@+id/button14" />
+                                android:id="@+id/button14"
+                                android:background="@color/Gray"
+                                android:layout_marginLeft="50dp"
+                                android:layout_marginRight="50dp"
+                                android:layout_height="1px" />
 
-                            <EditText
+                            <LinearLayout
+                                android:orientation="vertical"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:inputType="textPersonName"
-                                android:text="Name"
-                                android:ems="10"
-                                android:id="@+id/TeamManager_TeamMake_EditText_TeamIntro"
-                                android:layout_weight="1" />
+                                android:layout_height="match_parent">
+
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:inputType="textPersonName"
+                                    android:hint="ex) 안녕하세요. "
+                                    android:textColorHint="@color/Black"
+                                    android:textColor="@color/Black"
+                                    android:textSize="14dp"
+                                    android:ems="10"
+                                    android:id="@+id/TeamManager_TeamMake_EditText_TeamIntro"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginLeft="40dp"
+                                    android:layout_marginRight="40dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+
+                                <Button
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:id="@+id/TeamManager_TeamMake_Button_Next"
+                                    android:layout_marginLeft="110dp"
+                                    android:layout_marginRight="110dp"
+                                    android:background="@drawable/teammake"
+                                    android:layout_weight="3" />
+
+                            </LinearLayout>
+
                         </LinearLayout>
 
                     </LinearLayout>

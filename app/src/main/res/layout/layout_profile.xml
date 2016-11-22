@@ -19,37 +19,36 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="@color/Gray">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp">
 
-                    <TextView
+                    <ImageView
                         android:id="@+id/textView"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
                         android:layout_weight="1"
-                        android:background="@color/White"
-                        android:gravity="center"
-                        android:text="선수 정보"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="15dp" />
+                        android:src="@drawable/profile_title"
+                        android:scaleType="fitXY"
+                        android:layout_height="55dp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:background="@color/MainColor1"
+                    android:layout_height="160dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="1.3"
                         android:orientation="vertical">
 
                         <ImageView
@@ -58,188 +57,371 @@
                             android:layout_height="150dp"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:layout_margin="10dp" />
+                            android:layout_margin="10dp"
+                            />
+
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginRight="20dp">
 
-                        <Button
-                            android:id="@+id/Profile_Button_Name"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="3dp"
-                            android:layout_weight="1"
-                            android:background="@color/colorPrimary"
-                            android:text="New Button"
-                            android:textColor="@color/White" />
-
-
-                        <Button
-                            android:id="@+id/Profile_Button_Position"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="3dp"
-                            android:layout_weight="1"
-                            android:background="@color/colorPrimary"
-                            android:text="New Button"
-                            android:textColor="@color/White" />
-
-                        <Button
-                            android:id="@+id/Profile_Button_Age_Physical"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="3dp"
-                            android:layout_weight="1"
-                            android:background="@color/colorPrimary"
-                            android:text="New Button"
-                            android:textColor="@color/White" />
-
-                        <Button
-                            android:id="@+id/Profile_Button_TeamName"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="3dp"
-                            android:layout_weight="1"
-                            android:background="@color/colorPrimary"
-                            android:text="New Button"
-                            android:textColor="@color/White" />
-
-                        <Button
-                            android:id="@+id/Profile_Button_interestArea"
+                        <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@color/colorPrimary"
-                            android:text="관심지역"
-                            android:textColor="@color/White" />
+                            android:layout_marginBottom="7dp">
+
+                            <Button
+                                android:id="@+id/Profile_Button_Name"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/White"
+                                android:text="New Button"
+                                android:textColor="@color/Black"
+                                android:layout_weight="1" />
+
+                            <Button
+                                android:layout_height="match_parent"
+                                android:id="@+id/button11"
+                                android:background="@color/MainColor2"
+                                android:layout_width="match_parent"
+                                android:layout_weight="30" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginBottom="7dp">
+
+                            <Button
+                                android:id="@+id/Profile_Button_Position"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@color/White"
+                                android:text="New Button"
+                                android:textColor="@color/Black"/>
+
+                            <Button
+                                android:layout_height="match_parent"
+                                android:id="@+id/button15"
+                                android:background="@color/MainColor2"
+                                android:layout_width="match_parent"
+                                android:layout_weight="30" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginBottom="7dp">
+
+                            <Button
+                                android:id="@+id/Profile_Button_Age_Physical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@color/White"
+                                android:text="New Button"
+                                android:textColor="@color/Black" />
+
+                            <Button
+                                android:layout_height="match_parent"
+                                android:id="@+id/button12"
+                                android:background="@color/MainColor2"
+                                android:layout_width="match_parent"
+                                android:layout_weight="30" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginBottom="7dp">
+
+                            <Button
+                                android:id="@+id/Profile_Button_TeamName"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@color/White"
+                                android:text="New Button"
+                                android:textColor="@color/Black" />
+
+                            <Button
+                                android:layout_height="match_parent"
+                                android:id="@+id/button13"
+                                android:background="@color/MainColor2"
+                                android:layout_width="match_parent"
+                                android:layout_weight="30" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginBottom="7dp">
+
+                            <Button
+                                android:id="@+id/Profile_Button_interestArea"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:text="관심지역"
+                                android:background="@color/White"
+                                android:textColor="@color/Black"/>
+
+                            <Button
+                                android:layout_height="match_parent"
+                                android:id="@+id/button14"
+                                android:background="@color/MainColor2"
+                                android:layout_width="match_parent"
+                                android:layout_weight="30" />
+                        </LinearLayout>
+
+
                     </LinearLayout>
 
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/textView29"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@color/White"
-                    android:gravity="center"
-                    android:text="팀 관리"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="15dp"
-                    android:layout_weight="1" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:background="@color/Gray"
-                    android:orientation="vertical">
-
-                    <Button
-                        android:id="@+id/Profile_Button_TeamMake"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@color/Gray"
-                        android:text="팀 만들기"
-                        android:textColor="@color/BlackGray" />
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/DarkGray" />
-
-                    <Button
-                        android:id="@+id/Profile_Button_TeamManager"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@color/Gray"
-                        android:text="팀 관리"
-                        android:textColor="@color/BlackGray" />
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/DarkGray" />
-
-                    <Button
-                        android:id="@+id/Profile_Button_MyTeam"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@color/Gray"
-                        android:text="내 팀 정보"
-                        android:textColor="@color/BlackGray"
-                        android:visibility="gone" />
-
-                    <Button
-                        android:id="@+id/button5"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/DarkGray"
-                        android:visibility="gone"/>
-
-                    <Button
-                        android:id="@+id/Profile_Button_TeamSearch"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@color/Gray"
-                        android:text="팀 찾기"
-                        android:textColor="@color/BlackGray" />
-
-                    <TextView
-                        android:id="@+id/textView25"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@color/White"
-                        android:gravity="center"
-                        android:text="개인정보 관리"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="15dp" />
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:text="비밀번호 변경"
-                        android:id="@+id/Profile_Button_Password"
-                        android:textColor="@color/BlackGray"
-                        android:background="@color/Gray" />
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/DarkGray" />
-                    <Button
-                        android:id="@+id/Profile_Button_Logout"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@color/Gray"
-                        android:text="로그아웃"
-                        android:textColor="@color/BlackGray" />
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/DarkGray" />
-                </LinearLayout>
-                <FrameLayout
-                    android:layout_width="match_parent"
+                    android:orientation="vertical"
                     android:layout_height="match_parent">
-                    <com.melnykov.fab.FloatingActionButton
-                        android:id="@+id/Profile_Button_setting"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|right"
-                        android:layout_margin="16dp"
-                        android:backgroundTint="@color/colorPrimary"
-                        fab:fab_colorNormal="@color/White"
-                        fab:fab_colorPressed="@color/DarkGray"
-                        fab:fab_colorRipple="@color/White"
-                        android:src="@drawable/settings"
-                        />
-                </FrameLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/White">
+
+                        <ImageView
+                            android:id="@+id/textView29"
+                            android:layout_width="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/profile_tab1"
+                            android:scaleType="fitXY"
+                            android:layout_weight="1"
+                            android:layout_height="50dp"
+                            android:layout_marginBottom="2dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="40dp"
+                            android:paddingTop="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp">
+
+                            <Button
+                                android:background="@drawable/teamaddress"
+                                android:id="@+id/imageView12"
+                                android:layout_weight="12"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                            <Button
+                                android:id="@+id/Profile_Button_TeamMake"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/DarkGray"
+                                android:layout_weight="1"
+                                android:text="팀 만들기"
+                                android:textSize="13dp"
+                                android:textColor="@color/Black" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:paddingTop="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingLeft="10dp">
+                            <Button
+                                android:background="@drawable/teamaddress"
+                                android:id="@+id/imageView13"
+                                android:layout_weight="12"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+                            <Button
+                                android:id="@+id/Profile_Button_TeamManager"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/DarkGray"
+                                android:text="팀 관리"
+                                android:textSize="13dp"
+                                android:textColor="@color/Black"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:paddingTop="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:layout_marginBottom="10dp">
+                            <Button
+                                android:background="@drawable/teamaddress"
+                                android:id="@+id/imageView14"
+                                android:layout_weight="12"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+                            <Button
+                                android:id="@+id/Profile_Button_TeamSearch"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/DarkGray"
+                                android:text="팀 찾기"
+                                android:textSize="13dp"
+                                android:textColor="@color/Black"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+///
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/White"
+                        android:layout_marginBottom="20dp">
+
+                        <ImageView
+                            android:id="@+id/textView30"
+                            android:layout_width="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/profile_tab2"
+                            android:scaleType="fitXY"
+                            android:layout_weight="1"
+                            android:layout_height="50dp"
+                            android:layout_marginBottom="2dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="40dp"
+                            android:paddingTop="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp">
+
+                            <Button
+                                android:background="@drawable/teamaddress"
+                                android:id="@+id/imageView20"
+                                android:layout_weight="12"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                            <Button
+                                android:id="@+id/Profile_Button_Password"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/DarkGray"
+                                android:layout_weight="1"
+                                android:text="비밀번호 변경"
+                                android:textSize="13dp"
+                                android:textColor="@color/Black" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:paddingTop="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingLeft="10dp">
+                            <Button
+                                android:background="@drawable/teamaddress"
+                                android:id="@+id/imageView122"
+                                android:layout_weight="12"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+                            <Button
+                                android:id="@+id/Profile_Button_Logout"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/DarkGray"
+                                android:text="로그아웃"
+                                android:textSize="13dp"
+                                android:textColor="@color/Black"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:paddingTop="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:layout_marginBottom="10dp">
+                            <Button
+                                android:background="@drawable/teamaddress"
+                                android:id="@+id/imageView130"
+                                android:layout_weight="12"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+                            <Button
+                                android:id="@+id/Profile_Button_setting"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/DarkGray"
+                                android:text="설 정"
+                                android:textColor="@color/Black"
+                                android:textSize="13dp"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <!--<FrameLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent">-->
+                    <!--<com.melnykov.fab.FloatingActionButton-->
+                        <!--android:id="@+id/Profile_Button_setting"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="bottom|right"-->
+                        <!--android:layout_margin="16dp"-->
+                        <!--android:backgroundTint="@color/colorPrimary"-->
+                        <!--fab:fab_colorNormal="@color/White"-->
+                        <!--fab:fab_colorPressed="@color/DarkGray"-->
+                        <!--fab:fab_colorRipple="@color/White"-->
+                        <!--android:src="@drawable/settings"-->
+                        <!--/>-->
+                <!--</FrameLayout>-->
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

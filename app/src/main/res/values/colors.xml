@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#10253f</color>
-    <color name="colorPrimaryDark">#ff5000</color>
+    <color name="colorPrimaryDark">#243448</color>
     <color name="colorAccent">#FF4081</color>
     <color name="buttonTouch">#ffeb12</color>
     <color name="Red">#ff0101</color>
     <color name = "White">#ffffff</color>
     <color name = "Black">#000000</color>
-    <color name="DarkGray">#cccdcc</color>
-    <color name="BlackGray">#525050</color>
+    <color name="DarkGray">#cdcdcc</color>
+    <color name="BlackGray">#5f5e5e</color>
     <color name="LinerColor">#8f8e8e</color>
-    <color name="Maincolor2">#ea521c</color>
+    <color name="MainColor2">#ea521c</color>
     <color name="Gray">#eceaea</color>
     <color name="WhiteBlue">#1caaf7</color>
+    <color name="MainColor1">#2f3440</color>
 </resources>
