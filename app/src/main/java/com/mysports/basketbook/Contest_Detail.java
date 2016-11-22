@@ -9,7 +9,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -56,6 +59,9 @@ Button layout_contest_submit;
         TextView title = (TextView) findViewById(R.id.layout_contest_detail_title);
         TextView price = (TextView) findViewById(R.id.layout_contest_register_price);
         TextView remainder = (TextView) findViewById(R.id.layout_contest_remainder);
+        TextView remainder1 = (TextView) findViewById(R.id.layout_contest_remainder1);
+        TextView remainder2 = (TextView) findViewById(R.id.layout_contest_remainder2);
+
         TextView host = (TextView) findViewById(R.id.layout_contest_host);
         TextView management= (TextView) findViewById(R.id.layout_contest_management);
         TextView support = (TextView) findViewById(R.id.layout_contest_support);
@@ -63,6 +69,10 @@ Button layout_contest_submit;
         TextView date = (TextView) findViewById(R.id.layout_contest_date);
         TextView place = (TextView) findViewById(R.id.layout_contest_place);
         TextView DetailInfo = (TextView) findViewById(R.id.layout_contest_detailInfo);
+
+        ImageView logoImage = (ImageView) findViewById(R.id.layout_contest_detail_image);
+
+        String Da = " 일";
 
         String result = "";
         try {
@@ -101,15 +111,34 @@ Button layout_contest_submit;
         String aa = a.replace("/","-");
         String bb = b.replace("/","-");
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yy / MM / dd");
         try {
-            Date date1 = dateFormat.parse(aa);
-            Date date2 = dateFormat.parse(bb);
+            Date date2 = dateFormat.parse(b);
+            Date currentDay = new Date();
 
-
+            if(currentDay.getTime() < date2.getTime()) {
+                long diff = currentDay.getTime() - date2.getTime();
+                long diffday = diff / (24 * 60 * 60 * 1000);
+                if(diff > 7) {
+                    diffday = diffday/7;
+                    Da = " 주";
+                }
+                String aaaa = Long.toString(diffday);
+                remainder.setText(diffday+Da);
+            }else {
+                remainder.setText("마감");
+                remainder1.setVisibility(View.GONE);
+                remainder2.setVisibility(View.GONE);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        Glide.with(Contest_Detail.this).load("http://210.122.7.193:8080/Web_basket/imgs/Contest/contest_example.jpg")
+                .centerCrop()
+                .crossFade()
+                .into(logoImage);
+
         layout_contest_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
