@@ -1,15 +1,21 @@
 package com.mysports.basketbook;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -30,6 +36,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by ldong on 2016-11-12.
@@ -37,13 +47,16 @@ import java.util.List;
 
 public class Contest_Detail extends AppCompatActivity {
 Button layout_contest_submit;
+    private LayoutInflater inflater;
+    static TimerTask myTask;
+    static Timer timer;
     static String Id,Pk;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_contest_detail);
         GlobalApplication.setCurrentActivity(this);
-
+        inflater=getLayoutInflater();
         layout_contest_submit = (Button)findViewById(R.id.layout_contest_submit);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -52,7 +65,36 @@ Button layout_contest_submit;
         Intent intent = getIntent();
         Pk = intent.getStringExtra("position");
         Id = intent.getStringExtra("Id");
+////다이얼로그 광고
+        final View layout = inflater.inflate(R.layout.layout_customdialog_contest_ad, (ViewGroup) findViewById(R.id.Layout_CustomDialog_Contest_AD_Root));
+        final ImageView Layout_CustomDialog_Contest_AD_ImageView = (ImageView) layout.findViewById(R.id.Layout_CustomDialog_Contest_AD_ImageView);
+        final TextView Layout_CustomDialog_Contest_AD_TextView = (TextView) layout.findViewById(R.id.Layout_CustomDialog_Contest_AD_TextView);
+        final Dialog DutyDialog = new Dialog(Contest_Detail.this);
+        DutyDialog
+                .setContentView(layout);
+        myTask = new TimerTask() {
+            int i = 5;
 
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 해당 작업을 처리함
+                        Layout_CustomDialog_Contest_AD_TextView.setText(+i+"초 후 종료..     ");
+                    }
+                });
+                i--;
+                //시간이 초과된 경우 game 내 데이터 삭제 및 초기화.
+                if (i == 0) {
+                    timer.cancel();
+                    DutyDialog.dismiss();
+                }
+            }
+        };
+        timer = new Timer();
+        timer.schedule(myTask, 1000, 1000); // 5초후 첫실행, 1초마다 계속실행
+        DutyDialog.show();
+        ////////////////////////////////////
         TextView title = (TextView) findViewById(R.id.layout_contest_detail_title);
         TextView price = (TextView) findViewById(R.id.layout_contest_register_price);
         TextView remainder = (TextView) findViewById(R.id.layout_contest_remainder);

@@ -97,8 +97,6 @@ public class Match_Out_NewsFeed_Comment extends AppCompatActivity implements Abs
         setContentView(R.layout.layout_123);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar123);
 
-
-
         Layout_Match_Out_NewsFeed_Comment_root = (LinearLayout)findViewById(R.id.Layout_Match_Out_NewsFeed_Comment_root);
         NewsFeed_Comment_Emblem = (ImageView) findViewById(R.id.NewsFeed_Comment_Emblem);
         NewsFeed_Comment_User =  (TextView) findViewById(R.id.NewsFeed_Comment_User);
