@@ -27,7 +27,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     app:srcCompat="@drawable/contest_example"
-                    android:id="@+id/imageView8"
+                    android:id="@+id/layout_contest_detail_image"
                     android:layout_height="400dp" />
 
                 <TextView
@@ -60,7 +60,7 @@
                         android:text="마감"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/textView60" />
+                        android:id="@+id/layout_contest_remainder1" />
 
                     <TextView
                         android:text=" 2주 "
@@ -73,7 +73,7 @@
                         android:text="전"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/textView74" />
+                        android:id="@+id/layout_contest_remainder2" />
                 </LinearLayout>
 
                 <LinearLayout
